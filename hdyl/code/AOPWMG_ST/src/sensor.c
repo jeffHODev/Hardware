@@ -1,0 +1,611 @@
+#include "sensor.h"
+#include "timer.h"
+#include "filter.h"
+#include "modbus.h"
+#include "sys.h"
+#include "Inout.h"
+#include "main.h"
+// 20℃下TDS测试值该值为ADC采样过来的值
+const uint16_t TDS_Test_Vaule[TDS_NUM]= {	4075,4062,4057,4033,4011,3992,3969,3943,3928,3907,
+                                            3890,3871,3847,3829,3813,3785,3773,3755,3746,3722,
+                                            3699,3664,3635,3630,3623,3607,3589,3573,3564,3540,
+                                            3521,3511,3503,3485,3460,3457,3442,3421,3395,3392,
+                                            3378,3363,3344,3312,3310,3290,3267,3256,3237,3248,
+                                            3219,3201,3169,3150,3133,3117,3103,3088,3077,3065,
+                                            3053,3037,3034,3021,3010,2972,2943,2926,2888,2881,
+                                            2854,2823,2810,2797,2778,2758,2744,2722,2710,2701,
+                                            2694,2682,2674,2664,2657,2642,2630,2620,2601,2588,
+                                            2579,2570,2562,2556,2544,2536,2526,2520,2512,2510,
+                                            2491,2486,2472,2464,2458,2453,2444,2438,2422,2415,
+                                            2403,2393,2385,2377,2365,2356,2349,2344,2335,2329,
+                                            2319,2311,2305,2298,2290,2282,2275,2269,2263,2256,
+                                            2248,2239,2231,2224,2216,2206,2200,2192,2184,2177,
+                                            2168,2164,2157,2146,2141,2135,2126,2120,2114,2107,
+                                            2103,2095,2087,2078,2070,2062,2056,2048,2042,2033,
+                                            2028,2021,2014,2007,1998,1993,1987,1979,1972,1968,
+                                            1959,1951,1945,1939,1931,1924,1920,1917,1909,1904,
+                                            1894,1888,1883,1876,1868,1864,1858,1846,1841,1836,
+                                            1829,1822,1819,1814,1808,1804,1800,1794,1787,1782,
+                                            1777,1773,1766,1761,1755,1747,1744,1736,1732,1727,
+                                            1724,1718,1712,1706,1700,1697,1692,1686,1682,1674,
+                                            1672,1668,1666,1662,1655
+                                        };
+
+// 20℃下TDS值该值为TDS标定值
+const uint16_t TDS_Vaule[TDS_NUM]=			{	   0,		1,	 3,		4,	 5,	  7,	 8,	  9,	11,	 12,
+                                                   13,	 15,	16,	 17,  19,  20,  21,  23,  24,  25,
+                                                   26,  28,  29,  30,  31,  33,  34,  35,  36,  37,
+                                                   38,  40,  41,  42,  43,  44,  46,  47,  48,  49,
+                                                   50,  51,  52,  53,  54,  56,  57,  58,  59,  61,
+                                                   62,  65,  66,  67,  69,  70,  72,  73,  75,  76,
+                                                   77,  78,  79,  80,  81,  82,  85,  86,  89,  90,
+                                                   92,  93,  95,  96,  99, 101, 102, 104, 105, 106,
+                                                   108, 109, 110, 111, 112, 113, 114, 117, 119, 120,
+                                                   121, 122, 123, 124, 126, 127, 128, 129, 130, 131,
+                                                   132, 133, 134, 135, 136, 137, 138, 139, 140, 141,
+                                                   144, 145, 146, 148, 149, 150, 152, 153, 154, 155,
+                                                   156, 157, 158, 159, 161, 162, 163, 164, 165, 166,
+                                                   167, 169, 170, 171, 174, 175, 176, 177, 178, 179,
+                                                   180, 182, 183, 184, 185, 187, 188, 189, 190, 191,
+                                                   192, 194, 196, 198, 199, 200, 201, 203, 205, 206,
+                                                   207, 209, 210, 211, 212, 214, 215, 216, 217, 219,
+                                                   221, 223, 224, 225, 227, 229, 230, 231, 233, 235,
+                                                   236, 238, 239, 240, 242, 243, 244, 248, 249, 250,
+                                                   252, 253, 254, 255, 257, 259, 260, 262, 263, 264,
+                                                   266, 267, 269, 270, 271, 273, 275, 277, 278, 279,
+                                                   280, 282, 285, 286, 287, 289, 290, 291, 292, 295,
+                                                   296,297,298,299,300
+                                     };
+
+#if CPU == ST
+#define TDS_P(a)		do{if (a)\
+										HAL_GPIO_WritePin(TDS_P_GPIO_Port,TDS_P_Pin,GPIO_PIN_SET);\
+										else\
+										HAL_GPIO_WritePin(TDS_P_GPIO_Port,TDS_P_Pin,GPIO_PIN_RESET);}while(0)
+#else
+#define TDS_P(a)		do{ if (a)\
+										gpio_bit_write(TDS_P_GPIO_Port,TDS_P_Pin,GPIO_PIN_SET);\
+										else\
+										gpio_bit_write(TDS_P_GPIO_Port,TDS_P_Pin,GPIO_PIN_RESET);
+
+} while(0)
+#endif
+// TDS-P
+#if CPU == ST
+#define TDS_N(a)		do{if (a)\
+										HAL_GPIO_WritePin(TDS_N_GPIO_Port,TDS_N_Pin,GPIO_PIN_SET);\
+										else\
+										HAL_GPIO_WritePin(TDS_N_GPIO_Port,TDS_N_Pin,GPIO_PIN_RESET);}while(0)
+#else
+#define TDS_N(a)		do{ if (a)\
+										gpio_bit_write(TDS_N_GPIO_Port,TDS_N_Pin,GPIO_PIN_SET);\
+										else\
+										gpio_bit_write(TDS_N_GPIO_Port,TDS_N_Pin,GPIO_PIN_RESET);
+
+} while(0)
+#endif
+// TDS-N
+
+
+extern ADC_HandleTypeDef hadc1;
+sensor_stru sensor;
+uint32_t adc1_val_buf[3];
+
+
+
+void adcInit()
+{
+
+    HAL_GPIO_WritePin(TDS_N_GPIO_Port, TDS_N_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(TDS_P_GPIO_Port, TDS_P_Pin, GPIO_PIN_SET);
+    HAL_ADC_Start_DMA(&hadc1,(uint32_t*) adc1_val_buf, 3);
+
+
+}
+void adcResume()
+{
+    HAL_ADC_Start_DMA(&hadc1,(uint32_t*) adc1_val_buf, 3);
+
+}
+/**************************************************************
+  00: 满水
+  01：故障
+  10：水位适中
+  11：无水
+
+**************************************************************/
+void GetWaterLevel()
+{
+    unsigned char result;
+
+#if CPU == ST
+    if(HAL_GPIO_ReadPin(TEST_VA_GPIO_Port, TEST_VA_Pin)==1)//水压低
+#else
+    if(gpio_input_bit_get(TEST_VA_GPIO_Port, TEST_VA_Pin)==1)//水压低
+#endif
+
+    {
+        sensor.swH = 0;
+    }
+    else
+    {
+        sensor.swH = 1;
+    }
+
+#if CPU == ST
+    if(HAL_GPIO_ReadPin(SensorB_GPIO_Port, SensorB_Pin)==1)//水位低于最低值
+#else
+    if(gpio_input_bit_get(SensorB_GPIO_Port, SensorB_Pin)==1)//水位低于最低值
+#endif
+    {
+        result = result & 0xfe;
+        result = result | 0x01;
+    }
+    else
+    {
+        result = result & 0xfe;
+    }
+
+#if CPU == ST
+    if(HAL_GPIO_ReadPin(SensorA_GPIO_Port, SensorA_Pin)==1)//水位低于最高水位
+#else
+    if(gpio_input_bit_get(SensorA_GPIO_Port, SensorA_Pin)==1)//水位低于最低值
+#endif
+
+
+    {
+        result = result & 0xfd;
+        result = result | 0x02;
+    }
+    else
+    {
+        result = result & 0xfd;
+    }
+
+    if(GetSensor()->water_status == 1)
+    {
+        if(result!=0)//水位低于最高水位
+        {
+            result = 3;
+        }
+        else
+        {
+            GetSensor()->water_status == 0;
+            result = 0;
+        }
+
+    }
+
+    switch(result)
+    {
+    case 0:
+        sensor.water_level = WATER_H;//满水
+        break;
+    case 1:
+        sensor.water_level = WATER_F;//传感器故障
+        break;
+    case 2:
+        sensor.water_level = WATER_M;//水位适中
+        break;
+    case 3:
+        sensor.water_level = WATER_L;//无水
+        break;
+    default:
+        sensor.water_level = WATER_M;
+        break;
+
+    }
+
+}
+
+void GetTds_EleCurr()
+{
+    float vcc;
+    uint32_t result;
+    unsigned int j;
+    //vcc = 1.2*4095;
+    result = filter(adc1_val_buf[0]);
+    vcc = vcc/result;
+
+
+    result = filter(adc1_val_buf[2]);
+    result = result*vcc/4095;
+    sensor.ele_curr =sensor.ele_curr -sensor.ele_curr /FIR_NUM+result/FIR_NUM;
+    // sensor.ele_curr = sensor.ele_curr/vcc;
+    //电流= （2*x-2.5）*15=30x-37.5
+    sensor.ele_curr = 30*sensor.ele_curr-37.5;
+
+
+    if(sensor.ele_curr<0)
+        sensor.ele_curr = 0;
+
+
+    {
+        TDS_P(1);
+        TDS_N(0);												// 开始TDS脉冲采样
+        HAL_Delay(5);
+        result = adc1_val_buf[1];
+        sensor.tds =sensor.tds -sensor.tds /FIR_NUM+result/FIR_NUM;
+
+        //ADC_SoftwareStartConvCmd(ADC2,DISABLE);
+        TDS_P(0);
+        TDS_N(0);												// 电极倒极/
+        HAL_Delay(10);
+        TDS_P(0);
+        TDS_N(1);												// 电极倒极
+        HAL_Delay(7);
+        TDS_P(0);
+        TDS_N(0);												// 电极倒极/
+        // 计算部分
+
+        // 根据温度计算TDS温度补偿系数
+        if(sensor.temperature>20) 											// 计算温度补偿
+        {
+            for(j=0; j<((unsigned int)sensor.temperature)-20; j++)
+            {
+                sensor.tds=sensor.tds/TDS_TEMP_FACTOR;
+            }
+        }
+        else if(sensor.temperature <20)
+        {
+            for(j=0; j<20-((unsigned int)sensor.temperature); j++)
+            {
+                sensor.tds=sensor.tds*TDS_TEMP_FACTOR;
+            }
+        }
+        else sensor.tds=sensor.tds;
+        // 计算原水TDS值 y=3E-05x2 - 0.2618x + 530.42
+        if(sensor.tds>=TDS_Test_Vaule[0])
+        {
+            sensor.tds=TDS_Vaule[0];
+        }
+        else
+        {
+            for(j=0; j<TDS_NUM-1; j++)
+            {
+                if((sensor.tds>=TDS_Test_Vaule[j+1])&&(sensor.tds<TDS_Test_Vaule[j]))
+                {
+                    break;
+                }
+            }
+            if(j>=TDS_NUM) j=TDS_NUM-2;
+            sensor.tds=TDS_Vaule[j]+(TDS_Vaule[j+1]-TDS_Vaule[j])*((float)(sensor.tds-TDS_Test_Vaule[j+1])/(float)(TDS_Test_Vaule[j]-TDS_Test_Vaule[j+1]));
+        }
+    }
+
+
+
+
+//   result = filter(adc1_val_buf[1]);
+    //  sensor.tds =result/4095;
+//   sensor.tds = sensor.tds/vcc;//对应电压
+
+
+}
+
+void GetFlow()
+{
+
+    //流量 = (f+5)/24   19hz/s----1L/min
+    if(GetCapture() != -1)
+        sensor.flow = (GetCapture()+5)/24.0f;
+
+
+}
+
+sensor_stru *GetSensor()
+{
+    return &sensor;
+}
+modbus_pack_stru modbus_pack_usr;
+
+modbus_pack_stru *GetModbusPack()
+{
+    return  &modbus_pack_usr;
+}
+void GetModbusSens(unsigned char addr,unsigned char func,unsigned int reg,unsigned int regCount,unsigned char *buf,unsigned char datcount)
+{
+    static uint32_t timeout;
+
+    //  if((HAL_GetTick()-timeout)>= TX_PERIOD)
+    {
+        modbus_pack_usr.RS485_Addr = addr;
+        modbus_pack_usr.func = func;
+        modbus_pack_usr.startaddr = reg;
+        modbus_pack_usr.regnum = regCount;
+        if(modbus_pack_usr.startaddr == 0x07||modbus_pack_usr.startaddr == 0x08||modbus_pack_usr.startaddr == 0x16||
+                modbus_pack_usr.startaddr == 0x19||modbus_pack_usr.startaddr == 0x1a||modbus_pack_usr.startaddr == 0x1b||
+                modbus_pack_usr.startaddr == 0x34||modbus_pack_usr.startaddr == 0x36||modbus_pack_usr.startaddr == 0x38||
+                modbus_pack_usr.startaddr == 0x3e||modbus_pack_usr.startaddr == 0x3f||modbus_pack_usr.startaddr == 0x66)
+            modbus_pack_usr.datType =UINT_TYPE;
+        else
+            modbus_pack_usr.datType = FLOAT_TYPE;
+
+
+        if(func == 0x10)
+            memcpy(modbus_pack_usr.modbus_txdata,buf,datcount);
+        Modbus_Pack( modbus_pack_usr);
+        timeout = HAL_GetTick();
+    }
+}
+void GetPH_ORP()
+{
+
+    registerTick(SENSOR_TICK_NO,2000,1,0);
+    if(GetTickResult(SENSOR_TICK_NO)==1)
+    {
+        if(modbus_pack_usr.ack == 0)
+        {
+
+            GetModbusSens(ORP_ADDR,FUNC_READ,0x01,0x0002,0,0);
+        }
+        if(modbus_pack_usr.ack == 1)
+        {
+            GetModbusSens(PH_ADDR,FUNC_READ,0x0001,0x0002,0,0);
+        }
+
+        registerTick(SENSOR_TICK_NO,0,0,1);
+        if(modbus_pack_usr.ack == 1)
+            modbus_pack_usr.ack = 0;
+        else
+            modbus_pack_usr.ack =1;
+    }
+
+
+
+
+
+
+}
+void calibration_sensors(unsigned char state)
+{
+
+    static modbus_pack_stru modbus_cali;
+    unsigned char buf[16];
+    static unsigned char status;
+    unsigned char *p;
+    if(status == 0)
+        status = state;
+    registerTick(SENSOR_TICK_NO,500,1,0);
+    if(GetTickResult(SENSOR_TICK_NO)==1)
+    {
+        if(modbus_pack_usr.ack == 0)
+        {
+            switch(status)
+            {
+            case 1://6.86 ph calibration init
+            {
+                modbus_cali.RS485_Addr = PH_ADDR;
+                modbus_cali.func = 0x06;
+                modbus_cali.startaddr = 0x0036;
+                modbus_cali.regnum = 0;
+                buf[0] = 0x00;
+                buf[1] = 0x01;
+                memcpy(modbus_cali.modbus_txdata,buf,2);
+                Modbus_Pack( modbus_cali);
+                status = 2;
+            }
+            break;
+            case 2://6.86 ph calibration start
+            {
+                modbus_cali.RS485_Addr = PH_ADDR;
+                modbus_cali.func = 0x03;
+                modbus_cali.startaddr = 0x0066;
+                modbus_cali.regnum = 0;
+                buf[0] = 0x00;
+                buf[1] = 0x01;
+                memcpy(modbus_cali.modbus_txdata,buf,2);
+                Modbus_Pack( modbus_cali);
+                status = 2;
+            }
+            break;
+            case 3://6.86 ph calibration done
+            {
+                modbus_cali.RS485_Addr = PH_ADDR;
+                modbus_cali.func = 0x06;
+                modbus_cali.startaddr = 0x003e;
+                modbus_cali.regnum = 0;
+                buf[0] = 0x00;
+                buf[1] = 0xff;
+                memcpy(modbus_cali.modbus_txdata,buf,2);
+                Modbus_Pack( modbus_cali);
+                status = 00;
+            }
+            break;
+
+            case 4://4.01 ph calibration init
+            {
+                modbus_cali.RS485_Addr = PH_ADDR;
+                modbus_cali.func = 0x06;
+                modbus_cali.startaddr = 0x0038;
+                modbus_cali.regnum = 0;
+                buf[0] = 0x00;
+                buf[1] = 0x01;
+                memcpy(modbus_cali.modbus_txdata,buf,2);
+                Modbus_Pack( modbus_cali);
+                status = 5;
+            }
+            break;
+            case 5://4.01 ph calibration start
+            {
+                modbus_cali.RS485_Addr = PH_ADDR;
+                modbus_cali.func = 0x03;
+                modbus_cali.startaddr = 0x0066;
+                modbus_cali.regnum = 0;
+                buf[0] = 0x00;
+                buf[1] = 0x01;
+                memcpy(modbus_cali.modbus_txdata,buf,2);
+                Modbus_Pack( modbus_cali);
+                status = 5;
+            }
+            break;
+            case 6://4.01 ph calibration done
+            {
+                modbus_cali.RS485_Addr = PH_ADDR;
+                modbus_cali.func = 0x06;
+                modbus_cali.startaddr = 0x003f;
+                modbus_cali.regnum = 0;
+                buf[0] = 0x00;
+                buf[1] = 0xff;
+                memcpy(modbus_cali.modbus_txdata,buf,2);
+                Modbus_Pack( modbus_cali);
+                status = 0;
+            }
+            break;
+            case 7://orp
+            {
+                modbus_cali.RS485_Addr = ORP_ADDR;
+                modbus_cali.func = 0x10;
+                modbus_cali.startaddr = 0x0030;
+                modbus_cali.regnum = 0x0002;
+                p = (unsigned char *)(&(GetInOut()->orb_cali_value));
+                buf[0] = 4;
+                buf[1] = *(p+3);
+                buf[2] =  *(p+2);
+                buf[3] =  *(p);
+                buf[4] =  *(p+1);
+                memcpy(modbus_cali.modbus_txdata,buf,5);
+                Modbus_Pack( modbus_cali);
+                status = 8;
+            }
+            break;
+
+            case 8://
+            {
+                modbus_cali.RS485_Addr = ORP_ADDR;
+                modbus_cali.func = 0x03;
+                modbus_cali.startaddr = 0x0066;
+                modbus_cali.regnum = 0;
+                buf[0] = 0x00;
+                buf[1] = 0x01;
+                memcpy(modbus_cali.modbus_txdata,buf,2);
+                Modbus_Pack( modbus_cali);
+                status = 8;
+            }
+            break;
+            case 9://4.01 ph calibration done
+            {
+                modbus_cali.RS485_Addr = ORP_ADDR;
+                modbus_cali.func = 0x06;
+                modbus_cali.startaddr = 0x003f;
+                modbus_cali.regnum = 0;
+                buf[0] = 0x00;
+                buf[1] = 0xff;
+                memcpy(modbus_cali.modbus_txdata,buf,2);
+                Modbus_Pack( modbus_cali);
+                status = 0;
+            }
+            break;
+
+
+            }
+
+        }
+        registerTick(SENSOR_TICK_NO,0,0,1);
+
+    }
+
+
+}
+void orp_ph_process(void)
+{
+    if(GetInOut()->key_cali_mode == 0)//
+        GetPH_ORP();//500ms调一次
+    else if(GetInOut()->key_cali_mode == 1)//calibration mode
+    {
+        switch(GetInOut()->key_cali_value )
+        {
+        case 1://6.86ph start
+            calibration_sensors(1);
+            break;
+        case 10://6.86ph done
+        {
+            calibration_sensors(3);
+            GetInOut()->key_cali_mode = 0;//6.86ph done
+            GetInOut()->key_cali_value = 0;
+
+        }
+        break;
+        case 4://4.01ph start
+            calibration_sensors(4);
+        case 11://4.01ph done
+        {
+            calibration_sensors(6);
+            GetInOut()->key_cali_mode = 0;
+            GetInOut()->key_cali_value = 0;
+
+        }
+        break;
+        //4.01ph done
+        default:
+            calibration_sensors(0);
+            break;
+
+        }
+        registerTick(SENSOR_TICK_NO,0,0,1);
+    }
+    else if(GetInOut()->key_cali_mode == 2)//orp calibration mode
+    {
+        switch(GetInOut()->key_cali_value )
+        {
+        case 1://orp start
+            calibration_sensors(7);
+            break;
+        case 2://orp done
+        {
+            calibration_sensors(9);
+            GetInOut()->key_cali_mode = 0;
+            GetInOut()->key_cali_value = 0;
+        }
+        break;
+        default:
+            calibration_sensors(0);
+            break;
+
+        }
+        registerTick(SENSOR_TICK_NO,0,0,1);
+    }
+    if(RS485_Service() == 0||RS485_Service() == 2)
+    {
+
+        if(modbus_pack_usr.func == FUNC_READ)
+        {
+            if(modbus_pack_usr.RS485_Addr == ORP_ADDR)//计算orp
+            {
+                modbus_pack_usr.ack = 1;
+                if(modbus_pack_usr.startaddr  == 0x0001 )
+                    sensor.orp = *(float *)(&modbus_pack_usr.modbus_data[0]);
+                if(modbus_pack_usr.startaddr  == 0x0003 )//temperature
+                    sensor.temperature = *(float *)(&modbus_pack_usr.modbus_data[0]);
+                if(modbus_pack_usr.startaddr  == 0x0007 )//warn
+                    sensor.warn = *(unsigned int *)(&modbus_pack_usr.modbus_data[0]);
+                if(modbus_pack_usr.startaddr  == 0x0066 )//adc
+                    sensor.orp_ph_adc = *(unsigned int *)(&modbus_pack_usr.modbus_data[0]);
+
+            }
+
+            if(modbus_pack_usr.RS485_Addr == PH_ADDR)//计算ph
+            {
+                modbus_pack_usr.ack = 0;
+                if(modbus_pack_usr.startaddr  == 0x01)
+                    sensor.ph = *(float *)(&modbus_pack_usr.modbus_data[0]);
+                if(modbus_pack_usr.startaddr  == 0x0003 )//temperature
+                    sensor.temperature = *(float *)(&modbus_pack_usr.modbus_data[0]);
+
+                if(modbus_pack_usr.startaddr  == 0x0007 )//warn
+                    sensor.warn = *(unsigned int *)(&modbus_pack_usr.modbus_data[0]);
+                if(modbus_pack_usr.startaddr  == 0x0066 )//adc
+                    sensor.orp_ph_adc = *(unsigned int *)(&modbus_pack_usr.modbus_data[0]);
+
+            }
+        }
+    }
+
+}
+void sensor_process()
+{
+    GetFlow();
+    orp_ph_process();
+    GetTds_EleCurr();
+    GetWaterLevel();
+}

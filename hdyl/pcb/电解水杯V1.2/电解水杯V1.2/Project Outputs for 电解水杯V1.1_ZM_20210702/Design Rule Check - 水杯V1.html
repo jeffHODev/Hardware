@@ -1,0 +1,363 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : segoe ui;
+			color : black;
+			background-color : #EDE7D9;
+			padding: 0.3em;
+		}
+
+		h1 {
+			font-size: 1.2em;
+		}		
+
+		h2 {
+			font-size: 1.2em;
+		}
+
+		body {
+			font-family : segoe ui;
+		}
+
+		td, th {
+			padding: 0.5em;
+			text-align : left;
+			width: 10em;
+		}
+		th {
+			background-color : #EEEEEE;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+			font-size: 0.9em;
+		}
+
+		.DRC_summary_header {
+			padding-bottom : 0.1em;
+			border : 0px solid black;
+			width: 100%;
+			align: left;
+		}
+
+		.DRC_summary_header_col1,
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3 {
+			color : black;
+			font-size:100%;
+			padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2em;
+			border : 0px solid black;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.DRC_summary_header_col1 {
+			font-weight: bold;
+			width: 8em;
+		}
+
+		.DRC_summary_header_col2 {
+			width: 0.1em;
+		
+		}
+
+		.DRC_summary_header_col3 {
+			width : auto;
+		}
+
+		.header_holder {
+		    Width = 100%;
+		    border = 0px solid green;
+		    padding = 0;
+		}
+
+
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+		{
+			left : 0;
+			top : 0;
+			padding: 0em;
+			padding-top : 0.1em;
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.front_matter_column1 {
+			width : 8em;
+			font-weight: bold;
+		}
+
+		.front_matter_column2 {
+			width: 0.1em;
+		}
+
+		.front_matter_column3 {
+			width : auto;
+		}
+
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : left;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #white;
+		}
+		tr.onmouseout_even { 
+			background-color : #FAFAFA;
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : #EEEEEE;
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #21489e;
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\Users\Public\Documents\Altium\AD16\Templates\AD_logo.png
+		"><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td class="column1">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">2021/7/22</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">9:07:39</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">00:00:01</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3"><a href="file:///D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc" class="file"><acronym title="D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc">D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td class="column2">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3" style="color : red">13</td></tr>
+</table>
+</td>
+</table><a name="IDM5QB1RRCV2RIFS5YTRT5PJHHIENKFXBMOZMWXKGJLVSS11VTLHLG"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDJ43DY1AWB0UPMYOXQI4INI55VGSOUO0YKEZWX0LH0BQYS1SLDDAG">Clearance Constraint (Gap=20mil) (All),(InPolygon)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDXXQ4EI4HM4GSEZOB23GIIK0FEBW3GKS0NRISPDN30FEYX4PXVS4J">Net Antennae (Tolerance=100mil) (All)</a></td>
+<td class="column2">12</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDE5WS2OTRVTLSGFK1HZZ5OVPFYE2BEQ3HF5QMCTPAY2AU4HLGQKCG">Minimum Solder Mask Sliver (Gap=1mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDNZO1BDMKFEC4JHHWINTJWH0T1H12GRSHDWBI3CM0411KOIJNOE5K">Hole To Hole Clearance (Gap=10mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDB0RIXGYQH2VVEVZKI5UWKXTV5LLBUUW5IAFQEQERKYGSJYPOSP0J">Hole Size Constraint (Min=5mil) (Max=3000mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDJ0RY4OLSVRUCLWA1P21RKGRQNCPWPPPLYJPVFIP1ZDOU4M2OKTJN">Height Constraint (Min=0mil) (Max=1000mil) (Prefered=500mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDXNXQWKPS011LEFVBY1L3R2H1OI0BIHBUENQRF4IW41MRZMHJF5HO">Width Constraint (Min=6mil) (Max=200mil) (Preferred=10mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDEY0JIZFOE1D3HKYO5IAPSRQA1JRS2TTGECPM13NK2VBATEHRWPTE">Power Plane Connect Rule(Relief Connect )(Expansion=20mil) (Conductor Width=10mil) (Air Gap=10mil) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDVJFVXYQRN3YYNLUDYEHHTEQV2H51E5JCDCOQI5HDBJSDAWERTXZH">Clearance Constraint (Gap=4mil) (All),(All)</a></td>
+<td class="column2">1</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDSA3A1I3O1RJWME2CPWE1YNQX32FDHIHBR1LY0N0FKEG12ANW1HJ">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDSGOOZBP5X5OMK23PL2C0CJIUNH0QIQKEDV3PD1DBXOOTAVTSZBNC">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">13</td>
+</tr>
+</table><br><a name="IDXXQ4EI4HM4GSEZOB23GIIK0FEBW3GKS0NRISPDN30FEYX4PXVS4J"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Net Antennae (Tolerance=100mil) (All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31357.548mil|Location2.X=31402.907mil|Location1.Y=13725.502mil|Location2.Y=13795.981mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31357.548mil|Location2.X=31402.907mil|Location1.Y=13725.502mil|Location2.Y=13795.981mil|Absolute=True">Net Antennae: Via (1755mil,1835mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31352.548mil|Location2.X=31397.907mil|Location1.Y=13680.502mil|Location2.Y=13750.981mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31352.548mil|Location2.X=31397.907mil|Location1.Y=13680.502mil|Location2.Y=13750.981mil|Absolute=True">Net Antennae: Via (1750mil,1790mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31352.548mil|Location2.X=31397.907mil|Location1.Y=13775.502mil|Location2.Y=13845.981mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31352.548mil|Location2.X=31397.907mil|Location1.Y=13775.502mil|Location2.Y=13845.981mil|Absolute=True">Net Antennae: Via (1750mil,1885mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31001.153mil|Location2.X=31046.511mil|Location1.Y=13755.502mil|Location2.Y=13825.981mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31001.153mil|Location2.X=31046.511mil|Location1.Y=13755.502mil|Location2.Y=13825.981mil|Absolute=True">Net Antennae: Via (1398.604mil,1865mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31002.285mil|Location2.X=31047.643mil|Location1.Y=13686.856mil|Location2.Y=13757.335mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31002.285mil|Location2.X=31047.643mil|Location1.Y=13686.856mil|Location2.Y=13757.335mil|Absolute=True">Net Antennae: Via (1399.737mil,1796.353mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31307.548mil|Location2.X=31352.907mil|Location1.Y=13680.502mil|Location2.Y=13750.981mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31307.548mil|Location2.X=31352.907mil|Location1.Y=13680.502mil|Location2.Y=13750.981mil|Absolute=True">Net Antennae: Via (1705mil,1790mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31307.548mil|Location2.X=31352.907mil|Location1.Y=13725.502mil|Location2.Y=13795.981mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31307.548mil|Location2.X=31352.907mil|Location1.Y=13725.502mil|Location2.Y=13795.981mil|Absolute=True">Net Antennae: Via (1705mil,1835mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31307.548mil|Location2.X=31352.907mil|Location1.Y=13775.502mil|Location2.Y=13845.981mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31307.548mil|Location2.X=31352.907mil|Location1.Y=13775.502mil|Location2.Y=13845.981mil|Absolute=True">Net Antennae: Via (1705mil,1885mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31736.486mil|Location2.X=31781.844mil|Location1.Y=13684.907mil|Location2.Y=13755.385mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31736.486mil|Location2.X=31781.844mil|Location1.Y=13684.907mil|Location2.Y=13755.385mil|Absolute=True">Net Antennae: Via (2133.938mil,1794.404mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31729.2mil|Location2.X=31774.558mil|Location1.Y=13764.496mil|Location2.Y=13834.975mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31729.2mil|Location2.X=31774.558mil|Location1.Y=13764.496mil|Location2.Y=13834.975mil|Absolute=True">Net Antennae: Via (2126.651mil,1873.994mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31756.722mil|Location2.X=31802.08mil|Location1.Y=13722.746mil|Location2.Y=13793.225mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31756.722mil|Location2.X=31802.08mil|Location1.Y=13722.746mil|Location2.Y=13793.225mil|Absolute=True">Net Antennae: Via (2154.173mil,1832.244mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31850.826mil|Location2.X=31896.184mil|Location1.Y=13894.53mil|Location2.Y=13965.008mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=31850.826mil|Location2.X=31896.184mil|Location1.Y=13894.53mil|Location2.Y=13965.008mil|Absolute=True">Net Antennae: Via (2248.277mil,2004.027mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDVJFVXYQRN3YYNLUDYEHHTEQV2H51E5JCDCOQI5HDBJSDAWERTXZH"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Clearance Constraint (Gap=4mil) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3%E6%B0%B4%E6%9D%AFV1.1\%E6%B0%B4%E6%9D%AFV1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=30215.068mil|Location2.X=30220.318mil|Location1.Y=13251.377mil|Location2.Y=13256.627mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解水杯V1.1\水杯V1.1_ZM_20210702.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=30215.068mil|Location2.X=30220.318mil|Location1.Y=13251.377mil|Location2.Y=13256.627mil|Absolute=True">Clearance Constraint: (3.919mil &lt; 4mil) Between Track (628.604mil,1245mil)(628.604mil,1461.622mil) on Top Layer And Pad C11-2(575mil,1345mil) on Multi-Layer </acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br></body>
+</html>

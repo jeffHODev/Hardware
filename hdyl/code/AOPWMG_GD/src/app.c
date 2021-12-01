@@ -1,0 +1,701 @@
+#include "app.h"
+#include "app_lcd.h"
+#include "sensor.h"
+#include "devCtrl.h"
+#include "sys.h"
+#include "bsp_beep.h"
+#include "inout.h"
+#include "app_esp8266.h"
+#include "app_lcd.h"
+#include "bsp_cpu_flash.h"
+#include "pid.h"
+#include<stdlib.h>
+#include "cmd_process.h"
+#include <string.h>
+void SystemParamsRead(void);
+
+work_params_stru work_params;
+
+
+
+void app_init()
+{
+    // SystemParamsRead();
+    //adcInit();
+    RS485_Init();
+    // inout_Init();
+    // work_params.work_mode = ON;
+
+}
+unsigned char TickTimeoutAb(unsigned char TickNum,unsigned char BitOper,uint32_t timeout)
+{
+    if(GetTickStatus(TickNum)!=1)//从正常转为异常
+    {
+        registerTick(TickNum, timeout, 1,0);//超时计时开始
+    }
+    if( GetTickResult(TickNum)==1&&GetTickStatus(TickNum)==1)
+    {
+        // status = status | BitOper;
+        registerTick(TickNum, 0, 0,1);//定时器复位
+        return BitOper;
+    }
+    else
+        return 0;
+}
+
+unsigned char TickTimeoutNor(unsigned char TickNum,unsigned char BitOper,uint32_t timeout)
+{
+    if(GetTickStatus(TickNum)==1&&GetTickResult(TickNum)==1)//正常
+    {
+        registerTick(TickNum, 0, 0,1);//定时器复位
+        registerTick(TickNum, timeout, 2,0);//超时计时开始
+        if(GetTickStatus(TickNum)==0)
+            return BitOper;
+    }
+    if( GetTickResult(TickNum)==1&&GetTickStatus(TickNum)==2)
+    {
+        registerTick(TickNum, 0, 0,1);//定时器复位
+        return BitOper;
+    }
+    return 0xff;
+
+}
+
+unsigned char abnormalDec()
+{
+    static unsigned char status;
+
+    if(work_params.init_flag == 0)//上电初始化，电解水从废水通道排出
+        registerTick(StART_TICK_NO, 5000,1, 0);
+    if( GetTickResult(StART_TICK_NO)==1)
+    {
+        work_params.init_flag = 1;//3分钟时间到，走正常逻辑工作
+        registerTick(StART_TICK_NO, 0,0,1);
+    }
+
+
+    //********************************************************************************
+
+    if(GetSensor()->flow >= MAX_FLOW|| GetSensor()->flow < MIN_FLOW)//流量异常
+    {
+        status = status | TickTimeoutAb(FLOW_TICK_NO,0x01,MAX_TICK);
+    }
+    else
+    {
+        status = status & TickTimeoutNor(FLOW_TICK_NO,0xfe,MAX_SHORT_TICK);
+    }
+
+//********************************************************************************
+    if(GetSensor()->tds2 >= MAX_TDS_VALUE|| GetSensor()->tds2 < MIN_TDS_VALUE)//tds异常
+    {
+
+        status = status | TickTimeoutAb(TDS_TICK_NO,0x02,MAX_TICK);
+        if(status &0x02)
+        {
+            GetSensor()->err_flag =GetSensor()->err_flag |0x01;//超时计时
+
+        }
+        if(GetSensor()->err_flag &0x01==1)//3分钟稳定认定为参数不合格
+        {
+            if((HAL_GetTick()-GetSensor()->timeout )>=WASH_TIME)
+            {
+                GetSensor()->err_flag = GetSensor()->err_flag & 0xfe;
+                GetSensor()->err_flag = GetSensor()->err_flag | 0x10;//超时
+            }
+        }
+    }
+    else
+    {
+        status = status & TickTimeoutNor(FLOW_TICK_NO,0xfd,MAX_SHORT_TICK);
+        if((status & 0x02) == 0)
+            GetSensor()->timeout = HAL_GetTick();
+    }
+    //********************************************************************************
+
+    if(GetSensor()->ph>= MAX_PH||GetSensor()->ph < MIN_PH)//ph异常
+    {
+        status = status | TickTimeoutAb(PH_TICK_NO,0x04,MAX_TICK);
+    }
+    else
+    {
+        /* registerTick(PH_TICK_NO, 0, 1);
+         status = status & 0xfb;*/
+        status = status & TickTimeoutNor(PH_TICK_NO,0xfb,MAX_SHORT_TICK);
+    }
+    //********************************************************************************
+
+    if(GetSensor()->orp >= MAX_ORP||GetSensor()->orp < MIN_ORP)//orp异常
+    {
+        status = status | TickTimeoutAb(ORP_TICK_NO,0x08,MAX_TICK);
+    }
+    else
+    {
+        status = status & TickTimeoutNor(ORP_TICK_NO,0xf7,MAX_SHORT_TICK);
+    }
+    //********************************************************************************
+
+    if(GetSensor()->water_level == WATER_F	||GetSensor()->water_level == WATER_L)//水位异常
+    {
+        status = status | TickTimeoutAb(WATER_TICK_NO,0x20,WATER_LSHORT_TICK);
+
+    }
+    else
+    {
+
+        status = status & TickTimeoutNor(WATER_TICK_NO,0xdf,WATER_LSHORT_TICK);
+    }
+    //********************************************************************************
+
+    if(GetSensor()->swH ==ON)//高压开关异常
+    {
+        status = status | TickTimeoutAb(SW_TICK_NO,0x10,MAX_SHORT_TICK);
+    }
+    else
+    {
+        status = status & TickTimeoutNor(SW_TICK_NO,0xef,MAX_SHORT_TICK);
+    }
+
+
+    return status;
+}
+uint32_t dstTds;
+void Flow_Init()
+{
+    dstTds = 1100;
+    pid_init(dstTds);
+
+}
+static int32_t pwm1,pwm2;
+void FlowCtrl()
+{
+    double tds_out;
+
+    dstTds = 1100;
+    tds_out    = GetSensor()->tds2;
+    pwm2 = pid_proc(tds_out);
+    //pwm2 = 65535;
+    DcMotorCtrl(2,pwm2);//泵2调整流量
+
+
+
+}
+void fill_pro(unsigned char x,unsigned char y,unsigned char len,unsigned char maxlen)
+{
+	 unsigned char strlen;
+	if(strlen<maxlen)
+    	GUI_RectangleFill(x+len, y, maxlen-len,16	,0xf7be);
+
+}
+
+
+void module_dis_proc(unsigned int x,unsigned int y,unsigned int back_color,unsigned int force_color,unsigned char module_num)
+{
+    unsigned char *str;
+    char ptr[20];
+	unsigned char str_len;
+	unsigned char last_len;
+   
+    if(GetSensor()->ele_MOnLine[module_num-1] == 1)
+    {
+        sprintf(ptr,"%4.2f",GetSensor()->ele_Mcurr[module_num-1]);
+			  str_len = strlen(ptr);
+		if(last_len!=str_len)
+		{
+			last_len=str_len;
+			GUI_RectangleFill(x+2*str_len, y, 64,16  ,BACK_COLOR);
+		}
+			
+        Display_String(x, y,1,0x10,0,back_color,force_color, (unsigned char *)ptr);//c1
+		
+
+    }
+    else
+    {
+        str = "模块离线";
+        Display_String(x, y,1,0x10,0,back_color,force_color, (unsigned char *)str);//c1
+
+    }
+
+}
+void lcd_proc()
+{
+    static unsigned char status_tmp,i;
+    unsigned char *str;
+    char ptr[20];
+    lcd_boot();
+    touch_pro();
+    registerTick(LCD_TICK,1000,1,0);
+    if(GetTickResult(LCD_TICK)==1)
+    {
+
+        if(getTouch()->page_id == Main_PAGE)//主页面
+        {
+            sprintf(ptr,"%4.2f",GetSensor()->ph);
+					  fill_pro(140,23,strlen(ptr),8);
+            Display_String(140, 23,1,0x10,0,BACK_COLOR,FORCE_COLOR, (unsigned char *)ptr);//ph
+            
+            module_dis_proc(380,23,BACK_COLOR,FORCE_COLOR,1);
+
+
+            sprintf(ptr,"%4.2f",GetSensor()->flow);
+			      fill_pro(140,64,strlen(ptr),8);
+            Display_String(140, 64,1,0x10,0,BACK_COLOR,FORCE_COLOR, (unsigned char *)ptr);//flow
+			      
+            module_dis_proc(380,64,BACK_COLOR,FORCE_COLOR,2);//c2
+
+            sprintf(ptr,"%4.2f",GetSensor()->tds1);
+					fill_pro(160,104,strlen(ptr),8);
+            Display_String(160, 104,1,0x10,0,BACK_COLOR,FORCE_COLOR, (unsigned char *)ptr);//tds1
+			
+			      module_dis_proc(380,104,BACK_COLOR,FORCE_COLOR,3);//c3
+
+            sprintf(ptr,"%4.2f",GetSensor()->tds2);
+					fill_pro(160,144,strlen(ptr),8);
+            Display_String(160, 144,1,0x10,0,BACK_COLOR,FORCE_COLOR, (unsigned char *)ptr);//tds2
+			
+            module_dis_proc(380,144,BACK_COLOR,FORCE_COLOR,4);//c4
+
+            sprintf(ptr,"%4.2f",GetSensor()->orp);
+						fill_pro(180,184,strlen(ptr),8);
+            Display_String(180, 184,1,0x10,0,BACK_COLOR,FORCE_COLOR, (unsigned char *)ptr);//orp
+			
+
+
+            status_tmp = GetSensor()->status[i++];
+            if(i>=8)
+                i = 0;
+            switch(status_tmp)// 0:正常  1：tds1 2:tds2 3：流量 4：orp
+                //  5:高压开关6：水位开关 7:电解中
+            {
+
+            case 0:
+                str = "状态正常     ";
+                break;
+            case 1:
+                str = "原水TDS异常  ";
+                break;
+            case 2:
+                str = "进水TDS异常  ";
+                break;
+            case 3:
+                str = "流量异常     ";
+                break;
+            case 4:
+                str = "ORP异常      ";
+                break;
+            case 5:
+                str = "水压异常     ";
+                break;
+            case 6:
+                str = "水位异常     ";
+                break;
+            case 7:
+                str = "电解工作中  ";
+                break;
+            case 255:
+                str = "参数异常    ";
+                break;
+
+
+            }
+			if(status_tmp!=0)
+            Display_String(340, 184,1,0x10,0,WARN_BACK_COLOR,FORCE_COLOR, (unsigned char *)str);//status				
+            else
+			Display_String(340, 184,1,0x10,0,STATLUS_BACK_COLOR,FORCE_COLOR, (unsigned char *)str);//status
+
+
+        }
+        if(getTouch()->page_id == CALIBRATION_PAGE)//校准页面
+        {
+            if(getTouch()->control_id == PH1_CAL_ID)
+            {
+                sprintf(ptr,"%0.2f",GetSensor()->orp_ph_adc);
+                Display_String(220, 33,1,0x10,0,0x8410,0x0000, (unsigned char *)ptr);//ph1
+
+            }
+            if(getTouch()->control_id == PH2_CAL_ID)
+            {
+                sprintf(ptr,"%0.2f",GetSensor()->orp_ph_adc);
+                Display_String(220, 93,1,0x10,0,0x8410,0x0000, (unsigned char *)ptr);//ph2
+
+
+            }
+
+            if(getTouch()->control_id == ORP_CAL_ID)
+            {
+                sprintf(ptr,"%0.2f",GetSensor()->orp_ph_adc);
+                Display_String(220, 153,1,0x10,0,126,0x0000, (unsigned char *)ptr);//ORP
+            }
+        }
+        registerTick(LCD_TICK,0,0,1);
+    }
+
+}
+module_reset()
+{
+    unsigned char addr_tmp,buf[2],tmp;
+    addr_tmp = M1_ADDR;
+    buf[0] = 0x00;
+    buf[1] = 0x01;
+    tmp = 0;
+    while(tmp<3)//reapte 4 times
+    {
+
+        while(addr_tmp<=M4_ADDR) //ele module reset
+        {
+            GetModbusSens(addr_tmp++,FUNC_WRITE,0x0044,0x0002,buf,2);
+            addr_tmp++;
+            delay_ms(2000);
+        }
+        tmp ++ ;
+        addr_tmp = M1_ADDR;
+
+    }
+
+}
+/*************************************************************************
+启动逻辑：高压阀正常--->水位正常--->电解流程
+          高压阀异常--->停机
+          水位异常-->停机
+***************************************************************************/
+void ele_dev_proc()
+{
+    //abnormalDec()&0x10||
+    if(GetSensor()->temperature<=5)//高压阀异常,低温不工作
+    {
+        EleSwCtrl(6,OFF);//关所有阀
+        DcMotorCtrl(7,OFF);//关所有电机
+        GetSensor()->status[5] = 5;//高压开关异常
+        //module_reset();
+    }
+    else //正常工作模式
+    {
+        GetSensor()->status[5] = 0;//高压开关异常
+        if(abnormalDec()&0x20)//水位异常
+        {
+            GetSensor()->status[6] = 6;//水位异常
+            if(GetSensor()->water_level == WATER_L)
+            {
+
+                EleSwCtrl(WATER_SW,ON);//原水进水阀开
+                EleSwCtrl(SALT_SW,ON);//盐盒进水阀开
+                EleSwCtrl(WASTE_SW,OFF);//废水出水阀关
+                EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
+                EleSwCtrl(HCILO_SW,OFF);//消毒水出水阀关
+                DcMotorCtrl(2,0);//关泵2
+                GetSensor()->water_status = 1;
+            }
+            else //水位开关异常
+            {
+                EleSwCtrl(SALT_SW,OFF);//关阀2
+            }
+
+        }//end 水位异常
+        else//水位正常，其他参数检测才有意义
+        {
+            EleSwCtrl(SALT_SW,OFF);//消毒水出水阀
+            GetSensor()->water_status = 0;
+            GetSensor()->status[6] = 0;//水位无异常
+            if(abnormalDec()&0x0c||work_params.init_flag == 0)//参数异常,按废水排出;上电开机按废水排出
+            {
+                if(((GetSensor()->err_flag)&0x10)==0)
+                {
+                    EleSwCtrl(WATER_SW,ON);//原水进水阀开
+                    EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
+                    EleSwCtrl(WASTE_SW,ON);//废水出水阀开
+                    EleSwCtrl(WASH_SW,ON);//消毒水排出到废水阀开
+                    EleSwCtrl(HCILO_SW,OFF);//消毒水出水阀关
+                    FlowCtrl();
+                    //EleCtrl(FORWARD,1);
+                }
+
+            }
+            else
+            {
+                //if((abnormalDec()&0x01)==0)//无异常
+                {
+                
+                    GetSensor()->status[0] = 0;//无异常
+                    EleSwCtrl(WATER_SW,ON);//原水进水阀开
+                    EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
+                    EleSwCtrl(WASTE_SW,ON);//废水出水阀开
+                    EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
+                    EleSwCtrl(HCILO_SW,ON);//消毒水出水阀
+                    FlowCtrl();
+
+                }
+
+            }
+
+            if(abnormalDec()&0x02)//tds异常
+            {
+                if(GetSensor()->err_flag&0x10==0)
+                {
+                    GetSensor()->status[2] = 2;//tds2异常
+                    FlowCtrl();
+                }
+
+            }
+            else
+                GetSensor()->status[2] = 0;//tds2无异常
+                
+            if(GetSensor()->err_flag&0x10)//水质有问题报警,自动清洗
+            {
+                registerTick(WASH_TICK, WASH_TIME,1, 0);
+                if( GetTickResult(WASH_TICK)==1)
+                {
+                    GetSensor()->err_flag = 0;
+                    registerTick(WASH_TICK, 0,0,1);
+                }
+
+                EleSwCtrl(WATER_SW,ON);//原水进水阀开
+                EleSwCtrl(WASTE_SW,ON);//废水出水阀开
+                EleSwCtrl(WASH_SW,ON);//消毒水排出到废水阀关
+                EleSwCtrl(HCILO_SW,OFF);//消毒水出水阀
+                DcMotorCtrl(2,0);//关泵2
+            }
+
+        }// end 水位正常，其他参数检测才有意义
+
+    }
+
+}
+/*************************************************************************
+
+**************************************************************************/
+void ele_process()
+{
+
+    if(GetInOut()->key_reset_mode )//复位重启
+    {
+        module_reset();
+        Soft_Reset();
+    }
+    if(GetInOut()->key_wash_mode )
+    {
+        EleSwCtrl(WATER_SW,ON);//开阀1
+        EleSwCtrl(SALT_SW,OFF);//开阀2
+        EleSwCtrl(WASTE_SW,ON);//开阀3
+        EleSwCtrl(WASH_SW,OFF);//开阀4
+        EleSwCtrl(HCILO_SW,OFF);//开阀5
+        DcMotorCtrl(2,0);//关泵2
+			  
+        registerTick(WASH_TICK, 180000,1, 0);
+        if( GetTickResult(WASH_TICK)==1)
+        {
+            GetInOut()->key_wash_mode = 0;
+            registerTick(WASH_TICK, 0,0,1);
+        }
+
+    }
+		else if(GetInOut()->key_cali_mode == 1)
+			;
+    else
+        ele_dev_proc();
+
+
+
+}
+void work_process()
+{
+    if(work_params.work_mode == ON)
+    {
+        DcMotorCtrl(1,65535);
+        lcd_proc();
+        sensor_process();//
+        ele_process();
+
+    }
+}
+void app_test()
+{
+
+
+    EleSwCtrl(6,OFF);
+    delay_ms(1000);
+//    DcMotorCtrl(1,50000);
+    delay_ms(1000);
+    DcMotorCtrl(2,15000);
+    delay_ms(1000);
+    DcMotorCtrl(3,50000);
+    delay_ms(1000);
+
+//    DcMotorCtrl(1,0);
+    delay_ms(1000);
+    DcMotorCtrl(2,0);
+    delay_ms(1000);
+    DcMotorCtrl(3,0);
+    delay_ms(1000);
+    //DcMotorCtrl(4,500);
+    // delay_ms(1000);
+
+    EleSwCtrl(1,ON);
+    delay_ms(1000);
+    EleSwCtrl(2,ON);
+    delay_ms(1000);
+    EleSwCtrl(3,ON);
+    delay_ms(1000);
+    EleSwCtrl(4,ON);
+    delay_ms(1000);
+    EleSwCtrl(5,ON);
+    delay_ms(1000);
+    EleSwCtrl(1,OFF);
+    delay_ms(1000);
+    EleSwCtrl(2,OFF);
+    delay_ms(1000);
+    EleSwCtrl(3,OFF);
+    delay_ms(1000);
+    EleSwCtrl(4,OFF);
+    delay_ms(1000);
+    EleSwCtrl(5,OFF);
+    delay_ms(1000);
+
+    Send_LED_Data();
+
+
+}
+
+
+
+void SystemParamsSave()
+{
+//    uint32_t addr,len;
+//    unsigned char tmp;
+//    if(GetEspStatus()->update == 1)
+//    {
+//        FlashEease(0);
+//        addr = 0;
+//        tmp = 0x5b; //配网标志，代表已经配过网络
+//        bsp_WriteCpuFlash(addr, &tmp, 1);
+//        addr = 1;
+
+//        len = strlen(GetEspStatus()->User_ESP8266_Apssid);
+//        bsp_WriteCpuFlash(addr, GetEspStatus()->User_ESP8266_Apssid, len);
+//        addr = addr + len;
+//        len = strlen(GetEspStatus()->User_ESP8266_ApPwd);
+//        bsp_WriteCpuFlash(addr, GetEspStatus()->User_ESP8266_ApPwd, len);
+
+//        addr = addr + len;
+//        len = strlen(GetEspStatus()->User_Server_IP);
+//        bsp_WriteCpuFlash(addr, GetEspStatus()->User_Server_IP, len);
+//        addr = addr + len;
+//        len = strlen(GetEspStatus()->User_Server_Port);
+//        bsp_WriteCpuFlash(addr, GetEspStatus()->User_Server_Port, len);
+
+//        GetEspStatus()->update = 0 ;
+//        GetEspStatus()->status = 1;
+//    }
+//    else if(GetEspStatus()->update > 1)
+//    {
+
+
+//        addr = 0;
+//        bsp_ReadCpuFlash(addr, &tmp, 1);
+//        if(tmp == 0x5b)
+//            tmp = 0x5b;
+//        else
+//            tmp = 0x5a;
+
+//        FlashEease(0);
+//        addr = 0;
+//        bsp_WriteCpuFlash(addr, &tmp, 1);
+//        addr = 1;
+
+//        len = strlen(GetEspStatus()->User_ESP8266_Apssid);
+//        bsp_WriteCpuFlash(addr, GetEspStatus()->User_ESP8266_Apssid, len);
+//        addr = addr + len;
+//        len = strlen(GetEspStatus()->User_ESP8266_ApPwd);
+//        bsp_WriteCpuFlash(addr, GetEspStatus()->User_ESP8266_ApPwd, len);
+
+//        addr = addr + len;
+//        len = strlen(GetEspStatus()->User_Server_IP);
+//        bsp_WriteCpuFlash(addr, GetEspStatus()->User_Server_IP, len);
+//        addr = addr + len;
+//        len = strlen(GetEspStatus()->User_Server_Port);
+//        bsp_WriteCpuFlash(addr, GetEspStatus()->User_Server_Port, len);
+
+//        GetEspStatus()->update = 0 ;
+//        GetEspStatus()->status = 0;
+
+//    }
+}
+void SystemParamsRead()
+{
+    uint32_t addr,len;
+    unsigned char tmp;
+    // unsigned int i;
+
+    addr = 0;
+    bsp_ReadCpuFlash(addr, &tmp, 1);
+    if(tmp == 0x5a||tmp == 0x5b)
+    {
+//        if(tmp == 0x5b)
+//            GetEspStatus()->status = 1;
+//        addr = addr + 1;
+
+//        for(i=0; i<ESP_BUF_SIZE; i++)
+//        {
+//            bsp_ReadCpuFlash(addr+i,&tmp, 1);
+//            GetEspStatus()->User_ESP8266_Apssid[i] =tmp;
+//            if(tmp=='\0')
+//            {
+//                break;
+//            }
+//        }
+//        len = i;
+//        addr = addr + len;
+//        for(i=0; i<ESP_BUF_SIZE; i++)
+//        {
+//            bsp_ReadCpuFlash(addr+i,&tmp, 1);
+//            GetEspStatus()->User_ESP8266_ApPwd[i] =tmp;
+//            if(tmp=='\0')
+//            {
+//                break;
+//            }
+//        }
+//        len = i;
+//        addr = addr + len;
+
+
+//        for(i=0; i<ESP_BUF_SIZE; i++)
+//        {
+//            bsp_ReadCpuFlash(addr+i,&tmp, 1);
+//            GetEspStatus()->User_Server_IP[i] =tmp;
+//            if(tmp=='\0')
+//            {
+//                break;
+//            }
+//        }
+//        len = i;
+//        addr = addr + len;
+//        for(i=0; i<ESP_BUF_SIZE; i++)
+//        {
+//            bsp_ReadCpuFlash(addr+i,&tmp, 1);
+//            GetEspStatus()->User_Server_Port[i] =tmp;
+//            if(tmp=='\0')
+//            {
+//                break;
+//            }
+//        }
+//        len = i;
+//        addr = addr + len;
+
+    }
+    else
+    {
+        //   SystemParamsSave();
+
+
+    }
+
+
+}
+void app()
+{
+    //sensor_process();
+//   app_test();
+    //esp8266_process();
+    work_process();
+    // SystemParamsSave();
+    // lcd_main();
+}

@@ -1,0 +1,66 @@
+#include "sys.h"
+#include "stdio.h"
+extern UART_HandleTypeDef huart1;
+tick_stru tick_usr;
+
+struct __FILE
+{
+    int handle;
+};
+FILE __stdout;
+
+int fputc(int ch, FILE *f)
+{
+    unsigned char tmp;
+    tmp =(unsigned char )ch;
+    //HAL_UART_Transmit(&huart3, &tmp, 1, 500);
+    HAL_UART_Transmit(&huart1, &tmp, 1, 500);
+    return ch;
+}
+
+unsigned char registerTick(unsigned char TickNo,uint32_t ms,unsigned char mode)
+{
+
+
+            if(mode == 0)
+            {
+                if(tick_usr.TickStatus[TickNo] == 0)
+                {
+                    tick_usr.TickTime[TickNo] = ms;
+					tick_usr.TickTimeTmp[TickNo] = HAL_GetTick();
+                    tick_usr.TickStatus[TickNo] = 0;
+                    tick_usr.TickNum[TickNo] = 1;
+                    return 0 ;
+                }
+                else
+                    return 1;
+            }
+            else //¶¨Ê±Æ÷¸´Î»
+            {
+                tick_usr.TickTime[TickNo] = 0;
+                tick_usr.TickStatus[TickNo] = 0;
+                tick_usr.TickNum[TickNo] = 0;
+				tick_usr.TickTimeTmp[TickNo] =0;
+                return 2;
+            }
+
+}
+unsigned char GetTickResult(unsigned char TickNo)
+{
+	return  tick_usr.TickStatus[TickNo];
+}
+void TickPro()
+{
+    unsigned char i;
+    for(i = 0 ; i<TICK_SIZE; i++)
+    {
+        if(tick_usr.TickNum[i] == 1)
+        {
+            if((HAL_GetTick()-tick_usr.TickTimeTmp[i])>=tick_usr.TickTime[i])
+            {
+                tick_usr.TickStatus[i] = 1;
+            }
+        }
+    }
+}
+

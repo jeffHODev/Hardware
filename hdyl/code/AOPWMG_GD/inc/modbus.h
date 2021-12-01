@@ -1,0 +1,63 @@
+ï»¿#ifndef MODBUS_H
+#define MODBUS_H
+#include "main.h"
+#define ORP_ADDR  1
+#define PH_ADDR   2
+
+
+#define MIN_ADDR  ORP_ADDR
+#define MAX_ADDR  M4_ADDR
+
+
+
+#define M1_ADDR   3
+#define M2_ADDR   4
+#define M3_ADDR   5
+#define M4_ADDR   6
+
+
+
+#define UINT_TYPE		0
+#define FLOAT_TYPE		1
+
+#define FUNC_WRITE	0x06
+
+#define FUNC_READ	0x03
+
+#define MODBUS_BSIZE	128
+typedef struct{
+u32 RS485_Baudrate;//Í¨Ñ¶²¨ÌØÂÊ
+u8 RS485_Parity;//0ÎŞĞ£Ñé£»1ÆæĞ£Ñé£»2Å¼Ğ£Ñé
+u8 RS485_Addr;//´Ó»úµØÖ·
+u16 RS485_Frame_Distance;//Êı¾İÖ¡×îĞ¡¼ä¸ô£¨ms),³¬¹ı´ËÊ±¼äÔòÈÏÎªÊÇÏÂÒ»Ö¡
+u8  RS485_TX_EN;
+u8 RS485_RX_BUFF[MODBUS_BSIZE];//½ÓÊÕ»º³åÇø2048×Ö½Ú
+u16 RS485_RX_CNT;//½ÓÊÕ¼ÆÊıÆ÷
+u8 RS485_FrameFlag;//Ö¡½áÊø±ê¼Ç
+u8 RS485_TX_BUFF[MODBUS_BSIZE];//·¢ËÍ»º³åÇø
+u16 RS485_TX_CNT;//·¢ËÍ¼ÆÊıÆ÷
+}modbus_stru;
+
+typedef struct{
+u8 RS485_Addr;//´Ó»úµØÖ·
+u8 func;
+u16 startaddr;
+u16 regnum;
+u16 datcount;
+u16 crc;
+u8 datType;
+u8 ack;
+u8 modbus_data[4];//½ÓÊÕ»º³åÇø2048×Ö½Ú
+u8 modbus_txdata[32];//½ÓÊÕ»º³åÇø2048×Ö½Ú
+
+}modbus_pack_stru;
+
+
+void RS485_Init(void);
+void RS485_RxCpltCallback(void);
+unsigned char  RS485_Service(void);
+modbus_pack_stru *GetModbusDat(void);
+void Modbus_Pack(modbus_pack_stru p);
+modbus_stru *getModbusPayload(void);
+#endif
+

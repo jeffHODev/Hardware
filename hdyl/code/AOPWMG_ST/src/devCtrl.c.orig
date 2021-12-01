@@ -1,0 +1,60 @@
+#include "devCtrl.h"
+extern TIM_HandleTypeDef htim4;
+/***************************************************************
+                  功能：控制电磁阀
+**************************************************************/
+void EleSwCtrl(unsigned char devNO,unsigned char ctrl)
+{
+
+   GPIO_PinState pinstate;
+	if(ctrl  == ON)
+	{
+		pinstate = 1;
+
+	}
+	else
+	{
+		pinstate = 0;
+	}
+
+
+		switch(devNO)
+		{
+			case 0: HAL_GPIO_WritePin(CVALUE1_GPIO_Port, CVALUE1_Pin, pinstate);break;
+			case 1: HAL_GPIO_WritePin(CVALUE2_GPIO_Port, CVALUE2_Pin, pinstate);break;
+			case 2: HAL_GPIO_WritePin(CVALUE3_GPIO_Port, CVALUE3_Pin, pinstate);break;
+			case 3: HAL_GPIO_WritePin(CVALUE4_GPIO_Port, CVALUE4_Pin, pinstate);break;
+			case 4: HAL_GPIO_WritePin(CVALUE5_GPIO_Port, CVALUE5_Pin, pinstate);break;
+			default:
+		 HAL_GPIO_WritePin(CVALUE1_GPIO_Port, CVALUE1_Pin, pinstate);
+		 HAL_GPIO_WritePin(CVALUE2_GPIO_Port, CVALUE2_Pin, pinstate);
+		 HAL_GPIO_WritePin(CVALUE3_GPIO_Port, CVALUE3_Pin, pinstate);
+		 HAL_GPIO_WritePin(CVALUE4_GPIO_Port, CVALUE4_Pin, pinstate);
+		 HAL_GPIO_WritePin(CVALUE5_GPIO_Port, CVALUE5_Pin, pinstate);break;
+
+		}
+
+}
+
+/***************************************************************
+                  功能：控制电机
+**************************************************************/
+
+void DcMotorCtrl(unsigned char motorNo,uint32_t pwm)
+{
+	switch(motorNo)
+	{
+		case 0: __HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_1, pwm);break;
+		case 1: __HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_2, pwm);break;
+		case 2: __HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_3, pwm);break;
+	}
+}
+/***************************************************************
+                 功能：控制蜂鸣器
+**************************************************************/
+
+void BeepCtrl()
+{
+
+}
+

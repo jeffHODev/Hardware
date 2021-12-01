@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE vlcd PUBLIC "-//W3C//DTD VLCD 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/VLCD10.dtd">
+<vlcd width="480" height="272">
+<desc>Vlcd picture</desc>
+<box style = "fill:none; stroke:Black; stroke-width:1" x = "0" y = "0" width = "4680" height = "272" ShapeName = "Box" ShapeNum = "1" >box</box>
+<edit style = "fill:White; stroke:Black; stroke-width:1" x = "18" y = "5" width = "333" height = "30" ShapeName = "14" ShapeNum = "2" TextAlignType = "Center" StoreType = "Local" Direction = "No" Gwidth = "Normal" RadianNum = "" >Edit</edit>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "385" y = "4" width = "58" height = "31" ShapeName = "14" ShapeNum = "17" Direction = "ChangePage" StoreType = "p4" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >退出</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "18" y = "43" width = "85" height = "44" ShapeName = "14" ShapeNum = "3" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "1" Gwidth = "" Gheight = "" >1</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "130" y = "43" width = "85" height = "44" ShapeName = "14" ShapeNum = "4" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "2" Gwidth = "" Gheight = "" >2</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "250" y = "42" width = "85" height = "44" ShapeName = "14" ShapeNum = "5" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "3" Gwidth = "" Gheight = "" >3</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "365" y = "44" width = "85" height = "44" ShapeName = "14" ShapeNum = "6" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "4" Gwidth = "" Gheight = "" >4</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "20" y = "99" width = "85" height = "44" ShapeName = "14" ShapeNum = "7" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "5" Gwidth = "" Gheight = "" >5</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "17" y = "156" width = "85" height = "44" ShapeName = "14" ShapeNum = "11" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "9" Gwidth = "" Gheight = "" >9</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "16" y = "215" width = "203" height = "44" ShapeName = "14" ShapeNum = "14" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Backspace" TextAlignType = "1" Gwidth = "" Gheight = "" >删除</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "127" y = "98" width = "85" height = "44" ShapeName = "14" ShapeNum = "8" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "6" Gwidth = "" Gheight = "" >6</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "245" y = "97" width = "85" height = "44" ShapeName = "14" ShapeNum = "9" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "7" Gwidth = "" Gheight = "" >7</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "365" y = "99" width = "85" height = "44" ShapeName = "14" ShapeNum = "10" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "8" Gwidth = "" Gheight = "" >8</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "127" y = "157" width = "85" height = "44" ShapeName = "14" ShapeNum = "12" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "0" Gwidth = "" Gheight = "" >0</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "242" y = "159" width = "85" height = "44" ShapeName = "14" ShapeNum = "13" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Clear" TextAlignType = "1" Gwidth = "" Gheight = "" >清除</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "363" y = "154" width = "85" height = "105" ShapeName = "14" ShapeNum = "16" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Enter" TextAlignType = "1" Gwidth = "" Gheight = "" >确认</button>
+</vlcd>

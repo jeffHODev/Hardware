@@ -1,0 +1,8 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE vlcd PUBLIC "-//W3C//DTD VLCD 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/VLCD10.dtd">
+<vlcd width="480" height="272">
+<desc>Vlcd picture</desc>
+<box style = "fill:none; stroke:Black; stroke-width:1" x = "0" y = "0" width = "480" height = "272" ShapeName = "Box" ShapeNum = "22" >box</box>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "89" y = "115" width = "119" height = "45" ShapeName = "14" ShapeNum = "23" Direction = "ChangePage" StoreType = "p1" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >校准</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "275" y = "115" width = "128" height = "48" ShapeName = "14" ShapeNum = "24" Direction = "ChangePage" StoreType = "p3" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >返回</button>
+</vlcd>

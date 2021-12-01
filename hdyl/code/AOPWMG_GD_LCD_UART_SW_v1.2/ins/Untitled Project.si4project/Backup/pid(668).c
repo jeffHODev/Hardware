@@ -1,0 +1,106 @@
+#include "pid.h"
+#include<string.h>
+#include<stdio.h>
+PID sPID; // PID Control Structure
+double rOut; // PID Response (Output)
+double rIn_PID; // PID Feedback (Input)
+
+
+/*====================================================================================================
+PID计算函数
+=====================================================================================================*/
+double PIDCalc( PID *pp, double NextPoint )
+{
+    double dError, Error,result,res_tmp;
+	static double last_result;
+	
+  Error = pp->SetPoint - NextPoint; // 偏差
+//	result = pp->Proportion*(Error-pp->LastError)    //增量计算
+//	+pp->Integral*Error
+//	+pp->Derivative*(Error-2*pp->LastError+pp->PrevError);
+
+//	pp->PrevError=pp->LastError; //存储误差，便于下次计算
+//	pp->LastError=Error;	
+	
+    pp->SumError += Error; // 积分
+    dError = pp->LastError - pp->PrevError; // 当前微分
+    pp->PrevError = pp->LastError;
+    pp->LastError = Error;
+	result =(pp->Proportion * Error // 比例项
+    + pp->Integral * pp->SumError // 积分项
+    + pp->Derivative * dError );
+
+   
+	/* if(result>last_result)
+	 {
+		 res_tmp = result-last_result;
+		 if((res_tmp>0&&res_tmp>=10000))
+		{
+				last_result=last_result+500;
+			result = last_result;		
+			}	 
+	 }
+	 else
+	 {
+	   res_tmp = last_result-result;
+		 if((res_tmp>=10000))
+		{
+				last_result=last_result-500;
+			  result = last_result;		
+			}
+	 }*/
+	
+   //result = result + 10000;
+  
+	if(result <=0)
+		result = 0;
+	
+	if(result>=MAX_OUTPUT)
+		result = MAX_OUTPUT;
+	//result = 65530;
+//	result = 8000;
+	pp->result = result;
+    return result;        // 微分项
+}
+
+/*====================================================================================================
+PID结构体变量初始化函数
+=====================================================================================================*/
+void PIDInit (PID *pp)
+{
+memset ( pp,0,sizeof(PID));
+}
+
+/*====================================================================================================
+读取输入变量函数（在此设定为固定值100）
+======================================================================================================*/
+
+
+/*====================================================================================================
+输出变量控制函数
+======================================================================================================*/
+void actuator(double rDelta)  
+{
+}
+void pid_init(float setvalue)
+{
+
+
+    PIDInit ( &sPID ); // Initialize Structure
+    sPID.Proportion =260; // Set PID Coefficients  130
+    sPID.Integral = 0.0003;
+    sPID.Derivative = 0.00001;
+    sPID.SetPoint = setvalue; // Set PID Setpoint
+    sPID.LastError = 0;
+	sPID.PrevError = 0;
+	sPID.SumError = 0;
+}
+
+//主函数
+uint32_t pid_proc(double rIn)
+{
+        rIn_PID = rIn;                // 读取输入变量函数(Read Input )
+        rOut = PIDCalc ( &sPID,rIn_PID );   // PID计算函数(Perform PID Interation)
+        return (uint32_t)( rOut );              // 输出变量控制函数(Effect Needed Changes)
+}
+

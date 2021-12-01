@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE vlcd PUBLIC "-//W3C//DTD VLCD 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/VLCD10.dtd">
+<vlcd width="480" height="272">
+<desc>Vlcd picture</desc>
+<box style = "fill:none; stroke:Black; stroke-width:1" x = "1" y = "1" width = "480" height = "272" ShapeName = "Box" ShapeNum = "40" >box</box>
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:14pt" x = "10" y = "49" width = "149.9987" height = "23.46093" ShapeName = "Transparent" ShapeNum = "23" >PH校准(6.86pH)</text>
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:14pt" x = "10" y = "109" width = "149.9987" height = "23.46093" ShapeName = "Transparent" ShapeNum = "24" >PH校准(4.01pH)</text>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "316" y = "42" width = "70" height = "35" ShapeName = "14" ShapeNum = "25" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >开始</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "316" y = "102" width = "75" height = "35" ShapeName = "14" ShapeNum = "26" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >开始</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "77" y = "219" width = "110" height = "37" ShapeName = "14" ShapeNum = "27" Direction = "ChangePage" StoreType = "p3" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >校准完成</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "289" y = "219" width = "110" height = "39" ShapeName = "14" ShapeNum = "28" Direction = "ChangePage" StoreType = "p3" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >返回</button>
+<edit style = "fill:White; stroke:Black; stroke-width:1" x = "175" y = "42" width = "135" height = "35" ShapeName = "14" ShapeNum = "29" TextAlignType = "Center" StoreType = "Local" Direction = "No" Gwidth = "Normal" RadianNum = "" >Edit</edit>
+<edit style = "fill:White; stroke:Black; stroke-width:1" x = "175" y = "102" width = "135" height = "35" ShapeName = "14" ShapeNum = "30" TextAlignType = "Center" StoreType = "Local" Direction = "No" Gwidth = "Normal" RadianNum = "" >Edit</edit>
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:14pt" x = "10" y = "169" width = "90.17056" height = "23.46093" ShapeName = "Transparent" ShapeNum = "31" >ORP校准</text>
+<edit style = "fill:White; stroke:Black; stroke-width:1" x = "175" y = "162" width = "135" height = "35" ShapeName = "14" ShapeNum = "32" TextAlignType = "Center" StoreType = "Local" Direction = "No" Gwidth = "Normal" RadianNum = "" >Edit</edit>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "316" y = "162" width = "75" height = "35" ShapeName = "14" ShapeNum = "33" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >开始</button>
+<rect style = "fill:none; stroke:DodgerBlue; stroke-width:1" x = "6" y = "33" width = "470" height = "50" ShapeName = "Rectangle" ShapeNum = "34" />
+<rect style = "fill:none; stroke:DodgerBlue; stroke-width:1" x = "5" y = "93" width = "470" height = "50" ShapeName = "Rectangle" ShapeNum = "35" />
+<rect style = "fill:none; stroke:DodgerBlue; stroke-width:1" x = "5" y = "153" width = "470" height = "50" ShapeName = "Rectangle" ShapeNum = "36" />
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "397" y = "42" width = "70" height = "35" ShapeName = "14" ShapeNum = "37" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >确定</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "397" y = "102" width = "70" height = "35" ShapeName = "14" ShapeNum = "38" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >确定</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "397" y = "162" width = "70" height = "35" ShapeName = "14" ShapeNum = "39" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >确定</button>
+<text style = "fill:Red; stroke:Transparent; font-family:; font-size:10pt" x = "69" y = "10" width = "276.3151" height = "16.75781" ShapeName = "Transparent" ShapeNum = "45" >请按顺序逐个参数校准，不支持同时校准</text>
+</vlcd>

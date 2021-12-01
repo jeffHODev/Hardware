@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE vlcd PUBLIC "-//W3C//DTD VLCD 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/VLCD10.dtd">
+<vlcd width="480" height="272">
+<desc>Vlcd picture</desc>
+<image x = "0" y = "0" width = "480" height = "272" ShapeName = ""
+ ShapeNum = "60" xlink:href = "C:\Users\86152\Desktop\lcd\ui_MF\image\image001.bmp">
+</image>
+<image x = "0" y = "0" width = "480" height = "272" ShapeName = ""
+ ShapeNum = "61" xlink:href = "C:\Users\86152\Desktop\lcd\ui_MF\image\image001.bmp">
+</image>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "367" y = "227" width = "82" height = "34" ShapeName = "TP" ShapeNum = "7" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image001.bmp" Gheight = "image002.bmp" >重启</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "196" y = "226" width = "84" height = "34" ShapeName = "TP" ShapeNum = "6" Direction = "ChangePage" StoreType = "p4" RadianNum = "Char" TextAlignType = "" Gwidth = "image001.bmp" Gheight = "image002.bmp" >设置</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "30" y = "226" width = "82" height = "34" ShapeName = "TP" ShapeNum = "5" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image001.bmp" Gheight = "image002.bmp" >冲洗</button>
+<text style = "fill:White; stroke:LightSkyBlue; font-family:; font-size:10pt" x = "430" y = "21" width = "12.08116" height = "16.75781" ShapeName = "Color" ShapeNum = "52" >7</text>
+<text style = "fill:White; stroke:LightSkyBlue; font-family:; font-size:10pt" x = "430" y = "63" width = "12.08116" height = "16.75781" ShapeName = "Color" ShapeNum = "53" >0</text>
+<text style = "fill:White; stroke:LightSkyBlue; font-family:; font-size:10pt" x = "430" y = "105" width = "12.08116" height = "16.75781" ShapeName = "Color" ShapeNum = "51" >0</text>
+<text style = "fill:White; stroke:LightSkyBlue; font-family:; font-size:10pt" x = "430" y = "147" width = "12.08116" height = "16.75781" ShapeName = "Color" ShapeNum = "50" >0</text>
+<text style = "fill:White; stroke:LightSkyBlue; font-family:; font-size:10pt" x = "430" y = "189" width = "34.99131" height = "16.75781" ShapeName = "Color" ShapeNum = "54" >1100</text>
+<text style = "fill:White; stroke:LightSkyBlue; font-family:; font-size:10pt" x = "190" y = "21" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "55" >离线</text>
+<text style = "fill:White; stroke:LightSkyBlue; font-family:; font-size:10pt" x = "190" y = "63" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "56" >离线</text>
+<text style = "fill:White; stroke:LightSkyBlue; font-family:; font-size:10pt" x = "190" y = "105" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "57" >离线</text>
+<text style = "fill:White; stroke:LightSkyBlue; font-family:; font-size:10pt" x = "190" y = "147" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "58" >离线</text>
+<text style = "fill:Lime; stroke:LightSkyBlue; font-family:; font-size:10pt" x = "135" y = "189" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "59" >正常</text>
+</vlcd>

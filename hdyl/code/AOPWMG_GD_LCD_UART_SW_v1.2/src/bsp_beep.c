@@ -1,0 +1,369 @@
+/*
+*********************************************************************************************************
+*
+*	模块名称 : 蜂鸣器驱动模块
+*	文件名称 : bsp_beep.c
+*	版    本 : V1.1
+*	说    明 : 驱动蜂鸣器.
+*
+*	修改记录 :
+*		版本号  日期        作者     说明
+*		V1.0    2014-10-20 Liujingtao  正式发布
+*		V1.1    2015-08-30 Liujingtao  增加修改蜂鸣器频率的功能 BEEP_Start() 函数添加频率形参
+*
+*	Copyright (C), 2015-2016, 沈阳恒德医疗器械研发有限公司 ShenYang HengDe Medical Instruments Co.，Ltd.
+*
+*********************************************************************************************************
+*/
+
+#include "bsp_tim_pwm.h"
+#include "bsp_beep.h"
+#include "sys.h"
+//#define BEEP_HAVE_POWER		/* 定义此行表示有源蜂鸣器，直接通过GPIO驱动, 无需PWM */
+
+#ifdef	BEEP_HAVE_POWER		/* 有源蜂鸣器 */
+
+/* PA11 */
+#define GPIO_RCC_BEEP   RCC_APB2Periph_GPIOA
+#define GPIO_PORT_BEEP	GPIOA
+#define GPIO_PIN_BEEP		GPIO_Pin_11
+
+#define BEEP_ENABLE()		GPIO_PORT_BEEP->BSRR = GPIO_PIN_BEEP		/* 使能蜂鸣器鸣叫 */
+#define BEEP_DISABLE()	GPIO_PORT_BEEP->BRR = GPIO_PIN_BEEP			/* 禁止蜂鸣器鸣叫 */
+#else		/* 无源蜂鸣器 */
+/* PA11/TIM1_CH4 ---> TIM1_CH4 */
+
+/* 1500表示频率1.5KHz，5000表示50.00%的占空比 */
+#define BEEP_ENABLE( _usCycle)	bsp_SetTIMOutPWM( 4, g_tBeep.uiFreq,  _usCycle);
+
+/* 禁止蜂鸣器鸣叫 */
+#define BEEP_DISABLE()	bsp_SetTIMOutPWM( 4, 1500, 0);
+#endif
+
+static BEEP_T g_tBeep;		/* 定义蜂鸣器全局结构体变量 */
+uint8_t Speak_Flage =0;
+
+const uint16_t Music_Code_1[MUSIC_NUM1] =        // 开/关机
+{
+    2200, 2500, 3400
+};
+const uint16_t Music_Code_2[MUSIC_NUM2] =        // 按键
+{
+    2700, 0, 0
+};
+const uint16_t Music_Code_3[MUSIC_NUM3] =        // 电解完成
+{
+    2000, 2100, 2300, 2500, 3500
+};
+const uint16_t Music_Code_4[MUSIC_NUM4] =        // 低电量提示音
+{
+    5000, 0, 0, 5000, 0, 0, 5000
+};
+const uint16_t Music_Code_5[MUSIC_NUM5] =        // 报警不工作
+{
+    3500, 2000, 1000, 3500, 2000
+};
+const uint16_t Music_Code_6[MUSIC_NUM6] =        // ISP烧写程序
+{
+	50000, 0, 50000, 0, 50000
+   // 4000, 1000, 4000, 1000, 4000
+};
+
+
+// 蜂鸣器鸣响
+void Speak_value(void)
+{
+    static uint8_t codenum = 0;
+    static uint16_t music = 0;
+
+    // 蜂鸣器
+    switch (Speak_Flage)
+    {
+    case 0: // 关闭
+        //Init_pwm_code(2000, 0);
+        BEEP_Start(music, 0, 1,0);   /* 鸣叫50ms，停10ms， 1次 */;
+        codenum = 0;
+        break;
+    case 1: // 开机音
+        if (codenum >= MUSIC_NUM1)
+        {
+            Speak_Flage = 0;
+            codenum = 0;
+            music = 0;
+        }
+        else
+        {
+            if (music != Music_Code_1[codenum])
+            {
+                music = Music_Code_1[codenum];
+
+                BEEP_Start(music*10, 5, 1, music);   /* 鸣叫50ms，停10ms， 1次 */;
+                // Init_pwm_code(music, music / 10);
+            }
+            codenum++;
+        }
+        break;
+    case 2: // 按键音
+        if (codenum >= MUSIC_NUM2)
+        {
+            Speak_Flage = 0;
+            codenum = 0;
+            music = 0;
+        }
+        else
+        {
+            if (music != Music_Code_2[codenum])
+            {
+                music = Music_Code_2[codenum];
+                BEEP_Start(music, 5, 1, music );
+                //Init_pwm_code(music, music / 10);
+            }
+            codenum++;
+        }
+        break;
+    case 3: // 电解结束
+        if (codenum >= MUSIC_NUM3)
+        {
+            Speak_Flage = 0;
+            codenum = 0;
+            music = 0;
+        }
+        else
+        {
+            if (music != Music_Code_3[codenum])
+            {
+                music = Music_Code_3[codenum];
+                BEEP_Start(music, 5, 1, music );
+                // Init_pwm_code(music, music / 10);
+            }
+            codenum++;
+        }
+        break;
+    case 4: // 电量低
+        if (codenum > MUSIC_NUM4)
+        {
+            Speak_Flage = 0;
+            codenum = 0;
+            music = 0;
+        }
+        else
+        {
+            if (music != Music_Code_4[codenum])
+            {
+                music = Music_Code_4[codenum];
+                BEEP_Start(music, 5, 1, music );
+                //Init_pwm_code(music, music / 10);
+            }
+            codenum++;
+        }
+        break;
+    case 5: // 异常报警
+        if (codenum >= MUSIC_NUM5)
+        {
+            Speak_Flage = 0;
+            codenum = 0;
+            music = 0;
+        }
+        else
+        {
+            if (music != Music_Code_5[codenum])
+            {
+                music = Music_Code_5[codenum];
+                BEEP_Start(music, 5, 1, music);
+                // Init_pwm_code(music, music / 10);
+            }
+            codenum++;
+        }
+        break;
+    case 6: // ISP
+        if (codenum >= MUSIC_NUM6)
+        {
+            Speak_Flage = 0;
+            codenum = 0;
+            music = 0;
+        }
+        else
+        {
+            if (music != Music_Code_6[codenum])
+            {
+                music = Music_Code_6[codenum];
+                BEEP_Start(music, 5, 1, music );
+                // Init_pwm_code(music, music / 10);
+            }
+            codenum++;
+        }
+        break;
+    default :
+        break;
+    }
+    // 计数器增加
+
+}
+
+/*
+*********************************************************************************************************
+*	函 数 名: BEEP_InitHard
+*	功能说明: 初始化蜂鸣器硬件
+*	形    参：无
+*	返 回 值: 无
+*********************************************************************************************************
+*/
+void BEEP_InitHard(void)
+{
+#ifdef	BEEP_HAVE_POWER		/* 有源蜂鸣器 */
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    /* 打开GPIO的时钟 */
+    RCC_APB2PeriphClockCmd(GPIO_RCC_BEEP, ENABLE);
+
+    BEEP_DISABLE();
+
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;	/* 推挽输出模式 */
+    GPIO_InitStructure.GPIO_Pin = GPIO_PIN_BEEP;
+    GPIO_Init(GPIO_PORT_BEEP, &GPIO_InitStructure);
+#else
+    ;	/* 无源蜂鸣器 */
+
+#endif
+}
+
+/*
+*********************************************************************************************************
+*	函 数 名: BEEP_Start
+*	功能说明: 启动蜂鸣音。
+*	形    参：_uiFreq : 频率 (Hz)
+*			  _usBeepTime : 蜂鸣时间，单位10ms; 0 表示不鸣叫
+*			  _usStopTime : 停止时间，单位10ms; 0 表示持续鸣叫
+*			 _usCycle : 鸣叫次数， 0 表示持续鸣叫
+*	返 回 值: 无
+*********************************************************************************************************
+*/
+
+
+void BEEP_Start(uint32_t _uiFreq, uint16_t _usBeepTime, uint16_t _usStopTime, uint16_t _usCycle)
+{
+    if (_usBeepTime == 0)
+    {
+        BEEP_ENABLE(  _usCycle);			/* 开始发声 */
+        return;
+    }
+
+    g_tBeep.uiFreq = _uiFreq;
+    g_tBeep.usBeepTime = _usBeepTime;
+    g_tBeep.usStopTime = _usStopTime;
+    g_tBeep.usCycle = _usCycle;
+    g_tBeep.usCount = 0;
+    g_tBeep.usCycleCount = 0;
+    g_tBeep.ucState = 0;
+    g_tBeep.ucEnalbe = 1;	/* 设置完全局参数后再使能发声标志 */
+
+    BEEP_ENABLE(  _usCycle*4);			/* 开始发声 */
+}
+
+/*
+*********************************************************************************************************
+*	函 数 名: BEEP_Stop
+*	功能说明: 停止蜂鸣音。
+*	形    参：无
+*	返 回 值: 无
+*********************************************************************************************************
+*/
+void BEEP_Stop(void)
+{
+    g_tBeep.ucEnalbe = 0;
+
+    BEEP_DISABLE();	/* 必须在清控制标志后再停止发声，避免停止后在中断中又开启 */
+}
+
+/*
+*********************************************************************************************************
+*	函 数 名: BEEP_KeyTone
+*	功能说明: 发送按键音， 固定 1.5KHz
+*	形    参：无
+*	返 回 值: 无
+*********************************************************************************************************
+*/
+void BEEP_KeyTone(void)
+{
+    BEEP_Start(1500, 5, 1, 1);	/* 鸣叫50ms，停10ms， 1次 */
+}
+
+/*
+*********************************************************************************************************
+*	函 数 名: BEEP_Pro
+*	功能说明: 每隔10ms调用1次该函数，用于控制蜂鸣器发声。该函数在 bsp_timer.c 中被调用。
+*	形    参：无
+*	返 回 值: 无
+*********************************************************************************************************
+*/
+void BEEP_Pro(void)
+{
+    if ((g_tBeep.ucEnalbe == 0) || (g_tBeep.usStopTime == 0))
+    {
+        return;
+    }
+
+    if (g_tBeep.ucState == 0)
+    {
+        if (g_tBeep.usStopTime > 0)	/* 间断发声 */
+        {
+            if (++g_tBeep.usCount >= g_tBeep.usBeepTime)
+            {
+                BEEP_DISABLE();		/* 停止发声 */
+                g_tBeep.usCount = 0;
+                g_tBeep.ucState = 1;
+            }
+        }
+        else
+        {
+            ;	/* 不做任何处理，连续发声 */
+        }
+    }
+    else if (g_tBeep.ucState == 1)
+    {
+        if (++g_tBeep.usCount >= g_tBeep.usStopTime)
+        {
+            /* 连续发声时，直到调用stop停止为止 */
+            if (g_tBeep.usCycle > 0)
+            {
+                if (++g_tBeep.usCycleCount >= g_tBeep.usCycle)
+                {
+                    /* 循环次数到，停止发声 */
+                    g_tBeep.ucEnalbe = 0;
+                }
+
+                if (g_tBeep.ucEnalbe == 0)
+                {
+                    g_tBeep.usStopTime = 0;
+                    return;
+                }
+            }
+
+            g_tBeep.usCount = 0;
+            g_tBeep.ucState = 0;
+
+            //BEEP_ENABLE();			/* 开始发声 */
+        }
+    }
+}
+void beep_pro(unsigned char sound_num,unsigned char mode)
+{
+registerTick(BEEP_TICK, 3000,1, 0);
+    if(mode == 1)
+        Speak_Flage = sound_num;
+    else
+    {
+        
+        if( GetTickResult(BEEP_TICK)==1)
+        {
+            registerTick(BEEP_TICK, 0,0,1);
+            Speak_Flage = sound_num;
+        }
+
+    }
+
+
+}
+
+/***************************** 沈阳恒德医疗器械研发有限公司 ShenYang HengDe Medical Instruments Co.，Ltd. (END OF FILE) *********************************/

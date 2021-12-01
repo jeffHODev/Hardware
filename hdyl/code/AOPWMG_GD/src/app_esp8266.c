@@ -1,0 +1,289 @@
+#include "main.h"
+#include "bsp_esp8266.h"
+#include "bsp_cpu_flash.h"
+#include "inout.h"
+#include "app_esp8266.h"
+#include "sys.h"
+
+/* 私有类型定义 --------------------------------------------------------------*/
+/* 私有宏定义 ----------------------------------------------------------------*/
+
+
+const unsigned char ESP8266_Apssid[24]="DBX-HDYL";              //要连接的热点的名称
+const unsigned char ESP8266_ApPwd[24] ="DBX-HDYL-OFFICE";       //要连接的热点的密钥
+
+esp8266_params_stru esp_params_usr;
+
+
+
+
+/* 私有变量 ------------------------------------------------------------------*/
+/* 扩展变量 ------------------------------------------------------------------*/
+extern  uint8_t ucTcpClosedFlag;
+
+/* 私有函数原形 --------------------------------------------------------------*/
+/* 函数体 --------------------------------------------------------------------*/
+void esp8266_init()
+{
+
+    strcpy(esp_params_usr.User_ESP8266_Apssid,"DBX-HDYL");			   //要连接的热点的名称
+    strcpy(esp_params_usr.User_ESP8266_ApPwd,"DBX-HDYL-OFFICE");	   //要连接的热点的密钥
+
+    strcpy(esp_params_usr.User_Server_IP,"192.168.31.149");		//要连接的服务器的 IP
+    strcpy(esp_params_usr.User_Server_Port,"12345678");			  //要连接的服务器的端口
+
+
+}
+unsigned char esp8266_configmode(unsigned char mode)
+{
+    if(mode == 0)//ap模式
+    {
+        ESP8266_Rst ();
+        if(ESP8266_AT_Test())
+        {
+            printf("AT test OK\n");
+        }
+        if(ESP8266_Net_Mode_Choose(AP))
+        {
+            printf("ESP8266_Net_Mode_Choose OK\n");
+        }
+        if(ESP8266_BuildAP ( (char *)ESP8266_Apssid, (char *)ESP8266_ApPwd, WPA2_PSK))
+        {
+            ESP8266_Enable_MultipleId(DISABLE);
+            ESP8266_UnvarnishSend();
+            printf("配置 ESP8266 完毕\n");
+            return 1;
+        }
+        else
+            return 0;
+
+    }
+    else  //sta模式
+    {
+        ESP8266_Rst ();
+        if(ESP8266_AT_Test())
+        {
+            printf("AT test OK\n");
+        }
+        if(ESP8266_Net_Mode_Choose(STA))
+        {
+            printf("ESP8266_Net_Mode_Choose OK\n");
+        }
+        ESP8266_JoinAP((char *)esp_params_usr.User_ESP8266_Apssid,(char *)esp_params_usr.User_ESP8266_ApPwd);
+        ESP8266_Enable_MultipleId(DISABLE);
+
+        if(ESP8266_Link_Server(enumTCP,(char *)esp_params_usr.User_Server_IP,(char *)esp_params_usr.User_Server_Port,Single_ID_0))
+            ESP8266_UnvarnishSend();
+        else
+            return 0;
+        //   printf("配置 ESP8266 完毕\n");
+
+
+    }
+}
+extern struct  STRUCT_USARTx_Fram strEsp8266_Fram_Record ;
+/****************************************************************************
+ 配网协议：apssid:xxxxxxxx        appwd:xxxxxxx
+ server协议：  domain:xxxxx   port:xxxx
+****************************************************************************/
+unsigned char esp8266_anly_ssid()
+{
+
+    char *p;
+    p = strstr ( strEsp8266_Fram_Record .Data_RX_BUF, "apssid");
+    if(p!=NULL)
+    {
+        strcpy(esp_params_usr.User_ESP8266_Apssid,p+6);
+        p = strstr ( strEsp8266_Fram_Record .Data_RX_BUF, "appwd");
+        if(p!=NULL)
+        {
+            esp_params_usr.update = 1;//账号密码更新标记，需要flash存储
+            strcpy(esp_params_usr.User_ESP8266_ApPwd,p+5);
+            return 0;
+        }
+    }
+
+
+    p = strstr ( strEsp8266_Fram_Record .Data_RX_BUF, "domain");
+    if(p!=NULL)
+    {
+        strcpy(esp_params_usr.User_Server_IP,p+6);
+        p = strstr ( strEsp8266_Fram_Record .Data_RX_BUF, "port");
+        if(p!=NULL)
+        {
+            strcpy(esp_params_usr.User_Server_Port,p+4);
+            esp_params_usr.update = 1;
+            //return 0;
+        }
+    }
+
+    return 1;
+}
+/****************************************************************************
+命令协议：power on      power off ......
+
+****************************************************************************/
+
+unsigned char esp8266_anly_cmd()
+{
+
+    char *p;
+
+    return 1;
+}
+
+void esp8266_process()
+{
+    unsigned char retry;
+    retry = 0;
+    if(GetInOut()->key_wifi_mode)
+    {
+        registerTick(WIFI_TICK,180000,1,0);
+        if(GetTickResult(WIFI_TICK) == 1)
+        {
+            registerTick(WIFI_TICK,0,0,1);
+            goto stamode;//超时返回
+        }
+        while(esp8266_configmode(0)==0)//进入ap模式 等待手机连接
+        {
+            retry++;
+            if(retry>=3)
+            {
+                retry = 0;
+                break;
+            }
+        }
+        if(strEsp8266_Fram_Record.InfBit.FramFinishFlag == 1 )
+        {
+            if(esp8266_anly_ssid()==0)
+            {
+                strEsp8266_Fram_Record.InfBit.FramFinishFlag =0;
+           stamode:
+                retry = 0;
+                while(esp8266_configmode(1)==0)////进入sta模式连接热点
+                {
+                    retry++;
+                    if(retry>=3)
+                    {
+                        retry = 0;
+                        break;
+                    }
+                }
+                GetInOut()->key_wifi_mode = 0;
+
+            }
+
+        }
+    }
+    else  //解析上位机命令
+    {
+        if(esp_params_usr.status ==1)
+        {
+            retry = 0;
+            while(esp8266_configmode(1)==0)////进入sta模式连接热点
+            {
+                retry++;
+                if(retry>=3)
+                {
+                    retry = 0;
+                    break;
+                }
+            }
+            esp_params_usr.status =0;
+
+        }
+        if(strEsp8266_Fram_Record.InfBit.FramFinishFlag == 1 )
+        {
+            esp8266_anly_cmd();
+            strEsp8266_Fram_Record.InfBit.FramFinishFlag =0;
+        }
+
+
+    }
+
+}
+esp8266_params_stru *GetEspStatus()
+{
+    return &esp_params_usr;
+}
+
+/*void Demo_esp8266(void)
+{
+    uint8_t pCH;
+
+    printf("正在配置 ESP8266 ......\n" );
+    if(ESP8266_AT_Test())
+    {
+        printf("AT test OK\n");
+    }
+
+    printf("\n< 1 >\n");
+    if(ESP8266_Net_Mode_Choose(AP))
+    {
+        printf("ESP8266_Net_Mode_Choose OK\n");
+    }
+
+    printf("\n< 2 >\n");
+    //while(!ESP8266_JoinAP(User_ESP8266_ApSsid,User_ESP8266_ApPwd));
+    ESP8266_JoinAP((char *)User_ESP8266_Apssid,(char *)User_ESP8266_ApPwd);
+
+    printf("\n< 3 >\n");
+    ESP8266_Enable_MultipleId(DISABLE);
+    //while(!ESP8266_Link_Server(enumTCP,User_ESP8266_TcpServer_IP,User_ESP8266_TcpServer_Port,Single_ID_0));
+    ESP8266_Link_Server(enumTCP,(char *)User_ESP8266_TcpServer_IP,(char *)User_ESP8266_TcpServer_Port,Single_ID_0);
+
+    printf("\n< 4 >\n");
+    //while(!ESP8266_UnvarnishSend());
+    ESP8266_UnvarnishSend();
+
+    printf("配置 ESP8266 完毕\n");
+
+//	ESP8266_ReceiveString(ENABLE);
+//
+//	if(strEsp8266_Fram_Record .InfBit .FramFinishFlag)
+//	{
+//		strEsp8266_Fram_Record .Data_RX_BUF [ strEsp8266_Fram_Record .InfBit .FramLength ]  = '\0';
+//		printf ( "\r\n%s\r\n", strEsp8266_Fram_Record .Data_RX_BUF );
+//
+//		/*将接收到的字符串转成整形数*/
+//		pCH=atoi(strEsp8266_Fram_Record .Data_RX_BUF);
+//
+//		switch(pCH)
+//		{
+//		 case 0:
+//
+//			break;
+//
+//		 case 1:
+
+//		 break;
+//
+//		 case 2:
+
+//		 break;
+//
+//		 case 3:
+//
+//		 break;
+//
+//		 case 4:
+//
+//		 break;
+//
+//		 case 5:
+
+//		 break;
+//
+//		 case 6:
+
+//		 break;
+//
+//		 case 7:
+//			break;
+
+//		 default:
+//			 break;
+//		}
+//	}
+//}
+

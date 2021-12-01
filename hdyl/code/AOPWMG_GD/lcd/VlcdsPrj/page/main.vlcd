@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE vlcd PUBLIC "-//W3C//DTD VLCD 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/VLCD10.dtd">
+<vlcd width="480" height="272">
+<desc>Vlcd picture</desc>
+<box style = "fill:none; stroke:Black; stroke-width:1" x = "0" y = "0" width = "480" height = "272" ShapeName = "Box" ShapeNum = "76" >box</box>
+<rect style = "fill:none; stroke:Green; stroke-width:1" x = "258" y = "173" width = "207" height = "32" ShapeName = "Rectangle" ShapeNum = "40" />
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:10pt" x = "270" y = "183" width = "64.85677" height = "16.75781" ShapeName = "Transparent" ShapeNum = "29" >工作状态</text>
+<rect style = "fill:none; stroke:DodgerBlue; stroke-width:1" x = "258" y = "133" width = "207" height = "32" ShapeName = "Rectangle" ShapeNum = "20" />
+<rect style = "fill:none; stroke:DodgerBlue; stroke-width:1" x = "258" y = "93" width = "207" height = "32" ShapeName = "Rectangle" ShapeNum = "19" />
+<rect style = "fill:none; stroke:DodgerBlue; stroke-width:1" x = "258" y = "53" width = "207" height = "32" ShapeName = "Rectangle" ShapeNum = "18" />
+<rect style = "fill:none; stroke:DodgerBlue; stroke-width:1" x = "258" y = "12" width = "207" height = "32" ShapeName = "Rectangle" ShapeNum = "17" />
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:10pt" x = "271" y = "143" width = "90.79427" height = "16.75781" ShapeName = "Transparent" ShapeNum = "28" >4号槽电流(A)</text>
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:10pt" x = "270" y = "103" width = "90.79427" height = "16.75781" ShapeName = "Transparent" ShapeNum = "27" >3号槽电流(A)</text>
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:10pt" x = "270" y = "63" width = "90.79427" height = "16.75781" ShapeName = "Transparent" ShapeNum = "26" >2号槽电流(A)</text>
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:10pt" x = "269" y = "22" width = "90.79427" height = "16.75781" ShapeName = "Transparent" ShapeNum = "25" >1号槽电流(A)</text>
+<rect style = "fill:none; stroke:DodgerBlue; stroke-width:1" x = "14" y = "173" width = "230" height = "32" ShapeName = "Rectangle" ShapeNum = "39" />
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:10pt" x = "23" y = "183" width = "175.6315" height = "16.75781" ShapeName = "Transparent" ShapeNum = "24" >氧化还原电位ORP（mV）</text>
+<rect style = "fill:none; stroke:DodgerBlue; stroke-width:1" x = "14" y = "133" width = "230" height = "32" ShapeName = "Rectangle" ShapeNum = "16" />
+<rect style = "fill:none; stroke:DodgerBlue; stroke-width:1" x = "14" y = "93" width = "230" height = "32" ShapeName = "Rectangle" ShapeNum = "32" />
+<rect style = "fill:none; stroke:DodgerBlue; stroke-width:1" x = "14" y = "53" width = "230" height = "32" ShapeName = "Rectangle" ShapeNum = "22" />
+<rect style = "fill:none; stroke:DodgerBlue; stroke-width:1" x = "13" y = "12" width = "230" height = "32" ShapeName = "Rectangle" ShapeNum = "13" />
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:10pt" x = "23" y = "143" width = "119.0365" height = "16.75781" ShapeName = "Transparent" ShapeNum = "23" >进水TDS（ppm）</text>
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:10pt" x = "24" y = "63" width = "98.51562" height = "16.75781" ShapeName = "Transparent" ShapeNum = "21" >流量（L/min）</text>
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:10pt" x = "24" y = "22" width = "97.51302" height = "16.75781" ShapeName = "Transparent" ShapeNum = "31" >酸碱度（pH）</text>
+<text style = "fill:Black; stroke:Transparent; font-family:; font-size:10pt" x = "23" y = "103" width = "119.0365" height = "16.75781" ShapeName = "Transparent" ShapeNum = "33" >原水TDS（ppm）</text>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "365" y = "220" width = "85" height = "40" ShapeName = "14" ShapeNum = "7" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >重启</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "200" y = "220" width = "85" height = "40" ShapeName = "14" ShapeNum = "6" Direction = "ChangePage" StoreType = "p4" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >设置</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "30" y = "220" width = "85" height = "40" ShapeName = "14" ShapeNum = "5" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "" Gheight = "" >冲洗</button>
+</vlcd>
