@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              12/01/2021 09:31:27 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              12/01/2021 09:39:32 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   41          {
   42   1          static uint16_t time=0;
   43   1          uint8_t temp=0;
-C51 COMPILER V9.60.0.0   MAIN                                                              12/01/2021 09:31:27 PAGE 2   
+C51 COMPILER V9.60.0.0   MAIN                                                              12/01/2021 09:39:32 PAGE 2   
 
   44   1          systick++;
   45   1          TH1 = TIMER_DIV12_VALUE_10ms/256;
@@ -126,7 +126,7 @@ line level    source
  103   1          WDT_Config_Enable();              // WDT run
  104   1          InitialUART0_Timer3(9600);        // 初始化串口1
  105   1          Read_EEprom();                    // 读取使用数据
-C51 COMPILER V9.60.0.0   MAIN                                                              12/01/2021 09:31:27 PAGE 3   
+C51 COMPILER V9.60.0.0   MAIN                                                              12/01/2021 09:39:32 PAGE 3   
 
  106   1          READ_BANDGAP();                   // 带隙电压出厂标定值
  107   1          for(init=0; init<50; init++)        // 检测电池电压
@@ -145,7 +145,7 @@ line level    source
  120   2              if(Ms_Flage==1)                 // 10ms延时标志位
  121   2              {
  122   3                  set_WDCLR;                    // Clear WDT timer
- 123   3                  // 清除标志//
+ 123   3                  // 清除标志//22
  124   3      
  125   3                  Charge_Process();
  126   3                  Work_In_Set(keycode);         // 工作在设置模式下

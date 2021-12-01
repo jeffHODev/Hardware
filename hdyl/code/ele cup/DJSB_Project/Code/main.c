@@ -120,7 +120,7 @@ next:
         if(Ms_Flage==1)									// 10ms延时标志位
         {
             set_WDCLR;										// Clear WDT timer
-            // 清除标志//
+            // 清除标志//22
 
             Charge_Process();
             Work_In_Set(keycode);					// 工作在设置模式下

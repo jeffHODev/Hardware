@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 1   
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE BSP_INIT
@@ -62,7 +62,7 @@ line level    source
              - 电解完成提示音  4 低电量报警音  5 其他报警音
   42          uint8_t Key_Status =0;                                                 // 按键状态 喷雾按键状态
   43          uint8_t Work_Mode =0;                                              // 工作模式    0 开机自检模式  1 电解模
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 2   
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 2   
 
              -式 2
   44          //uint8_t Set_Time =2;                                               // 设置电解时长 3-4-5分钟
@@ -126,7 +126,7 @@ line level    source
   99          /*********************************************************************************************************
              -***
  100          *    Main function
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 3   
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 3   
 
  101          **********************************************************************************************************
              -**/
@@ -190,7 +190,7 @@ line level    source
  159   1          {
  160   2              BandgapLow = BandgapLow & 0x0F;
  161   2              IAPAL = 0x0C;
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 4   
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 4   
 
  162   2              IAPAH = 0x00;
  163   2              set_IAPGO;
@@ -254,7 +254,7 @@ line level    source
  221   1      // PWM output
  222   1          PWM3_OUTPUT_NORMAL;
  223   1      //      PWM4_OUTPUT_NORMAL;
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 5   
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 5   
 
  224   1      //-------- PWM start run--------------
  225   1          set_LOAD;
@@ -318,7 +318,7 @@ line level    source
  282   1          Now_current = Now_current - Now_current / FIR_NUM + value / FIR_NUM;
  283   1          //Now_current = Now_current;
  284   1          // ***************** 根据带隙电压计算电池电压******************************
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 6   
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 6   
 
  285   1          value = (ADC_Value[2]) * Vcc_value /4095*2;
  286   1          if (init == 0)
@@ -382,7 +382,7 @@ line level    source
  344   2          }
  345   1          if(dev&0x02)
  346   1          {
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 7   
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 7   
 
  347   2              if (level == 0)
  348   2              {
@@ -446,7 +446,7 @@ line level    source
  406   1          {
  407   2              if (level == 0)
  408   2              {
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 8   
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 8   
 
  409   3                  equipment = equipment & 0xbf;
  410   3              }
@@ -510,7 +510,7 @@ line level    source
  468   3                  {
  469   4                      music = Music_Code_1[codenum];
  470   4                      Init_pwm_code(music, music / 10);
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 9   
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 9   
 
  471   4                  }
  472   3                  codenum++;
@@ -574,7 +574,7 @@ line level    source
  530   3                  codenum = 0;
  531   3                  music = 0;
  532   3              }
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 10  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 10  
 
  533   2              else
  534   2              {
@@ -638,7 +638,7 @@ line level    source
  592   3                  while(Key_Set==1)
  593   3                  {
  594   4                      key_time_start++;
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 11  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 11  
 
  595   4                      if(key_time_start > BUTTON_LONG_TIME)
  596   4                      {
@@ -702,7 +702,7 @@ line level    source
  654          unsigned char Charge_Process()
  655          {
  656   1          static uint32_t charge_time = 0;
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 12  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 12  
 
  657   1          static uint32_t stdby_time = 0;
  658   1          static unsigned char red_flag;
@@ -766,7 +766,7 @@ line level    source
  716   2              Charge_Mode = 0;//没充电;
  717   2          }
  718   1          return Charge_Mode;
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 13  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 13  
 
  719   1      
  720   1      }
@@ -830,7 +830,7 @@ line level    source
  776          {
  777   1          CLK_Con = 1;
  778   1      }
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 14  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 14  
 
  779          void HC595_SHCP_Low()
  780          {
@@ -894,7 +894,7 @@ line level    source
  838          ***/
  839          void HC595_Send_Multi_Byte(uint8_t data1, uint8_t data2)
  840          {
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 15  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 15  
 
  841   1          unsigned char i;
  842   1          unsigned char buf[2];
@@ -958,7 +958,7 @@ line level    source
  899   1      }
  900          void Display_Process()
  901          {
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 16  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 16  
 
  902   1      
  903   1          Clear_Con = 0;
@@ -1022,7 +1022,7 @@ line level    source
  961   5                      Equipment_Ctrl_Set(PUMP|SWITCH|LED_RED|DIA1|LED_BLUE, 0);//泵关
  962   5                      Equipment_Ctrl_Set(LED_GREEN, 0);//绿灯亮
  963   5                      Led_Ram = 0x04;
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 17  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 17  
 
  964   5                      Work_Mode = 1;//正常工作模式
  965   5                      //Set_Speak_Value(1);//
@@ -1086,7 +1086,7 @@ line level    source
 1016   6                          Ele_Flage = 0;
 1017   6                          Send_Data_To_UART0(2,DEBUG);
 1018   6                          Led_Ram = 0;
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 18  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 18  
 
 1019   6                          DJ_Con = 0;//取消电解
 1020   6                          Led_Ram = 0x04;
@@ -1150,7 +1150,7 @@ line level    source
 1078   4                  Work_Mode = 0;
 1079   4                  key_num = 0;
 1080   4              }
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 19  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 19  
 
 1081   3      
 1082   3          }
@@ -1214,7 +1214,7 @@ line level    source
 1140   2          }
 1141   1          else //正常模式
 1142   1          {
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 20  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 20  
 
 1143   2              key_hit_flag = 0;
 1144   2              //timeout = 0;
@@ -1278,7 +1278,7 @@ line level    source
 1202   5                          Led_Ram = 0x04;
 1203   5                          NoWaterTick = 0;
 1204   5                          Ele_Flage = 0;
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 21  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 21  
 
 1205   5                          Ele_Time = 0;
 1206   5                          DJ_Con = 0;
@@ -1342,7 +1342,7 @@ line level    source
 1264   4                      Send_Data_To_UART0(12,DEBUG);
 1265   4                  }
 1266   3              }
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 22  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 22  
 
 1267   2              else if(Vbat_value <=BATTER_ALARM)//低压报警
 1268   2              {
@@ -1406,7 +1406,7 @@ line level    source
 1326   1          buffer[10] = TDS_Alarm_Num / 256;
 1327   1          buffer[11] = TDS_Alarm_Num % 256;
 1328   1      
-C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:24:55 PAGE 23  
+C51 COMPILER V9.60.0.0   BSP_INIT                                                          12/01/2021 09:39:32 PAGE 23  
 
 1329   1          for (i = 0; i < 12; i++)
 1330   1          {
