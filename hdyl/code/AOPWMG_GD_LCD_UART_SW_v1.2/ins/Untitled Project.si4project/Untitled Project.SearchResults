@@ -1,7 +1,10 @@
----- pump_ctrl Matches (6 in 1 files) ----
-app.c (D:\work\git\Hardware\work\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) line 954 : void pump_ctrl(unsigned char mode)
-normal_proc in app.c (D:\work\git\Hardware\work\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :             pump_ctrl(0);
-normal_proc in app.c (D:\work\git\Hardware\work\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :                 pump_ctrl(0);
-normal_proc in app.c (D:\work\git\Hardware\work\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) : 				pump_ctrl(1);
-normal_proc in app.c (D:\work\git\Hardware\work\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :             pump_ctrl(0);
-ele_process in app.c (D:\work\git\Hardware\work\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :         pump_ctrl(0);
+---- pump_ctrl Matches (9 in 1 files) ----
+app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) line 952 : void pump_ctrl(unsigned char mode)
+hsw_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :         //pump_ctrl(1);
+hsw_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :         pump_ctrl(0);
+normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :             //pump_ctrl(1);
+normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :            // pump_ctrl(0);
+normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :                 pump_ctrl(0);
+normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :                 pump_ctrl(1);
+normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :             //pump_ctrl(0);
+ele_process in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :         pump_ctrl(0);

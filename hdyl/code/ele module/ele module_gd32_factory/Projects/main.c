@@ -1,0 +1,850 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.</center></h2>
+  *
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+#include "gd32f10x.h"
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include "sensor.h"
+#include "modbus.h"
+#include "sys.h"
+/* USER CODE END Includes */
+extern uint32_t adc1_val_buf[2];
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+#if CPU ==ST
+/* Private variables ---------------------------------------------------------*/
+ADC_HandleTypeDef hadc1;
+DMA_HandleTypeDef hdma_adc1;
+
+IWDG_HandleTypeDef hiwdg;
+
+TIM_HandleTypeDef htim3;
+
+UART_HandleTypeDef huart1;
+UART_HandleTypeDef huart2;
+DMA_HandleTypeDef hdma_usart2_rx;
+#endif
+/* USER CODE BEGIN PV */
+void rcu_config(void);
+void timer_config(void);
+void gpio_config(void);
+void adc_config(void);
+void gd_uart_init(void);
+void nvic_config(void);
+void gd_dma_init(void);
+void wwdg_inint();
+
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
+static void MX_ADC1_Init(void);
+static void MX_TIM3_Init(void);
+static void MX_USART1_UART_Init(void);
+static void MX_USART2_UART_Init(void);
+static void MX_IWDG_Init(void);
+/* USER CODE BEGIN PFP */
+uint32_t tick_usr1;
+uint32_t led_tick;
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+    /* USER CODE BEGIN 1 */
+    static unsigned char flag;
+    /* USER CODE END 1 */
+#if CPU ==ST
+    /* MCU Configuration--------------------------------------------------------*/
+
+    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+    HAL_Init();
+
+    /* USER CODE BEGIN Init */
+
+    /* USER CODE END Init */
+
+    /* Configure the system clock */
+    SystemClock_Config();
+
+    /* USER CODE BEGIN SysInit */
+
+    /* USER CODE END SysInit */
+
+    /* Initialize all configured peripherals */
+
+    MX_GPIO_Init();
+    MX_DMA_Init();
+    MX_ADC1_Init();
+    MX_TIM3_Init();
+    MX_USART1_UART_Init();
+    MX_USART2_UART_Init();
+#else
+    rcu_config();
+
+		systick_config(); 
+    gpio_config();
+		timer_config();
+    adc_config();
+		
+    gd_uart_init();
+		gd_dma_init();
+    nvic_config();
+    
+
+#endif
+
+    /* USER CODE BEGIN 2 */
+    params_Init();
+		gpio_bit_write(LED1_GPIO_Port, LED1_Pin,RESET);
+#if DEBUG == 0
+    MX_IWDG_Init();
+#endif
+     
+//        gpio_bit_write(Ele_ConA_GPIO_Port, Ele_ConA_Pin, SET);
+//        delay_ms(20);
+//        gpio_bit_write(Ele_ConB_GPIO_Port, Ele_ConB_Pin, RESET);
+//        gpio_bit_write(Ele_ConA_GPIO_Port, Ele_ConA_Pin, RESET);
+//        delay_ms(20);
+//        gpio_bit_write(Ele_ConB_GPIO_Port, Ele_ConB_Pin, SET);				
+				//	 rcu_all_reset_flag_clear();
+    /* enable WWDGT clock */
+  //  rcu_periph_clock_enable(RCU_WWDGT);
+	//	fwdgt_config(0xfff, FWDGT_PSC_DIV128);
+  //  fwdgt_enable();
+    /* USER CODE END 2 */
+ 
+ // test2();
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
+    while (1)
+    {
+        /* USER CODE END WHILE */
+
+		//	fwdgt_counter_reload();
+      //sensor_process();
+        //      ele_ctrl(ON);
+			     timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+			RelayCtrl(FORWARD);
+			delay_ms(5000);
+      RelayCtrl(BACKWARD);
+    // timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,65535);
+        timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,50000);
+				delay_ms(5000);
+		 if(GetSensor()->ele_status==1)//电解时快闪
+			led_tick = 300;
+		else if(GetSensor()->online == 2)//修改地址1s闪烁
+			led_tick = 1000;		
+		else if(GetSensor()->online == 1)//在线2s慢闪
+			led_tick = 2000;
+    else
+			led_tick = 0xffffffff;			
+		if((HAL_GetTick()-tick_usr1)>=led_tick)
+		{
+		  tick_usr1 = HAL_GetTick();
+			if(flag == 0)
+			{
+				flag = 1;
+		    gpio_bit_write(LED1_GPIO_Port, LED1_Pin,SET);	
+			}
+			else
+			{
+					flag = 0;
+		    gpio_bit_write(LED1_GPIO_Port, LED1_Pin,RESET);			
+			}
+
+
+		}
+		gpio_bit_write(EN1_485_GPIO_Port, EN1_485_Pin, RESET);
+	  ///    usart_data_transmit(USART0, 0x54);
+
+    }
+    /* USER CODE END 3 */
+}
+void wwdg_inint()
+{
+    /* check if the system has resumed from WWDGT reset */
+    if(RESET != rcu_flag_get(RCU_FLAG_WWDGTRST)){
+        /* WWDGTRST flag set */
+        /* clear the WWDGTRST flag */
+        rcu_all_reset_flag_clear();
+
+    }
+    /* enable WWDGT clock */
+    rcu_periph_clock_enable(RCU_WWDGT);
+    wwdgt_config(127, 80, WWDGT_CFG_PSC_DIV8);
+    wwdgt_enable();
+
+}
+void adc_config(void)
+{
+
+	   /* reset ADC */
+	   adc_deinit(ADC0);
+	   /* ADC mode config */
+	   adc_mode_config(ADC_MODE_FREE);
+	   /* ADC contineous function enable */
+	   adc_special_function_config(ADC0, ADC_CONTINUOUS_MODE, ENABLE);
+	   /* ADC scan mode disable */
+	   adc_special_function_config(ADC0, ADC_SCAN_MODE, ENABLE);
+	   /* ADC data alignment config */
+	   adc_data_alignment_config(ADC0, ADC_DATAALIGN_RIGHT);
+
+
+	   /* ADC temperature and Vrefint enable */
+	   adc_tempsensor_vrefint_enable();
+	   
+	   /* ADC channel length config */
+	   adc_channel_length_config(ADC0, ADC_INSERTED_CHANNEL, 2);
+	
+	   /* ADC temperature sensor channel config */
+	   adc_inserted_channel_config(ADC0, 0, ADC_CHANNEL_16, ADC_SAMPLETIME_239POINT5);
+	   /* ADC internal reference voltage channel config */
+	   adc_inserted_channel_config(ADC0, 1, ADC_CHANNEL_17, ADC_SAMPLETIME_239POINT5);
+	
+	   /* ADC trigger config */
+	   adc_external_trigger_source_config(ADC0, ADC_INSERTED_CHANNEL, ADC0_1_2_EXTTRIG_INSERTED_NONE);
+
+
+
+    /* ADC channel length config */
+    adc_channel_length_config(ADC0, ADC_REGULAR_CHANNEL, 1);
+
+    /* ADC regular channel config */
+    adc_regular_channel_config(ADC0, 0, ADC_CHANNEL_0, ADC_SAMPLETIME_55POINT5);
+    // adc_regular_channel_config(ADC0, 1, ADC_CHANNEL_1, ADC_SAMPLETIME_55POINT5);
+    // adc_regular_channel_config(ADC0, 2, ADC_CHANNEL_2, ADC_SAMPLETIME_55POINT5);
+    // adc_regular_channel_config(ADC0, 3, ADC_CHANNEL_3, ADC_SAMPLETIME_55POINT5);
+
+    /* ADC trigger config */
+    adc_external_trigger_source_config(ADC0, ADC_REGULAR_CHANNEL, ADC0_1_2_EXTTRIG_REGULAR_NONE);
+    adc_external_trigger_config(ADC0, ADC_REGULAR_CHANNEL, ENABLE);
+	 adc_external_trigger_config(ADC0, ADC_INSERTED_CHANNEL, ENABLE);
+
+
+
+
+    /* enable ADC interface */
+    adc_enable(ADC0);
+    delay_ms(1);
+    /* ADC calibration and reset calibration */
+    adc_calibration_enable(ADC0);
+
+    /* ADC DMA function enable */
+    adc_dma_mode_enable(ADC0);
+    /* ADC software trigger enable */
+    adc_software_trigger_enable(ADC0, ADC_REGULAR_CHANNEL);
+}
+
+void rcu_config(void)
+{
+    /* enable GPIOA clock */
+    rcu_periph_clock_enable(RCU_GPIOA);
+    rcu_periph_clock_enable(RCU_GPIOB);
+    rcu_periph_clock_enable(RCU_GPIOC);
+    rcu_periph_clock_enable(RCU_AF);
+
+    /* enable ADC clock */
+    rcu_periph_clock_enable(RCU_ADC0);
+    /* enable DMA0 clock */
+    rcu_periph_clock_enable(RCU_DMA0);
+    /* config ADC clock */
+    rcu_adc_clock_config(RCU_CKADC_CKAPB2_DIV8);
+}
+void gpio_config(void)
+{
+    /* config the GPIO as analog mode */
+    gpio_init(GPIOA, GPIO_MODE_AIN, GPIO_OSPEED_50MHZ, GPIO_PIN_0);
+    gpio_bit_write(LED1_GPIO_Port, LED1_Pin,SET);
+    gpio_bit_write(GPIOB, Ele_ConB_Pin,RESET);
+    gpio_bit_write(GPIOB, Ele_ConA_Pin,RESET);
+    gpio_bit_write(EN1_485_GPIO_Port, EN1_485_Pin,RESET);
+    gpio_init(LED1_GPIO_Port, GPIO_MODE_OUT_PP, GPIO_OSPEED_50MHZ, LED1_Pin);
+    gpio_init(GPIOB, GPIO_MODE_OUT_PP, GPIO_OSPEED_50MHZ, Ele_ConB_Pin|Ele_ConA_Pin);
+    gpio_init(EN1_485_GPIO_Port, GPIO_MODE_OUT_PP, GPIO_OSPEED_50MHZ, EN1_485_Pin);
+
+
+    /*Configure PA1 PA2 PA3(TIMER1 CH1 CH2 CH3) as alternate function*/
+    gpio_init(GPIOB, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_0);
+}
+/**
+    \brief      configure the TIMER peripheral
+    \param[in]  none
+    \param[out] none
+    \retval     none
+  */
+void timer_config(void)
+{
+    /* -----------------------------------------------------------------------
+    TIMER1 configuration: generate 3 PWM signals with 3 different duty cycles:
+    TIMER1CLK = SystemCoreClock / 108 = 1MHz
+
+    TIMER1 channel1 duty cycle = (4000/ 16000)* 100  = 25%
+    TIMER1 channel2 duty cycle = (8000/ 16000)* 100  = 50%
+    TIMER1 channel3 duty cycle = (12000/ 16000)* 100 = 75%
+    ----------------------------------------------------------------------- */
+    timer_oc_parameter_struct timer_ocintpara;
+    timer_parameter_struct timer_initpara;
+
+    rcu_periph_clock_enable(RCU_TIMER2);
+
+
+    timer_deinit(TIMER2);
+
+    /* TIMER1 configuration */
+    timer_initpara.prescaler         = 35;//35
+    timer_initpara.alignedmode       = TIMER_COUNTER_EDGE;
+    timer_initpara.counterdirection  = TIMER_COUNTER_UP;
+    timer_initpara.period            = 65535;
+    timer_initpara.clockdivision     = TIMER_CKDIV_DIV1;
+    timer_initpara.repetitioncounter = 0;
+    timer_init(TIMER2,&timer_initpara);
+
+    /* CH1,CH2 and CH3 configuration in PWM mode1 */
+    timer_ocintpara.ocpolarity   = TIMER_OC_POLARITY_HIGH;
+    timer_ocintpara.outputstate  = TIMER_CCX_ENABLE;
+    timer_ocintpara.ocnpolarity  = TIMER_OCN_POLARITY_HIGH;
+    timer_ocintpara.outputnstate = TIMER_CCXN_DISABLE;
+    timer_ocintpara.ocidlestate  = TIMER_OC_IDLE_STATE_LOW;
+    timer_ocintpara.ocnidlestate = TIMER_OCN_IDLE_STATE_LOW;
+
+    timer_channel_output_config(TIMER2,TIMER_CH_2,&timer_ocintpara);
+
+
+    /* CH1 configuration in PWM mode1,duty cycle 25% */
+    timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+    timer_channel_output_mode_config(TIMER2,TIMER_CH_2,TIMER_OC_MODE_PWM0);
+    timer_channel_output_shadow_config(TIMER2,TIMER_CH_2,TIMER_OC_SHADOW_DISABLE);
+	//timer_primary_output_config(TIMER2,ENABLE);
+
+    /* auto-reload preload enable */
+    timer_auto_reload_shadow_enable(TIMER2);
+    /* auto-reload preload enable */
+    timer_enable(TIMER2);
+}
+void gd_uart_init(void)
+{
+
+    /* enable GPIO clock */
+    rcu_periph_clock_enable(RCU_GPIOA);
+
+    /* enable USART clock */
+    rcu_periph_clock_enable(RCU_USART0);
+
+    /* connect port to USARTx_Tx */
+    gpio_init(GPIOA, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_9);
+
+    /* connect port to USARTx_Rx */
+    gpio_init(GPIOA, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_50MHZ, GPIO_PIN_10);
+
+    /* USART configure */
+    usart_deinit(USART0);
+    usart_baudrate_set(USART0, 9600U);
+    usart_word_length_set(USART0, USART_WL_8BIT);
+    usart_stop_bit_set(USART0, USART_STB_1BIT);
+    usart_parity_config(USART0, USART_PM_NONE);
+    usart_hardware_flow_rts_config(USART0, USART_RTS_DISABLE);
+    usart_hardware_flow_cts_config(USART0, USART_CTS_DISABLE);
+    usart_receive_config(USART0, USART_RECEIVE_ENABLE);
+    usart_transmit_config(USART0, USART_TRANSMIT_ENABLE);
+
+    nvic_irq_enable(USART0_IRQn, 0, 0);
+    usart_interrupt_enable(USART0, USART_INT_IDLE);
+    usart_enable(USART0);
+
+    /* enable GPIO clock */
+
+
+//    /* enable USART clock */
+//    rcu_periph_clock_enable(RCU_USART1);
+
+//    /* connect port to USARTx_Tx */
+//    gpio_init(GPIOA, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_2);
+
+//    /* connect port to USARTx_Rx */
+//    gpio_init(GPIOA, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_50MHZ, GPIO_PIN_3);
+
+//    /* USART configure */
+//    usart_deinit(USART1);
+//    usart_baudrate_set(USART1, 9600U);
+    usart_word_length_set(USART1, USART_WL_8BIT);
+    usart_stop_bit_set(USART1, USART_STB_1BIT);
+    usart_parity_config(USART1, USART_PM_NONE);
+    usart_hardware_flow_rts_config(USART1, USART_RTS_DISABLE);
+    usart_hardware_flow_cts_config(USART1, USART_CTS_DISABLE);
+    usart_receive_config(USART1, USART_RECEIVE_ENABLE);
+    usart_transmit_config(USART1, USART_TRANSMIT_ENABLE);
+    usart_dma_receive_config(USART0, USART_DENR_ENABLE);
+    nvic_irq_enable(USART1_IRQn, 0, 0);
+    usart_interrupt_enable(USART1, USART_INT_IDLE);
+    usart_enable(USART1);
+
+
+
+}
+/*!
+    \brief      configure DMA interrupt
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void nvic_config(void)
+{
+    // nvic_irq_enable(DMA0_Channel3_IRQn, 0, 0);
+   // nvic_irq_enable(DMA0_Channel4_IRQn, 0, 1);
+}
+extern modbus_stru modbus_usr;
+
+void gd_dma_init(void)
+{
+//    /* ADC_DMA_channel configuration */
+    dma_parameter_struct dma_data_parameter;
+   dma_parameter_struct dma_init_struct;
+//    /* ADC DMA_channel configuration */
+    
+    /* enable DMA0 clock */
+    
+			rcu_periph_clock_enable(RCU_DMA0);
+		dma_deinit(DMA0, DMA_CH0);
+    /* initialize DMA single data mode */
+    dma_data_parameter.periph_addr  = (uint32_t)(&ADC_RDATA(ADC0));
+    dma_data_parameter.periph_inc   = DMA_PERIPH_INCREASE_DISABLE;
+    dma_data_parameter.memory_addr  = (uint32_t)(adc1_val_buf);
+    dma_data_parameter.memory_inc   = DMA_MEMORY_INCREASE_ENABLE;
+    dma_data_parameter.periph_width = DMA_PERIPHERAL_WIDTH_16BIT;
+    dma_data_parameter.memory_width = DMA_MEMORY_WIDTH_16BIT;
+    dma_data_parameter.direction	  = DMA_PERIPHERAL_TO_MEMORY;
+    dma_data_parameter.number 	  = 1U;
+    dma_data_parameter.priority	  = DMA_PRIORITY_HIGH;
+    dma_init(DMA0, DMA_CH0, &dma_data_parameter);
+    dma_circulation_enable(DMA0, DMA_CH0);
+
+    /* enable DMA channel */
+    dma_channel_enable(DMA0, DMA_CH0);
+
+
+
+
+
+
+
+    /* deinitialize DMA channel3(USART0 tx) */
+    //dma_deinit(DMA0, DMA_CH3);
+   // dma_struct_para_init(&dma_init_struct);
+
+
+    /*dma_init_struct.direction = DMA_MEMORY_TO_PERIPHERAL;
+    dma_init_struct.memory_addr = (uint32_t)txbuffer;
+    dma_init_struct.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+    dma_init_struct.memory_width = DMA_MEMORY_WIDTH_8BIT;
+    dma_init_struct.number = ARRAYNUM(txbuffer);
+    dma_init_struct.periph_addr = USART0_DATA_ADDRESS;
+    dma_init_struct.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+    dma_init_struct.periph_width = DMA_PERIPHERAL_WIDTH_8BIT;
+    dma_init_struct.priority = DMA_PRIORITY_ULTRA_HIGH;
+    dma_init(DMA0, DMA_CH3, &dma_init_struct);*/
+
+    /* deinitialize DMA channel4 (USART0 rx) */
+    dma_deinit(DMA0, DMA_CH4);
+  //  dma_struct_para_init(&dma_init_struct);
+
+    dma_init_struct.direction = DMA_PERIPHERAL_TO_MEMORY;
+    dma_init_struct.memory_addr = (uint32_t)(&modbus_usr.RS485_RX_BUFF_tmp);
+    dma_init_struct.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+    dma_init_struct.memory_width = DMA_MEMORY_WIDTH_8BIT;
+    dma_init_struct.number = MODBUS_BSIZE;
+    dma_init_struct.periph_addr = ((uint32_t)&USART_DATA(USART0));
+    dma_init_struct.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+    dma_init_struct.memory_width = DMA_PERIPHERAL_WIDTH_8BIT;
+    dma_init_struct.priority = DMA_PRIORITY_ULTRA_HIGH;
+    dma_init(DMA0, DMA_CH4, &dma_init_struct);
+
+    dma_circulation_disable(DMA0, DMA_CH4);
+
+    dma_channel_enable(DMA0, DMA_CH4);
+
+}
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
+#if CPU ==ST
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+
+    /** Initializes the RCC Oscillators according to the specified parameters
+    * in the RCC_OscInitTypeDef structure.
+    */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI;
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+    RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI_DIV2;
+    RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL16;
+    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /** Initializes the CPU, AHB and APB buses clocks
+    */
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                                  |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+    PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV6;
+    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+    {
+        Error_Handler();
+    }
+#endif
+}
+
+/**
+  * @brief ADC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC1_Init(void)
+{
+
+    /* USER CODE BEGIN ADC1_Init 0 */
+#if CPU ==ST
+    /* USER CODE END ADC1_Init 0 */
+
+    ADC_ChannelConfTypeDef sConfig = {0};
+
+    /* USER CODE BEGIN ADC1_Init 1 */
+
+    /* USER CODE END ADC1_Init 1 */
+    /** Common config
+    */
+    hadc1.Instance = ADC1;
+    hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
+    hadc1.Init.ContinuousConvMode = ENABLE;
+    hadc1.Init.DiscontinuousConvMode = DISABLE;
+    hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+    hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+    hadc1.Init.NbrOfConversion = 1;
+    if (HAL_ADC_Init(&hadc1) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /** Configure Regular Channel
+    */
+    sConfig.Channel = ADC_CHANNEL_0;
+    sConfig.Rank = ADC_REGULAR_RANK_1;
+    sConfig.SamplingTime = ADC_SAMPLETIME_55CYCLES_5;
+    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /* USER CODE BEGIN ADC1_Init 2 */
+
+    /* USER CODE END ADC1_Init 2 */
+#else
+
+#endif
+}
+
+/**
+  * @brief IWDG Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_IWDG_Init(void)
+{
+
+    /* USER CODE BEGIN IWDG_Init 0 */
+#if CPU ==ST
+    /* USER CODE END IWDG_Init 0 */
+
+    /* USER CODE BEGIN IWDG_Init 1 */
+
+    /* USER CODE END IWDG_Init 1 */
+    hiwdg.Instance = IWDG;
+    hiwdg.Init.Prescaler = IWDG_PRESCALER_256;
+    hiwdg.Init.Reload = 4095;
+    if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /* USER CODE BEGIN IWDG_Init 2 */
+
+    /* USER CODE END IWDG_Init 2 */
+#endif
+}
+
+/**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+    /* USER CODE BEGIN TIM3_Init 0 */
+#if CPU ==ST
+    /* USER CODE END TIM3_Init 0 */
+
+    TIM_MasterConfigTypeDef sMasterConfig = {0};
+    TIM_OC_InitTypeDef sConfigOC = {0};
+
+    /* USER CODE BEGIN TIM3_Init 1 */
+
+    /* USER CODE END TIM3_Init 1 */
+    htim3.Instance = TIM3;
+    htim3.Init.Prescaler = 0;
+    htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+    htim3.Init.Period = 65535;
+    htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+    htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+    if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+    sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+    if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    sConfigOC.OCMode = TIM_OCMODE_PWM1;
+    sConfigOC.Pulse = 0;
+    sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+    sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+    if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /* USER CODE BEGIN TIM3_Init 2 */
+
+    /* USER CODE END TIM3_Init 2 */
+    HAL_TIM_MspPostInit(&htim3);
+#endif
+}
+
+/**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+    /* USER CODE BEGIN USART1_Init 0 */
+#if CPU ==ST
+    /* USER CODE END USART1_Init 0 */
+
+    /* USER CODE BEGIN USART1_Init 1 */
+
+    /* USER CODE END USART1_Init 1 */
+    huart1.Instance = USART1;
+    huart1.Init.BaudRate = 9600;
+    huart1.Init.WordLength = UART_WORDLENGTH_8B;
+    huart1.Init.StopBits = UART_STOPBITS_1;
+    huart1.Init.Parity = UART_PARITY_NONE;
+    huart1.Init.Mode = UART_MODE_TX_RX;
+    huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+    if (HAL_UART_Init(&huart1) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /* USER CODE BEGIN USART1_Init 2 */
+
+    /* USER CODE END USART1_Init 2 */
+#endif
+}
+
+/**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+    /* USER CODE BEGIN USART2_Init 0 */
+#if CPU ==ST
+    /* USER CODE END USART2_Init 0 */
+
+    /* USER CODE BEGIN USART2_Init 1 */
+
+    /* USER CODE END USART2_Init 1 */
+    huart2.Instance = USART2;
+    huart2.Init.BaudRate = 9600;
+    huart2.Init.WordLength = UART_WORDLENGTH_8B;
+    huart2.Init.StopBits = UART_STOPBITS_1;
+    huart2.Init.Parity = UART_PARITY_NONE;
+    huart2.Init.Mode = UART_MODE_TX_RX;
+    huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+    if (HAL_UART_Init(&huart2) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /* USER CODE BEGIN USART2_Init 2 */
+#endif
+    /* USER CODE END USART2_Init 2 */
+
+}
+
+/**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+#if CPU ==ST
+    /* DMA controller clock enable */
+    __HAL_RCC_DMA1_CLK_ENABLE();
+
+    /* DMA interrupt init */
+    /* DMA1_Channel1_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+    /* DMA1_Channel6_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn);
+#endif
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+#if CPU ==ST
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    /* GPIO Ports Clock Enable */
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOD_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+
+    /*Configure GPIO pin Output Level */
+    HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+
+    /*Configure GPIO pin Output Level */
+    HAL_GPIO_WritePin(GPIOB, Ele_ConB_Pin|Ele_ConA_Pin, GPIO_PIN_RESET);
+
+    /*Configure GPIO pin Output Level */
+    HAL_GPIO_WritePin(EN1_485_GPIO_Port, EN1_485_Pin, GPIO_PIN_RESET);
+
+    /*Configure GPIO pin : LED1_Pin */
+    GPIO_InitStruct.Pin = LED1_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(LED1_GPIO_Port, &GPIO_InitStruct);
+
+    /*Configure GPIO pins : Ele_ConB_Pin Ele_ConA_Pin */
+    GPIO_InitStruct.Pin = Ele_ConB_Pin|Ele_ConA_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    /*Configure GPIO pin : EN1_485_Pin */
+    GPIO_InitStruct.Pin = EN1_485_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(EN1_485_GPIO_Port, &GPIO_InitStruct);
+
+#endif
+}
+
+/* USER CODE BEGIN 4 */
+
+/* USER CODE END 4 */
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
+#if CPU ==ST
+    /* USER CODE BEGIN Error_Handler_Debug */
+    /* User can add his own implementation to report the HAL error return state */
+    __disable_irq();
+    while (1)
+    {
+    }
+#endif
+    /* USER CODE END Error_Handler_Debug */
+}
+
+#ifdef  USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+    /* USER CODE BEGIN 6 */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    /* USER CODE END 6 */
+}
+#endif /* USE_FULL_ASSERT */
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

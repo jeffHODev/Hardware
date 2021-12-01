@@ -734,9 +734,9 @@ ARM Macro Assembler    Page 12
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\output\startup_gd32f450.d -o.\output\startup_gd32f450.o -I.\R
-TE\_GD32F4XX -IC:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\In
+TE\_GD32F4XX -IC:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\2.1.0\Device\F4XX\In
 clude -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__MICROLIB SETA 1" --predefin
-e="__UVISION_VERSION SETA 527" --predefine="GD32F405 SETA 1" --list=.\list\star
+e="__UVISION_VERSION SETA 526" --predefine="GD32F405 SETA 1" --list=.\list\star
 tup_gd32f450.lst ..\..\Firmware\CMSIS\GD\GD32F4xx\Source\ARM\startup_gd32f450.s
 
 
