@@ -1,0 +1,9 @@
+".\Output\bsp_init.obj",
+".\Output\main.obj",
+".\Output\eepromf.obj",
+".\Output\Common.obj",
+".\Output\Delay.obj",
+".\Output\STARTUP.obj" 
+TO ".\Output\DBX-DJSB-V1.0" 
+PRINT(".\LST\DBX-DJSB-V1.m51") RAMSIZE(256) 
+DISABLEWARNING (16) 
