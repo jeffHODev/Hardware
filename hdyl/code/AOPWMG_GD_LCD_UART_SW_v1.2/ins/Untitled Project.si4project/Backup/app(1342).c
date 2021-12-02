@@ -1348,7 +1348,7 @@ void normal_proc()
         else
         {
             GetSensor()->status[TDS1_INDEX] = 0;//tds1异常
-           /* if(abnormalDec()&0x02==0&&GetSensor()->flow>0)
+            if(abnormalDec()&0x02==0&&GetSensor()->flow>0)
             {
                 if((GetSensor()->tds2-dstTds)>=150)
                 {
@@ -1363,7 +1363,7 @@ void normal_proc()
 
                 }
 
-            }*/
+            }
 
                 GetSensor()->status[TDS1_INDEX] = 0;//tds2无异常
                 GetSensor()->status[TDS2_INDEX] = 0;//tds2无异常
@@ -1635,7 +1635,7 @@ void ele_process()
     if(GetSensor()->flow>0&&(GetSensor()->status[WASH_INDEX]||GetSensor()->status[NORMAL_INDEX] == 20))
     {
 
-        DcMotorCtrl(1, 50000);
+        DcMotorCtrl(1, 65535);
         if((HAL_GetTick()-params_tick)>=120000)
         {
             SystemParamsSave();

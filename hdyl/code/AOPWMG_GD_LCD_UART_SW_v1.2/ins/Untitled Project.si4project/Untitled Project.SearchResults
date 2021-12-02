@@ -1,10 +1,19 @@
----- pump_ctrl Matches (9 in 1 files) ----
-app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) line 952 : void pump_ctrl(unsigned char mode)
-hsw_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :         //pump_ctrl(1);
-hsw_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :         pump_ctrl(0);
-normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :             //pump_ctrl(1);
-normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :            // pump_ctrl(0);
-normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :                 pump_ctrl(0);
-normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :                 pump_ctrl(1);
-normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :             //pump_ctrl(0);
-ele_process in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :         pump_ctrl(0);
+---- NOWATER_INDEX Matches (21 in 2 files) ----
+Mode_dis_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :     case NOWATER_INDEX:
+Mode_dis_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :                 status_tmp==NOWATER_INDEX)
+dev_flow_Abnormal_ctrl in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :         //GetSensor()->status[NOWATER_INDEX] = NOWATER_INDEX;//缺水
+pump_ctrl in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :         if(pump_flag==0&&GetSensor()->status[NOWATER_INDEX]==0)
+hsw_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :         GetSensor()->status[NOWATER_INDEX] = 0;//缺水
+hsw_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :             GetSensor()->status[NOWATER_INDEX] = 0;//流量正常
+hsw_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :             GetSensor()->status[NOWATER_INDEX] = 0;//流量正常
+hsw_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :         GetSensor()->status[NOWATER_INDEX] = 0;//流量正常
+normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :             GetSensor()->status[NOWATER_INDEX] = 0;//缺水
+normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :                 //GetSensor()->status[NOWATER_INDEX] = 0;//流量异常
+normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :                 // GetSensor()->status[NOWATER_INDEX] = 0;//缺水
+normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :                     GetSensor()->status[NOWATER_INDEX] = NOWATER_INDEX;//缺水
+normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :                 GetSensor()->status[NOWATER_INDEX] = 0;//缺水
+normal_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :             GetSensor()->status[NOWATER_INDEX] = 0;//缺水
+ele_dev_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :     if(GetSensor()->wash_time>=3||GetSensor()->status[TDS1_INDEX]==TDS1_INDEX||GetSensor()->status[SYSTEM_INDEX]==SYSTEM_INDEX||GetSensor()->status[NOWATER_INDEX]==NOWATER_INDEX)//
+ele_dev_proc in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :             GetSensor()->status[NOWATER_INDEX] = 0;
+ele_process in app.c (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\src) :             GetSensor()->status[NOWATER_INDEX] = 0;//缺水
+sensor.h (D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\inc) line 96 : #define NOWATER_INDEX  				11
