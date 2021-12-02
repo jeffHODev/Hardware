@@ -1,3 +1,0 @@
----- wash Matches (2 in 2 files) ----
-analysis_process in sensor.c (D:\work\git\Hardware\work\hdyl\code\ele module\ele module_gd32\src) :                 GetModbusSens(0x02,FUNC_READ,0x0042,0,(unsigned char *)(&sensor.wash),2);
-{anonsensor_stru} in sensor.h (D:\work\git\Hardware\work\hdyl\code\ele module\ele module_gd32\inc) : 	unsigned int wash;
