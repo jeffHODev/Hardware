@@ -74,7 +74,7 @@ void lcd_touch_interrupt(void)
 #if DEV_TYPE == 0
             else if(getTouch()->control_id == FACTORY_ID)
             {
-               // step=6;
+                // step=6;
                 getTouch()->next_page = Main_PAGE;
                 //  getTouch()->control_id = 0;
 
@@ -103,16 +103,16 @@ void lcd_touch_interrupt(void)
                 //  getTouch()->control_id = 0;
 
             }
-			#if DEV_TYPE == 1
+#if DEV_TYPE == 1
             else if(getTouch()->control_id == FACTORY_ID)
             {
-               // step=6;
+                // step=6;
                 getTouch()->next_page = SETTING_PAGE;
                 //  getTouch()->control_id = 0;
 
             }
-			#endif
-     
+#endif
+
             else
                 getTouch()->next_page = SETTING_PAGE;
 
@@ -195,10 +195,23 @@ void lcd_touch_interrupt(void)
         getTouch()->next_page = CALIBRATION_PAGE;
         if(getTouch()->page_id == CALIBRATION_PAGE )
         {
-            GetTouchEditValue(CALIBRATION_PAGE,ORP_EDIT_ID);
-            step=14;
-            getTouch()->key	= pb[INDEX_CMD+4];
-            GetInOut()->update = 1;
+            if(getTouch()->control_id==ORP_EDIT_ID)
+            {
+                GetTouchEditValue(CALIBRATION_PAGE,ORP_EDIT_ID);
+                step=14;
+                getTouch()->key = pb[INDEX_CMD+4];
+                GetInOut()->update = 1;
+
+            }
+            if(getTouch()->control_id==PH1_EDIT_ID)
+            {
+                GetTouchEditValue(CALIBRATION_PAGE,PH1_EDIT_ID);
+                step=14;
+                getTouch()->key = pb[INDEX_CMD+4];
+                GetInOut()->update = 1;
+
+            }
+
         }
         break;
 

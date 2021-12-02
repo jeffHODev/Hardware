@@ -172,6 +172,10 @@ inout_stru *GetInOut()
 {
     return &inout_usr;
 }
+touch_stru *GetTouchInOut()
+{
+    return &touch_usr;
+}
 
 
 /**********************************************************************************/
@@ -181,24 +185,55 @@ uint8_t touch_pro()
     {
         if(touch_usr.page_id == Main_PAGE)//main page
         {
+					  inout_usr.key_cali_mode = 0;
+					  inout_usr.key_cali_value = 0;
+					  inout_usr.update = 0;
+
             if(touch_usr.control_id == REBOOT_ID)//reboot
             {
                 if(touch_usr.status == 0x55)
                     inout_usr.key_reset_mode = 1;
-				
+
             }
             if(touch_usr.control_id == WASH_ID)//wash
             {
                 if(touch_usr.status == 0x55)
                 {
-                    GetSensor()->status[8] = 8;//washing
+                    GetSensor()->status[WASH_INDEX] = WASH_INDEX;//washing
                     inout_usr.key_wash_mode = 1;
                 }
 
+
             }
+		#if DEV_TYPE == 0
+			if(touch_usr.control_id == FACTORY_ID)
+			{
+			    if(touch_usr.factory_count<=255)
+				touch_usr.factory_count = touch_usr.factory_count + 1;
+
+			}
+			else
+				touch_usr.factory_count = 0;
+			   
+
+		 #endif
             inout_usr.key_cali_mode = 0;
             inout_usr.key_cali_value = 0;
         }
+		#if DEV_TYPE == 1
+		 if(touch_usr.page_id == SETTING_PAGE)//CALIBRATION
+        {
+		if(touch_usr.control_id == FACTORY_ID)
+		{
+			if(touch_usr.factory_count<=255)
+			touch_usr.factory_count = touch_usr.factory_count + 1;
+		
+		}
+		else
+			touch_usr.factory_count = 0;  
+
+		}
+		 #endif
         if(touch_usr.page_id == CALIBRATION_PAGE)//CALIBRATION
         {
 
@@ -223,7 +258,7 @@ uint8_t touch_pro()
                     {
                         inout_usr.key_cali_value = 4;//start ph2
                     }
-					getTouch()->key = 0 ;
+                    getTouch()->key = 0 ;
                 }
                 else if(touch_usr.control_id == PH1_CAL_OK_ID||touch_usr.control_id == PH2_CAL_OK_ID)
                 {
@@ -244,39 +279,45 @@ uint8_t touch_pro()
                         inout_usr.key_cali_value = 0;
                         getTouch()->last_ctrl_id = 0;
                     }
-					getTouch()->key = 0 ;
+                    getTouch()->key = 0 ;
 
                 }
-                else if(touch_usr.last_ctrl_id == ORP_CAL_ID)//ORP calibration start
+                else if(touch_usr.key == ENTER)//ORP calibration start
                 {
-                    if(touch_usr.key == ENTER)
+                    if(touch_usr.control_id == ORP_EDIT_ID)
                     {
-                    inout_usr.key_cali_mode = 2;
-                    inout_usr.key_cali_type = touch_usr.control_id;
-                    inout_usr.key_cali_value = 1;
+                        inout_usr.key_cali_mode = 2;
+                        inout_usr.key_cali_type = touch_usr.control_id;
+                        inout_usr.key_cali_value = 1;
+						            touch_usr.last_ctrl_id =0;
 
-					}
-					else
-						getTouch()->key = 0 ;
-
+                    }
+				if(touch_usr.control_id == PH1_EDIT_ID)
+				{
+					inout_usr.key_cali_mode = 1;
+					inout_usr.key_cali_type = touch_usr.control_id;
+					inout_usr.key_cali_value = 1;
+								touch_usr.last_ctrl_id =0;
+				
+				}
 
                 }
                 else if(touch_usr.control_id == ORP_CAL_OK_ID)//done orp
                 {
 
-                    if(getTouch()->last_ctrl_id == ORP_CAL_ID)
+                    if(getTouch()->last_ctrl_id == ENTER)
                     {
                         inout_usr.key_cali_mode = 2;
                         inout_usr.key_cali_value = 2;
                         getTouch()->last_ctrl_id = 0;
-						getTouch()->key = 0;
+                        getTouch()->key = 0;
                     }
                     else
                     {
                         inout_usr.key_cali_mode = 0;
                         inout_usr.key_cali_value = 0;
                         getTouch()->last_ctrl_id = 0;
-					    getTouch()->key = 0;
+                        getTouch()->key = 0;
 
                     }
 
@@ -288,7 +329,7 @@ uint8_t touch_pro()
                     inout_usr.key_cali_mode = 0;
                     inout_usr.key_cali_value = 0;
                     getTouch()->last_ctrl_id = 0;
-					getTouch()->key = 0 ;
+                    getTouch()->key = 0 ;
 
                 }
                 else if(touch_usr.control_id == CALIBRATION_RE_ID)//
@@ -297,17 +338,25 @@ uint8_t touch_pro()
                     inout_usr.key_cali_mode = 2;
                     inout_usr.key_cali_value = 2;
                     getTouch()->last_ctrl_id = 0;
-					getTouch()->key = 0 ;
+                    getTouch()->key = 0 ;
                 }
+								else
+								{
+                    inout_usr.key_cali_mode = 2;
+                    inout_usr.key_cali_value = 2;
+                    getTouch()->last_ctrl_id = 0;
+                    getTouch()->key = 0 ;								
+								}
 
             }
+						
 
 
         }
 
     }
-		touch_usr.touch_flag = 0;
-		return 0;
+    touch_usr.touch_flag = 0;
+    return 0;
 }
 
 

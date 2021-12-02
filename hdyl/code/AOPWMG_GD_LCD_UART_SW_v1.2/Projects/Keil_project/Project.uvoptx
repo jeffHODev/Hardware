@@ -154,7 +154,7 @@
           <Type>0</Type>
           <LineNumber>584</LineNumber>
           <EnabledFlag>0</EnabledFlag>
-          <Address>134229076</Address>
+          <Address>134230204</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -170,7 +170,7 @@
           <Type>0</Type>
           <LineNumber>578</LineNumber>
           <EnabledFlag>0</EnabledFlag>
-          <Address>134229070</Address>
+          <Address>134230198</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -180,6 +180,70 @@
           <Filename>..\..\src\app.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\Project\../../src/app.c\578</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>782</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134239814</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\..\src\sensor.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\../../src/sensor.c\782</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>813</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134239944</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\..\src\sensor.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\../../src/sensor.c\813</Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>950</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134240602</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\..\src\sensor.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\../../src/sensor.c\950</Expression>
+        </Bp>
+        <Bp>
+          <Number>5</Number>
+          <Type>0</Type>
+          <LineNumber>760</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\..\src\sensor.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -327,6 +391,11 @@
           <count>28</count>
           <WinNumber>1</WinNumber>
           <ItemText>flow_low_cnt,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>29</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>buf_cmd</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
