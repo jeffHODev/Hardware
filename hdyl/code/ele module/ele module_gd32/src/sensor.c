@@ -424,7 +424,7 @@ void work_process()
     static uint32_t timeout_tick;
     if(sensor.ele_status == 1)//电解模式
     {
-        registerTick(LOWCURR_TICK,3000,1,0);
+        registerTick(LOWCURR_TICK,5000,1,0);
         if((sensor.ele_curr >= MAX_CURR_VALUE))//电流 异常保护
             // if(sensor.ele_curr >= MAX_CURR_VALUE)//电流 异常保护
         {
