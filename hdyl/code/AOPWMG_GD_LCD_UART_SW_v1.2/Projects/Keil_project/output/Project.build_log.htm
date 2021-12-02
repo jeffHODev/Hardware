@@ -3,9 +3,9 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: ¦ÌVision V5.26.2.0
-Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: z 8615204039696, z, LIC=585FJ-U2G33-457T5-G0Y3N-JNC00-FWAN0
+IDE-Version: ¦ÌVision V5.27.1.0
+Copyright (C) 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: zm HDYL-YF, zm, LIC=47GU5-GHHLT-TGJ7T-RAVT3-5FI8L-KGICC
  
 Tool Versions:
 Toolchain:       MDK-ARM Plus  Version: 5.26.2.0
@@ -22,44 +22,30 @@ Dialog DLL:      TCM.DLL V1.36.1.0
  
 <h2>Project:</h2>
 D:\work\git\Hardware\hdyl\code\AOPWMG_GD_LCD_UART_SW_v1.2\Projects\Keil_project\Project.uvprojx
-Project File Date:  12/01/2021
+Project File Date:  12/02/2021
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'GD32F4XX'
-compiling app.c...
-..\..\src\app.c(461): warning:  #223-D: function "sprintf" declared implicitly
-              sprintf(ptr,"%4.2f",GetSensor()->ele_Mcurr[module_num-1]);
-..\..\src\app.c(473): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "unsigned char *"
-              SetLableValueColor(Main_PAGE,module_num+54, BACK_COLOR,FORCE_COLOR, ptr);
-..\..\src\app.c(673): warning:  #223-D: function "printf" declared implicitly
-          printf("??????????????????????	%0.2f(??)	   %0.1f(????)\n",GetSensor()->water_quantity,GetSensor()->sum_ele_time);
-..\..\src\app.c(691): warning:  #223-D: function "sprintf" declared implicitly
-              sprintf(ptr,"%4.1f",GetSensor()->ph);
-..\..\src\app.c(752): warning:  #223-D: function "sprintf" declared implicitly
-                  sprintf(ptr,"%4.2f",GetSensor()->orp_ph_adc);
-..\..\src\app.c(758): warning:  #223-D: function "sprintf" declared implicitly
-                  sprintf(ptr,"%4.2f",GetSensor()->orp_ph_adc);
-..\..\src\app.c(766): warning:  #223-D: function "sprintf" declared implicitly
-                  sprintf(( char*)ptr,"%4.2f",GetSensor()->orp_ph_adc);
-..\..\src\app.c(1780): warning:  #177-D: variable "pwm3"  was declared but never referenced
-  static uint32_t pwm3=21000;
-..\..\src\app.c: 8 warnings, 0 errors
+compiling pid.c...
+..\..\src\pid.c(108): warning:  #177-D: variable "last_result"  was declared but never referenced
+      static double last_result;//,integ;
+..\..\src\pid.c: 1 warning, 0 errors
 linking...
-Program Size: Code=36594 RO-data=1610 RW-data=296 ZI-data=4856  
+Program Size: Code=36726 RO-data=1610 RW-data=296 ZI-data=4856  
 FromELF: creating hex file...
-".\output\Project.axf" - 0 Error(s), 8 Warning(s).
+".\output\Project.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: GigaDevice
-                http://gd32mcu.com/data/documents/pack/GigaDevice.GD32F4xx_DFP.2.1.0.pack
-                GigaDevice.GD32F4xx_DFP.2.1.0
+                http://gd32mcu.com/data/documents/pack/GigaDevice.GD32F4xx_DFP.2.0.0.pack
+                GigaDevice.GD32F4xx_DFP.2.0.0
                 GigaDevice GD32F4xx Series Device Support and Examples
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_GD32F4XX
-  C:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\2.1.0\Device\F4XX\Include
+  C:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include
 
 <h2>Collection of Component Files used:</h2>
 Build Time Elapsed:  00:00:01

@@ -699,6 +699,7 @@ Section Cross References
     app.o(i.ele_dev_proc) refers to sensor.o(i.GetSensor) for GetSensor
     app.o(i.ele_dev_proc) refers to app.o(i.module_reset) for module_reset
     app.o(i.ele_dev_proc) refers to app.o(i.get_reset_status) for get_reset_status
+    app.o(i.ele_dev_proc) refers to app.o(i.flow_proc) for flow_proc
     app.o(i.ele_dev_proc) refers to devctrl.o(i.EleSwCtrl) for EleSwCtrl
     app.o(i.ele_dev_proc) refers to devctrl.o(i.DcMotorCtrl) for DcMotorCtrl
     app.o(i.ele_dev_proc) refers to app.o(i.abnormalDec) for abnormalDec
@@ -805,7 +806,7 @@ Section Cross References
     app.o(i.pump_ctrl) refers to sensor.o(i.GetSensor) for GetSensor
     app.o(i.pump_ctrl) refers to cdcmple.o(.text) for __aeabi_cdcmpeq
     app.o(i.pump_ctrl) refers to devctrl.o(i.DcMotorCtrl) for DcMotorCtrl
-    app.o(i.pump_ctrl) refers to app.o(.data) for pump_flag
+    app.o(i.pump_ctrl) refers to app.o(.data) for delay_cnt
     app.o(i.tds_proc) refers to app.o(i.abnormalDec) for abnormalDec
     app.o(i.tds_proc) refers to sensor.o(i.GetSensor) for GetSensor
     app.o(i.tds_proc) refers to app.o(i.dev_wash_ctrl) for dev_wash_ctrl
@@ -2790,114 +2791,114 @@ Image Symbol Table
     i.dma_interrupt_flag_get                 0x080057ec   Section        0  gd32f4xx_dma.o(i.dma_interrupt_flag_get)
     i.dma_single_data_mode_init              0x080059f0   Section        0  gd32f4xx_dma.o(i.dma_single_data_mode_init)
     i.ele_dev_proc                           0x08005b48   Section        0  app.o(i.ele_dev_proc)
-    i.ele_process                            0x08005d00   Section        0  app.o(i.ele_process)
-    i.exti_init                              0x08006014   Section        0  gd32f4xx_exti.o(i.exti_init)
-    i.exti_interrupt_flag_clear              0x080060d0   Section        0  gd32f4xx_exti.o(i.exti_interrupt_flag_clear)
-    i.exti_interrupt_flag_get                0x080060dc   Section        0  gd32f4xx_exti.o(i.exti_interrupt_flag_get)
-    i.factory_mode                           0x08006100   Section        0  app.o(i.factory_mode)
-    i.flow_proc                              0x08006158   Section        0  app.o(i.flow_proc)
-    i.fmc_erase_sector_by_address            0x08006230   Section        0  fmc_operation.o(i.fmc_erase_sector_by_address)
-    i.fmc_flag_clear                         0x08006274   Section        0  gd32f4xx_fmc.o(i.fmc_flag_clear)
-    i.fmc_lock                               0x08006280   Section        0  gd32f4xx_fmc.o(i.fmc_lock)
-    i.fmc_read_32bit_data                    0x08006294   Section        0  fmc_operation.o(i.fmc_read_32bit_data)
-    i.fmc_ready_wait                         0x080062ae   Section        0  gd32f4xx_fmc.o(i.fmc_ready_wait)
-    i.fmc_sector_erase                       0x080062d0   Section        0  gd32f4xx_fmc.o(i.fmc_sector_erase)
-    i.fmc_sector_info_get                    0x0800632c   Section        0  fmc_operation.o(i.fmc_sector_info_get)
-    i.fmc_state_get                          0x080064b0   Section        0  gd32f4xx_fmc.o(i.fmc_state_get)
-    i.fmc_unlock                             0x08006504   Section        0  gd32f4xx_fmc.o(i.fmc_unlock)
-    i.fmc_word_program                       0x08006528   Section        0  gd32f4xx_fmc.o(i.fmc_word_program)
-    i.fmc_write_32bit_data                   0x0800657c   Section        0  fmc_operation.o(i.fmc_write_32bit_data)
-    i.fputc                                  0x080065e0   Section        0  sys.o(i.fputc)
-    i.getModbusPayload                       0x08006608   Section        0  modbus.o(i.getModbusPayload)
-    i.getTouch                               0x08006610   Section        0  inout.o(i.getTouch)
-    i.get_reset_status                       0x08006618   Section        0  app.o(i.get_reset_status)
-    i.getuiCallback                          0x08006624   Section        0  app_lcd.o(i.getuiCallback)
-    i.gpio_af_set                            0x0800662c   Section        0  gd32f4xx_gpio.o(i.gpio_af_set)
-    i.gpio_bit_reset                         0x0800668a   Section        0  gd32f4xx_gpio.o(i.gpio_bit_reset)
-    i.gpio_bit_set                           0x0800668e   Section        0  gd32f4xx_gpio.o(i.gpio_bit_set)
-    i.gpio_bit_write                         0x08006692   Section        0  gd32f4xx_gpio.o(i.gpio_bit_write)
-    i.gpio_config                            0x0800669c   Section        0  main.o(i.gpio_config)
-    i.gpio_input_bit_get                     0x0800671c   Section        0  gd32f4xx_gpio.o(i.gpio_input_bit_get)
-    i.gpio_mode_set                          0x0800672c   Section        0  gd32f4xx_gpio.o(i.gpio_mode_set)
-    i.gpio_output_options_set                0x0800677a   Section        0  gd32f4xx_gpio.o(i.gpio_output_options_set)
-    i.hsw_proc                               0x080067bc   Section        0  app.o(i.hsw_proc)
-    i.lcd_boot                               0x08006998   Section        0  app_lcd.o(i.lcd_boot)
-    i.lcd_init                               0x08006a18   Section        0  app_lcd.o(i.lcd_init)
-    i.lcd_proc                               0x08006a5c   Section        0  app.o(i.lcd_proc)
-    i.lcd_touch_interrupt                    0x08006d2c   Section        0  app_lcd.o(i.lcd_touch_interrupt)
-    i.main                                   0x08006fac   Section        0  main.o(i.main)
-    i.malloc                                 0x08007020   Section        0  malloc.o(i.malloc)
-    i.module_anlysis                         0x0800708c   Section        0  sensor.o(i.module_anlysis)
-    i.module_dis_proc                        0x080074b0   Section        0  app.o(i.module_dis_proc)
-    i.module_reset                           0x08007580   Section        0  app.o(i.module_reset)
-    i.module_stop_ele                        0x0800763c   Section        0  sensor.o(i.module_stop_ele)
-    i.normal_proc                            0x080076cc   Section        0  app.o(i.normal_proc)
-    i.nvic_config                            0x08007a80   Section        0  main.o(i.nvic_config)
-    i.nvic_irq_enable                        0x08007abc   Section        0  gd32f4xx_misc.o(i.nvic_irq_enable)
-    i.nvic_priority_group_set                0x08007b80   Section        0  gd32f4xx_misc.o(i.nvic_priority_group_set)
-    i.orp_ph_process                         0x08007b94   Section        0  sensor.o(i.orp_ph_process)
-    i.pid_init                               0x08007cec   Section        0  pid.o(i.pid_init)
-    i.pid_init2                              0x08007d40   Section        0  pid.o(i.pid_init2)
-    i.pid_init_flow                          0x08007db8   Section        0  pid.o(i.pid_init_flow)
-    i.pid_proc                               0x08007dd0   Section        0  pid.o(i.pid_proc)
-    i.power_off                              0x08007e14   Section        0  app.o(i.power_off)
-    i.pump_ctrl                              0x08007e48   Section        0  app.o(i.pump_ctrl)
-    i.queue_reset                            0x08007f18   Section        0  cmd_queue.o(i.queue_reset)
-    i.rcu_clock_freq_get                     0x08007f30   Section        0  gd32f4xx_rcu.o(i.rcu_clock_freq_get)
-    i.rcu_config                             0x08008054   Section        0  main.o(i.rcu_config)
-    i.rcu_periph_clock_enable                0x08008090   Section        0  gd32f4xx_rcu.o(i.rcu_periph_clock_enable)
-    i.rcu_periph_reset_disable               0x080080b4   Section        0  gd32f4xx_rcu.o(i.rcu_periph_reset_disable)
-    i.rcu_periph_reset_enable                0x080080d8   Section        0  gd32f4xx_rcu.o(i.rcu_periph_reset_enable)
-    i.rcu_timer_clock_prescaler_config       0x080080fc   Section        0  gd32f4xx_rcu.o(i.rcu_timer_clock_prescaler_config)
-    i.reboot_progress                        0x08008120   Section        0  app_lcd.o(i.reboot_progress)
-    i.registerTick                           0x08008138   Section        0  sys.o(i.registerTick)
-    i.sensor_process                         0x080081e4   Section        0  sensor.o(i.sensor_process)
-    i.setState                               0x080081f4   Section        0  sensor.o(i.setState)
-    i.setTickResult                          0x08008210   Section        0  sys.o(i.setTickResult)
-    i.syscfg_exti_line_config                0x0800821c   Section        0  gd32f4xx_syscfg.o(i.syscfg_exti_line_config)
-    i.system_clock_120m_irc16m               0x080082c8   Section        0  system_gd32f4xx.o(i.system_clock_120m_irc16m)
-    system_clock_120m_irc16m                 0x080082c9   Thumb Code   238  system_gd32f4xx.o(i.system_clock_120m_irc16m)
-    i.system_clock_config                    0x080083c4   Section        0  system_gd32f4xx.o(i.system_clock_config)
-    system_clock_config                      0x080083c5   Thumb Code     8  system_gd32f4xx.o(i.system_clock_config)
-    i.systick_config                         0x080083cc   Section        0  sys.o(i.systick_config)
-    i.tds_proc                               0x0800841c   Section        0  app.o(i.tds_proc)
-    i.timer_auto_reload_shadow_enable        0x0800847c   Section        0  gd32f4xx_timer.o(i.timer_auto_reload_shadow_enable)
-    i.timer_channel_capture_value_register_read 0x08008486   Section        0  gd32f4xx_timer.o(i.timer_channel_capture_value_register_read)
-    i.timer_channel_input_capture_prescaler_config 0x080084b0   Section        0  gd32f4xx_timer.o(i.timer_channel_input_capture_prescaler_config)
-    i.timer_channel_output_config            0x0800850c   Section        0  gd32f4xx_timer.o(i.timer_channel_output_config)
-    i.timer_channel_output_mode_config       0x080086f8   Section        0  gd32f4xx_timer.o(i.timer_channel_output_mode_config)
-    i.timer_channel_output_pulse_value_config 0x08008752   Section        0  gd32f4xx_timer.o(i.timer_channel_output_pulse_value_config)
-    i.timer_channel_output_shadow_config     0x08008778   Section        0  gd32f4xx_timer.o(i.timer_channel_output_shadow_config)
-    i.timer_deinit                           0x080087d4   Section        0  gd32f4xx_timer.o(i.timer_deinit)
-    i.timer_enable                           0x08008958   Section        0  gd32f4xx_timer.o(i.timer_enable)
-    i.timer_init                             0x08008964   Section        0  gd32f4xx_timer.o(i.timer_init)
-    i.timer_input_capture_config             0x080089fc   Section        0  gd32f4xx_timer.o(i.timer_input_capture_config)
-    i.timer_interrupt_enable                 0x08008b42   Section        0  gd32f4xx_timer.o(i.timer_interrupt_enable)
-    i.timer_interrupt_flag_clear             0x08008b4a   Section        0  gd32f4xx_timer.o(i.timer_interrupt_flag_clear)
-    i.timer_interrupt_flag_get               0x08008b50   Section        0  gd32f4xx_timer.o(i.timer_interrupt_flag_get)
-    i.timer_primary_output_config            0x08008b68   Section        0  gd32f4xx_timer.o(i.timer_primary_output_config)
-    i.touch_pro                              0x08008b80   Section        0  inout.o(i.touch_pro)
-    i.usart_baudrate_set                     0x08008dd4   Section        0  gd32f4xx_usart.o(i.usart_baudrate_set)
-    i.usart_data_receive                     0x08008ebc   Section        0  gd32f4xx_usart.o(i.usart_data_receive)
-    i.usart_data_transmit                    0x08008ec6   Section        0  gd32f4xx_usart.o(i.usart_data_transmit)
-    i.usart_deinit                           0x08008ed0   Section        0  gd32f4xx_usart.o(i.usart_deinit)
-    i.usart_dma_receive_config               0x08008fac   Section        0  gd32f4xx_usart.o(i.usart_dma_receive_config)
-    i.usart_dma_transmit_config              0x08008fbc   Section        0  gd32f4xx_usart.o(i.usart_dma_transmit_config)
-    i.usart_enable                           0x08008fcc   Section        0  gd32f4xx_usart.o(i.usart_enable)
-    i.usart_flag_get                         0x08008fd6   Section        0  gd32f4xx_usart.o(i.usart_flag_get)
-    i.usart_interrupt_enable                 0x08008ff4   Section        0  gd32f4xx_usart.o(i.usart_interrupt_enable)
-    i.usart_interrupt_flag_clear             0x0800900e   Section        0  gd32f4xx_usart.o(i.usart_interrupt_flag_clear)
-    i.usart_interrupt_flag_get               0x08009028   Section        0  gd32f4xx_usart.o(i.usart_interrupt_flag_get)
-    i.usart_receive_config                   0x08009060   Section        0  gd32f4xx_usart.o(i.usart_receive_config)
-    i.usart_transmit_config                  0x08009070   Section        0  gd32f4xx_usart.o(i.usart_transmit_config)
-    i.water_levelAbnormal_proc               0x08009080   Section        0  app.o(i.water_levelAbnormal_proc)
-    .constdata                               0x0800909e   Section       56  bsp_beep.o(.constdata)
-    .constdata                               0x080090d6   Section      396  sensor.o(.constdata)
-    .constdata                               0x08009262   Section       51  app_lcd.o(.constdata)
-    .constdata                               0x08009295   Section      512  crc.o(.constdata)
-    .constdata                               0x08009495   Section      129  ctype_o.o(.constdata)
-    .constdata                               0x08009518   Section        4  ctype_o.o(.constdata)
-    table                                    0x08009518   Data           4  ctype_o.o(.constdata)
+    i.ele_process                            0x08005d58   Section        0  app.o(i.ele_process)
+    i.exti_init                              0x08006078   Section        0  gd32f4xx_exti.o(i.exti_init)
+    i.exti_interrupt_flag_clear              0x08006134   Section        0  gd32f4xx_exti.o(i.exti_interrupt_flag_clear)
+    i.exti_interrupt_flag_get                0x08006140   Section        0  gd32f4xx_exti.o(i.exti_interrupt_flag_get)
+    i.factory_mode                           0x08006164   Section        0  app.o(i.factory_mode)
+    i.flow_proc                              0x080061bc   Section        0  app.o(i.flow_proc)
+    i.fmc_erase_sector_by_address            0x08006294   Section        0  fmc_operation.o(i.fmc_erase_sector_by_address)
+    i.fmc_flag_clear                         0x080062d8   Section        0  gd32f4xx_fmc.o(i.fmc_flag_clear)
+    i.fmc_lock                               0x080062e4   Section        0  gd32f4xx_fmc.o(i.fmc_lock)
+    i.fmc_read_32bit_data                    0x080062f8   Section        0  fmc_operation.o(i.fmc_read_32bit_data)
+    i.fmc_ready_wait                         0x08006312   Section        0  gd32f4xx_fmc.o(i.fmc_ready_wait)
+    i.fmc_sector_erase                       0x08006334   Section        0  gd32f4xx_fmc.o(i.fmc_sector_erase)
+    i.fmc_sector_info_get                    0x08006390   Section        0  fmc_operation.o(i.fmc_sector_info_get)
+    i.fmc_state_get                          0x08006514   Section        0  gd32f4xx_fmc.o(i.fmc_state_get)
+    i.fmc_unlock                             0x08006568   Section        0  gd32f4xx_fmc.o(i.fmc_unlock)
+    i.fmc_word_program                       0x0800658c   Section        0  gd32f4xx_fmc.o(i.fmc_word_program)
+    i.fmc_write_32bit_data                   0x080065e0   Section        0  fmc_operation.o(i.fmc_write_32bit_data)
+    i.fputc                                  0x08006644   Section        0  sys.o(i.fputc)
+    i.getModbusPayload                       0x0800666c   Section        0  modbus.o(i.getModbusPayload)
+    i.getTouch                               0x08006674   Section        0  inout.o(i.getTouch)
+    i.get_reset_status                       0x0800667c   Section        0  app.o(i.get_reset_status)
+    i.getuiCallback                          0x08006688   Section        0  app_lcd.o(i.getuiCallback)
+    i.gpio_af_set                            0x08006690   Section        0  gd32f4xx_gpio.o(i.gpio_af_set)
+    i.gpio_bit_reset                         0x080066ee   Section        0  gd32f4xx_gpio.o(i.gpio_bit_reset)
+    i.gpio_bit_set                           0x080066f2   Section        0  gd32f4xx_gpio.o(i.gpio_bit_set)
+    i.gpio_bit_write                         0x080066f6   Section        0  gd32f4xx_gpio.o(i.gpio_bit_write)
+    i.gpio_config                            0x08006700   Section        0  main.o(i.gpio_config)
+    i.gpio_input_bit_get                     0x08006780   Section        0  gd32f4xx_gpio.o(i.gpio_input_bit_get)
+    i.gpio_mode_set                          0x08006790   Section        0  gd32f4xx_gpio.o(i.gpio_mode_set)
+    i.gpio_output_options_set                0x080067de   Section        0  gd32f4xx_gpio.o(i.gpio_output_options_set)
+    i.hsw_proc                               0x08006820   Section        0  app.o(i.hsw_proc)
+    i.lcd_boot                               0x080069fc   Section        0  app_lcd.o(i.lcd_boot)
+    i.lcd_init                               0x08006a7c   Section        0  app_lcd.o(i.lcd_init)
+    i.lcd_proc                               0x08006ac0   Section        0  app.o(i.lcd_proc)
+    i.lcd_touch_interrupt                    0x08006d90   Section        0  app_lcd.o(i.lcd_touch_interrupt)
+    i.main                                   0x08007010   Section        0  main.o(i.main)
+    i.malloc                                 0x08007084   Section        0  malloc.o(i.malloc)
+    i.module_anlysis                         0x080070f0   Section        0  sensor.o(i.module_anlysis)
+    i.module_dis_proc                        0x08007514   Section        0  app.o(i.module_dis_proc)
+    i.module_reset                           0x080075e4   Section        0  app.o(i.module_reset)
+    i.module_stop_ele                        0x080076a0   Section        0  sensor.o(i.module_stop_ele)
+    i.normal_proc                            0x08007730   Section        0  app.o(i.normal_proc)
+    i.nvic_config                            0x08007ae4   Section        0  main.o(i.nvic_config)
+    i.nvic_irq_enable                        0x08007b20   Section        0  gd32f4xx_misc.o(i.nvic_irq_enable)
+    i.nvic_priority_group_set                0x08007be4   Section        0  gd32f4xx_misc.o(i.nvic_priority_group_set)
+    i.orp_ph_process                         0x08007bf8   Section        0  sensor.o(i.orp_ph_process)
+    i.pid_init                               0x08007d50   Section        0  pid.o(i.pid_init)
+    i.pid_init2                              0x08007da4   Section        0  pid.o(i.pid_init2)
+    i.pid_init_flow                          0x08007e1c   Section        0  pid.o(i.pid_init_flow)
+    i.pid_proc                               0x08007e34   Section        0  pid.o(i.pid_proc)
+    i.power_off                              0x08007e78   Section        0  app.o(i.power_off)
+    i.pump_ctrl                              0x08007eac   Section        0  app.o(i.pump_ctrl)
+    i.queue_reset                            0x08007f9c   Section        0  cmd_queue.o(i.queue_reset)
+    i.rcu_clock_freq_get                     0x08007fb4   Section        0  gd32f4xx_rcu.o(i.rcu_clock_freq_get)
+    i.rcu_config                             0x080080d8   Section        0  main.o(i.rcu_config)
+    i.rcu_periph_clock_enable                0x08008114   Section        0  gd32f4xx_rcu.o(i.rcu_periph_clock_enable)
+    i.rcu_periph_reset_disable               0x08008138   Section        0  gd32f4xx_rcu.o(i.rcu_periph_reset_disable)
+    i.rcu_periph_reset_enable                0x0800815c   Section        0  gd32f4xx_rcu.o(i.rcu_periph_reset_enable)
+    i.rcu_timer_clock_prescaler_config       0x08008180   Section        0  gd32f4xx_rcu.o(i.rcu_timer_clock_prescaler_config)
+    i.reboot_progress                        0x080081a4   Section        0  app_lcd.o(i.reboot_progress)
+    i.registerTick                           0x080081bc   Section        0  sys.o(i.registerTick)
+    i.sensor_process                         0x08008268   Section        0  sensor.o(i.sensor_process)
+    i.setState                               0x08008278   Section        0  sensor.o(i.setState)
+    i.setTickResult                          0x08008294   Section        0  sys.o(i.setTickResult)
+    i.syscfg_exti_line_config                0x080082a0   Section        0  gd32f4xx_syscfg.o(i.syscfg_exti_line_config)
+    i.system_clock_120m_irc16m               0x0800834c   Section        0  system_gd32f4xx.o(i.system_clock_120m_irc16m)
+    system_clock_120m_irc16m                 0x0800834d   Thumb Code   238  system_gd32f4xx.o(i.system_clock_120m_irc16m)
+    i.system_clock_config                    0x08008448   Section        0  system_gd32f4xx.o(i.system_clock_config)
+    system_clock_config                      0x08008449   Thumb Code     8  system_gd32f4xx.o(i.system_clock_config)
+    i.systick_config                         0x08008450   Section        0  sys.o(i.systick_config)
+    i.tds_proc                               0x080084a0   Section        0  app.o(i.tds_proc)
+    i.timer_auto_reload_shadow_enable        0x08008500   Section        0  gd32f4xx_timer.o(i.timer_auto_reload_shadow_enable)
+    i.timer_channel_capture_value_register_read 0x0800850a   Section        0  gd32f4xx_timer.o(i.timer_channel_capture_value_register_read)
+    i.timer_channel_input_capture_prescaler_config 0x08008534   Section        0  gd32f4xx_timer.o(i.timer_channel_input_capture_prescaler_config)
+    i.timer_channel_output_config            0x08008590   Section        0  gd32f4xx_timer.o(i.timer_channel_output_config)
+    i.timer_channel_output_mode_config       0x0800877c   Section        0  gd32f4xx_timer.o(i.timer_channel_output_mode_config)
+    i.timer_channel_output_pulse_value_config 0x080087d6   Section        0  gd32f4xx_timer.o(i.timer_channel_output_pulse_value_config)
+    i.timer_channel_output_shadow_config     0x080087fc   Section        0  gd32f4xx_timer.o(i.timer_channel_output_shadow_config)
+    i.timer_deinit                           0x08008858   Section        0  gd32f4xx_timer.o(i.timer_deinit)
+    i.timer_enable                           0x080089dc   Section        0  gd32f4xx_timer.o(i.timer_enable)
+    i.timer_init                             0x080089e8   Section        0  gd32f4xx_timer.o(i.timer_init)
+    i.timer_input_capture_config             0x08008a80   Section        0  gd32f4xx_timer.o(i.timer_input_capture_config)
+    i.timer_interrupt_enable                 0x08008bc6   Section        0  gd32f4xx_timer.o(i.timer_interrupt_enable)
+    i.timer_interrupt_flag_clear             0x08008bce   Section        0  gd32f4xx_timer.o(i.timer_interrupt_flag_clear)
+    i.timer_interrupt_flag_get               0x08008bd4   Section        0  gd32f4xx_timer.o(i.timer_interrupt_flag_get)
+    i.timer_primary_output_config            0x08008bec   Section        0  gd32f4xx_timer.o(i.timer_primary_output_config)
+    i.touch_pro                              0x08008c04   Section        0  inout.o(i.touch_pro)
+    i.usart_baudrate_set                     0x08008e58   Section        0  gd32f4xx_usart.o(i.usart_baudrate_set)
+    i.usart_data_receive                     0x08008f40   Section        0  gd32f4xx_usart.o(i.usart_data_receive)
+    i.usart_data_transmit                    0x08008f4a   Section        0  gd32f4xx_usart.o(i.usart_data_transmit)
+    i.usart_deinit                           0x08008f54   Section        0  gd32f4xx_usart.o(i.usart_deinit)
+    i.usart_dma_receive_config               0x08009030   Section        0  gd32f4xx_usart.o(i.usart_dma_receive_config)
+    i.usart_dma_transmit_config              0x08009040   Section        0  gd32f4xx_usart.o(i.usart_dma_transmit_config)
+    i.usart_enable                           0x08009050   Section        0  gd32f4xx_usart.o(i.usart_enable)
+    i.usart_flag_get                         0x0800905a   Section        0  gd32f4xx_usart.o(i.usart_flag_get)
+    i.usart_interrupt_enable                 0x08009078   Section        0  gd32f4xx_usart.o(i.usart_interrupt_enable)
+    i.usart_interrupt_flag_clear             0x08009092   Section        0  gd32f4xx_usart.o(i.usart_interrupt_flag_clear)
+    i.usart_interrupt_flag_get               0x080090ac   Section        0  gd32f4xx_usart.o(i.usart_interrupt_flag_get)
+    i.usart_receive_config                   0x080090e4   Section        0  gd32f4xx_usart.o(i.usart_receive_config)
+    i.usart_transmit_config                  0x080090f4   Section        0  gd32f4xx_usart.o(i.usart_transmit_config)
+    i.water_levelAbnormal_proc               0x08009104   Section        0  app.o(i.water_levelAbnormal_proc)
+    .constdata                               0x08009122   Section       56  bsp_beep.o(.constdata)
+    .constdata                               0x0800915a   Section      396  sensor.o(.constdata)
+    .constdata                               0x080092e6   Section       51  app_lcd.o(.constdata)
+    .constdata                               0x08009319   Section      512  crc.o(.constdata)
+    .constdata                               0x08009519   Section      129  ctype_o.o(.constdata)
+    .constdata                               0x0800959c   Section        4  ctype_o.o(.constdata)
+    table                                    0x0800959c   Data           4  ctype_o.o(.constdata)
     .data                                    0x20000000   Section       16  gd32f4xx_it.o(.data)
     i                                        0x2000000c   Data           1  gd32f4xx_it.o(.data)
     data                                     0x2000000d   Data           1  gd32f4xx_it.o(.data)
@@ -2929,7 +2930,7 @@ Image Symbol Table
     .data                                    0x20000058   Section       36  timer.o(.data)
     .data                                    0x2000007c   Section        1  hmi_driver.o(.data)
     _checksum                                0x2000007c   Data           1  hmi_driver.o(.data)
-    .data                                    0x20000080   Section       70  app.o(.data)
+    .data                                    0x20000080   Section       74  app.o(.data)
     shunt_flag                               0x20000086   Data           1  app.o(.data)
     flow_switch                              0x20000088   Data           4  app.o(.data)
     pwm2                                     0x2000008c   Data           4  app.o(.data)
@@ -2948,19 +2949,20 @@ Image Symbol Table
     buf                                      0x200000b7   Data           2  app.o(.data)
     pump_flag                                0x200000b9   Data           1  app.o(.data)
     init_flag                                0x200000ba   Data           1  app.o(.data)
-    result                                   0x200000bb   Data           1  app.o(.data)
-    retry_flag                               0x200000bc   Data           1  app.o(.data)
-    params_tick                              0x200000c0   Data           4  app.o(.data)
-    flag                                     0x200000c4   Data           1  app.o(.data)
-    flag                                     0x200000c5   Data           1  app.o(.data)
-    .data                                    0x200000c8   Section       20  app_lcd.o(.data)
-    update_en                                0x200000d0   Data           1  app_lcd.o(.data)
-    init_lcd                                 0x200000d1   Data           1  app_lcd.o(.data)
-    page_Id_bk                               0x200000d2   Data           1  app_lcd.o(.data)
-    page_Id                                  0x200000d3   Data           1  app_lcd.o(.data)
-    targe_Id                                 0x200000d4   Data           1  app_lcd.o(.data)
-    value                                    0x200000db   Data           1  app_lcd.o(.data)
-    .data                                    0x200000dc   Section       13  modbus.o(.data)
+    delay_cnt                                0x200000bc   Data           4  app.o(.data)
+    result                                   0x200000c0   Data           1  app.o(.data)
+    retry_flag                               0x200000c1   Data           1  app.o(.data)
+    params_tick                              0x200000c4   Data           4  app.o(.data)
+    flag                                     0x200000c8   Data           1  app.o(.data)
+    flag                                     0x200000c9   Data           1  app.o(.data)
+    .data                                    0x200000cc   Section       20  app_lcd.o(.data)
+    update_en                                0x200000d4   Data           1  app_lcd.o(.data)
+    init_lcd                                 0x200000d5   Data           1  app_lcd.o(.data)
+    page_Id_bk                               0x200000d6   Data           1  app_lcd.o(.data)
+    page_Id                                  0x200000d7   Data           1  app_lcd.o(.data)
+    targe_Id                                 0x200000d8   Data           1  app_lcd.o(.data)
+    value                                    0x200000df   Data           1  app_lcd.o(.data)
+    .data                                    0x200000e0   Section       13  modbus.o(.data)
     .data                                    0x200000f0   Section       32  pid.o(.data)
     last_result                              0x20000108   Data           8  pid.o(.data)
     .data                                    0x20000110   Section        8  sys.o(.data)
@@ -3306,122 +3308,122 @@ Image Symbol Table
     dma_interrupt_flag_clear                 0x080057af   Thumb Code    62  gd32f4xx_dma.o(i.dma_interrupt_flag_clear)
     dma_interrupt_flag_get                   0x080057ed   Thumb Code   516  gd32f4xx_dma.o(i.dma_interrupt_flag_get)
     dma_single_data_mode_init                0x080059f1   Thumb Code   340  gd32f4xx_dma.o(i.dma_single_data_mode_init)
-    ele_dev_proc                             0x08005b49   Thumb Code   406  app.o(i.ele_dev_proc)
-    ele_process                              0x08005d01   Thumb Code   754  app.o(i.ele_process)
-    exti_init                                0x08006015   Thumb Code   184  gd32f4xx_exti.o(i.exti_init)
-    exti_interrupt_flag_clear                0x080060d1   Thumb Code     6  gd32f4xx_exti.o(i.exti_interrupt_flag_clear)
-    exti_interrupt_flag_get                  0x080060dd   Thumb Code    32  gd32f4xx_exti.o(i.exti_interrupt_flag_get)
-    factory_mode                             0x08006101   Thumb Code    82  app.o(i.factory_mode)
-    flow_proc                                0x08006159   Thumb Code   188  app.o(i.flow_proc)
-    fmc_erase_sector_by_address              0x08006231   Thumb Code    66  fmc_operation.o(i.fmc_erase_sector_by_address)
-    fmc_flag_clear                           0x08006275   Thumb Code     6  gd32f4xx_fmc.o(i.fmc_flag_clear)
-    fmc_lock                                 0x08006281   Thumb Code    14  gd32f4xx_fmc.o(i.fmc_lock)
-    fmc_read_32bit_data                      0x08006295   Thumb Code    26  fmc_operation.o(i.fmc_read_32bit_data)
-    fmc_ready_wait                           0x080062af   Thumb Code    34  gd32f4xx_fmc.o(i.fmc_ready_wait)
-    fmc_sector_erase                         0x080062d1   Thumb Code    88  gd32f4xx_fmc.o(i.fmc_sector_erase)
-    fmc_sector_info_get                      0x0800632d   Thumb Code   366  fmc_operation.o(i.fmc_sector_info_get)
-    fmc_state_get                            0x080064b1   Thumb Code    80  gd32f4xx_fmc.o(i.fmc_state_get)
-    fmc_unlock                               0x08006505   Thumb Code    24  gd32f4xx_fmc.o(i.fmc_unlock)
-    fmc_word_program                         0x08006529   Thumb Code    78  gd32f4xx_fmc.o(i.fmc_word_program)
-    fmc_write_32bit_data                     0x0800657d   Thumb Code    98  fmc_operation.o(i.fmc_write_32bit_data)
-    fputc                                    0x080065e1   Thumb Code    34  sys.o(i.fputc)
-    getModbusPayload                         0x08006609   Thumb Code     4  modbus.o(i.getModbusPayload)
-    getTouch                                 0x08006611   Thumb Code     4  inout.o(i.getTouch)
-    get_reset_status                         0x08006619   Thumb Code     6  app.o(i.get_reset_status)
-    getuiCallback                            0x08006625   Thumb Code     4  app_lcd.o(i.getuiCallback)
-    gpio_af_set                              0x0800662d   Thumb Code    94  gd32f4xx_gpio.o(i.gpio_af_set)
-    gpio_bit_reset                           0x0800668b   Thumb Code     4  gd32f4xx_gpio.o(i.gpio_bit_reset)
-    gpio_bit_set                             0x0800668f   Thumb Code     4  gd32f4xx_gpio.o(i.gpio_bit_set)
-    gpio_bit_write                           0x08006693   Thumb Code    10  gd32f4xx_gpio.o(i.gpio_bit_write)
-    gpio_config                              0x0800669d   Thumb Code   114  main.o(i.gpio_config)
-    gpio_input_bit_get                       0x0800671d   Thumb Code    16  gd32f4xx_gpio.o(i.gpio_input_bit_get)
-    gpio_mode_set                            0x0800672d   Thumb Code    78  gd32f4xx_gpio.o(i.gpio_mode_set)
-    gpio_output_options_set                  0x0800677b   Thumb Code    66  gd32f4xx_gpio.o(i.gpio_output_options_set)
-    hsw_proc                                 0x080067bd   Thumb Code   450  app.o(i.hsw_proc)
-    lcd_boot                                 0x08006999   Thumb Code   110  app_lcd.o(i.lcd_boot)
-    lcd_init                                 0x08006a19   Thumb Code    56  app_lcd.o(i.lcd_init)
-    lcd_proc                                 0x08006a5d   Thumb Code   642  app.o(i.lcd_proc)
-    lcd_touch_interrupt                      0x08006d2d   Thumb Code   630  app_lcd.o(i.lcd_touch_interrupt)
-    main                                     0x08006fad   Thumb Code   108  main.o(i.main)
-    malloc                                   0x08007021   Thumb Code    92  malloc.o(i.malloc)
-    module_anlysis                           0x0800708d   Thumb Code  1060  sensor.o(i.module_anlysis)
-    module_dis_proc                          0x080074b1   Thumb Code   188  app.o(i.module_dis_proc)
-    module_reset                             0x08007581   Thumb Code   174  app.o(i.module_reset)
-    module_stop_ele                          0x0800763d   Thumb Code   132  sensor.o(i.module_stop_ele)
-    normal_proc                              0x080076cd   Thumb Code   922  app.o(i.normal_proc)
-    nvic_config                              0x08007a81   Thumb Code    60  main.o(i.nvic_config)
-    nvic_irq_enable                          0x08007abd   Thumb Code   186  gd32f4xx_misc.o(i.nvic_irq_enable)
-    nvic_priority_group_set                  0x08007b81   Thumb Code    10  gd32f4xx_misc.o(i.nvic_priority_group_set)
-    orp_ph_process                           0x08007b95   Thumb Code   338  sensor.o(i.orp_ph_process)
-    pid_init                                 0x08007ced   Thumb Code    56  pid.o(i.pid_init)
-    pid_init2                                0x08007d41   Thumb Code    82  pid.o(i.pid_init2)
-    pid_init_flow                            0x08007db9   Thumb Code    24  pid.o(i.pid_init_flow)
-    pid_proc                                 0x08007dd1   Thumb Code    54  pid.o(i.pid_proc)
-    power_off                                0x08007e15   Thumb Code    52  app.o(i.power_off)
-    pump_ctrl                                0x08007e49   Thumb Code   192  app.o(i.pump_ctrl)
-    queue_reset                              0x08007f19   Thumb Code    14  cmd_queue.o(i.queue_reset)
-    rcu_clock_freq_get                       0x08007f31   Thumb Code   264  gd32f4xx_rcu.o(i.rcu_clock_freq_get)
-    rcu_config                               0x08008055   Thumb Code    60  main.o(i.rcu_config)
-    rcu_periph_clock_enable                  0x08008091   Thumb Code    32  gd32f4xx_rcu.o(i.rcu_periph_clock_enable)
-    rcu_periph_reset_disable                 0x080080b5   Thumb Code    32  gd32f4xx_rcu.o(i.rcu_periph_reset_disable)
-    rcu_periph_reset_enable                  0x080080d9   Thumb Code    32  gd32f4xx_rcu.o(i.rcu_periph_reset_enable)
-    rcu_timer_clock_prescaler_config         0x080080fd   Thumb Code    32  gd32f4xx_rcu.o(i.rcu_timer_clock_prescaler_config)
-    reboot_progress                          0x08008121   Thumb Code    22  app_lcd.o(i.reboot_progress)
-    registerTick                             0x08008139   Thumb Code   166  sys.o(i.registerTick)
-    sensor_process                           0x080081e5   Thumb Code    16  sensor.o(i.sensor_process)
-    setState                                 0x080081f5   Thumb Code    18  sensor.o(i.setState)
-    setTickResult                            0x08008211   Thumb Code     8  sys.o(i.setTickResult)
-    syscfg_exti_line_config                  0x0800821d   Thumb Code   166  gd32f4xx_syscfg.o(i.syscfg_exti_line_config)
-    systick_config                           0x080083cd   Thumb Code    74  sys.o(i.systick_config)
-    tds_proc                                 0x0800841d   Thumb Code    96  app.o(i.tds_proc)
-    timer_auto_reload_shadow_enable          0x0800847d   Thumb Code    10  gd32f4xx_timer.o(i.timer_auto_reload_shadow_enable)
-    timer_channel_capture_value_register_read 0x08008487   Thumb Code    42  gd32f4xx_timer.o(i.timer_channel_capture_value_register_read)
-    timer_channel_input_capture_prescaler_config 0x080084b1   Thumb Code    90  gd32f4xx_timer.o(i.timer_channel_input_capture_prescaler_config)
-    timer_channel_output_config              0x0800850d   Thumb Code   484  gd32f4xx_timer.o(i.timer_channel_output_config)
-    timer_channel_output_mode_config         0x080086f9   Thumb Code    90  gd32f4xx_timer.o(i.timer_channel_output_mode_config)
-    timer_channel_output_pulse_value_config  0x08008753   Thumb Code    38  gd32f4xx_timer.o(i.timer_channel_output_pulse_value_config)
-    timer_channel_output_shadow_config       0x08008779   Thumb Code    90  gd32f4xx_timer.o(i.timer_channel_output_shadow_config)
-    timer_deinit                             0x080087d5   Thumb Code   374  gd32f4xx_timer.o(i.timer_deinit)
-    timer_enable                             0x08008959   Thumb Code    10  gd32f4xx_timer.o(i.timer_enable)
-    timer_init                               0x08008965   Thumb Code   122  gd32f4xx_timer.o(i.timer_init)
-    timer_input_capture_config               0x080089fd   Thumb Code   326  gd32f4xx_timer.o(i.timer_input_capture_config)
-    timer_interrupt_enable                   0x08008b43   Thumb Code     8  gd32f4xx_timer.o(i.timer_interrupt_enable)
-    timer_interrupt_flag_clear               0x08008b4b   Thumb Code     6  gd32f4xx_timer.o(i.timer_interrupt_flag_clear)
-    timer_interrupt_flag_get                 0x08008b51   Thumb Code    24  gd32f4xx_timer.o(i.timer_interrupt_flag_get)
-    timer_primary_output_config              0x08008b69   Thumb Code    24  gd32f4xx_timer.o(i.timer_primary_output_config)
-    touch_pro                                0x08008b81   Thumb Code   584  inout.o(i.touch_pro)
-    usart_baudrate_set                       0x08008dd5   Thumb Code   224  gd32f4xx_usart.o(i.usart_baudrate_set)
-    usart_data_receive                       0x08008ebd   Thumb Code    10  gd32f4xx_usart.o(i.usart_data_receive)
-    usart_data_transmit                      0x08008ec7   Thumb Code     8  gd32f4xx_usart.o(i.usart_data_transmit)
-    usart_deinit                             0x08008ed1   Thumb Code   210  gd32f4xx_usart.o(i.usart_deinit)
-    usart_dma_receive_config                 0x08008fad   Thumb Code    16  gd32f4xx_usart.o(i.usart_dma_receive_config)
-    usart_dma_transmit_config                0x08008fbd   Thumb Code    16  gd32f4xx_usart.o(i.usart_dma_transmit_config)
-    usart_enable                             0x08008fcd   Thumb Code    10  gd32f4xx_usart.o(i.usart_enable)
-    usart_flag_get                           0x08008fd7   Thumb Code    30  gd32f4xx_usart.o(i.usart_flag_get)
-    usart_interrupt_enable                   0x08008ff5   Thumb Code    26  gd32f4xx_usart.o(i.usart_interrupt_enable)
-    usart_interrupt_flag_clear               0x0800900f   Thumb Code    26  gd32f4xx_usart.o(i.usart_interrupt_flag_clear)
-    usart_interrupt_flag_get                 0x08009029   Thumb Code    56  gd32f4xx_usart.o(i.usart_interrupt_flag_get)
-    usart_receive_config                     0x08009061   Thumb Code    16  gd32f4xx_usart.o(i.usart_receive_config)
-    usart_transmit_config                    0x08009071   Thumb Code    16  gd32f4xx_usart.o(i.usart_transmit_config)
-    water_levelAbnormal_proc                 0x08009081   Thumb Code    30  app.o(i.water_levelAbnormal_proc)
-    Music_Code_1                             0x0800909e   Data           6  bsp_beep.o(.constdata)
-    Music_Code_2                             0x080090a4   Data           6  bsp_beep.o(.constdata)
-    Music_Code_3                             0x080090aa   Data          10  bsp_beep.o(.constdata)
-    Music_Code_4                             0x080090b4   Data          14  bsp_beep.o(.constdata)
-    Music_Code_5                             0x080090c2   Data          10  bsp_beep.o(.constdata)
-    Music_Code_6                             0x080090cc   Data          10  bsp_beep.o(.constdata)
-    TDS_Test_Vaule                           0x080090d6   Data         198  sensor.o(.constdata)
-    TDS_Vaule                                0x0800919c   Data         198  sensor.o(.constdata)
-    String01                                 0x08009262   Data          10  app_lcd.o(.constdata)
-    String02                                 0x0800926c   Data          10  app_lcd.o(.constdata)
-    String03                                 0x08009276   Data          11  app_lcd.o(.constdata)
-    String04                                 0x08009281   Data          10  app_lcd.o(.constdata)
-    String05                                 0x0800928b   Data          10  app_lcd.o(.constdata)
-    auchCRCHi                                0x08009295   Data         256  crc.o(.constdata)
-    auchCRCLo                                0x08009395   Data         256  crc.o(.constdata)
-    __ctype_table                            0x08009495   Data         129  ctype_o.o(.constdata)
-    Region$$Table$$Base                      0x0800951c   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x0800953c   Number         0  anon$$obj.o(Region$$Table)
+    ele_dev_proc                             0x08005b49   Thumb Code   496  app.o(i.ele_dev_proc)
+    ele_process                              0x08005d59   Thumb Code   766  app.o(i.ele_process)
+    exti_init                                0x08006079   Thumb Code   184  gd32f4xx_exti.o(i.exti_init)
+    exti_interrupt_flag_clear                0x08006135   Thumb Code     6  gd32f4xx_exti.o(i.exti_interrupt_flag_clear)
+    exti_interrupt_flag_get                  0x08006141   Thumb Code    32  gd32f4xx_exti.o(i.exti_interrupt_flag_get)
+    factory_mode                             0x08006165   Thumb Code    82  app.o(i.factory_mode)
+    flow_proc                                0x080061bd   Thumb Code   188  app.o(i.flow_proc)
+    fmc_erase_sector_by_address              0x08006295   Thumb Code    66  fmc_operation.o(i.fmc_erase_sector_by_address)
+    fmc_flag_clear                           0x080062d9   Thumb Code     6  gd32f4xx_fmc.o(i.fmc_flag_clear)
+    fmc_lock                                 0x080062e5   Thumb Code    14  gd32f4xx_fmc.o(i.fmc_lock)
+    fmc_read_32bit_data                      0x080062f9   Thumb Code    26  fmc_operation.o(i.fmc_read_32bit_data)
+    fmc_ready_wait                           0x08006313   Thumb Code    34  gd32f4xx_fmc.o(i.fmc_ready_wait)
+    fmc_sector_erase                         0x08006335   Thumb Code    88  gd32f4xx_fmc.o(i.fmc_sector_erase)
+    fmc_sector_info_get                      0x08006391   Thumb Code   366  fmc_operation.o(i.fmc_sector_info_get)
+    fmc_state_get                            0x08006515   Thumb Code    80  gd32f4xx_fmc.o(i.fmc_state_get)
+    fmc_unlock                               0x08006569   Thumb Code    24  gd32f4xx_fmc.o(i.fmc_unlock)
+    fmc_word_program                         0x0800658d   Thumb Code    78  gd32f4xx_fmc.o(i.fmc_word_program)
+    fmc_write_32bit_data                     0x080065e1   Thumb Code    98  fmc_operation.o(i.fmc_write_32bit_data)
+    fputc                                    0x08006645   Thumb Code    34  sys.o(i.fputc)
+    getModbusPayload                         0x0800666d   Thumb Code     4  modbus.o(i.getModbusPayload)
+    getTouch                                 0x08006675   Thumb Code     4  inout.o(i.getTouch)
+    get_reset_status                         0x0800667d   Thumb Code     6  app.o(i.get_reset_status)
+    getuiCallback                            0x08006689   Thumb Code     4  app_lcd.o(i.getuiCallback)
+    gpio_af_set                              0x08006691   Thumb Code    94  gd32f4xx_gpio.o(i.gpio_af_set)
+    gpio_bit_reset                           0x080066ef   Thumb Code     4  gd32f4xx_gpio.o(i.gpio_bit_reset)
+    gpio_bit_set                             0x080066f3   Thumb Code     4  gd32f4xx_gpio.o(i.gpio_bit_set)
+    gpio_bit_write                           0x080066f7   Thumb Code    10  gd32f4xx_gpio.o(i.gpio_bit_write)
+    gpio_config                              0x08006701   Thumb Code   114  main.o(i.gpio_config)
+    gpio_input_bit_get                       0x08006781   Thumb Code    16  gd32f4xx_gpio.o(i.gpio_input_bit_get)
+    gpio_mode_set                            0x08006791   Thumb Code    78  gd32f4xx_gpio.o(i.gpio_mode_set)
+    gpio_output_options_set                  0x080067df   Thumb Code    66  gd32f4xx_gpio.o(i.gpio_output_options_set)
+    hsw_proc                                 0x08006821   Thumb Code   450  app.o(i.hsw_proc)
+    lcd_boot                                 0x080069fd   Thumb Code   110  app_lcd.o(i.lcd_boot)
+    lcd_init                                 0x08006a7d   Thumb Code    56  app_lcd.o(i.lcd_init)
+    lcd_proc                                 0x08006ac1   Thumb Code   642  app.o(i.lcd_proc)
+    lcd_touch_interrupt                      0x08006d91   Thumb Code   630  app_lcd.o(i.lcd_touch_interrupt)
+    main                                     0x08007011   Thumb Code   108  main.o(i.main)
+    malloc                                   0x08007085   Thumb Code    92  malloc.o(i.malloc)
+    module_anlysis                           0x080070f1   Thumb Code  1060  sensor.o(i.module_anlysis)
+    module_dis_proc                          0x08007515   Thumb Code   188  app.o(i.module_dis_proc)
+    module_reset                             0x080075e5   Thumb Code   174  app.o(i.module_reset)
+    module_stop_ele                          0x080076a1   Thumb Code   132  sensor.o(i.module_stop_ele)
+    normal_proc                              0x08007731   Thumb Code   922  app.o(i.normal_proc)
+    nvic_config                              0x08007ae5   Thumb Code    60  main.o(i.nvic_config)
+    nvic_irq_enable                          0x08007b21   Thumb Code   186  gd32f4xx_misc.o(i.nvic_irq_enable)
+    nvic_priority_group_set                  0x08007be5   Thumb Code    10  gd32f4xx_misc.o(i.nvic_priority_group_set)
+    orp_ph_process                           0x08007bf9   Thumb Code   338  sensor.o(i.orp_ph_process)
+    pid_init                                 0x08007d51   Thumb Code    56  pid.o(i.pid_init)
+    pid_init2                                0x08007da5   Thumb Code    82  pid.o(i.pid_init2)
+    pid_init_flow                            0x08007e1d   Thumb Code    24  pid.o(i.pid_init_flow)
+    pid_proc                                 0x08007e35   Thumb Code    54  pid.o(i.pid_proc)
+    power_off                                0x08007e79   Thumb Code    52  app.o(i.power_off)
+    pump_ctrl                                0x08007ead   Thumb Code   220  app.o(i.pump_ctrl)
+    queue_reset                              0x08007f9d   Thumb Code    14  cmd_queue.o(i.queue_reset)
+    rcu_clock_freq_get                       0x08007fb5   Thumb Code   264  gd32f4xx_rcu.o(i.rcu_clock_freq_get)
+    rcu_config                               0x080080d9   Thumb Code    60  main.o(i.rcu_config)
+    rcu_periph_clock_enable                  0x08008115   Thumb Code    32  gd32f4xx_rcu.o(i.rcu_periph_clock_enable)
+    rcu_periph_reset_disable                 0x08008139   Thumb Code    32  gd32f4xx_rcu.o(i.rcu_periph_reset_disable)
+    rcu_periph_reset_enable                  0x0800815d   Thumb Code    32  gd32f4xx_rcu.o(i.rcu_periph_reset_enable)
+    rcu_timer_clock_prescaler_config         0x08008181   Thumb Code    32  gd32f4xx_rcu.o(i.rcu_timer_clock_prescaler_config)
+    reboot_progress                          0x080081a5   Thumb Code    22  app_lcd.o(i.reboot_progress)
+    registerTick                             0x080081bd   Thumb Code   166  sys.o(i.registerTick)
+    sensor_process                           0x08008269   Thumb Code    16  sensor.o(i.sensor_process)
+    setState                                 0x08008279   Thumb Code    18  sensor.o(i.setState)
+    setTickResult                            0x08008295   Thumb Code     8  sys.o(i.setTickResult)
+    syscfg_exti_line_config                  0x080082a1   Thumb Code   166  gd32f4xx_syscfg.o(i.syscfg_exti_line_config)
+    systick_config                           0x08008451   Thumb Code    74  sys.o(i.systick_config)
+    tds_proc                                 0x080084a1   Thumb Code    96  app.o(i.tds_proc)
+    timer_auto_reload_shadow_enable          0x08008501   Thumb Code    10  gd32f4xx_timer.o(i.timer_auto_reload_shadow_enable)
+    timer_channel_capture_value_register_read 0x0800850b   Thumb Code    42  gd32f4xx_timer.o(i.timer_channel_capture_value_register_read)
+    timer_channel_input_capture_prescaler_config 0x08008535   Thumb Code    90  gd32f4xx_timer.o(i.timer_channel_input_capture_prescaler_config)
+    timer_channel_output_config              0x08008591   Thumb Code   484  gd32f4xx_timer.o(i.timer_channel_output_config)
+    timer_channel_output_mode_config         0x0800877d   Thumb Code    90  gd32f4xx_timer.o(i.timer_channel_output_mode_config)
+    timer_channel_output_pulse_value_config  0x080087d7   Thumb Code    38  gd32f4xx_timer.o(i.timer_channel_output_pulse_value_config)
+    timer_channel_output_shadow_config       0x080087fd   Thumb Code    90  gd32f4xx_timer.o(i.timer_channel_output_shadow_config)
+    timer_deinit                             0x08008859   Thumb Code   374  gd32f4xx_timer.o(i.timer_deinit)
+    timer_enable                             0x080089dd   Thumb Code    10  gd32f4xx_timer.o(i.timer_enable)
+    timer_init                               0x080089e9   Thumb Code   122  gd32f4xx_timer.o(i.timer_init)
+    timer_input_capture_config               0x08008a81   Thumb Code   326  gd32f4xx_timer.o(i.timer_input_capture_config)
+    timer_interrupt_enable                   0x08008bc7   Thumb Code     8  gd32f4xx_timer.o(i.timer_interrupt_enable)
+    timer_interrupt_flag_clear               0x08008bcf   Thumb Code     6  gd32f4xx_timer.o(i.timer_interrupt_flag_clear)
+    timer_interrupt_flag_get                 0x08008bd5   Thumb Code    24  gd32f4xx_timer.o(i.timer_interrupt_flag_get)
+    timer_primary_output_config              0x08008bed   Thumb Code    24  gd32f4xx_timer.o(i.timer_primary_output_config)
+    touch_pro                                0x08008c05   Thumb Code   584  inout.o(i.touch_pro)
+    usart_baudrate_set                       0x08008e59   Thumb Code   224  gd32f4xx_usart.o(i.usart_baudrate_set)
+    usart_data_receive                       0x08008f41   Thumb Code    10  gd32f4xx_usart.o(i.usart_data_receive)
+    usart_data_transmit                      0x08008f4b   Thumb Code     8  gd32f4xx_usart.o(i.usart_data_transmit)
+    usart_deinit                             0x08008f55   Thumb Code   210  gd32f4xx_usart.o(i.usart_deinit)
+    usart_dma_receive_config                 0x08009031   Thumb Code    16  gd32f4xx_usart.o(i.usart_dma_receive_config)
+    usart_dma_transmit_config                0x08009041   Thumb Code    16  gd32f4xx_usart.o(i.usart_dma_transmit_config)
+    usart_enable                             0x08009051   Thumb Code    10  gd32f4xx_usart.o(i.usart_enable)
+    usart_flag_get                           0x0800905b   Thumb Code    30  gd32f4xx_usart.o(i.usart_flag_get)
+    usart_interrupt_enable                   0x08009079   Thumb Code    26  gd32f4xx_usart.o(i.usart_interrupt_enable)
+    usart_interrupt_flag_clear               0x08009093   Thumb Code    26  gd32f4xx_usart.o(i.usart_interrupt_flag_clear)
+    usart_interrupt_flag_get                 0x080090ad   Thumb Code    56  gd32f4xx_usart.o(i.usart_interrupt_flag_get)
+    usart_receive_config                     0x080090e5   Thumb Code    16  gd32f4xx_usart.o(i.usart_receive_config)
+    usart_transmit_config                    0x080090f5   Thumb Code    16  gd32f4xx_usart.o(i.usart_transmit_config)
+    water_levelAbnormal_proc                 0x08009105   Thumb Code    30  app.o(i.water_levelAbnormal_proc)
+    Music_Code_1                             0x08009122   Data           6  bsp_beep.o(.constdata)
+    Music_Code_2                             0x08009128   Data           6  bsp_beep.o(.constdata)
+    Music_Code_3                             0x0800912e   Data          10  bsp_beep.o(.constdata)
+    Music_Code_4                             0x08009138   Data          14  bsp_beep.o(.constdata)
+    Music_Code_5                             0x08009146   Data          10  bsp_beep.o(.constdata)
+    Music_Code_6                             0x08009150   Data          10  bsp_beep.o(.constdata)
+    TDS_Test_Vaule                           0x0800915a   Data         198  sensor.o(.constdata)
+    TDS_Vaule                                0x08009220   Data         198  sensor.o(.constdata)
+    String01                                 0x080092e6   Data          10  app_lcd.o(.constdata)
+    String02                                 0x080092f0   Data          10  app_lcd.o(.constdata)
+    String03                                 0x080092fa   Data          11  app_lcd.o(.constdata)
+    String04                                 0x08009305   Data          10  app_lcd.o(.constdata)
+    String05                                 0x0800930f   Data          10  app_lcd.o(.constdata)
+    auchCRCHi                                0x08009319   Data         256  crc.o(.constdata)
+    auchCRCLo                                0x08009419   Data         256  crc.o(.constdata)
+    __ctype_table                            0x08009519   Data         129  ctype_o.o(.constdata)
+    Region$$Table$$Base                      0x080095a0   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x080095c0   Number         0  anon$$obj.o(Region$$Table)
     sys_tick                                 0x20000000   Data           4  gd32f4xx_it.o(.data)
     res                                      0x20000004   Data           1  gd32f4xx_it.o(.data)
     count                                    0x20000008   Data           4  gd32f4xx_it.o(.data)
@@ -3446,18 +3448,18 @@ Image Symbol Table
     pid_cnt                                  0x20000090   Data           1  app.o(.data)
     repeat_flag                              0x20000091   Data           1  app.o(.data)
     tmp3                                     0x2000009c   Data           4  app.o(.data)
-    timer_tick_count                         0x200000c8   Data           4  app_lcd.o(.data)
-    ui_usr                                   0x200000cc   Data           4  app_lcd.o(.data)
-    identifier                               0x200000d5   Data           1  app_lcd.o(.data)
-    cnt                                      0x200000d6   Data           1  app_lcd.o(.data)
-    command_cmd                              0x200000d7   Data           1  app_lcd.o(.data)
-    command_statu                            0x200000d8   Data           1  app_lcd.o(.data)
-    command_length                           0x200000d9   Data           1  app_lcd.o(.data)
-    step                                     0x200000da   Data           1  app_lcd.o(.data)
-    startRegAddr                             0x200000dc   Data           4  modbus.o(.data)
-    RegNum                                   0x200000e0   Data           4  modbus.o(.data)
-    calCRC                                   0x200000e4   Data           4  modbus.o(.data)
-    rxb                                      0x200000e8   Data           1  modbus.o(.data)
+    timer_tick_count                         0x200000cc   Data           4  app_lcd.o(.data)
+    ui_usr                                   0x200000d0   Data           4  app_lcd.o(.data)
+    identifier                               0x200000d9   Data           1  app_lcd.o(.data)
+    cnt                                      0x200000da   Data           1  app_lcd.o(.data)
+    command_cmd                              0x200000db   Data           1  app_lcd.o(.data)
+    command_statu                            0x200000dc   Data           1  app_lcd.o(.data)
+    command_length                           0x200000dd   Data           1  app_lcd.o(.data)
+    step                                     0x200000de   Data           1  app_lcd.o(.data)
+    startRegAddr                             0x200000e0   Data           4  modbus.o(.data)
+    RegNum                                   0x200000e4   Data           4  modbus.o(.data)
+    calCRC                                   0x200000e8   Data           4  modbus.o(.data)
+    rxb                                      0x200000ec   Data           1  modbus.o(.data)
     rOut                                     0x200000f0   Data           8  pid.o(.data)
     rIn_PID                                  0x200000f8   Data           8  pid.o(.data)
     tmp                                      0x20000100   Data           4  pid.o(.data)
@@ -3486,9 +3488,9 @@ Memory Map of the image
 
   Image Entry point : 0x080001ad
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00009664, Max: 0x00100000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000096e8, Max: 0x00100000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x0000953c, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x000095c0, Max: 0x00100000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -3674,153 +3676,153 @@ Memory Map of the image
     0x080057ae   0x080057ae   0x0000003e   Code   RO         1089    i.dma_interrupt_flag_clear  gd32f4xx_dma.o
     0x080057ec   0x080057ec   0x00000204   Code   RO         1090    i.dma_interrupt_flag_get  gd32f4xx_dma.o
     0x080059f0   0x080059f0   0x00000158   Code   RO         1102    i.dma_single_data_mode_init  gd32f4xx_dma.o
-    0x08005b48   0x08005b48   0x000001b8   Code   RO         6831    i.ele_dev_proc      app.o
-    0x08005d00   0x08005d00   0x00000314   Code   RO         6832    i.ele_process       app.o
-    0x08006014   0x08006014   0x000000bc   Code   RO         1294    i.exti_init         gd32f4xx_exti.o
-    0x080060d0   0x080060d0   0x0000000c   Code   RO         1297    i.exti_interrupt_flag_clear  gd32f4xx_exti.o
-    0x080060dc   0x080060dc   0x00000024   Code   RO         1298    i.exti_interrupt_flag_get  gd32f4xx_exti.o
-    0x08006100   0x08006100   0x00000058   Code   RO         6833    i.factory_mode      app.o
-    0x08006158   0x08006158   0x000000d8   Code   RO         6835    i.flow_proc         app.o
-    0x08006230   0x08006230   0x00000042   Code   RO         6400    i.fmc_erase_sector_by_address  fmc_operation.o
-    0x08006272   0x08006272   0x00000002   PAD
-    0x08006274   0x08006274   0x0000000c   Code   RO         3430    i.fmc_flag_clear    gd32f4xx_fmc.o
-    0x08006280   0x08006280   0x00000014   Code   RO         3435    i.fmc_lock          gd32f4xx_fmc.o
-    0x08006294   0x08006294   0x0000001a   Code   RO         6402    i.fmc_read_32bit_data  fmc_operation.o
-    0x080062ae   0x080062ae   0x00000022   Code   RO         3437    i.fmc_ready_wait    gd32f4xx_fmc.o
-    0x080062d0   0x080062d0   0x0000005c   Code   RO         3438    i.fmc_sector_erase  gd32f4xx_fmc.o
-    0x0800632c   0x0800632c   0x00000184   Code   RO         6404    i.fmc_sector_info_get  fmc_operation.o
-    0x080064b0   0x080064b0   0x00000054   Code   RO         3439    i.fmc_state_get     gd32f4xx_fmc.o
-    0x08006504   0x08006504   0x00000024   Code   RO         3440    i.fmc_unlock        gd32f4xx_fmc.o
-    0x08006528   0x08006528   0x00000054   Code   RO         3441    i.fmc_word_program  gd32f4xx_fmc.o
-    0x0800657c   0x0800657c   0x00000062   Code   RO         6406    i.fmc_write_32bit_data  fmc_operation.o
-    0x080065de   0x080065de   0x00000002   PAD
-    0x080065e0   0x080065e0   0x00000028   Code   RO         7499    i.fputc             sys.o
-    0x08006608   0x08006608   0x00000008   Code   RO         7350    i.getModbusPayload  modbus.o
-    0x08006610   0x08006610   0x00000008   Code   RO         7272    i.getTouch          inout.o
-    0x08006618   0x08006618   0x0000000c   Code   RO         6836    i.get_reset_status  app.o
-    0x08006624   0x08006624   0x00000008   Code   RO         7054    i.getuiCallback     app_lcd.o
-    0x0800662c   0x0800662c   0x0000005e   Code   RO          973    i.gpio_af_set       gd32f4xx_gpio.o
-    0x0800668a   0x0800668a   0x00000004   Code   RO          974    i.gpio_bit_reset    gd32f4xx_gpio.o
-    0x0800668e   0x0800668e   0x00000004   Code   RO          975    i.gpio_bit_set      gd32f4xx_gpio.o
-    0x08006692   0x08006692   0x0000000a   Code   RO          977    i.gpio_bit_write    gd32f4xx_gpio.o
-    0x0800669c   0x0800669c   0x00000080   Code   RO          282    i.gpio_config       main.o
-    0x0800671c   0x0800671c   0x00000010   Code   RO          979    i.gpio_input_bit_get  gd32f4xx_gpio.o
-    0x0800672c   0x0800672c   0x0000004e   Code   RO          981    i.gpio_mode_set     gd32f4xx_gpio.o
-    0x0800677a   0x0800677a   0x00000042   Code   RO          983    i.gpio_output_options_set  gd32f4xx_gpio.o
-    0x080067bc   0x080067bc   0x000001dc   Code   RO         6837    i.hsw_proc          app.o
-    0x08006998   0x08006998   0x00000080   Code   RO         7055    i.lcd_boot          app_lcd.o
-    0x08006a18   0x08006a18   0x00000044   Code   RO         7056    i.lcd_init          app_lcd.o
-    0x08006a5c   0x08006a5c   0x000002d0   Code   RO         6838    i.lcd_proc          app.o
-    0x08006d2c   0x08006d2c   0x00000280   Code   RO         7057    i.lcd_touch_interrupt  app_lcd.o
-    0x08006fac   0x08006fac   0x00000074   Code   RO          283    i.main              main.o
-    0x08007020   0x08007020   0x0000006c   Code   RO         7937    i.malloc            mc_w.l(malloc.o)
-    0x0800708c   0x0800708c   0x00000424   Code   RO         6219    i.module_anlysis    sensor.o
-    0x080074b0   0x080074b0   0x000000d0   Code   RO         6840    i.module_dis_proc   app.o
-    0x08007580   0x08007580   0x000000bc   Code   RO         6841    i.module_reset      app.o
-    0x0800763c   0x0800763c   0x00000090   Code   RO         6220    i.module_stop_ele   sensor.o
-    0x080076cc   0x080076cc   0x000003b4   Code   RO         6842    i.normal_proc       app.o
-    0x08007a80   0x08007a80   0x0000003c   Code   RO          284    i.nvic_config       main.o
-    0x08007abc   0x08007abc   0x000000c4   Code   RO         4173    i.nvic_irq_enable   gd32f4xx_misc.o
-    0x08007b80   0x08007b80   0x00000014   Code   RO         4174    i.nvic_priority_group_set  gd32f4xx_misc.o
-    0x08007b94   0x08007b94   0x00000158   Code   RO         6221    i.orp_ph_process    sensor.o
-    0x08007cec   0x08007cec   0x00000054   Code   RO         7434    i.pid_init          pid.o
-    0x08007d40   0x08007d40   0x00000078   Code   RO         7435    i.pid_init2         pid.o
-    0x08007db8   0x08007db8   0x00000018   Code   RO         7436    i.pid_init_flow     pid.o
-    0x08007dd0   0x08007dd0   0x00000044   Code   RO         7437    i.pid_proc          pid.o
-    0x08007e14   0x08007e14   0x00000034   Code   RO         6843    i.power_off         app.o
-    0x08007e48   0x08007e48   0x000000d0   Code   RO         6844    i.pump_ctrl         app.o
-    0x08007f18   0x08007f18   0x00000018   Code   RO         7594    i.queue_reset       cmd_queue.o
-    0x08007f30   0x08007f30   0x00000124   Code   RO         1384    i.rcu_clock_freq_get  gd32f4xx_rcu.o
-    0x08008054   0x08008054   0x0000003c   Code   RO          285    i.rcu_config        main.o
-    0x08008090   0x08008090   0x00000024   Code   RO         1403    i.rcu_periph_clock_enable  gd32f4xx_rcu.o
-    0x080080b4   0x080080b4   0x00000024   Code   RO         1406    i.rcu_periph_reset_disable  gd32f4xx_rcu.o
-    0x080080d8   0x080080d8   0x00000024   Code   RO         1407    i.rcu_periph_reset_enable  gd32f4xx_rcu.o
-    0x080080fc   0x080080fc   0x00000024   Code   RO         1419    i.rcu_timer_clock_prescaler_config  gd32f4xx_rcu.o
-    0x08008120   0x08008120   0x00000016   Code   RO         7058    i.reboot_progress   app_lcd.o
-    0x08008136   0x08008136   0x00000002   PAD
-    0x08008138   0x08008138   0x000000ac   Code   RO         7500    i.registerTick      sys.o
-    0x080081e4   0x080081e4   0x00000010   Code   RO         6222    i.sensor_process    sensor.o
-    0x080081f4   0x080081f4   0x0000001c   Code   RO         6223    i.setState          sensor.o
-    0x08008210   0x08008210   0x0000000c   Code   RO         7501    i.setTickResult     sys.o
-    0x0800821c   0x0800821c   0x000000ac   Code   RO         4906    i.syscfg_exti_line_config  gd32f4xx_syscfg.o
-    0x080082c8   0x080082c8   0x000000fc   Code   RO          459    i.system_clock_120m_irc16m  system_gd32f4xx.o
-    0x080083c4   0x080083c4   0x00000008   Code   RO          460    i.system_clock_config  system_gd32f4xx.o
-    0x080083cc   0x080083cc   0x00000050   Code   RO         7502    i.systick_config    sys.o
-    0x0800841c   0x0800841c   0x00000060   Code   RO         6845    i.tds_proc          app.o
-    0x0800847c   0x0800847c   0x0000000a   Code   RO         4964    i.timer_auto_reload_shadow_enable  gd32f4xx_timer.o
-    0x08008486   0x08008486   0x0000002a   Code   RO         4972    i.timer_channel_capture_value_register_read  gd32f4xx_timer.o
-    0x080084b0   0x080084b0   0x0000005a   Code   RO         4978    i.timer_channel_input_capture_prescaler_config  gd32f4xx_timer.o
-    0x0800850a   0x0800850a   0x00000002   PAD
-    0x0800850c   0x0800850c   0x000001ec   Code   RO         4981    i.timer_channel_output_config  gd32f4xx_timer.o
-    0x080086f8   0x080086f8   0x0000005a   Code   RO         4983    i.timer_channel_output_mode_config  gd32f4xx_timer.o
-    0x08008752   0x08008752   0x00000026   Code   RO         4985    i.timer_channel_output_pulse_value_config  gd32f4xx_timer.o
-    0x08008778   0x08008778   0x0000005a   Code   RO         4986    i.timer_channel_output_shadow_config  gd32f4xx_timer.o
-    0x080087d2   0x080087d2   0x00000002   PAD
-    0x080087d4   0x080087d4   0x00000184   Code   RO         4995    i.timer_deinit      gd32f4xx_timer.o
-    0x08008958   0x08008958   0x0000000a   Code   RO         5000    i.timer_enable      gd32f4xx_timer.o
-    0x08008962   0x08008962   0x00000002   PAD
-    0x08008964   0x08008964   0x00000098   Code   RO         5010    i.timer_init        gd32f4xx_timer.o
-    0x080089fc   0x080089fc   0x00000146   Code   RO         5011    i.timer_input_capture_config  gd32f4xx_timer.o
-    0x08008b42   0x08008b42   0x00000008   Code   RO         5017    i.timer_interrupt_enable  gd32f4xx_timer.o
-    0x08008b4a   0x08008b4a   0x00000006   Code   RO         5018    i.timer_interrupt_flag_clear  gd32f4xx_timer.o
-    0x08008b50   0x08008b50   0x00000018   Code   RO         5019    i.timer_interrupt_flag_get  gd32f4xx_timer.o
-    0x08008b68   0x08008b68   0x00000018   Code   RO         5025    i.timer_primary_output_config  gd32f4xx_timer.o
-    0x08008b80   0x08008b80   0x00000254   Code   RO         7275    i.touch_pro         inout.o
-    0x08008dd4   0x08008dd4   0x000000e8   Code   RO         5583    i.usart_baudrate_set  gd32f4xx_usart.o
-    0x08008ebc   0x08008ebc   0x0000000a   Code   RO         5587    i.usart_data_receive  gd32f4xx_usart.o
-    0x08008ec6   0x08008ec6   0x00000008   Code   RO         5588    i.usart_data_transmit  gd32f4xx_usart.o
-    0x08008ece   0x08008ece   0x00000002   PAD
-    0x08008ed0   0x08008ed0   0x000000dc   Code   RO         5589    i.usart_deinit      gd32f4xx_usart.o
-    0x08008fac   0x08008fac   0x00000010   Code   RO         5591    i.usart_dma_receive_config  gd32f4xx_usart.o
-    0x08008fbc   0x08008fbc   0x00000010   Code   RO         5592    i.usart_dma_transmit_config  gd32f4xx_usart.o
-    0x08008fcc   0x08008fcc   0x0000000a   Code   RO         5593    i.usart_enable      gd32f4xx_usart.o
-    0x08008fd6   0x08008fd6   0x0000001e   Code   RO         5595    i.usart_flag_get    gd32f4xx_usart.o
-    0x08008ff4   0x08008ff4   0x0000001a   Code   RO         5603    i.usart_interrupt_enable  gd32f4xx_usart.o
-    0x0800900e   0x0800900e   0x0000001a   Code   RO         5604    i.usart_interrupt_flag_clear  gd32f4xx_usart.o
-    0x08009028   0x08009028   0x00000038   Code   RO         5605    i.usart_interrupt_flag_get  gd32f4xx_usart.o
-    0x08009060   0x08009060   0x00000010   Code   RO         5620    i.usart_receive_config  gd32f4xx_usart.o
-    0x08009070   0x08009070   0x00000010   Code   RO         5635    i.usart_transmit_config  gd32f4xx_usart.o
-    0x08009080   0x08009080   0x0000001e   Code   RO         6846    i.water_levelAbnormal_proc  app.o
-    0x0800909e   0x0800909e   0x00000038   Data   RO         6058    .constdata          bsp_beep.o
-    0x080090d6   0x080090d6   0x0000018c   Data   RO         6225    .constdata          sensor.o
-    0x08009262   0x08009262   0x00000033   Data   RO         7060    .constdata          app_lcd.o
-    0x08009295   0x08009295   0x00000200   Data   RO         7215    .constdata          crc.o
-    0x08009495   0x08009495   0x00000081   Data   RO         8067    .constdata          mc_w.l(ctype_o.o)
-    0x08009516   0x08009516   0x00000002   PAD
-    0x08009518   0x08009518   0x00000004   Data   RO         8068    .constdata          mc_w.l(ctype_o.o)
-    0x0800951c   0x0800951c   0x00000020   Data   RO         8098    Region$$Table       anon$$obj.o
+    0x08005b48   0x08005b48   0x00000210   Code   RO         6831    i.ele_dev_proc      app.o
+    0x08005d58   0x08005d58   0x00000320   Code   RO         6832    i.ele_process       app.o
+    0x08006078   0x08006078   0x000000bc   Code   RO         1294    i.exti_init         gd32f4xx_exti.o
+    0x08006134   0x08006134   0x0000000c   Code   RO         1297    i.exti_interrupt_flag_clear  gd32f4xx_exti.o
+    0x08006140   0x08006140   0x00000024   Code   RO         1298    i.exti_interrupt_flag_get  gd32f4xx_exti.o
+    0x08006164   0x08006164   0x00000058   Code   RO         6833    i.factory_mode      app.o
+    0x080061bc   0x080061bc   0x000000d8   Code   RO         6835    i.flow_proc         app.o
+    0x08006294   0x08006294   0x00000042   Code   RO         6400    i.fmc_erase_sector_by_address  fmc_operation.o
+    0x080062d6   0x080062d6   0x00000002   PAD
+    0x080062d8   0x080062d8   0x0000000c   Code   RO         3430    i.fmc_flag_clear    gd32f4xx_fmc.o
+    0x080062e4   0x080062e4   0x00000014   Code   RO         3435    i.fmc_lock          gd32f4xx_fmc.o
+    0x080062f8   0x080062f8   0x0000001a   Code   RO         6402    i.fmc_read_32bit_data  fmc_operation.o
+    0x08006312   0x08006312   0x00000022   Code   RO         3437    i.fmc_ready_wait    gd32f4xx_fmc.o
+    0x08006334   0x08006334   0x0000005c   Code   RO         3438    i.fmc_sector_erase  gd32f4xx_fmc.o
+    0x08006390   0x08006390   0x00000184   Code   RO         6404    i.fmc_sector_info_get  fmc_operation.o
+    0x08006514   0x08006514   0x00000054   Code   RO         3439    i.fmc_state_get     gd32f4xx_fmc.o
+    0x08006568   0x08006568   0x00000024   Code   RO         3440    i.fmc_unlock        gd32f4xx_fmc.o
+    0x0800658c   0x0800658c   0x00000054   Code   RO         3441    i.fmc_word_program  gd32f4xx_fmc.o
+    0x080065e0   0x080065e0   0x00000062   Code   RO         6406    i.fmc_write_32bit_data  fmc_operation.o
+    0x08006642   0x08006642   0x00000002   PAD
+    0x08006644   0x08006644   0x00000028   Code   RO         7499    i.fputc             sys.o
+    0x0800666c   0x0800666c   0x00000008   Code   RO         7350    i.getModbusPayload  modbus.o
+    0x08006674   0x08006674   0x00000008   Code   RO         7272    i.getTouch          inout.o
+    0x0800667c   0x0800667c   0x0000000c   Code   RO         6836    i.get_reset_status  app.o
+    0x08006688   0x08006688   0x00000008   Code   RO         7054    i.getuiCallback     app_lcd.o
+    0x08006690   0x08006690   0x0000005e   Code   RO          973    i.gpio_af_set       gd32f4xx_gpio.o
+    0x080066ee   0x080066ee   0x00000004   Code   RO          974    i.gpio_bit_reset    gd32f4xx_gpio.o
+    0x080066f2   0x080066f2   0x00000004   Code   RO          975    i.gpio_bit_set      gd32f4xx_gpio.o
+    0x080066f6   0x080066f6   0x0000000a   Code   RO          977    i.gpio_bit_write    gd32f4xx_gpio.o
+    0x08006700   0x08006700   0x00000080   Code   RO          282    i.gpio_config       main.o
+    0x08006780   0x08006780   0x00000010   Code   RO          979    i.gpio_input_bit_get  gd32f4xx_gpio.o
+    0x08006790   0x08006790   0x0000004e   Code   RO          981    i.gpio_mode_set     gd32f4xx_gpio.o
+    0x080067de   0x080067de   0x00000042   Code   RO          983    i.gpio_output_options_set  gd32f4xx_gpio.o
+    0x08006820   0x08006820   0x000001dc   Code   RO         6837    i.hsw_proc          app.o
+    0x080069fc   0x080069fc   0x00000080   Code   RO         7055    i.lcd_boot          app_lcd.o
+    0x08006a7c   0x08006a7c   0x00000044   Code   RO         7056    i.lcd_init          app_lcd.o
+    0x08006ac0   0x08006ac0   0x000002d0   Code   RO         6838    i.lcd_proc          app.o
+    0x08006d90   0x08006d90   0x00000280   Code   RO         7057    i.lcd_touch_interrupt  app_lcd.o
+    0x08007010   0x08007010   0x00000074   Code   RO          283    i.main              main.o
+    0x08007084   0x08007084   0x0000006c   Code   RO         7937    i.malloc            mc_w.l(malloc.o)
+    0x080070f0   0x080070f0   0x00000424   Code   RO         6219    i.module_anlysis    sensor.o
+    0x08007514   0x08007514   0x000000d0   Code   RO         6840    i.module_dis_proc   app.o
+    0x080075e4   0x080075e4   0x000000bc   Code   RO         6841    i.module_reset      app.o
+    0x080076a0   0x080076a0   0x00000090   Code   RO         6220    i.module_stop_ele   sensor.o
+    0x08007730   0x08007730   0x000003b4   Code   RO         6842    i.normal_proc       app.o
+    0x08007ae4   0x08007ae4   0x0000003c   Code   RO          284    i.nvic_config       main.o
+    0x08007b20   0x08007b20   0x000000c4   Code   RO         4173    i.nvic_irq_enable   gd32f4xx_misc.o
+    0x08007be4   0x08007be4   0x00000014   Code   RO         4174    i.nvic_priority_group_set  gd32f4xx_misc.o
+    0x08007bf8   0x08007bf8   0x00000158   Code   RO         6221    i.orp_ph_process    sensor.o
+    0x08007d50   0x08007d50   0x00000054   Code   RO         7434    i.pid_init          pid.o
+    0x08007da4   0x08007da4   0x00000078   Code   RO         7435    i.pid_init2         pid.o
+    0x08007e1c   0x08007e1c   0x00000018   Code   RO         7436    i.pid_init_flow     pid.o
+    0x08007e34   0x08007e34   0x00000044   Code   RO         7437    i.pid_proc          pid.o
+    0x08007e78   0x08007e78   0x00000034   Code   RO         6843    i.power_off         app.o
+    0x08007eac   0x08007eac   0x000000f0   Code   RO         6844    i.pump_ctrl         app.o
+    0x08007f9c   0x08007f9c   0x00000018   Code   RO         7594    i.queue_reset       cmd_queue.o
+    0x08007fb4   0x08007fb4   0x00000124   Code   RO         1384    i.rcu_clock_freq_get  gd32f4xx_rcu.o
+    0x080080d8   0x080080d8   0x0000003c   Code   RO          285    i.rcu_config        main.o
+    0x08008114   0x08008114   0x00000024   Code   RO         1403    i.rcu_periph_clock_enable  gd32f4xx_rcu.o
+    0x08008138   0x08008138   0x00000024   Code   RO         1406    i.rcu_periph_reset_disable  gd32f4xx_rcu.o
+    0x0800815c   0x0800815c   0x00000024   Code   RO         1407    i.rcu_periph_reset_enable  gd32f4xx_rcu.o
+    0x08008180   0x08008180   0x00000024   Code   RO         1419    i.rcu_timer_clock_prescaler_config  gd32f4xx_rcu.o
+    0x080081a4   0x080081a4   0x00000016   Code   RO         7058    i.reboot_progress   app_lcd.o
+    0x080081ba   0x080081ba   0x00000002   PAD
+    0x080081bc   0x080081bc   0x000000ac   Code   RO         7500    i.registerTick      sys.o
+    0x08008268   0x08008268   0x00000010   Code   RO         6222    i.sensor_process    sensor.o
+    0x08008278   0x08008278   0x0000001c   Code   RO         6223    i.setState          sensor.o
+    0x08008294   0x08008294   0x0000000c   Code   RO         7501    i.setTickResult     sys.o
+    0x080082a0   0x080082a0   0x000000ac   Code   RO         4906    i.syscfg_exti_line_config  gd32f4xx_syscfg.o
+    0x0800834c   0x0800834c   0x000000fc   Code   RO          459    i.system_clock_120m_irc16m  system_gd32f4xx.o
+    0x08008448   0x08008448   0x00000008   Code   RO          460    i.system_clock_config  system_gd32f4xx.o
+    0x08008450   0x08008450   0x00000050   Code   RO         7502    i.systick_config    sys.o
+    0x080084a0   0x080084a0   0x00000060   Code   RO         6845    i.tds_proc          app.o
+    0x08008500   0x08008500   0x0000000a   Code   RO         4964    i.timer_auto_reload_shadow_enable  gd32f4xx_timer.o
+    0x0800850a   0x0800850a   0x0000002a   Code   RO         4972    i.timer_channel_capture_value_register_read  gd32f4xx_timer.o
+    0x08008534   0x08008534   0x0000005a   Code   RO         4978    i.timer_channel_input_capture_prescaler_config  gd32f4xx_timer.o
+    0x0800858e   0x0800858e   0x00000002   PAD
+    0x08008590   0x08008590   0x000001ec   Code   RO         4981    i.timer_channel_output_config  gd32f4xx_timer.o
+    0x0800877c   0x0800877c   0x0000005a   Code   RO         4983    i.timer_channel_output_mode_config  gd32f4xx_timer.o
+    0x080087d6   0x080087d6   0x00000026   Code   RO         4985    i.timer_channel_output_pulse_value_config  gd32f4xx_timer.o
+    0x080087fc   0x080087fc   0x0000005a   Code   RO         4986    i.timer_channel_output_shadow_config  gd32f4xx_timer.o
+    0x08008856   0x08008856   0x00000002   PAD
+    0x08008858   0x08008858   0x00000184   Code   RO         4995    i.timer_deinit      gd32f4xx_timer.o
+    0x080089dc   0x080089dc   0x0000000a   Code   RO         5000    i.timer_enable      gd32f4xx_timer.o
+    0x080089e6   0x080089e6   0x00000002   PAD
+    0x080089e8   0x080089e8   0x00000098   Code   RO         5010    i.timer_init        gd32f4xx_timer.o
+    0x08008a80   0x08008a80   0x00000146   Code   RO         5011    i.timer_input_capture_config  gd32f4xx_timer.o
+    0x08008bc6   0x08008bc6   0x00000008   Code   RO         5017    i.timer_interrupt_enable  gd32f4xx_timer.o
+    0x08008bce   0x08008bce   0x00000006   Code   RO         5018    i.timer_interrupt_flag_clear  gd32f4xx_timer.o
+    0x08008bd4   0x08008bd4   0x00000018   Code   RO         5019    i.timer_interrupt_flag_get  gd32f4xx_timer.o
+    0x08008bec   0x08008bec   0x00000018   Code   RO         5025    i.timer_primary_output_config  gd32f4xx_timer.o
+    0x08008c04   0x08008c04   0x00000254   Code   RO         7275    i.touch_pro         inout.o
+    0x08008e58   0x08008e58   0x000000e8   Code   RO         5583    i.usart_baudrate_set  gd32f4xx_usart.o
+    0x08008f40   0x08008f40   0x0000000a   Code   RO         5587    i.usart_data_receive  gd32f4xx_usart.o
+    0x08008f4a   0x08008f4a   0x00000008   Code   RO         5588    i.usart_data_transmit  gd32f4xx_usart.o
+    0x08008f52   0x08008f52   0x00000002   PAD
+    0x08008f54   0x08008f54   0x000000dc   Code   RO         5589    i.usart_deinit      gd32f4xx_usart.o
+    0x08009030   0x08009030   0x00000010   Code   RO         5591    i.usart_dma_receive_config  gd32f4xx_usart.o
+    0x08009040   0x08009040   0x00000010   Code   RO         5592    i.usart_dma_transmit_config  gd32f4xx_usart.o
+    0x08009050   0x08009050   0x0000000a   Code   RO         5593    i.usart_enable      gd32f4xx_usart.o
+    0x0800905a   0x0800905a   0x0000001e   Code   RO         5595    i.usart_flag_get    gd32f4xx_usart.o
+    0x08009078   0x08009078   0x0000001a   Code   RO         5603    i.usart_interrupt_enable  gd32f4xx_usart.o
+    0x08009092   0x08009092   0x0000001a   Code   RO         5604    i.usart_interrupt_flag_clear  gd32f4xx_usart.o
+    0x080090ac   0x080090ac   0x00000038   Code   RO         5605    i.usart_interrupt_flag_get  gd32f4xx_usart.o
+    0x080090e4   0x080090e4   0x00000010   Code   RO         5620    i.usart_receive_config  gd32f4xx_usart.o
+    0x080090f4   0x080090f4   0x00000010   Code   RO         5635    i.usart_transmit_config  gd32f4xx_usart.o
+    0x08009104   0x08009104   0x0000001e   Code   RO         6846    i.water_levelAbnormal_proc  app.o
+    0x08009122   0x08009122   0x00000038   Data   RO         6058    .constdata          bsp_beep.o
+    0x0800915a   0x0800915a   0x0000018c   Data   RO         6225    .constdata          sensor.o
+    0x080092e6   0x080092e6   0x00000033   Data   RO         7060    .constdata          app_lcd.o
+    0x08009319   0x08009319   0x00000200   Data   RO         7215    .constdata          crc.o
+    0x08009519   0x08009519   0x00000081   Data   RO         8067    .constdata          mc_w.l(ctype_o.o)
+    0x0800959a   0x0800959a   0x00000002   PAD
+    0x0800959c   0x0800959c   0x00000004   Data   RO         8068    .constdata          mc_w.l(ctype_o.o)
+    0x080095a0   0x080095a0   0x00000020   Data   RO         8098    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x0800953c, Size: 0x00001420, Max: 0x00020000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x080095c0, Size: 0x00001420, Max: 0x00020000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x0800953c   0x00000010   Data   RW           19    .data               gd32f4xx_it.o
-    0x20000010   0x0800954c   0x00000004   Data   RW          461    .data               system_gd32f4xx.o
-    0x20000014   0x08009550   0x00000004   Data   RW         6059    .data               bsp_beep.o
-    0x20000018   0x08009554   0x00000040   Data   RW         6226    .data               sensor.o
-    0x20000058   0x08009594   0x00000024   Data   RW         6358    .data               timer.o
-    0x2000007c   0x080095b8   0x00000001   Data   RW         6516    .data               hmi_driver.o
-    0x2000007d   0x080095b9   0x00000003   PAD
-    0x20000080   0x080095bc   0x00000046   Data   RW         6847    .data               app.o
-    0x200000c6   0x08009602   0x00000002   PAD
-    0x200000c8   0x08009604   0x00000014   Data   RW         7061    .data               app_lcd.o
-    0x200000dc   0x08009618   0x0000000d   Data   RW         7354    .data               modbus.o
-    0x200000e9   0x08009625   0x00000007   PAD
-    0x200000f0   0x0800962c   0x00000020   Data   RW         7439    .data               pid.o
-    0x20000110   0x0800964c   0x00000008   Data   RW         7504    .data               sys.o
-    0x20000118   0x08009654   0x00000003   Data   RW         7597    .data               cmd_queue.o
-    0x2000011b   0x08009657   0x00000001   PAD
-    0x2000011c   0x08009658   0x00000004   Data   RW         8040    .data               mc_w.l(mvars.o)
-    0x20000120   0x0800965c   0x00000004   Data   RW         8041    .data               mc_w.l(mvars.o)
-    0x20000124   0x08009660   0x00000004   Data   RW         8045    .data               mc_w.l(errno.o)
+    0x20000000   0x080095c0   0x00000010   Data   RW           19    .data               gd32f4xx_it.o
+    0x20000010   0x080095d0   0x00000004   Data   RW          461    .data               system_gd32f4xx.o
+    0x20000014   0x080095d4   0x00000004   Data   RW         6059    .data               bsp_beep.o
+    0x20000018   0x080095d8   0x00000040   Data   RW         6226    .data               sensor.o
+    0x20000058   0x08009618   0x00000024   Data   RW         6358    .data               timer.o
+    0x2000007c   0x0800963c   0x00000001   Data   RW         6516    .data               hmi_driver.o
+    0x2000007d   0x0800963d   0x00000003   PAD
+    0x20000080   0x08009640   0x0000004a   Data   RW         6847    .data               app.o
+    0x200000ca   0x0800968a   0x00000002   PAD
+    0x200000cc   0x0800968c   0x00000014   Data   RW         7061    .data               app_lcd.o
+    0x200000e0   0x080096a0   0x0000000d   Data   RW         7354    .data               modbus.o
+    0x200000ed   0x080096ad   0x00000003   PAD
+    0x200000f0   0x080096b0   0x00000020   Data   RW         7439    .data               pid.o
+    0x20000110   0x080096d0   0x00000008   Data   RW         7504    .data               sys.o
+    0x20000118   0x080096d8   0x00000003   Data   RW         7597    .data               cmd_queue.o
+    0x2000011b   0x080096db   0x00000001   PAD
+    0x2000011c   0x080096dc   0x00000004   Data   RW         8040    .data               mc_w.l(mvars.o)
+    0x20000120   0x080096e0   0x00000004   Data   RW         8041    .data               mc_w.l(mvars.o)
+    0x20000124   0x080096e4   0x00000004   Data   RW         8045    .data               mc_w.l(errno.o)
     0x20000128        -       0x00000020   Zero   RW           18    .bss                gd32f4xx_it.o
     0x20000148        -       0x00000010   Zero   RW         6057    .bss                bsp_beep.o
     0x20000158        -       0x00000134   Zero   RW         6224    .bss                sensor.o
     0x2000028c        -       0x0000005b   Zero   RW         7276    .bss                inout.o
-    0x200002e7   0x08009664   0x00000001   PAD
+    0x200002e7   0x080096e8   0x00000001   PAD
     0x200002e8        -       0x0000011c   Zero   RW         7353    .bss                modbus.o
-    0x20000404   0x08009664   0x00000004   PAD
+    0x20000404   0x080096e8   0x00000004   PAD
     0x20000408        -       0x00000078   Zero   RW         7438    .bss                pid.o
     0x20000480        -       0x0000011c   Zero   RW         7503    .bss                sys.o
     0x2000059c        -       0x00000084   Zero   RW         7596    .bss                cmd_queue.o
@@ -3835,7 +3837,7 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-      7774        622          0         70          0      20493   app.o
+      7906        624          0         74          0      20589   app.o
        866         44         51         20          0       4611   app_lcd.o
        728         58         56          4         16       3258   bsp_beep.o
        124         26          0          0          0       3596   bsp_cpu_flash.o
@@ -3858,7 +3860,7 @@ Image component sizes
        530         14          0          1          0       8398   hmi_driver.o
         32          4          0          0          0        579   hmi_user_uart.o
        672         34          0          0         91      31718   inout.o
-      2540        138          0          0          0      97054   main.o
+      2540        138          0          0          0      97078   main.o
       1368         74          0         13        284       6522   modbus.o
       1484        136          0         32        120       4244   pid.o
       6872        320        396         64        308      14358   sensor.o
@@ -3868,9 +3870,9 @@ Image component sizes
        252         46          0         36          0       3106   timer.o
 
     ----------------------------------------------------------------------
-     31990       1960       1475        284       4856     317224   Object Totals
+     32122       1962       1475        284       4856     317344   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        32          0          0         13          5          0   (incl. Padding)
+        32          0          0          9          5          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -3941,15 +3943,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     36594       2096       1610        296       4856     297596   Grand Totals
-     36594       2096       1610        296       4856     297596   ELF Image Totals
-     36594       2096       1610        296          0          0   ROM Totals
+     36726       2098       1610        296       4856     297716   Grand Totals
+     36726       2098       1610        296       4856     297716   ELF Image Totals
+     36726       2098       1610        296          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                38204 (  37.31kB)
+    Total RO  Size (Code + RO Data)                38336 (  37.44kB)
     Total RW  Size (RW Data + ZI Data)              5152 (   5.03kB)
-    Total ROM Size (Code + RO Data + RW Data)      38500 (  37.60kB)
+    Total ROM Size (Code + RO Data + RW Data)      38632 (  37.73kB)
 
 ==============================================================================
 

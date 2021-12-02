@@ -16,8 +16,8 @@
         <TargetCommonOption>
           <Device>GD32F103C8</Device>
           <Vendor>GigaDevice</Vendor>
-          <PackID>GigaDevice.GD32F10x_DFP.2.0.2</PackID>
-          <PackURL>http://gd32mcu.com/data/documents/pack/</PackURL>
+          <PackID>GigaDevice.GD32F10x_DFP.2.0.1</PackID>
+          <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00005000) IROM(0x08000000,0x00010000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -741,8 +741,8 @@
         <TargetCommonOption>
           <Device>GD32F103VB</Device>
           <Vendor>GigaDevice</Vendor>
-          <PackID>GigaDevice.GD32F10x_DFP.2.0.2</PackID>
-          <PackURL>http://gd32mcu.com/data/documents/pack/</PackURL>
+          <PackID>GigaDevice.GD32F10x_DFP.2.0.1</PackID>
+          <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00005000) IROM(0x08000000,0x00020000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -1466,8 +1466,8 @@
         <TargetCommonOption>
           <Device>GD32F103VC</Device>
           <Vendor>GigaDevice</Vendor>
-          <PackID>GigaDevice.GD32F10x_DFP.2.0.2</PackID>
-          <PackURL>http://gd32mcu.com/data/documents/pack/</PackURL>
+          <PackID>GigaDevice.GD32F10x_DFP.2.0.1</PackID>
+          <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x0000C000) IROM(0x08000000,0x00040000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -2191,8 +2191,8 @@
         <TargetCommonOption>
           <Device>GD32F103VK</Device>
           <Vendor>GigaDevice</Vendor>
-          <PackID>GigaDevice.GD32F10x_DFP.2.0.2</PackID>
-          <PackURL>http://gd32mcu.com/data/documents/pack/</PackURL>
+          <PackID>GigaDevice.GD32F10x_DFP.2.0.1</PackID>
+          <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00018000) IROM(0x08000000,0x00300000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\output\Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\output\Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Dec 02 08:29:26 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Dec 02 11:53:02 2021
 <BR><P>
 <H3>Maximum Stack Usage =        240 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -542,7 +542,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetFlow
 <LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;module_anlysis
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTds_EleCurr
-<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_init2
+<LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_init2
 <LI><a href="#[14f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;module_dis_proc
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_proc
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FlowCtrl
@@ -551,10 +551,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[e2]"></a>__aeabi_cdcmpeq</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, cdcmple.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
-<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
-<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
-<LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flow_proc
+<BR><BR>[Called By]<UL><LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
+<LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
+<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flow_proc
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIDCalc
 </UL>
@@ -563,7 +563,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flow_Init
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetFlow
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abnormalDec
-<LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flow_proc
+<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flow_proc
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_dev_proc
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIDCalc
 </UL>
@@ -571,7 +571,7 @@ Global Symbols
 <P><STRONG><a name="[a8]"></a>__aeabi_cdrcmple</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, cdrcmple.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abnormalDec
 <LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetPH_ORP
-<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIDCalc
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
@@ -754,9 +754,9 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer_channel_output_pulse_value_config
 </UL>
 <BR>[Called By]<UL><LI><a href="#[154]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;power_off
-<LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
-<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
-<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
+<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
+<LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;factory_mode
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_dev_proc
@@ -797,10 +797,10 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bit_write
 </UL>
 <BR>[Called By]<UL><LI><a href="#[154]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;power_off
-<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;water_levelAbnormal_proc
+<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;water_levelAbnormal_proc
 <LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tds_proc
-<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
-<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
+<LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;factory_mode
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_dev_proc
@@ -827,7 +827,7 @@ Global Symbols
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;registerTick
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_proc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<BR>[Called By]<UL><LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 </UL>
 
@@ -881,7 +881,7 @@ Global Symbols
 <LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;module_anlysis
 <LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calibration_sensors
 <LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetPH_ORP
-<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 </UL>
 
@@ -927,15 +927,15 @@ Global Symbols
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetWaterLevel
 <LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetPH_ORP
 <LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;touch_pro
-<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;water_levelAbnormal_proc
+<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;water_levelAbnormal_proc
 <LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tds_proc
-<LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
-<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
+<LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;module_reset
 <LI><a href="#[14f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;module_dis_proc
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_proc
-<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
-<LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flow_proc
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
+<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flow_proc
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;factory_mode
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_dev_proc
@@ -984,10 +984,10 @@ Global Symbols
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTds_EleCurr
 <LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetPH_ORP
 <LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;beep_pro
-<LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
+<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;module_reset
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_proc
-<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TickTimeoutNor
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TickTimeoutAb
@@ -1009,7 +1009,7 @@ Global Symbols
 <LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calibration_sensors
 </UL>
 
-<P><STRONG><a name="[13d]"></a>GetTouchInOut</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, inout.o(i.GetTouchInOut))
+<P><STRONG><a name="[13e]"></a>GetTouchInOut</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, inout.o(i.GetTouchInOut))
 <BR><BR>[Called By]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;factory_mode
 </UL>
 
@@ -1280,7 +1280,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[14b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_init
 </UL>
 
-<P><STRONG><a name="[137]"></a>Soft_Reset</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, inout.o(i.Soft_Reset))
+<P><STRONG><a name="[138]"></a>Soft_Reset</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, inout.o(i.Soft_Reset))
 <BR><BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 </UL>
 
@@ -1471,8 +1471,8 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[159]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;orp_ph_process
 <LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tds_proc
-<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
-<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
+<LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_dev_proc
 <LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dev_wash_ctrl
@@ -1667,7 +1667,7 @@ Global Symbols
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EleSwCtrl
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DcMotorCtrl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<BR>[Called By]<UL><LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
 </UL>
 
 <P><STRONG><a name="[12e]"></a>dev_init_ctrl</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, app.o(i.dev_init_ctrl))
@@ -1675,7 +1675,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EleSwCtrl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<BR>[Called By]<UL><LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
 </UL>
 
 <P><STRONG><a name="[12f]"></a>dev_normal_ctrl</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, app.o(i.dev_normal_ctrl))
@@ -1684,7 +1684,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetSensor
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EleSwCtrl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<BR>[Called By]<UL><LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
 </UL>
 
 <P><STRONG><a name="[130]"></a>dev_wash_ctrl</STRONG> (Thumb, 132 bytes, Stack size 8 bytes, app.o(i.dev_wash_ctrl))
@@ -1769,7 +1769,7 @@ Global Symbols
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RS485_RxCpltCallback
 </UL>
 
-<P><STRONG><a name="[132]"></a>ele_dev_proc</STRONG> (Thumb, 406 bytes, Stack size 16 bytes, app.o(i.ele_dev_proc))
+<P><STRONG><a name="[132]"></a>ele_dev_proc</STRONG> (Thumb, 496 bytes, Stack size 16 bytes, app.o(i.ele_dev_proc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = ele_dev_proc &rArr; normal_proc &rArr; FlowCtrl &rArr; pid_proc &rArr; PIDCalc &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flow_Init
@@ -1778,15 +1778,16 @@ Global Symbols
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetSensor
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EleSwCtrl
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DcMotorCtrl
-<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;module_reset
-<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
 <LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_reset_status
+<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flow_proc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 </UL>
 
-<P><STRONG><a name="[124]"></a>ele_process</STRONG> (Thumb, 754 bytes, Stack size 16 bytes, app.o(i.ele_process))
+<P><STRONG><a name="[124]"></a>ele_process</STRONG> (Thumb, 766 bytes, Stack size 16 bytes, app.o(i.ele_process))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = ele_process &rArr; ele_dev_proc &rArr; normal_proc &rArr; FlowCtrl &rArr; pid_proc &rArr; PIDCalc &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flow_Init
@@ -1795,18 +1796,18 @@ Global Symbols
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetInOut
-<LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setState
+<LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setState
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetSensor
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EleSwCtrl
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DcMotorCtrl
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;registerTick
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTickResult
-<LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setTickResult
-<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_init2
+<LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setTickResult
+<LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_init2
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmpeq
-<LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Soft_Reset
-<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;water_levelAbnormal_proc
-<LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
+<LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Soft_Reset
+<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;water_levelAbnormal_proc
+<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;module_reset
 <LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_reset_status
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_dev_proc
@@ -1838,21 +1839,22 @@ Global Symbols
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EleSwCtrl
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DcMotorCtrl
 <LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;beep_pro
-<LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTouchInOut
+<LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTouchInOut
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;module_reset
 <LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_reset_status
 </UL>
 <BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app
 </UL>
 
-<P><STRONG><a name="[13e]"></a>flow_proc</STRONG> (Thumb, 188 bytes, Stack size 16 bytes, app.o(i.flow_proc))
+<P><STRONG><a name="[135]"></a>flow_proc</STRONG> (Thumb, 188 bytes, Stack size 16 bytes, app.o(i.flow_proc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = flow_proc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmple
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetSensor
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmpeq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<BR>[Called By]<UL><LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_dev_proc
 </UL>
 
 <P><STRONG><a name="[95]"></a>fmc_erase_sector_by_address</STRONG> (Thumb, 66 bytes, Stack size 48 bytes, fmc_operation.o(i.fmc_erase_sector_by_address))
@@ -2037,7 +2039,7 @@ Global Symbols
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 </UL>
 
-<P><STRONG><a name="[135]"></a>hsw_proc</STRONG> (Thumb, 450 bytes, Stack size 16 bytes, app.o(i.hsw_proc))
+<P><STRONG><a name="[136]"></a>hsw_proc</STRONG> (Thumb, 450 bytes, Stack size 16 bytes, app.o(i.hsw_proc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = hsw_proc &rArr; module_reset &rArr; GetModbusSens &rArr; Modbus_Pack &rArr; RS485_SendData &rArr; usart_flag_get
 </UL>
 <BR>[Calls]<UL><LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abnormalDec
@@ -2048,7 +2050,7 @@ Global Symbols
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;registerTick
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTickResult
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmpeq
-<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;water_levelAbnormal_proc
+<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;water_levelAbnormal_proc
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;module_reset
 </UL>
 <BR>[Called By]<UL><LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_dev_proc
@@ -2179,7 +2181,7 @@ Global Symbols
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;registerTick
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTickResult
 </UL>
-<BR>[Called By]<UL><LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
+<BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;factory_mode
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_dev_proc
@@ -2195,7 +2197,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[136]"></a>normal_proc</STRONG> (Thumb, 922 bytes, Stack size 16 bytes, app.o(i.normal_proc))
+<P><STRONG><a name="[137]"></a>normal_proc</STRONG> (Thumb, 922 bytes, Stack size 16 bytes, app.o(i.normal_proc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = normal_proc &rArr; FlowCtrl &rArr; pid_proc &rArr; PIDCalc &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abnormalDec
@@ -2204,12 +2206,12 @@ Global Symbols
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EleSwCtrl
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DcMotorCtrl
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;registerTick
-<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_init2
+<LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_init2
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmpeq
-<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;water_levelAbnormal_proc
+<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;water_levelAbnormal_proc
 <LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tds_proc
-<LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
-<LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flow_proc
+<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
+<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flow_proc
 <LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dev_normal_ctrl
 <LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dev_init_ctrl
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dev_flow_Abnormal_ctrl
@@ -2269,12 +2271,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_init_flow
 </UL>
 
-<P><STRONG><a name="[13a]"></a>pid_init2</STRONG> (Thumb, 82 bytes, Stack size 16 bytes, pid.o(i.pid_init2))
+<P><STRONG><a name="[13b]"></a>pid_init2</STRONG> (Thumb, 82 bytes, Stack size 16 bytes, pid.o(i.pid_init2))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = pid_init2
 </UL>
 <BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 </UL>
-<BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<BR>[Called By]<UL><LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 </UL>
 
@@ -2304,7 +2306,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[138]"></a>pump_ctrl</STRONG> (Thumb, 192 bytes, Stack size 16 bytes, app.o(i.pump_ctrl))
+<P><STRONG><a name="[139]"></a>pump_ctrl</STRONG> (Thumb, 220 bytes, Stack size 16 bytes, app.o(i.pump_ctrl))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = pump_ctrl &rArr; DcMotorCtrl
 </UL>
 <BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetSensor
@@ -2313,7 +2315,7 @@ Global Symbols
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTickResult
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmpeq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<BR>[Called By]<UL><LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 </UL>
 
@@ -2392,11 +2394,11 @@ Global Symbols
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTds_EleCurr
 <LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetPH_ORP
 <LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;beep_pro
-<LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
-<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_ctrl
+<LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;module_reset
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_proc
-<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 <LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dev_wash_ctrl
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TickTimeoutNor
@@ -2414,11 +2416,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app
 </UL>
 
-<P><STRONG><a name="[13b]"></a>setState</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, sensor.o(i.setState))
+<P><STRONG><a name="[13c]"></a>setState</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, sensor.o(i.setState))
 <BR><BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 </UL>
 
-<P><STRONG><a name="[13c]"></a>setTickResult</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, sys.o(i.setTickResult))
+<P><STRONG><a name="[13d]"></a>setTickResult</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, sys.o(i.setTickResult))
 <BR><BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 </UL>
 
@@ -2444,7 +2446,7 @@ Global Symbols
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EleSwCtrl
 <LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dev_wash_ctrl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<BR>[Called By]<UL><LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
 </UL>
 
 <P><STRONG><a name="[c2]"></a>timer_auto_reload_shadow_enable</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, gd32f4xx_timer.o(i.timer_auto_reload_shadow_enable))
@@ -2648,14 +2650,14 @@ Global Symbols
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_UART4_Init
 </UL>
 
-<P><STRONG><a name="[139]"></a>water_levelAbnormal_proc</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, app.o(i.water_levelAbnormal_proc))
+<P><STRONG><a name="[13a]"></a>water_levelAbnormal_proc</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, app.o(i.water_levelAbnormal_proc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = water_levelAbnormal_proc &rArr; EleSwCtrl
 </UL>
 <BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetSensor
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EleSwCtrl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
-<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
+<BR>[Called By]<UL><LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_proc
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hsw_proc
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ele_process
 </UL>
 <P>

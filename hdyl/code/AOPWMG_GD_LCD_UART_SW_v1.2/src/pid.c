@@ -249,7 +249,7 @@ double PIDCalc( PID *pp, double NextPoint )
     }
     //result = 27000;
 
-    //pp->result = result;
+ //   pp->result = 23000;
     return  pp->result;        // Î¢·ÖÏî
 }
 

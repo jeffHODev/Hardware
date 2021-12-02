@@ -24,6 +24,7 @@
 #define BEEP_TICK  	20
 #define SW_TICK  	21
 #define PUMP_TICK_NO  	22
+#define WATER_IN_TICK_NO  	23
 
 typedef struct
 {

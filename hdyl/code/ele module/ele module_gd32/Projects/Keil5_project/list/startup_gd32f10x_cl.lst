@@ -629,9 +629,9 @@ ARM Macro Assembler    Page 10
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=.\output\startup_gd32f10x_cl.d -o.\output\startup_gd32f10x_cl.o -I
-.\RTE\_GD32F10X_CL -IC:\Keil_v5\ARM\PACK\GigaDevice\GD32F10x_DFP\2.0.2\Device\I
+.\RTE\_GD32F10X_CL -IC:\Keil_v5\ARM\PACK\GigaDevice\GD32F10x_DFP\2.0.1\Device\I
 nclude -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__MICROLIB SETA 1" --predefi
-ne="__UVISION_VERSION SETA 526" --predefine="GD32F10X_MD SETA 1" --predefine="U
+ne="__UVISION_VERSION SETA 527" --predefine="GD32F10X_MD SETA 1" --predefine="U
 SE_STDPERIPH_DRIVER SETA 1" --list=.\list\startup_gd32f10x_cl.lst ..\..\Firmwar
 e\CMSIS\GD\GD32F10x\Source\ARM\startup_gd32f10x_cl.s
 
