@@ -706,7 +706,7 @@ unsigned char calibration_sensors(unsigned char state)
     static unsigned char status;
     unsigned char *p;
     unsigned int orp_mV_tmp;
-	float  ph_tmp;
+    float  ph_tmp;
     unsigned char flag=0;
     float orp_mV;
     if(state == 1)
@@ -744,67 +744,78 @@ unsigned char calibration_sensors(unsigned char state)
             {
             case 1://6.86 ph calibration init
             {
-                modbus_cali.RS485_Addr = PH_ADDR;
-                modbus_cali.func = 0x06;
-                modbus_cali.startaddr = 0x0036;
-                modbus_cali.regnum = 0;
-                modbus_cali.datcount = 2;
-                buf[0] = 0x00;
-                buf[1] = 0x01;
-                memcpy(modbus_cali.modbus_txdata,buf,2);
-                Modbus_Pack( modbus_cali);
-                status = 2;
+
+                if(getTouch()->page_id==CALIBRATION_PAGE)
+                {
+                    GetInOut()->orb_cali_value = 0;
+                    if(strlen((const char *)getTouch()->str)!=0&&getTouch()->key==ENTER)
+                    {
+                        //GetTouchEditValue(CALIBRATION_PAGE,PH1_EDIT_ID);
+                        modbus_cali.RS485_Addr = PH_ADDR;
+                        modbus_cali.func = 0x10;
+                        modbus_cali.startaddr = 0x0012;
+                        modbus_cali.regnum = 0x0002;
+                        ph_tmp=atof (getTouch()->str);
+                        ph_tmp = ph_tmp;
+                        modbus_cali.datcount = 5;
+                        modbus_cali.datType = FLOAT_TYPE;
+                        //GetInOut()->orb_cali_value = 86;
+                        p = (unsigned char *)(&ph_tmp);
+                        buf[0] = 4;
+                        buf[1] = *(p+1);//c
+                        buf[2] =  *(p);//d
+                        buf[3] =  *(p+3);//a
+                        buf[4] =  *(p+2);//b
+                        memcpy(modbus_cali.modbus_txdata,buf,5);
+                        Modbus_Pack( modbus_cali);
+                        delay_ms(200);
+                        //getTouch()->str[0] = 0x00;
+                        memset(getTouch()->str,0,20);
+                        if(getTouch()->last_ctrl_id!=PH1_CAL_ID)
+                            getTouch()->last_ctrl_id = PH1_CAL_ID;
+                        // getTouch()->key = 0;
+                        //status = 8;
+                        status = 0;
+                        GetInOut()->key_cali_value = 0;
+                    }
+                    else if(getTouch()->key!=ENTER)
+                    {
+                        modbus_cali.RS485_Addr = PH_ADDR;
+                        modbus_cali.func = 0x06;
+                        modbus_cali.startaddr = 0x0036;
+                        modbus_cali.regnum = 0;
+                        modbus_cali.datcount = 2;
+                        buf[0] = 0x00;
+                        buf[1] = 0x01;
+                        memcpy(modbus_cali.modbus_txdata,buf,2);
+                        Modbus_Pack( modbus_cali);
+                        status = 2;
+
+                    }
+                }
+
+
+
             }
             break;
             case 2://6.86 ph calibration start
             {
-				        
-							   if(getTouch()->page_id==CALIBRATION_PAGE)
-							   {
-								   GetInOut()->orb_cali_value = 0;
-								   if(strlen((const char *)getTouch()->str)!=0&&getTouch()->key==ENTER)
-								   { GetTouchEditValue(CALIBRATION_PAGE,PH1_EDIT_ID);
-									   modbus_cali.RS485_Addr = PH_ADDR;
-									   modbus_cali.func = 0x10;
-									   modbus_cali.startaddr = 0x0012;
-									   modbus_cali.regnum = 0x0002;
-									   ph_tmp=atof (getTouch()->str);
-									   ph_tmp = ph_tmp;
-									   modbus_cali.datcount = 5;
-									   modbus_cali.datType = FLOAT_TYPE;
-									   //GetInOut()->orb_cali_value = 86;
-									   p = (unsigned char *)(&ph_tmp);
-									   buf[0] = 4;
-									   buf[1] = *(p+1);//c
-									   buf[2] =  *(p);//d
-									   buf[3] =  *(p+3);//a
-									   buf[4] =  *(p+2);//b
-									   memcpy(modbus_cali.modbus_txdata,buf,5);
-									   Modbus_Pack( modbus_cali);
-									   delay_ms(200);
-									   getTouch()->str[0] = 0x00;
-									   if(getTouch()->last_ctrl_id!=PH1_CAL_ID)
-										   getTouch()->last_ctrl_id = PH1_CAL_ID;
-									   // getTouch()->key = 0;
-									   //status = 8;
-										 status = 3;
-								   }
-				
-							   }
 
-			if(getTouch()->key!=ENTER)
-			{
-                modbus_cali.RS485_Addr = PH_ADDR;
-                modbus_cali.func = 0x03;
-                modbus_cali.startaddr = 0x0066;
-                modbus_cali.regnum = 0x0001;
-                modbus_cali.datcount = 0;
-                //buf[0] = 0x00;
-                // buf[1] = 0x01;
-                // memcpy(modbus_cali.modbus_txdata,buf,2);
-                Modbus_Pack( modbus_cali);
-                status = 2;			
-			}
+
+
+                if(getTouch()->key!=ENTER)
+                {
+                    modbus_cali.RS485_Addr = PH_ADDR;
+                    modbus_cali.func = 0x03;
+                    modbus_cali.startaddr = 0x0066;
+                    modbus_cali.regnum = 0x0001;
+                    modbus_cali.datcount = 0;
+                    //buf[0] = 0x00;
+                    // buf[1] = 0x01;
+                    // memcpy(modbus_cali.modbus_txdata,buf,2);
+                    Modbus_Pack( modbus_cali);
+                    status = 2;
+                }
 
             }
             break;
@@ -917,7 +928,7 @@ unsigned char calibration_sensors(unsigned char state)
                         memcpy(modbus_cali.modbus_txdata,buf,5);
                         Modbus_Pack( modbus_cali);
                         delay_ms(200);
-                        getTouch()->str[0] = 0x00;
+                        memset(getTouch()->str,0,20);
                         if(getTouch()->last_ctrl_id!=ORP_CAL_ID)
                             getTouch()->last_ctrl_id = ORP_CAL_ID;
                         // getTouch()->key = 0;

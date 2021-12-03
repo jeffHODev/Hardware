@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE vlcd PUBLIC "-//W3C//DTD VLCD 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/VLCD10.dtd">
+<vlcd width="480" height="272">
+<desc>Vlcd picture</desc>
+<image x = "0" y = "0" width = "480" height = "272" ShapeName = ""
+ ShapeNum = "46" xlink:href = "D:\work\git\Hardware\hdyl\code\lcd\ui_MF\image\image005.bmp">
+</image>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "299" y = "49" width = "70" height = "35" ShapeName = "TP" ShapeNum = "25" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image005.bmp" Gheight = "image006.bmp" >开始</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "299" y = "109" width = "68" height = "30" ShapeName = "TP" ShapeNum = "26" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image005.bmp" Gheight = "image006.bmp" >开始</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "72" y = "220" width = "110" height = "37" ShapeName = "TP" ShapeNum = "27" Direction = "ChangePage" StoreType = "p3" RadianNum = "Char" TextAlignType = "" Gwidth = "image005.bmp" Gheight = "image006.bmp" >校准完成</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "298" y = "219" width = "108" height = "39" ShapeName = "TP" ShapeNum = "28" Direction = "ChangePage" StoreType = "p3" RadianNum = "Char" TextAlignType = "" Gwidth = "image005.bmp" Gheight = "image006.bmp" >返回</button>
+<edit style = "fill:LightSkyBlue; stroke:White; stroke-width:1" x = "158" y = "49" width = "120" height = "32" ShapeName = "14" ShapeNum = "29" TextAlignType = "Center" StoreType = "Global" Direction = "No" Gwidth = "Keyboard" RadianNum = "32" >Edit</edit>
+<edit style = "fill:LightSkyBlue; stroke:White; stroke-width:1" x = "158" y = "108" width = "120" height = "34" ShapeName = "14" ShapeNum = "30" TextAlignType = "Center" StoreType = "Local" Direction = "No" Gwidth = "Normal" RadianNum = "" >Edit</edit>
+<edit style = "fill:LightSkyBlue; stroke:White; stroke-width:1" x = "161" y = "168" width = "116" height = "31" ShapeName = "14" ShapeNum = "32" TextAlignType = "Center" StoreType = "Global" Direction = "No" Gwidth = "Keyboard" RadianNum = "32" >Edit</edit>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "385" y = "49" width = "70" height = "35" ShapeName = "TP" ShapeNum = "37" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image005.bmp" Gheight = "image006.bmp" >确定</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "386" y = "107" width = "70" height = "35" ShapeName = "TP" ShapeNum = "38" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image005.bmp" Gheight = "image006.bmp" >确定</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "297" y = "166" width = "158" height = "35" ShapeName = "TP" ShapeNum = "39" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image005.bmp" Gheight = "image006.bmp" >确定</button>
+</vlcd>

@@ -220,7 +220,8 @@ void USART2_IRQHandler(void)
         if(i == len)
         {
             ui_usr.interrupt_flag = 1;
-            lcd_touch_interrupt();
+
+					lcd_touch_interrupt();
             ui_usr.interrupt_flag= 0 ;
         }
 

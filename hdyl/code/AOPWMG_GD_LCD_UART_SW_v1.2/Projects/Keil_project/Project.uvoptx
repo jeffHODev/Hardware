@@ -148,104 +148,7 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0GD32F4xx_1MB -FS08000000 -FL0100000 -FP0($$Device:GD32F405VG$Flash\GD32F4xx_1MB.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>584</LineNumber>
-          <EnabledFlag>0</EnabledFlag>
-          <Address>134230204</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\src\app.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project\../../src/app.c\584</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>578</LineNumber>
-          <EnabledFlag>0</EnabledFlag>
-          <Address>134230198</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\src\app.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project\../../src/app.c\578</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>950</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134240602</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\src\sensor.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project\../../src/sensor.c\950</Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
-          <LineNumber>769</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134239718</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\src\sensor.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project\../../src/sensor.c\769</Expression>
-        </Bp>
-        <Bp>
-          <Number>4</Number>
-          <Type>0</Type>
-          <LineNumber>896</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134240316</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\src\sensor.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project\../../src/sensor.c\896</Expression>
-        </Bp>
-        <Bp>
-          <Number>5</Number>
-          <Type>0</Type>
-          <LineNumber>766</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134247080</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\src\app.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project\../../src/app.c\766</Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -260,7 +163,7 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sensor</ItemText>
+          <ItemText>sensor,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
@@ -375,7 +278,7 @@
         <Ww>
           <count>25</count>
           <WinNumber>1</WinNumber>
-          <ItemText>flow_switch</ItemText>
+          <ItemText>inout_usr</ItemText>
         </Ww>
         <Ww>
           <count>26</count>
@@ -396,6 +299,11 @@
           <count>29</count>
           <WinNumber>1</WinNumber>
           <ItemText>buf_cmd</ItemText>
+        </Ww>
+        <Ww>
+          <count>30</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>orp_mV,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

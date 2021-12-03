@@ -1,0 +1,9 @@
+[COMMON]
+LCD_SIZE=480x272
+LCD_X=480
+LCD_Y=272
+LCD_INTERFACE=Uart
+PROJECT_NAME=VlcdsPrj
+LCD_DIR=Horizontal
+DEFAULT_DIR_PATH=C:\Users\86152\Desktop\lcd\ui_MF\VlcdsPrj
+DEFAULT_OUTPUT_DIR_PATH=C:\Users\86152\Desktop\lcd\ui_MF\VlcdsPrj\output

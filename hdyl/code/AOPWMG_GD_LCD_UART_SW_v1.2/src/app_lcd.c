@@ -206,9 +206,11 @@ void lcd_touch_interrupt(void)
             if(getTouch()->control_id==PH1_EDIT_ID)
             {
                 GetTouchEditValue(CALIBRATION_PAGE,PH1_EDIT_ID);
-                step=14;
+							step=14;
                 getTouch()->key = pb[INDEX_CMD+4];
                 GetInOut()->update = 1;
+							 // delay_ms(100);
+
 
             }
 
