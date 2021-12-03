@@ -2,14 +2,20 @@
 #define LCD_APP_H
 
 #define LCD_BUF_SIZE  32
+#define STATLUS_BACK_COLOR   0xF7be
+#define BACK_COLOR    0xF7be
+#define FORCE_COLOR  0x000F                 
+#define STATLUS_FORCE_COLOR  0x07E0 
+
+#define WARN_BACK_COLOR  0xf800
 
 
-#define STATLUS_BACK_COLOR   0x07e0
+/*#define STATLUS_BACK_COLOR   0x07e0
 #define BACK_COLOR    0x3d19
 #define FORCE_COLOR  0xFFFF           
 #define STATLUS_FORCE_COLOR  0x07E0 
 
-#define WARN_BACK_COLOR  0xf800
+#define WARN_BACK_COLOR  0xf800*/
 
 typedef struct
 {

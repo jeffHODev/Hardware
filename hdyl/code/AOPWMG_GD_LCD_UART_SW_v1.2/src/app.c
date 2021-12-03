@@ -688,7 +688,7 @@ void lcd_proc()
             //SetLableValueColor(Main_PAGE,LABEL_WORK_ID, BACK_COLOR,FORCE_COLOR, (unsigned char *)ptr);
 
 
-            sprintf(ptr,"%4.1f",GetSensor()->ph);
+            sprintf(ptr,"%2.1f",GetSensor()->ph);
             SetLableValueColor(Main_PAGE,LABEL_PH_ID,BACK_COLOR,FORCE_COLOR, (unsigned char *)ptr);
             sprintf(ptr,"%4.0f",GetSensor()->orp);
             SetLableValueColor(Main_PAGE,LABEL_ORP_ID,BACK_COLOR,FORCE_COLOR, (unsigned char *)ptr);//orp
