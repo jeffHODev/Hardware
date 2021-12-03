@@ -761,7 +761,7 @@ void lcd_proc()
             }
             //if(getTouch()->control_id == ORP_CAL_ID&&getTouch()->key !=ENTER_ID)
 
-            if(getTouch()->key ==ENTER_ID)
+            if(getTouch()->key ==ENTER_ID&&getTouch()->control_id != PH1_EDIT_ID)
             {
                 sprintf(( char*)ptr,"%4.2f",GetSensor()->orp_ph_adc);
                 SetEditValue(CALIBRATION_PAGE,ORP_EDIT_ID,(unsigned char *)ptr);//ORP
@@ -1818,7 +1818,7 @@ unsigned char factory_mode()
     return result;
 
 }
-static uint32_t pwm3=21000;
+//static uint32_t pwm3=21000;
 void app()
 {
     static unsigned char flag;

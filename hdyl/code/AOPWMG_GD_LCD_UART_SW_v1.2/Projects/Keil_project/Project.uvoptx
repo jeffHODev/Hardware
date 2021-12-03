@@ -184,38 +184,6 @@
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>782</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134239814</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\src\sensor.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project\../../src/sensor.c\782</Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
-          <LineNumber>813</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134239944</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\src\sensor.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project\../../src/sensor.c\813</Expression>
-        </Bp>
-        <Bp>
-          <Number>4</Number>
-          <Type>0</Type>
           <LineNumber>950</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>134240602</Address>
@@ -230,20 +198,52 @@
           <Expression>\\Project\../../src/sensor.c\950</Expression>
         </Bp>
         <Bp>
-          <Number>5</Number>
+          <Number>3</Number>
           <Type>0</Type>
-          <LineNumber>760</LineNumber>
+          <LineNumber>769</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
+          <Address>134239718</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
+          <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\..\src\sensor.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\Project\../../src/sensor.c\769</Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>896</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134240316</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\..\src\sensor.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\../../src/sensor.c\896</Expression>
+        </Bp>
+        <Bp>
+          <Number>5</Number>
+          <Type>0</Type>
+          <LineNumber>766</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134247080</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\..\src\app.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\../../src/app.c\766</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -921,7 +921,7 @@
 
   <Group>
     <GroupName>hardware</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

@@ -45,7 +45,7 @@ uint32_t bsp_GetSector(uint32_t _ulWrAddr)
 */
 uint8_t bsp_ReadCpuFlash(uint32_t _ulFlashAddr, uint32_t *_ucpDst, uint32_t _ulSize)
 {
-	uint32_t i;
+//	uint32_t i;
 
 	/* 如果偏移地址超过芯片容量，则不改写输出缓冲区 */
 	if (_ulFlashAddr + _ulSize > FLASH_BASE_ADDR + FLASH_SIZE)
@@ -151,7 +151,7 @@ uint8_t bsp_CmpCpuFlash(uint32_t _ulFlashAddr, uint8_t *_ucpBuf, uint32_t _ulSiz
 */
 uint8_t bsp_WriteCpuFlash(uint32_t _ulFlashAddr, uint32_t *_ucpSrc, uint32_t _ulSize)
 {
-	uint32_t i;
+//	uint32_t i;
 //	uint8_t ucRet;
 //	uint16_t usTemp;
 	/* 如果偏移地址超过芯片容量，则不改写输出缓冲区 */

@@ -10,7 +10,7 @@ void EleSwCtrl(unsigned char devNO,unsigned char ctrl)
 {
 
     FlagStatus pinstate;
-	static unsigned char status_flag=0;
+//	static unsigned char status_flag=0;
     if(ctrl  == ON)
     {
         pinstate = SET;
