@@ -2,6 +2,8 @@
 #define LCD_APP_H
 
 #define LCD_BUF_SIZE  32
+
+
 #define STATLUS_BACK_COLOR   0x07e0
 #define BACK_COLOR    0x3d19
 #define FORCE_COLOR  0xFFFF           

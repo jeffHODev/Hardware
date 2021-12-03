@@ -4,7 +4,7 @@
 #define WATER_L_IGNORE  1
 
 
-
+#define FLOW_FAULT_ENABLE 0
 
 
 typedef struct

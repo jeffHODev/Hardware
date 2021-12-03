@@ -875,14 +875,16 @@ void dev_init_ctrl()
 }
 void dev_flow_Abnormal_ctrl()
 {
+    #if FLOW_FAULT_ENABLE ==1
     if(abnormalDec()&0x01)
     {
+        
         GetSensor()->status[FLOW_INDEX] = FLOW_INDEX;//流量异常
         //GetSensor()->status[NOWATER_INDEX] = NOWATER_INDEX;//缺水
 
     }
 
-
+ #endif
 
     EleSwCtrl(WATER_SW,ON);//原水进水阀开
 #if WATER_L_IGNORE == 0
@@ -1013,10 +1015,13 @@ unsigned char flow_proc()
         if(flow_low_cnt>=400000)
         {
             flow_low_cnt = 0;
+			    #if FLOW_FAULT_ENABLE ==1
             if(GetSensor()->flow==0)
                 GetSensor()->status[FLOW_INDEX] = FLOW_INDEX;//流量异常
             else
                 GetSensor()->status[FLOW_INDEX] = 0;//流量异常
+           #endif
+		   if(GetSensor()->flow==0)
             GetSensor()->status[NOWATER_INDEX] = NOWATER_INDEX;//缺水
             result = 1;
         }
@@ -1115,7 +1120,9 @@ void hsw_proc()
         else
         {
             GetSensor()->status[NOWATER_INDEX] = 0;//流量正常
+           #if FLOW_FAULT_ENABLE == 1
             GetSensor()->status[FLOW_INDEX] = FLOW_INDEX;//流量异常
+            #endif
         }
         registerTick(FLOW_TICK_NO2, 0,0,1);//
 
