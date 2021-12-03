@@ -1466,7 +1466,7 @@ void ele_dev_proc()
 
         }
         flow_proc();
-        if(GetSensor()->status[TDS2_INDEX] == TDS2_INDEX||GetSensor()->status[SHUNT_INDEX] == SHUNT_INDEX)
+        if(GetSensor()->status[SYSTEM_INDEX] == SYSTEM_INDEX||GetSensor()->status[TDS2_INDEX] == TDS2_INDEX||GetSensor()->status[SHUNT_INDEX] == SHUNT_INDEX)
         {
             EleSwCtrl(6,OFF);//关所有阀
             DcMotorCtrl(7,OFF);//关所有电机
