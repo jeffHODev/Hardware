@@ -46,10 +46,14 @@ void lcd_touch_interrupt(void)
     uint8_t *pb;
 
     pb = 	buf_cmd	;
+	 if(pb[INDEX_CMD+0] != PAGE_READ_CMD)//Ò³Ãæ
+	 {
     getTouch()->command = pb[INDEX_CMD+0];
     getTouch()->control_id = pb[INDEX_CMD+1];
     getTouch()->page_id = pb[INDEX_CMD+2];
-    getTouch()->status = pb[INDEX_CMD+3];
+    getTouch()->status = pb[INDEX_CMD+3];	 
+	 }
+
     getTouch()->touch_flag = 1;
     switch(pb[INDEX_CMD+0])
     {
@@ -188,6 +192,15 @@ void lcd_touch_interrupt(void)
                 pb[pb[INDEX_CMD-1]] = 0x00;
                 strcpy(( char*)getTouch()->str,(const char*)&pb[INDEX_CMD+4]);
             }
+        }
+
+        break;
+    case PAGE_READ_CMD:
+        if(pb[INDEX_CMD+0] == PAGE_READ_CMD)//Ò³Ãæ
+        {
+            step = 13;
+            getTouch()->next_page = pb[INDEX_CMD+2];
+
         }
 
         break;

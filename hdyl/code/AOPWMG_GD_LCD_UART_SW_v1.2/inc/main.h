@@ -43,7 +43,7 @@ typedef uint32_t u32;
 
 #define LCD_ORI 0      //1:原屏幕 0:修改屏
 #define FLOW_SIZE	4  //排水量1-4L
-#define DEV_TYPE    1  //0:消杀类     1:医疗类
+#define DEV_TYPE    1 //0:消杀类     1:医疗类
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */

@@ -214,14 +214,15 @@ void USART2_IRQHandler(void)
             i = 0;
         if(buf_cmd[0] ==0xaa)
         {
-            if((buf_cmd[2] == 0x62||buf_cmd[2] == 0x7c||buf_cmd[2] == 0x7b))
+            if((buf_cmd[2] == 0x62||buf_cmd[2] == 0x7c||buf_cmd[2] == 0x7b||buf_cmd[2] == 0x71))
                 len = buf_cmd[1]+1;
         }
         if(i == len)
         {
             ui_usr.interrupt_flag = 1;
 
-					lcd_touch_interrupt();
+					  lcd_touch_interrupt();
+					 GetPage();
             ui_usr.interrupt_flag= 0 ;
         }
 

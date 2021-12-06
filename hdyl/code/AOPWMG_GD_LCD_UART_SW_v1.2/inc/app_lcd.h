@@ -2,8 +2,14 @@
 #define LCD_APP_H
 
 #define LCD_BUF_SIZE  32
-#define STATLUS_BACK_COLOR   0xF7be
-#define BACK_COLOR    0xF7be
+
+#if DEV_TYPE==1
+#define STATLUS_BACK_COLOR   0xf7be
+#define BACK_COLOR    0xf7be //0xFfff
+#else
+#define STATLUS_BACK_COLOR   0xFfff
+#define BACK_COLOR    0xFfff //0xFfff
+#endif
 #define FORCE_COLOR  0x000F                 
 #define STATLUS_FORCE_COLOR  0x07E0 
 

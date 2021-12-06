@@ -16,13 +16,13 @@
 #define Main_PAGE					3
 #define CALIBRATION_PAGE			1
 #define SETTING_PAGE			    4
-
+#define KEYBOARD_PAGE			    2
 #else
 #define REBOOT_PAGE				    5
 #define Main_PAGE					6
 #define CALIBRATION_PAGE			1
 #define SETTING_PAGE			    4
-
+#define KEYBOARD_PAGE			    2
 
 #endif
 #define PROGRESS_ID       17
@@ -60,6 +60,7 @@
 #define BUTTON_HIT     0x62
 #define ENTER_HIT      0x7b
 #define EDIT_KEY_HIT     0x7c
+#define PAGE_READ_CMD     0x71
 #if DEV_TYPE == 0
 #define FACTORY_ID  29
 #else

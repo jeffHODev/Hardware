@@ -11,14 +11,14 @@
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "367" y = "227" width = "82" height = "34" ShapeName = "TP" ShapeNum = "7" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image001.bmp" Gheight = "image002.bmp" >重启</button>
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "196" y = "226" width = "84" height = "34" ShapeName = "TP" ShapeNum = "6" Direction = "ChangePage" StoreType = "p4" RadianNum = "Char" TextAlignType = "" Gwidth = "image001.bmp" Gheight = "image002.bmp" >设置</button>
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "30" y = "226" width = "82" height = "34" ShapeName = "TP" ShapeNum = "5" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image001.bmp" Gheight = "image002.bmp" >冲洗</button>
-<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:14pt" x = "412" y = "15" width = "27.60503" height = "23.46093" ShapeName = "Color" ShapeNum = "52" >25</text>
-<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:14pt" x = "412" y = "57" width = "16.91363" height = "23.46093" ShapeName = "Color" ShapeNum = "53" >0</text>
-<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:14pt" x = "412" y = "99" width = "16.91363" height = "23.46093" ShapeName = "Color" ShapeNum = "51" >0</text>
-<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:14pt" x = "412" y = "140" width = "16.91363" height = "23.46093" ShapeName = "Color" ShapeNum = "50" >0</text>
-<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:14pt" x = "410" y = "183" width = "48.98784" height = "23.46093" ShapeName = "Color" ShapeNum = "54" >1100</text>
-<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "175" y = "16" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "55" >离线</text>
-<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "175" y = "58" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "56" >离线</text>
-<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "175" y = "100" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "57" >离线</text>
-<text style = "fill:DarkBlue; stroke:WhiteSmoke; font-family:; font-size:10pt" x = "175" y = "141" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "58" >离线</text>
-<text style = "fill:Lime; stroke:White; font-family:; font-size:10pt" x = "105" y = "186" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "59" >正常</text>
+<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "412" y = "17" width = "19.71788" height = "16.75781" ShapeName = "Color" ShapeNum = "52" >25</text>
+<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "412" y = "59" width = "12.08116" height = "16.75781" ShapeName = "Color" ShapeNum = "53" >0</text>
+<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "412" y = "101" width = "12.08116" height = "16.75781" ShapeName = "Color" ShapeNum = "51" >0</text>
+<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "412" y = "142" width = "12.08116" height = "16.75781" ShapeName = "Color" ShapeNum = "50" >0</text>
+<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "410" y = "187" width = "34.99131" height = "16.75781" ShapeName = "Color" ShapeNum = "54" >1100</text>
+<text style = "fill:MediumBlue; stroke:White; font-family:; font-size:10pt" x = "175" y = "18" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "55" >离线</text>
+<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "175" y = "60" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "56" >离线</text>
+<text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "175" y = "102" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "57" >离线</text>
+<text style = "fill:DarkBlue; stroke:WhiteSmoke; font-family:; font-size:10pt" x = "175" y = "142" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "58" >离线</text>
+<text style = "fill:Lime; stroke:White; font-family:; font-size:10pt" x = "105" y = "187" width = "34.64843" height = "16.75781" ShapeName = "Color" ShapeNum = "59" >正常</text>
 </vlcd>
