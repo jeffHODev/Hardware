@@ -222,6 +222,7 @@ void USART2_IRQHandler(void)
             ui_usr.interrupt_flag = 1;
 
 					  lcd_touch_interrupt();
+					 if(buf_cmd[2] != 0x7b)
 					 GetPage();
             ui_usr.interrupt_flag= 0 ;
         }

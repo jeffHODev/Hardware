@@ -768,7 +768,7 @@ unsigned char calibration_sensors(unsigned char state)
                         buf[4] =  *(p+2);//b
                         memcpy(modbus_cali.modbus_txdata,buf,5);
                         Modbus_Pack( modbus_cali);
-                        delay_ms(200);
+                        //delay_ms(3000);
                         //getTouch()->str[0] = 0x00;
                         memset(getTouch()->str,0,20);
                         if(getTouch()->last_ctrl_id!=PH1_CAL_ID)
