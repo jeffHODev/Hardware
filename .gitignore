@@ -53,11 +53,9 @@ sourceinsight/!*.siproj
 *.sip_xad
 *.sip_xc
 *.sip_*
-/output
-
-
-/output/!*.hex
-/output/*.bin
+/output/
+!/output/*.hex
+!/output/*.bin
 *.hex
 *.bin
 
@@ -91,7 +89,6 @@ sourceinsight/!*.siproj
 *.uvprojx
 *.uvoptx
 !/lcd/*
-!/lcd/ui_MF/output/
-!/lcd/ui_MF2/output/
+!/lcd
 Project.uvgui.*
 Project.uvguix.*
