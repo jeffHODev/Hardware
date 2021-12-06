@@ -275,7 +275,7 @@ void Flow_Init()
     else
     {
 
-        registerTick(TDS_SETTING_TICK_NO, 5000,1,0);
+        registerTick(TDS_SETTING_TICK_NO, 1000,1,0);
         //目标tds 2.5----500
         //目标tds 3 ------650
         //目标tds 3.5 ------950	+30----0.1
@@ -383,7 +383,7 @@ void FlowCtrl()
     if(PID_TYPE == 2)
     {
 
-        registerTick(PID_SETTING_TICK_NO, 100, 1,0);//超时计时开始
+        registerTick(PID_SETTING_TICK_NO, 10, 1,0);//超时计时开始
 
         //if(GetTickResult(PID_SETTING_TICK_NO)==0)
         //   return ;

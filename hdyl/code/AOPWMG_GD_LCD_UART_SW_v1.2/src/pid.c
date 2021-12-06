@@ -367,7 +367,7 @@ void pid_init(float setvalue)
 
 
     // PIDInit ( &sPID ); // Initialize Structure
-    sPID.Proportion =185; // Set PID Coefficients  185 260
+    sPID.Proportion =195; // Set PID Coefficients  185 260
     sPID.Integral = 0.003;//0.95;//
     sPID.Derivative = 0.0004;
     // sPID.result = 0;

@@ -359,9 +359,9 @@ void GetFlow()
 
         if(init_flag == 0)
         {
-            flow_cal = *GetCapture_cnt();
+            flow_cal = *GetCapture_cnt();//flow/650*60000/(50*flow_cnt)
             init_flag = 1;
-            flow_tmp   = (1200/FLOW_RATIO);
+            flow_tmp   = (60000/1/FLOW_RATIO);
             sensor.water_quantity = sensor.last_water_quantity+flow_cal/FLOW_RATIO;
             flow_tmp   = (flow_cal*flow_tmp)/(flow_cnt);
             sensor.flow =sensor.flow -sensor.flow /FIR_NUM_FLOW+flow_tmp/FIR_NUM_FLOW;
@@ -372,7 +372,7 @@ void GetFlow()
         else
         {
             flow_cal = *GetCapture_cnt();
-            flow_tmp   = (1200/FLOW_RATIO);
+            flow_tmp   = (60000/1/FLOW_RATIO);
             sensor.water_quantity = sensor.last_water_quantity+flow_cal/FLOW_RATIO;
             flow_tmp   = (flow_cal*flow_tmp)/(flow_cnt);
             sensor.flow =sensor.flow -sensor.flow /FIR_NUM_FLOW+flow_tmp/FIR_NUM_FLOW;
