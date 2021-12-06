@@ -92,3 +92,5 @@ sourceinsight/!*.siproj
 *.uvoptx
 !/lcd/
 !/lcd/../output/
+Project.uvgui.*
+Project.uvguix.*
