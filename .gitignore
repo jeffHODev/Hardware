@@ -90,7 +90,8 @@ sourceinsight/!*.siproj
 /Keil5_project/*
 *.uvprojx
 *.uvoptx
-!/lcd/
-!/lcd/../output/
+!/lcd/*
+!/lcd/ui_MF/output/
+!/lcd/ui_MF2/output/
 Project.uvgui.*
 Project.uvguix.*
