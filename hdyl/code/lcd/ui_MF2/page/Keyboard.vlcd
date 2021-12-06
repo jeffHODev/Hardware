@@ -3,9 +3,9 @@
 <vlcd width="480" height="272">
 <desc>Vlcd picture</desc>
 <image x = "0" y = "0" width = "480" height = "272" ShapeName = ""
- ShapeNum = "17" xlink:href = "D:\work\git\Hardware\hdyl\code\lcd\ui_MF\image\image007.bmp">
+ ShapeNum = "17" xlink:href = "D:\work\git\Hardware\hdyl\code\lcd\ui_MF2\image\image007.bmp">
 </image>
-<edit style = "fill:LightSkyBlue; stroke:White; stroke-width:1" x = "34" y = "29" width = "317" height = "21" ShapeName = "10" ShapeNum = "2" TextAlignType = "Center" StoreType = "Local" Direction = "No" Gwidth = "Normal" RadianNum = "" >Edit</edit>
+<edit style = "fill:White; stroke:DarkBlue; stroke-width:1" x = "33" y = "27" width = "298" height = "21" ShapeName = "10" ShapeNum = "2" TextAlignType = "Center" StoreType = "Local" Direction = "No" Gwidth = "Normal" RadianNum = "" >Edit</edit>
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "384" y = "25" width = "58" height = "28" ShapeName = "TP" ShapeNum = "18" Direction = "ChangePage" StoreType = "p1" RadianNum = "Esc" TextAlignType = "" Gwidth = "image007.bmp" Gheight = "image008.bmp" >退出</button>
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "36" y = "64" width = "78" height = "32" ShapeName = "TP" ShapeNum = "3" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "1" Gwidth = "image007.bmp" Gheight = "image008.bmp" >1</button>
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "143" y = "63" width = "82" height = "36" ShapeName = "TP" ShapeNum = "4" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "2" Gwidth = "image007.bmp" Gheight = "image008.bmp" >2</button>
@@ -17,8 +17,9 @@
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "254" y = "114" width = "82" height = "36" ShapeName = "TP" ShapeNum = "8" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "6" Gwidth = "image007.bmp" Gheight = "image008.bmp" >6</button>
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "31" y = "166" width = "82" height = "31" ShapeName = "TP" ShapeNum = "9" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "7" Gwidth = "image007.bmp" Gheight = "image008.bmp" >7</button>
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "145" y = "163" width = "78" height = "35" ShapeName = "TP" ShapeNum = "10" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "8" Gwidth = "image007.bmp" Gheight = "image008.bmp" >8</button>
-<button style = "fill:none; stroke:Black; stroke-width:1" x = "34" y = "213" width = "190" height = "35" ShapeName = "TP" ShapeNum = "12" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "0" Gwidth = "image007.bmp" Gheight = "image008.bmp" >0</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "145" y = "213" width = "76" height = "33" ShapeName = "TP" ShapeNum = "12" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "0" Gwidth = "image007.bmp" Gheight = "image008.bmp" >0</button>
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "367" y = "112" width = "82" height = "35" ShapeName = "TP" ShapeNum = "13" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Clear" TextAlignType = "1" Gwidth = "image007.bmp" Gheight = "image008.bmp" >清除</button>
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "367" y = "161" width = "82" height = "89" ShapeName = "TP" ShapeNum = "16" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Enter" TextAlignType = "1" Gwidth = "image007.bmp" Gheight = "image008.bmp" >确认</button>
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "259" y = "213" width = "76" height = "33" ShapeName = "TP" ShapeNum = "19" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "." Gwidth = "image007.bmp" Gheight = "image008.bmp" >.</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "31" y = "213" width = "76" height = "33" ShapeName = "TP" ShapeNum = "20" Direction = "VirtualKey" StoreType = "e2" RadianNum = "Char" TextAlignType = "-" Gwidth = "image007.bmp" Gheight = "image008.bmp" >-</button>
 </vlcd>
