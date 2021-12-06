@@ -89,3 +89,4 @@ sourceinsight/!*.siproj
 !lcd/
 /Keil5_project/*
 *.uvprojx
+!/lcd/

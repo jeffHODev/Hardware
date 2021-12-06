@@ -8,8 +8,8 @@
 <image x = "0" y = "0" width = "480" height = "272" ShapeName = ""
  ShapeNum = "61" xlink:href = "D:\work\git\Hardware\hdyl\code\lcd\ui_MF2\image\image009.bmp">
 </image>
-<button style = "fill:none; stroke:Black; stroke-width:1" x = "301" y = "224" width = "114" height = "32" ShapeName = "TP" ShapeNum = "7" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image009.bmp" Gheight = "mage0010.bmp" >重启</button>
-<button style = "fill:none; stroke:Black; stroke-width:1" x = "64" y = "223" width = "116" height = "33" ShapeName = "TP" ShapeNum = "5" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image009.bmp" Gheight = "image0010.bmp" >冲洗</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "295" y = "223" width = "126" height = "33" ShapeName = "TP" ShapeNum = "7" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image009.bmp" Gheight = "image0010.bmp" >重启</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "59" y = "223" width = "126" height = "33" ShapeName = "TP" ShapeNum = "5" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image009.bmp" Gheight = "image0010.bmp" >冲洗</button>
 <text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "407" y = "22" width = "19.71788" height = "16.75781" ShapeName = "Color" ShapeNum = "52" >25</text>
 <text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "407" y = "74" width = "12.08116" height = "16.75781" ShapeName = "Color" ShapeNum = "53" >0</text>
 <text style = "fill:DarkBlue; stroke:White; font-family:; font-size:10pt" x = "407" y = "127" width = "12.08116" height = "16.75781" ShapeName = "Color" ShapeNum = "51" >0</text>

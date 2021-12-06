@@ -5,7 +5,7 @@
 <image x = "0" y = "0" width = "480" height = "272" ShapeName = ""
  ShapeNum = "25" xlink:href = "D:\work\git\Hardware\hdyl\code\lcd\ui_MF2\image\image003.bmp">
 </image>
-<button style = "fill:none; stroke:Black; stroke-width:1" x = "85" y = "114" width = "120" height = "45" ShapeName = "TP" ShapeNum = "23" Direction = "ChangePage" StoreType = "p1" RadianNum = "Char" TextAlignType = "" Gwidth = "image003.bmp" Gheight = "image004.bmp" >校准</button>
-<button style = "fill:none; stroke:Black; stroke-width:1" x = "273" y = "113" width = "120" height = "45" ShapeName = "TP" ShapeNum = "24" Direction = "ChangePage" StoreType = "p3" RadianNum = "Char" TextAlignType = "" Gwidth = "image003.bmp" Gheight = "image004.bmp" >返回</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "71" y = "114" width = "148" height = "43" ShapeName = "TP" ShapeNum = "23" Direction = "ChangePage" StoreType = "p1" RadianNum = "Char" TextAlignType = "" Gwidth = "image003.bmp" Gheight = "image004.bmp" >校准</button>
+<button style = "fill:none; stroke:Black; stroke-width:1" x = "261" y = "113" width = "148" height = "45" ShapeName = "TP" ShapeNum = "24" Direction = "ChangePage" StoreType = "p3" RadianNum = "Char" TextAlignType = "" Gwidth = "image003.bmp" Gheight = "image004.bmp" >返回</button>
 <button style = "fill:none; stroke:Black; stroke-width:1" x = "412" y = "4" width = "57" height = "38" ShapeName = "TP" ShapeNum = "69" Direction = "UploadID" StoreType = "" RadianNum = "Char" TextAlignType = "" Gwidth = "image003.bmp" Gheight = "image003.bmp" ></button>
 </vlcd>
