@@ -15,8 +15,8 @@
 //3.5-4---  950
 #define TDS_LEVEL1   500-20
 #define TDS_LEVEL2   650-120  // 650-150
-#define TDS_LEVEL3   650-30   //850
-#define TDS_LEVEL4   1100-100  //1000
+#define TDS_LEVEL3   700//650-30   //850
+#define TDS_LEVEL4   1100//-100  //1000
 #define TDS_LEVEL5   1100-100 //1000
 #define TDS_LEVEL6   1200-50
 
