@@ -88,7 +88,7 @@ sourceinsight/!*.siproj
 /Keil5_project/*
 *.uvprojx
 *.uvoptx
-!/lcd/*
-!/lcd
+!lcd/*
+!lcd/
 Project.uvgui.*
 Project.uvguix.*
