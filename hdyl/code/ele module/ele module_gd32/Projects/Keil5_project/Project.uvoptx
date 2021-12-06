@@ -221,22 +221,6 @@
         <Bp>
           <Number>4</Number>
           <Type>0</Type>
-          <LineNumber>485</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134230610</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\src\sensor.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project\../../src/sensor.c\485</Expression>
-        </Bp>
-        <Bp>
-          <Number>5</Number>
-          <Type>0</Type>
           <LineNumber>122</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>134226948</Address>
@@ -249,6 +233,22 @@
           <Filename>..\main.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\Project\../main.c\122</Expression>
+        </Bp>
+        <Bp>
+          <Number>5</Number>
+          <Type>0</Type>
+          <LineNumber>485</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134230610</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\..\src\sensor.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\../../src/sensor.c\485</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>

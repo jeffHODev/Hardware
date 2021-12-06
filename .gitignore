@@ -87,4 +87,4 @@ sourceinsight/!*.siproj
 /Keil_project/*
 !/Keil_project/output/*.hex
 !lcd/
-
+/Keil5_project/*
