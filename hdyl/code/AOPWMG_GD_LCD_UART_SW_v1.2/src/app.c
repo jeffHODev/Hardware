@@ -679,7 +679,7 @@ void lcd_proc()
 #if DEV_TYPE == 1
 
 #if LCD_ORI == 1
-            sprintf(ptr,"%4.1f",GetSensor()->ph);
+            sprintf(ptr,"%2.2f",GetSensor()->ph);
             SetLableValue(Main_PAGE,LABEL_PH_ID,(unsigned char *)ptr);
             sprintf(ptr,"%4.0f",GetSensor()->orp);
             SetLableValue(Main_PAGE,LABEL_ORP_ID,(unsigned char *)ptr);//orp
@@ -688,7 +688,7 @@ void lcd_proc()
             //SetLableValueColor(Main_PAGE,LABEL_WORK_ID, BACK_COLOR,FORCE_COLOR, (unsigned char *)ptr);
 
 
-            sprintf(ptr,"%2.1f",GetSensor()->ph);
+            sprintf(ptr,"%2.2f",GetSensor()->ph);
             SetLableValueColor(Main_PAGE,LABEL_PH_ID,BACK_COLOR,FORCE_COLOR, (unsigned char *)ptr);
             sprintf(ptr,"%4.0f",GetSensor()->orp);
             SetLableValueColor(Main_PAGE,LABEL_ORP_ID,BACK_COLOR,FORCE_COLOR, (unsigned char *)ptr);//orp
