@@ -91,3 +91,4 @@ sourceinsight/!*.siproj
 *.uvprojx
 *.uvoptx
 !/lcd/
+!/lcd/../output/
