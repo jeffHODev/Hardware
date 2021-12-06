@@ -88,3 +88,4 @@ sourceinsight/!*.siproj
 !/Keil_project/output/*.hex
 !lcd/
 /Keil5_project/*
+*.uvprojx
