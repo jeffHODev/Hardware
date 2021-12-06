@@ -54,6 +54,7 @@ void lcd_touch_interrupt(void)
     getTouch()->status = pb[INDEX_CMD+3];	 
 	 }
 
+
     getTouch()->touch_flag = 1;
     switch(pb[INDEX_CMD+0])
     {

@@ -33,6 +33,7 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
 OF SUCH DAMAGE.
 */
+#include "cmd_process.h"
 #include "timer.h"
 #include "gd32f4xx_it.h"
 #include "sys.h"
@@ -223,7 +224,16 @@ void USART2_IRQHandler(void)
 
 					  lcd_touch_interrupt();
 					 if(buf_cmd[2] != 0x7b)
-					 GetPage();
+					 {
+							GetPage();
+						  if(getTouch()->next_page != CALIBRATION_PAGE)
+							{
+							GetInOut()->key_cali_mode = 0;
+              GetInOut()->key_cali_value = 0;								
+							}
+					 
+					 }
+
             ui_usr.interrupt_flag= 0 ;
         }
 
