@@ -672,7 +672,7 @@ void lcd_proc()
     {
         printf("消毒水总量及电解时间：	%0.2f(升)	   %0.1f(小时)\n",GetSensor()->water_quantity,GetSensor()->sum_ele_time);
 
-          
+
         //GetSensor()->water_quantity = GetSensor()->water_quantity + 0.2;
         if(getTouch()->next_page == Main_PAGE)//主页面
         {
@@ -746,7 +746,8 @@ void lcd_proc()
         }
 #if DEV_TYPE == 1
         else if(getTouch()->next_page == CALIBRATION_PAGE)//校准页面
-        { //SetPage(CALIBRATION_PAGE);//主页面Id号是4
+        {
+            //SetPage(CALIBRATION_PAGE);//主页面Id号是4
             if(getTouch()->control_id == PH1_CAL_ID)
             {
                 sprintf(ptr,"%4.2f",GetSensor()->orp_ph_adc);
@@ -780,19 +781,19 @@ void lcd_proc()
 
         else
         {
-					  if(getTouch()->next_page != KEYBOARD_PAGE)
-						{
-            SetPage(Main_PAGE);//主页面Id号是4
-            getTouch()->page_id = Main_PAGE;
-            getTouch()->next_page == Main_PAGE;						
-						}
+            if(getTouch()->next_page != KEYBOARD_PAGE)
+            {
+                SetPage(Main_PAGE);//主页面Id号是4
+                getTouch()->page_id = Main_PAGE;
+                getTouch()->next_page == Main_PAGE;
+            }
 
 
         }
 #endif
 
         registerTick(LCD_TICK,0,0,1);
-				
+
     }
 
 

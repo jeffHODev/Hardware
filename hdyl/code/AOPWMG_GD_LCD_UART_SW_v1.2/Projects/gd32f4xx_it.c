@@ -147,7 +147,7 @@ void SysTick_Handler(void)
 {
     TickPro();
     sys_tick++;
-	if(sys_tick%1==0)
+	if(sys_tick%FLOW_PERIOD==0)
 	{
 	  GetFlow();	
 	}

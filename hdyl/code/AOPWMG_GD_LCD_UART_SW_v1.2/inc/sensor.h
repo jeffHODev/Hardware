@@ -20,13 +20,14 @@
 #define TDS_LEVEL5   1100-100 //1000
 #define TDS_LEVEL6   1200-50
 
-
-
+#define FLOW_PERIOD		1
+#define FLOW_FACTOR	60000/FLOW_PERIOD
 #define PUMP_VALUE    65535
 
 
 #define FLOW_VALUE 2
-#define FLOW_RATIO  650.0//575.0  // 575 499  537
+#define FLOW_RATIO  575//650.0//575.0  // 575 499  537
+
 
 #define FLOW_THRES   0.5
 #define WATER_H	0   // high water level
@@ -37,7 +38,7 @@
 
 #define WATER_LEVEL 0   //water level voltage level
 #define FIR_NUM          20  //filter 1
-#define FIR_NUM_FLOW     10  //filter 1
+#define FIR_NUM_FLOW     5  //filter 1
 #define FIR_NUM_MAX      100 // filter 2
 
 #define MAX_FLOW  7 //
