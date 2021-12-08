@@ -15,10 +15,18 @@
 //3.5-4---  950
 #define TDS_LEVEL1   500-20
 #define TDS_LEVEL2   650-120  // 650-150
-#define TDS_LEVEL3   700//650-30   //850
-#define TDS_LEVEL4   1100//-100  //1000
+#define TDS_LEVEL3   700+20//650-30   //850
+#define TDS_LEVEL4   1100+20//-100  //1000
 #define TDS_LEVEL5   1100-100 //1000
 #define TDS_LEVEL6   1200-50
+
+/*#define TDS_LEVEL1   500-20+100
+#define TDS_LEVEL2   650-120+100  // 650-150
+#define TDS_LEVEL3   700+20+120//650-30   //850
+#define TDS_LEVEL4   1100+20+30+50//-100  //1000
+#define TDS_LEVEL5   1100-100 //1000
+#define TDS_LEVEL6   1200-50*/
+
 
 #define FLOW_PERIOD		1
 #define FLOW_FACTOR	60000/FLOW_PERIOD
@@ -26,7 +34,7 @@
 
 
 #define FLOW_VALUE 2
-#define FLOW_RATIO  575//650.0//575.0  // 575 499  537
+#define FLOW_RATIO  575//575//650.0//575.0  // 575 499  537
 
 
 #define FLOW_THRES   0.5
@@ -68,7 +76,7 @@
 
 #define MAX_LONG_TICK	    1000
 #define MAX_SHORT_TICK	    5000
-#define MAX_TICK	        40000
+#define MAX_TICK	        60000
 #define WATER_LSHORT_TICK	1000
 #define WATER_L_DELAY_TICK	3*60*1000
 

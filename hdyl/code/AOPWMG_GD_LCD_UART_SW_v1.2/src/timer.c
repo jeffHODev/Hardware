@@ -72,7 +72,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)//¸üĞÂÖĞ¶Ï£¨Òç³ö£©·¢É
 #endif
 
 uint32_t timecount,test,timecount1,edge_cnt;
-float fq=-1;
+float fq=-1,fq_t;
 unsigned char state,fq_flag;
 uint32_t result;
 //¶¨Ê±Æ÷ÊäÈë²¶»ñÖĞ¶Ï´¦Àí»Øµ÷º¯Êı£¬¸Ãº¯ÊıÔÚHAL_TIM_IRQHandlerÖĞ»á±»µ÷ÓÃ
@@ -167,7 +167,11 @@ void TIM3CaptureChannel3Callback()//²¶»ñÖĞ¶Ï·¢ÉúÊ±Ö´ĞĞ
 
            // result = filter2(test);
             if(test!=NULL)
-                fq=1000000/test;					 //Âö³åµÄÆµÂÊ
+						{
+						  fq=1000000/test;					 //Âö³åµÄÆµÂÊ
+							fq_t = fq;
+						}
+              
             else
                 fq = -1;
 
