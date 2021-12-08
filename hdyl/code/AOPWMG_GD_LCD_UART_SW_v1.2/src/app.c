@@ -320,17 +320,17 @@ void Flow_Init()
                 if(flow_switch<TDS_LEVEL1)
                     flow_switch = TDS_LEVEL1;
             }
-            else if(GetSensor()->flow<=3.5)//3---3.5 530-680
+            else if(GetSensor()->flow<=3.5)//3---3.5 510-660
             {
                 flow_switch = (GetSensor()->flow-3)*300+TDS_LEVEL2;
                 if(flow_switch<TDS_LEVEL2)
                     flow_switch = TDS_LEVEL2;
             }
 
-            else //(GetSensor()->flow<=4)//3.5---4    700-1000	+30----0.1
+            else //(GetSensor()->flow<=4)//3.5---4    680-980	+30----0.1
             {
                 flow_switch = (GetSensor()->flow-3.5)*600+TDS_LEVEL3;
-                if(flow_switch>=TDS_LEVEL4)//1100
+                if(flow_switch>=TDS_LEVEL4)//1120
                     flow_switch = TDS_LEVEL4;
             }
             //else
@@ -1008,15 +1008,9 @@ void pump_ctrl(unsigned char mode)
 		//	motor_pwm = GetSensor()->flow*(-13883.75)+65535;
 		////	if(motor_pwm <10000)
 			//	motor_pwm = 10000;
-			if( GetSensor()->flow>4)
-				motor_pwm = motor_pwm -10;
-			else
-				motor_pwm = motor_pwm +10;
-			if(motor_pwm<10000)
-				motor_pwm = 10000;
-			if(motor_pwm>65535)
-				motor_pwm = 65535;			
-			 DcMotorCtrl(3,motor_pwm);
+			
+			
+			 DcMotorCtrl(3,pid_proc_pump(GetSensor()->flow));
 		}
            
         else
