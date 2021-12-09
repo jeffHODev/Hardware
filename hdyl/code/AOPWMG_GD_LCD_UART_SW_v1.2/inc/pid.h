@@ -32,6 +32,7 @@ void pid_init(float setvalue);
 void PIDInit (PID *pp);
 void pid_init_flow(float setvalue);
 void pid_init2(float setvalue);
+uint32_t pid_proc_pump(double rIn);
 
 
 

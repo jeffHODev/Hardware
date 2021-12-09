@@ -259,13 +259,13 @@ void Flow_Init()
             flow_switch = TDS_LEVEL1 ;
             break;
         case 2:
-            flow_switch = TDS_LEVEL1 ;
-            break;
-        case 3:
             flow_switch = TDS_LEVEL2 ;
             break;
-        case 4:
+        case 3:
             flow_switch = TDS_LEVEL3 ;
+            break;
+        case 4:
+            flow_switch = TDS_LEVEL4 ;
             break;
         default:
             flow_switch = TDS_LEVEL4 ;
@@ -311,6 +311,7 @@ void Flow_Init()
 
             else
                 flow_switch = TDS_LEVEL4 ;*/
+						
             if(GetSensor()->flow<=2.5)//450
                 flow_switch = TDS_LEVEL1 ;
             else if(GetSensor()->flow<=3)//2.5---3  480--530
@@ -319,17 +320,17 @@ void Flow_Init()
                 if(flow_switch<TDS_LEVEL1)
                     flow_switch = TDS_LEVEL1;
             }
-            else if(GetSensor()->flow<=3.5)//3---3.5 530-680
+            else if(GetSensor()->flow<=3.5)//3---3.5 510-660
             {
                 flow_switch = (GetSensor()->flow-3)*300+TDS_LEVEL2;
                 if(flow_switch<TDS_LEVEL2)
                     flow_switch = TDS_LEVEL2;
             }
 
-            else //(GetSensor()->flow<=4)//3.5---4    700-1000	+30----0.1
+            else //(GetSensor()->flow<=4)//3.5---4    680-980	+30----0.1
             {
                 flow_switch = (GetSensor()->flow-3.5)*600+TDS_LEVEL3;
-                if(flow_switch>=TDS_LEVEL4)//1100
+                if(flow_switch>=TDS_LEVEL4)//1120
                     flow_switch = TDS_LEVEL4;
             }
             //else
@@ -348,13 +349,13 @@ void Flow_Init()
                     flow_switch = TDS_LEVEL1 ;
                     break;
                 case 2:
-                    flow_switch = TDS_LEVEL1 ;
-                    break;
-                case 3:
                     flow_switch = TDS_LEVEL2 ;
                     break;
-                case 4:
+                case 3:
                     flow_switch = TDS_LEVEL3 ;
+                    break;
+                case 4:
+                    flow_switch = TDS_LEVEL4 ;
                     break;
                 default:
                     flow_switch = TDS_LEVEL4 ;
@@ -957,6 +958,8 @@ void power_off()
     DcMotorCtrl(7,OFF);//关所有电机
 
 }
+float motor_pwm;
+
 void pump_ctrl(unsigned char mode)
 {
     static unsigned char pump_flag=0,init_flag;
@@ -1000,7 +1003,16 @@ void pump_ctrl(unsigned char mode)
     else
     {
         if(pump_flag==0&&GetSensor()->status[NOWATER_INDEX]==0&&delay_cnt>=10000)
-            DcMotorCtrl(3,PUMP_VALUE);
+        {
+			
+		//	motor_pwm = GetSensor()->flow*(-13883.75)+65535;
+		////	if(motor_pwm <10000)
+			//	motor_pwm = 10000;
+			
+			
+			 DcMotorCtrl(3,pid_proc_pump(GetSensor()->flow));
+		}
+           
         else
             DcMotorCtrl(3,0);
 
