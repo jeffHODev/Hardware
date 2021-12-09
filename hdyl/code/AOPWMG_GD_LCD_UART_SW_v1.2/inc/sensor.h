@@ -67,7 +67,7 @@
 
 
 #define MAX_LONG_TICK	    1000
-#define MAX_SHORT_TICK	    5000
+#define MAX_SHORT_TICK	  5000
 #define MAX_TICK	        40000
 #define WATER_LSHORT_TICK	1000
 #define WATER_L_DELAY_TICK	3*60*1000

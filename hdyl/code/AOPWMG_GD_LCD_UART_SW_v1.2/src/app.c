@@ -144,7 +144,7 @@ unsigned char abnormalDec()
 
     if(dstTds<150)
         dstTds = 150;
-    if( GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=dstTds-150))//tdsÒì³£
+    if( (GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=dstTds-150))//tdsÒì³£
     {
         //GetSensor()->tds2 >= MAX_TDS_VALUE||
 

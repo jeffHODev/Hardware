@@ -243,7 +243,7 @@ double PIDCalc( PID *pp, double NextPoint )
     }
 
     if( pp->result>=MAX_OUTPUT)
-    {
+    {  
         pp->result = MAX_OUTPUT;
         // integ =  0;
     }
