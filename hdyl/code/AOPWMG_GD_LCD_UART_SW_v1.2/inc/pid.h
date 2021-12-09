@@ -5,7 +5,7 @@
 
 #define PID_I_MAX   300
 
-#define MAX_OUTPUT  65535
+#define MAX_OUTPUT  45000
 #define MIN_OUTPUT  0
 #include<main.h>
 typedef struct PID {

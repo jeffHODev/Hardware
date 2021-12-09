@@ -511,7 +511,7 @@ unsigned char GetPH_ORP()
 
     unsigned char tx_buf[2],i;
     static unsigned char flag=0,tx_cnt;
-    registerTick(SENSOR_TICK_NO,250,1,0);
+    registerTick(SENSOR_TICK_NO,200,1,0);
     if(GetTickResult(SENSOR_TICK_NO)==1)
     {
         //	flag = 1;

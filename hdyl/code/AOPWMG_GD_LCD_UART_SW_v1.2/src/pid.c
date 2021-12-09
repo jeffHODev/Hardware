@@ -106,7 +106,7 @@ double PIDCalc( PID *pp, double NextPoint )
     double dError;//,res_tmp;
     float Error;
     static double last_result;//,integ;
-    // static unsigned char index;
+     static unsigned char index;
     Error = pp->SetPoint - NextPoint; // 偏差
     if(pp->LastError==0)
         pp->LastError = Error;
@@ -116,11 +116,11 @@ double PIDCalc( PID *pp, double NextPoint )
         tmp = fabs(Error);
         if(tmp>PID_I_MAX)
         {
-            ;//index = 0;//偏差大积分不起作用
+            index = 0;//偏差大积分不起作用
         }
         else
         {
-            //index = 1;
+            index = 1;
             if(Error<0)
             {
                 pp->SumError += Error;  //正饱和只积分负偏差
@@ -132,11 +132,11 @@ double PIDCalc( PID *pp, double NextPoint )
         tmp = fabs(Error);
         if(tmp>PID_I_MAX)
         {
-            ;//index = 0;//偏差大积分不起作用
+            index = 0;//偏差大积分不起作用
         }
         else
         {
-            // index = 1;
+             index = 1;
             if(Error>0)
             {
                 pp->SumError += Error;	//正饱和只积分负偏差
@@ -149,11 +149,11 @@ double PIDCalc( PID *pp, double NextPoint )
         tmp = fabs(Error);
         if(tmp>PID_I_MAX)     //积分分离的PID优化，可参考以往的文章
         {
-            ;//index = 0;//偏差大积分不起作用
+            index = 0;//偏差大积分不起作用
         }
         else
         {
-            // index = 1;
+             index = 1;
             pp->SumError += Error;	//正饱和只积分负偏差
 
         }
@@ -207,7 +207,7 @@ double PIDCalc( PID *pp, double NextPoint )
         {
 
             pp->result =(pp->Proportion * Error // 比例项
-                         +pp->Integral * pp->SumError // 积分项
+                         +index*pp->Integral * pp->SumError // 积分项
                          + pp->Derivative * dError );
 
         }
@@ -223,7 +223,7 @@ double PIDCalc( PID *pp, double NextPoint )
         {
 
             pp->result =(pp->Proportion * Error // 比例项
-                         +pp->Integral * pp->SumError // 积分项
+                         +index*pp->Integral * pp->SumError // 积分项
                          + pp->Derivative * dError );
 
         }
@@ -581,7 +581,7 @@ uint32_t pid_proc_pump(double rIn)
     sPID_pump.Integral = 0.003;//0.95;//
     sPID_pump.Derivative = 0.0004;
     //  sPID.result = 0;
-    sPID_pump.SetPoint = 4; // Set PID Setpoint
+    sPID_pump.SetPoint = 4.0; // Set PID Setpoint
     //sPID.LastError = 0;
     //sPID.PrevError = 0;
     //sPID.SumError = 0;

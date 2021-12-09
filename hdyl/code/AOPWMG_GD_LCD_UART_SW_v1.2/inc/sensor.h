@@ -13,12 +13,20 @@
 //2.5-3--- 500
 //3-3.5----650
 //3.5-4---  950
-#define TDS_LEVEL1   500-20
+/*#define TDS_LEVEL1   500-20
 #define TDS_LEVEL2   650-120-20  // 650-150
 #define TDS_LEVEL3   700-20//650-30   //850
-#define TDS_LEVEL4   1100+//-100  //1000
+#define TDS_LEVEL4   1100+20//-100  //1000
 #define TDS_LEVEL5   1100-100 //1000
 #define TDS_LEVEL6   1200-50
+*/
+
+#define TDS_LEVEL1   500-20
+#define TDS_LEVEL2   650-120-20  // 650-150
+#define TDS_LEVEL3   700-20-10//650-30   //850
+#define TDS_LEVEL4   1000+20-10//-100  //1000
+//#define TDS_LEVEL5   1100-100 //1000
+//#define TDS_LEVEL6   1200-50
 
 /*#define TDS_LEVEL1   500-20+100
 #define TDS_LEVEL2   650-120+100  // 650-150
@@ -77,9 +85,9 @@
 #define MAX_LONG_TICK	    1000
 
 #define MAX_SHORT_TICK	    5000
-#define MAX_TICK	        60000
+#define MAX_TICK	        90000
 #define WATER_LSHORT_TICK	1000
-#define WATER_L_DELAY_TICK	3*60*1000
+#define WATER_L_DELAY_TICK	1*60*1000
 
 
 #define WASH_TIME_SETTING        3*60000   //wash time setting

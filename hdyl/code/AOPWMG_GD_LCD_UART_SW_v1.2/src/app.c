@@ -147,8 +147,10 @@ unsigned char abnormalDec()
     if((GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=dstTds-150)))//tds异常
     {
         //GetSensor()->tds2 >= MAX_TDS_VALUE||
-
-        status = status | TickTimeoutAb(TDS_TICK_NO,0x02,MAX_TICK);
+        if(GetSensor()->water_status = 1)
+       	 status = status | TickTimeoutAb(TDS_TICK_NO,0x02,1.5*MAX_TICK);
+		else
+		 status = status | TickTimeoutAb(TDS_TICK_NO,0x02,MAX_TICK);	
         if(status &0x02)
         {
             GetSensor()->err_flag =GetSensor()->err_flag |0x01;//超时计时
@@ -265,10 +267,10 @@ void Flow_Init()
             flow_switch = TDS_LEVEL3 ;
             break;
         case 4:
-            flow_switch = TDS_LEVEL4 ;
+            flow_switch = TDS_LEVEL4;
             break;
         default:
-            flow_switch = TDS_LEVEL4 ;
+            flow_switch = TDS_LEVEL4;
             break;
         }
     }
@@ -327,7 +329,7 @@ void Flow_Init()
                     flow_switch = TDS_LEVEL2;
             }
 
-            else //(GetSensor()->flow<=4)//3.5---4    680-980	+30----0.1
+            else //(GetSensor()->flow<=4)//3.5---4    670-970	+30----0.1
             {
                 flow_switch = (GetSensor()->flow-3.5)*600+TDS_LEVEL3;
                 if(flow_switch>=TDS_LEVEL4)//1120
@@ -386,8 +388,8 @@ void FlowCtrl()
 
         registerTick(PID_SETTING_TICK_NO, 10, 1,0);//超时计时开始
 
-        //if(GetTickResult(PID_SETTING_TICK_NO)==0)
-        //   return ;
+      //  if(GetTickResult(PID_SETTING_TICK_NO)==0)
+      //     return ;
         /* if(tds_out<=650)
          tds_out = tds_out + 5;
          if(tds_out>=680)
@@ -1182,7 +1184,7 @@ void normal_proc()
     }
 
     registerTick(FLOW_TICK_NO2, 0,0,1);
-    if(abnormalDec()&0x10==0)//水位异常
+    if(abnormalDec()&0x10==0)//高压开关异常
         GetSensor()->status[HSW_INDEX] = 0;//高压开关异常
 
     if(GetSensor()->status[SHUNT_INDEX] == 0)//非停机模式
