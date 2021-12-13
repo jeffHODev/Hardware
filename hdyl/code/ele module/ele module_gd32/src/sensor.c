@@ -443,9 +443,6 @@ void work_process()
                     // if(sensor.ele_curr >= MAX_CURR_VALUE)//电流 异常保护
                 {
                     ele_ctrl(OFF);
-//							  if(GetModbusPayLoad()->RS485_Addr == 0x03)
-//									 pid_init(DES_CURR_VALUE%50);
-//								else
                     pid_init(DES_CURR_VALUE);
                     sensor.ele_status =0;
                 }
