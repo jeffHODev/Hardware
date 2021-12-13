@@ -350,24 +350,24 @@ void RelayCtrl(unsigned char dir)
     {
 
         gpio_bit_write(Ele_ConA_GPIO_Port, Ele_ConA_Pin, SET);
-        delay_ms(10);
+        delay_ms(20);
         gpio_bit_write(Ele_ConB_GPIO_Port, Ele_ConB_Pin, RESET);
-        delay_ms(10);
+        delay_ms(20);
 
     }
     else if(dir == BACKWARD)
     {
         gpio_bit_write(Ele_ConA_GPIO_Port, Ele_ConA_Pin, RESET);
-        delay_ms(10);
+        delay_ms(20);
         gpio_bit_write(Ele_ConB_GPIO_Port, Ele_ConB_Pin, SET);
-        delay_ms(10);
+        delay_ms(20);
     }
     else
     {
         gpio_bit_write(Ele_ConA_GPIO_Port, Ele_ConA_Pin, RESET);
-        delay_ms(10);
+        delay_ms(20);
         gpio_bit_write(Ele_ConB_GPIO_Port, Ele_ConB_Pin, RESET);
-        delay_ms(10);
+        delay_ms(20);
     }
 
 #endif
@@ -400,6 +400,7 @@ void ele_ctrl(unsigned char mode)
         HAL_Delay(10);
         RelayCtrl(3);
 #else
+			  registerTick(PID_OUT_TICK,0,0,1);
         RelayCtrl(3);
 			 // RelayCtrl(FORWARD);
         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
@@ -424,7 +425,7 @@ void work_process()
     static uint32_t timeout_tick;
     if(sensor.ele_status == 1)//电解模式
     {
-        registerTick(LOWCURR_TICK,5000,1,0);
+        registerTick(LOWCURR_TICK,12000,1,0);
 //        if((sensor.ele_curr >= MAX_CURR_VALUE))//电流 异常保护
 //            // if(sensor.ele_curr >= MAX_CURR_VALUE)//电流 异常保护
 //        {

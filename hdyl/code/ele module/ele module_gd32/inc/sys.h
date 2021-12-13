@@ -15,7 +15,7 @@
 #define CURR_TICK       1
 #define LOWCURR_TICK       2
 #define ABNORMAL_TICK       3
-
+#define PID_OUT_TICK      4 
 #define TICK_SIZE       9
 //#define WASH_TIME_SETTING        5*60000   //wash time setting
 typedef struct

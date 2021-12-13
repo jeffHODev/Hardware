@@ -1,6 +1,7 @@
 #include "pid.h"
 #include<string.h>
 #include<stdio.h>
+#include "sys.h"
 PID sPID; // PID Control Structure
 double rOut; // PID Response (Output)
 double rIn_PID; // PID Feedback (Input)
@@ -37,7 +38,7 @@ double PIDCalc( PID *pp, double NextPoint )
 		 res_tmp = result-last_result;
 		 if((res_tmp>0&&res_tmp>=2000))
 		{
-				last_result=last_result+300;
+				last_result=last_result+150;
 			result = last_result;		
 			}	 
 	 }
@@ -53,8 +54,21 @@ double PIDCalc( PID *pp, double NextPoint )
 
 	if(result <1800)
 		result = 1800;
-	if(result>=MAX_OUTPUT)
-		result = MAX_OUTPUT;
+	  registerTick(PID_OUT_TICK,5000,1,0);
+     if(GetTickResult(PID_OUT_TICK)==1)
+		 {
+			// registerTick(PID_OUT_TICK,0,0,1);
+				if(result>=MAX_OUTPUT)
+					result = MAX_OUTPUT;		 
+		 }
+		 else
+		 {
+			if(result>=MAX_OUTPUT)
+					result = MAX_OUTPUT-5000;		 
+		 }
+	 
+		 
+
 	pp->result = result;
 //	result = 1000;
     return result;        // Î¢·ÖÏî
