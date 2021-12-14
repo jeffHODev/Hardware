@@ -110,6 +110,7 @@ void GetEle_EleCurr()
         // sensor.ele_curr = sensor.ele_curr/vcc;
         //电流= （2*x-2.5）*15=30x-37.5
         curr_I = 30*curr_v-37.5;
+				sensor.ele_curr_tmp  = curr_I*1000;
         //curr_I = 1000*curr_I;
         // sensor.ele_curr = sensor.ele_curr- sensor.ele_curr /FIR_NUM+curr_I/FIR_NUM;
         curr_1000_I =  curr_1000_I- curr_1000_I /FIR_NUM+curr_I/FIR_NUM;
@@ -420,18 +421,23 @@ void params_Init()
 
 
 }
+uint32_t cnt ;
 void work_process()
 {
     static uint32_t timeout_tick;
     if(sensor.ele_status == 1)//电解模式
     {
         registerTick(LOWCURR_TICK,12000,1,0);
-        if((sensor.ele_curr >= MAX_CURR_VALUE))//电流 异常保护
+        if((sensor.ele_curr_tmp >= MAX_CURR_VALUE))//电流 异常保护
             // if(sensor.ele_curr >= MAX_CURR_VALUE)//电流 异常保护
         {
-            ele_ctrl(OFF);
+           // ele_ctrl(OFF);
+					GetEle_EleCurr();
+					        timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+
             pid_init(DES_CURR_VALUE);
-					  delay_ms(500);
+					  delay_ms(100);
+					cnt++;
             //sensor.ele_status =0;
         }
         else
@@ -442,7 +448,10 @@ void work_process()
                 if((sensor.ele_curr <= MIN_CURR_VALUE||sensor.ele_curr >= MAX_CURR_VALUE)&& sensor.inverEle == 0)//电流 异常保护
                     // if(sensor.ele_curr >= MAX_CURR_VALUE)//电流 异常保护
                 {
-                    ele_ctrl(OFF);
+                   // ele_ctrl(OFF);
+														GetEle_EleCurr();
+					        timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+
                     pid_init(DES_CURR_VALUE);
                     sensor.ele_status =0;
                 }

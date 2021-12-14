@@ -15,7 +15,7 @@
 #define WATER_L	1
 #define WATER_M	2
 #define WATER_F	3
-#define FIR_NUM      50
+#define FIR_NUM      20
 
 
 #define MAX_FLOW  10
@@ -29,7 +29,7 @@
 #define TDS_TEMP_FACTOR 0.99f								// TDS温度补偿系数 20摄氏度标准值
 #define TDS_NUM      225									// TDS 数量
 
-#define MAX_CURR_VALUE  11000
+#define MAX_CURR_VALUE  13000
 #define MIN_CURR_VALUE  700
 #define DES_CURR_VALUE  10000   //目标电流
 
@@ -48,6 +48,7 @@ typedef struct
 	unsigned int wash;
 	unsigned int reset;
 	float ele_curr;
+		float ele_curr_tmp;
 	unsigned char online;
 	unsigned char inverEle;
 	unsigned char wash_time;
