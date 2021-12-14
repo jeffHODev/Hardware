@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/app_title_new" />
+
+        <TextView
+            android:id="@+id/bt_history"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="50dp"
+            android:text="历史记录"
+            android:textStyle="bold"
+            android:textColor="@color/yellow"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+            android:gravity="center"
+            android:layout_height="45dp">
+
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:textStyle="bold"
+                android:layout_marginLeft="30dp"
+                android:text="基本信息：" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+            android:background="@color/white"
+            >
+
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="167dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/id_card" />
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="220dp"
+                android:text="*"
+                android:textColor="@color/red"/>
+
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="250dp"
+                android:text="身份ID：" />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="90dp"
+                android:layout_marginLeft="533dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+            <EditText
+                android:id="@+id/et_uniqueId"
+                style="@style/savepaint_textview_style"
+                android:layout_marginRight="135dp"
+                android:layout_width="250dp"
+                android:gravity="center"
+                android:hint="请输入身份证号码" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+            <View
+                android:layout_width="match_parent"
+                android:background="@color/line"
+                android:layout_height="1dp"
+
+                ></View>
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="20dp"
+                android:layout_marginLeft="533dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+            android:background="@color/white"
+            android:layout_height="45dp">
+
+            <TextView
+                style="@style/measureblood_textview_style" />
+
+            <Button
+                android:id="@+id/bt_queryinfo"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="495dp"
+                android:background="@null"
+                android:text="快速查询"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/celiangbtn" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout style="@style/savepaint_relativeLayout_style">
+            <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="170dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/name" />
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="220dp"
+                android:text="*"
+                android:textColor="@color/red"/>
+
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="260dp"
+                android:text="姓名："/>
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="90dp"
+                android:layout_marginLeft="533dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+            <EditText
+                android:id="@+id/et_name"
+                style="@style/savepaint_textview_style"
+                android:layout_marginRight="225dp"
+                android:gravity="center"
+                android:hint="请输入姓名"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+            android:background="@color/white">
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="168dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/phone" />
+<!--            <TextView-->
+<!--                style="@style/measureblood_textview_style"-->
+<!--                android:layout_marginLeft="220dp"-->
+<!--                android:text="*"-->
+<!--                android:textColor="@color/red"/>-->
+
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="260dp"
+                android:text="手机：" />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="90dp"
+                android:layout_marginLeft="533dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+            <EditText
+                android:id="@+id/et_phone"
+                style="@style/savepaint_textview_style"
+                android:layout_marginRight="200dp"
+                android:layout_width="120dp"
+                android:inputType="number"
+                android:hint="请输入手机号"
+                android:gravity="center"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+            >
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="170dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/birthday" />
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="220dp"
+                android:text="*"
+                android:textColor="@color/red"/>
+
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="250dp"
+                android:text="出生日期：" />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="90dp"
+                android:layout_marginLeft="533dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/et_birthday"
+                style="@style/savepaint_textview_style"
+                android:layout_marginRight="205dp"
+                android:layout_width="100dp"
+                android:gravity="center"
+                android:hint="请选择出生日期" />
+
+            <com.ycuwq.datepicker.date.DatePicker
+                android:id="@+id/datePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+
+        <!--<RelativeLayout style="@style/savepaint_relativeLayout_style"
+            android:background="@color/white"
+            >
+
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="450dp"
+                android:text="国籍：" />
+
+
+            <EditText
+                android:id="@+id/et_nationality"
+                style="@style/savepaint_textview_style"
+                android:layout_marginRight="450dp"
+                android:gravity="left|center"
+                android:hint="请输入国籍" />
+
+            <ImageView style="@style/savepaint_imageview_style" />
+        </RelativeLayout>-->
+
+        <RelativeLayout
+            android:id="@+id/rl_sex"
+            style="@style/savepaint_relativeLayout_style"
+            android:background="@color/white"
+            >
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="170dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/sexcou" />
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="220dp"
+                android:text="*"
+                android:textColor="@color/red"/>
+
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="260dp"
+                android:text="性别：" />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="90dp"
+                android:layout_marginLeft="533dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/et_gender"
+                style="@style/savepaint_textview_style"
+                android:layout_marginRight="220dp"
+                android:gravity="center"
+                android:hint="请选择性别" />
+        </RelativeLayout>
+
+
+        <RelativeLayout style="@style/savepaint_relativeLayout_style"
+            >
+
+            <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="172dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/address" />
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="250dp"
+                android:text="详细地址：" />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="90dp"
+                android:layout_marginLeft="533dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+            <EditText
+                android:id="@+id/et_address"
+                style="@style/savepaint_textview_style"
+                android:layout_marginRight="3dp"
+                android:layout_width="500dp"
+                android:gravity="center"
+                android:hint="请输入详细地址" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+            android:background="@color/white">
+        <EditText
+            style="@style/savepaint_textview_style"
+            android:layout_marginRight="500dp"
+            android:focusableInTouchMode="false"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:text="* 符号的为必填项"
+            android:textColor="@color/red"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line"
+
+        ></View>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="30dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@color/white"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <LinearLayout style="@style/savepaint_linearlay_style"
+                android:layout_marginTop="7dp">>
+
+                <Button
+                    android:id="@+id/bt_update"
+                    android:layout_height="40dp"
+                    style="@style/savepaint_button_style"
+                    android:background="@mipmap/up"
+                    android:textColor="@color/white"
+                    android:text="@string/st_update" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/savepaint_linearlay_style">>
+
+                <Button
+                    android:id="@+id/btn_save"
+                    android:layout_height="55dp"
+                    android:layout_width="55dp"
+                    style="@style/savepaint_button_style"
+                    android:background="@mipmap/center"
+                    android:textColor="@color/white"
+                    android:text="@string/st_save" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/savepaint_linearlay_style"
+                android:layout_marginTop="7dp">
+
+                <Button
+                    android:id="@+id/btn_next"
+                    android:layout_height="40dp"
+                    style="@style/savepaint_button_style"
+                    android:background="@mipmap/down"
+                    android:textColor="@color/white"
+                    android:text="@string/st_next" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

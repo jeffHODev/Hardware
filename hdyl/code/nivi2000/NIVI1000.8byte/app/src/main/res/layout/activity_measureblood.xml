@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+    <include layout="@layout/app_title_new" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+
+        >
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+        >
+        <TextView
+            style="@style/measureblood_textview_style"
+            android:layout_marginLeft="195dp"
+            android:text="身高：" />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="80dp"
+                android:layout_marginLeft="450dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/et_height"
+            style="@style/measureblood_edittext_style"
+            android:layout_width="110dp"
+            android:layout_marginLeft="702dp"
+            android:gravity="center"
+            android:padding="15px"
+            android:inputType="number"
+            android:text="0" />
+        <TextView
+            android:id="@+id/tx_cm"
+            style="@style/measureblood_textview_style"
+            android:layout_marginLeft="852dp"
+            android:text="cm"
+            />
+    </RelativeLayout>
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+            android:background="@color/white"
+            >
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="195dp"
+                android:text="体重：" />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="80dp"
+                android:layout_marginLeft="450dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+            <EditText
+                android:id="@+id/et_weight"
+                style="@style/measureblood_edittext_style"
+                android:layout_width="110dp"
+                android:layout_marginLeft="702dp"
+                android:gravity="center"
+                android:padding="15px"
+                android:inputType="number"
+                android:text="0" />
+            <TextView
+                android:id="@+id/tx_kg"
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="852dp"
+                android:text="kg"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+            >
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="190dp"
+                android:text="收缩压：" />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="80dp"
+                android:layout_marginLeft="450dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+            <EditText
+                android:id="@+id/spb_edit"
+                style="@style/measureblood_edittext_style"
+                android:layout_width="110dp"
+                android:layout_marginLeft="702dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="0"/>
+            <TextView
+                android:id="@+id/tx_mmhg"
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="848dp"
+                android:text="mmHg"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+            android:background="@color/white"
+            >
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="190dp"
+                android:text="舒张压：" />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="80dp"
+                android:layout_marginLeft="450dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+            <EditText
+                android:id="@+id/dbp_edit"
+                style="@style/measureblood_edittext_style"
+                android:layout_width="110dp"
+                android:layout_marginLeft="702dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="0" />
+            <TextView
+                android:id="@+id/tx_mmhgo"
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="848dp"
+                android:text="mmHg"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+            >
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="180dp"
+                android:text="药前收缩压：" />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="80dp"
+                android:layout_marginLeft="450dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+            <EditText
+                android:id="@+id/et_brPs"
+                style="@style/measureblood_edittext_style"
+                android:layout_width="110dp"
+                android:layout_marginLeft="702dp"
+                android:gravity="center"
+                android:padding="15px"
+                android:inputType="number"
+                android:text="0" />
+            <TextView
+                android:id="@+id/tx_mmhgt"
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="848dp"
+                android:text="mmHg"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            style="@style/savepaint_relativeLayout_style"
+            android:background="@color/white"
+            >
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="180dp"
+                android:text="药前舒张压：" />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="80dp"
+                android:layout_marginLeft="450dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+            <EditText
+                android:id="@+id/et_brPd"
+                style="@style/measureblood_edittext_style"
+                android:layout_width="110dp"
+                android:layout_marginLeft="702dp"
+                android:gravity="center"
+                android:padding="15px"
+                android:inputType="number"
+                android:text="0" />
+            <TextView
+                android:id="@+id/tx_mmhgf"
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="848dp"
+                android:text="mmHg"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_cmo"
+            style="@style/savepaint_relativeLayout_style"
+            >
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:layout_marginLeft="110dp"
+                android:text="冠脉药效等级：" />
+
+            <RelativeLayout
+                style="@style/savepaint_relativeLayout_style"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="210dp"
+                >
+                <TextView
+                    style="@style/measureblood_textview_style"
+                    android:text="0-不服用降压药者"
+                    android:textColor="@color/gray"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/savepaint_relativeLayout_style"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="210dp"
+                >
+                <TextView
+                    style="@style/measureblood_textview_style"
+                    android:text="1-降压药服用者"
+                    android:textColor="@color/gray"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="80dp"
+                android:layout_marginLeft="450dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/darker_gray" />
+
+
+            <TextView
+                android:id="@+id/et_arPs"
+                style="@style/measureblood_textview_style"
+                android:layout_width="110dp"
+                android:layout_marginLeft="702dp"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:padding="15px"
+                android:text="0"
+                />
+        </RelativeLayout>
+<!--        <RelativeLayout-->
+<!--            style="@style/savepaint_relativeLayout_style"-->
+<!--            android:background="@color/white"-->
+<!--            >-->
+<!--            <TextView-->
+<!--                style="@style/measureblood_textview_style"-->
+<!--                android:layout_marginLeft="195dp"-->
+<!--                android:text="脉搏：" />-->
+
+<!--            <View-->
+<!--                android:layout_width="2dip"-->
+<!--                android:layout_height="70dp"-->
+<!--                android:layout_marginLeft="450dp"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:background="@android:color/darker_gray" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/heart_rate_edit"-->
+<!--                style="@style/measureblood_edittext_style"-->
+<!--                android:layout_width="110dp"-->
+<!--                android:layout_marginLeft="702dp"-->
+<!--                android:gravity="center"-->
+<!--                android:padding="15px"-->
+<!--                android:focusable="false"-->
+<!--                android:editable="false"-->
+<!--                android:text="0"-->
+<!--                android:textColor="@color/red"/>-->
+<!--            <TextView-->
+<!--                android:id="@+id/tx_min"-->
+<!--                style="@style/measureblood_textview_style"-->
+<!--                android:layout_marginLeft="850dp"-->
+<!--                android:text="bpm"-->
+<!--                />-->
+<!--        </RelativeLayout>-->
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/line"
+            android:layout_height="1dp"
+
+            ></View>
+
+    </LinearLayout>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/line"
+        ></View>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="血压"
+            android:textSize="16sp"
+            android:textColor="@color/celiangtx"
+            android:gravity="center"/>
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:scrollbars="none"
+            android:layout_height="wrap_content">
+
+            <com.hekangyuan.nivi1000.view.bargraph.BarGraphView
+                android:id="@+id/bargraphview"
+                android:layout_gravity="center_horizontal"
+                app:bar_graph_bg_color="@color/black"
+                app:bar_graph_x_textSize="15sp"
+                app:bar_graph_y_textSize="14sp"
+                app:bar_graph_width="20dp"
+                app:bar_graph_distance="10dp"
+                android:layout_width="500dp"
+                android:layout_height="285dp" />
+        </HorizontalScrollView>
+
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@color/white"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <LinearLayout style="@style/savepaint_linearlay_style"
+                android:layout_marginTop="7dp">>
+
+                <Button
+                    android:id="@+id/stop_btn"
+                    android:layout_height="40dp"
+                    style="@style/savepaint_button_style"
+                    android:background="@mipmap/up"
+                    android:textColor="@color/white"
+                    android:text="上一步"/>
+            </LinearLayout>
+
+            <LinearLayout style="@style/savepaint_linearlay_style">>
+
+<!--                <Button-->
+<!--                    android:id="@+id/measure_btn"-->
+<!--                    android:layout_width="55dp"-->
+<!--                    android:layout_height="55dp"-->
+<!--                    style="@style/savepaint_button_style"-->
+<!--                    android:background="@mipmap/center"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:text="开始"/>-->
+            </LinearLayout>
+
+            <LinearLayout style="@style/savepaint_linearlay_style"
+                android:layout_marginTop="7dp">
+
+                <Button
+                    android:id="@+id/creat_blood"
+                    android:layout_height="40dp"
+                    style="@style/savepaint_button_style"
+                    android:background="@mipmap/down"
+                    android:textColor="@color/white"
+                    android:text="下一步" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hospital.nivihospital.modules.dealers.dao.SysDealersMapper" >
+  <resultMap id="BaseResultMap" type="com.hospital.nivihospital.modules.dealers.entity.SysDealers" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, address, create_date, create_user_id, update_date, update_user_id, del_flag
+  </sql>
+
+  <!-- 查询当前经销商下的所有测试记录（正常可以出结果） -->
+  <select id="selectBasisMeasurementAllCount" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(*) from basis_measurement where del_flag = 0 and
+    device_id in (select device_id from sys_device_hospital where del_flag = 0 and (hospital_id in (select id from sys_hospital where dealers_id = #{entityId,jdbcType=VARCHAR} and del_flag = 0)))
+    and id in (select basis_measurement_id from original_waveform where del_flag = 0)
+  </select>
+
+  <!-- 查询当前经销商下的所有以评估的记录 -->
+  <select id="selectEvaluationAllCount" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(*) from doctor_evaluation where del_flag = 0 and state = 0
+    and (basis_measurement_id in (select id from basis_measurement where del_flag = 0 and
+    device_id in (select device_id from sys_device_hospital where del_flag = 0 and (hospital_id in (select id from sys_hospital where dealers_id = #{entityId,jdbcType=VARCHAR} and del_flag = 0)))
+    and id in (select basis_measurement_id from original_waveform where del_flag = 0)))
+  </select>
+
+  <!-- 某医院下的所有检测记录总数（正常可以出结果） -->
+  <select id="selectBasisMeasurementAllCountByHospital" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(*) from basis_measurement where del_flag = 0 and
+    device_id in (select device_id from sys_device_hospital where del_flag = 0 and hospital_id = #{hospitalId,jdbcType=VARCHAR})
+    and id in (select basis_measurement_id from original_waveform where del_flag = 0)
+  </select>
+
+  <!-- 某医院下所有已评估总数 -->
+  <select id="selectEvaluationAllCountByHospital" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(*) from doctor_evaluation where del_flag = 0 and state = 0
+    and (basis_measurement_id in (select id from basis_measurement where del_flag = 0 and
+    device_id in (select device_id from sys_device_hospital where del_flag = 0 and hospital_id = #{hospitalId,jdbcType=VARCHAR})
+    and id in (select basis_measurement_id from original_waveform where del_flag = 0)))
+  </select>
+
+  <!-- 分页获取当前经销商下的所有医院列表 -->
+  <select id="selectHospitalList" resultType="java.util.HashMap" parameterType="java.util.Map" >
+    select id as hospitalId,name as hospitalName from sys_hospital_dictionary where id
+    in (select hospital_id from sys_hospital where dealers_id = #{entityId,jdbcType=VARCHAR} and del_flag = 0)
+    and del_flag = 0 order by create_date desc LIMIT #{pageNo},#{pageSize}
+  </select>
+
+  <!-- 分页获取当前经销商下的所有医院列表数据总个数 -->
+  <select id="selectHospitalListCount" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(*) from sys_hospital_dictionary where id
+    in (select hospital_id from sys_hospital where dealers_id = #{entityId,jdbcType=VARCHAR} and del_flag = 0)
+    and del_flag = 0
+  </select>
+
+  <!-- 分页获取某医院对应的设备列表信息 -->
+  <select id="selectDeviceListByHospital" resultType="java.util.HashMap" parameterType="java.util.Map" >
+    select sd.device_id as deviceId,d.device_no as deviceNo,sd.detect_count as detectCount
+    from sys_device_hospital sd,device d where sd.del_flag = 0 and sd.hospital_id = #{hospitalId,jdbcType=VARCHAR}
+    and sd.device_id = d.id order by sd.create_date desc LIMIT #{pageNo},#{pageSize}
+  </select>
+
+  <!-- 分页获取某医院对应的设备列表信息列表数据总个数 -->
+  <select id="selectDeviceListByHospitalCount" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(*)
+    from sys_device_hospital sd,device d where sd.del_flag = 0 and sd.hospital_id = #{hospitalId,jdbcType=VARCHAR}
+    and sd.device_id = d.id
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_dealers
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_dealers
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hospital.nivihospital.modules.dealers.entity.SysDealers" >
+    insert into sys_dealers (id, name, address, 
+      create_date, create_user_id, update_date, 
+      update_user_id, del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=VARCHAR}, #{delFlag,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hospital.nivihospital.modules.dealers.entity.SysDealers" >
+    insert into sys_dealers
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hospital.nivihospital.modules.dealers.entity.SysDealers" >
+    update sys_dealers
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hospital.nivihospital.modules.dealers.entity.SysDealers" >
+    update sys_dealers
+    set name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=TINYINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

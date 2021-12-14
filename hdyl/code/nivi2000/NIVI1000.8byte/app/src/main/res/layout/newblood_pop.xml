@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="60dp"
+    android:layout_height="50dp"
+    android:background="#E7F3FF"
+    >
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:background="@mipmap/guanmailead"
+        />
+    <TextView
+        android:id="@+id/tx_zero"
+        android:layout_marginTop="9dp"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/tx_one"
+        android:layout_marginTop="30dp"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:text="1"/>
+</RelativeLayout>

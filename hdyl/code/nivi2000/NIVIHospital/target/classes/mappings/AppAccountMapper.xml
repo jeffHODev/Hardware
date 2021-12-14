@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.nivihospital.modules.hospital.dao.AppAccountMapper">
+  <resultMap id="BaseResultMap" type="com.hospital.nivihospital.modules.hospital.entity.AppAccount">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="entity_id" jdbcType="VARCHAR" property="entityId" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="entity_type" jdbcType="TINYINT" property="entityType" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, entity_id, account, password, create_date, entity_type, del_flag
+  </sql>
+
+  <!-- 根据账号查询对应账户信息 -->
+  <select id="selectByLoginName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from app_account
+    where account = #{loginName,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 更新密码 -->
+  <update id="registered" parameterType="com.hospital.nivihospital.modules.hospital.entity.AppAccount">
+    update app_account
+    set password = #{pass,jdbcType=VARCHAR}
+    where id = 3
+  </update>
+
+  <!-- 修改密码 -->
+  <update id="uppass" parameterType="com.hospital.nivihospital.modules.hospital.entity.Accountpass" >
+    update app_account
+    set password = #{newPass,jdbcType=VARCHAR}
+    where account = #{account,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_account
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from app_account
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hospital.nivihospital.modules.hospital.entity.AppAccount">
+    insert into app_account (id, entity_id, account, 
+      password, create_date, entity_type, 
+      del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{entityId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{entityType,jdbcType=TINYINT}, 
+      #{delFlag,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hospital.nivihospital.modules.hospital.entity.AppAccount">
+    insert into app_account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="entityId != null">
+        entity_id,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="entityType != null">
+        entity_type,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="entityId != null">
+        #{entityId,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entityType != null">
+        #{entityType,jdbcType=TINYINT},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hospital.nivihospital.modules.hospital.entity.AppAccount">
+    update app_account
+    <set>
+      <if test="entityId != null">
+        entity_id = #{entityId,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entityType != null">
+        entity_type = #{entityType,jdbcType=TINYINT},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hospital.nivihospital.modules.hospital.entity.AppAccount">
+    update app_account
+    set entity_id = #{entityId,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      entity_type = #{entityType,jdbcType=TINYINT},
+      del_flag = #{delFlag,jdbcType=TINYINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

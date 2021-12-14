@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hospital.nivihospital.modules.device.dao.DeviceMapper" >
+  <resultMap id="BaseResultMap" type="com.hospital.nivihospital.modules.device.entity.Device" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="device_no" property="deviceNo" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, device_no, password, create_date, del_flag
+  </sql>
+
+  <!-- 获取医院对应的设备列表 -->
+  <select id="selectDetectCountByHospital" resultType="java.util.HashMap" parameterType="java.util.Map" >
+    select sd.device_id as deviceId,d.device_no as deviceNo,sd.detect_count as detectCount
+    from sys_device_hospital sd,device d where sd.del_flag = 0 and sd.hospital_id = #{hospitalId,jdbcType=VARCHAR}
+    and sd.device_id = d.id order by sd.create_date desc LIMIT #{pageNo},#{pageSize}
+  </select>
+
+  <!-- 获取医院对应的设备列表数据总条数 -->
+  <select id="selectDetectCountByHospitalCount" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(*)
+    from sys_device_hospital sd,device d where sd.del_flag = 0 and sd.hospital_id = #{hospitalId,jdbcType=VARCHAR}
+    and sd.device_id = d.id
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from device
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from device
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hospital.nivihospital.modules.device.entity.Device" >
+    insert into device (id, device_no, password, 
+      create_date, del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{deviceNo,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hospital.nivihospital.modules.device.entity.Device" >
+    insert into device
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="deviceNo != null" >
+        device_no,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceNo != null" >
+        #{deviceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hospital.nivihospital.modules.device.entity.Device" >
+    update device
+    <set >
+      <if test="deviceNo != null" >
+        device_no = #{deviceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hospital.nivihospital.modules.device.entity.Device" >
+    update device
+    set device_no = #{deviceNo,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=TINYINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

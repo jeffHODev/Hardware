@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        style="@style/measureblood_relativeLayout_style"
+        android:layout_height="50dp"
+        >
+        <TextView
+            style="@style/measureblood_textview_style"
+            android:text="姓名：" />
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/measureblood_textview_style"
+            android:layout_marginLeft="50dp"
+            />
+        <TextView
+            style="@style/measureblood_textview_style"
+            android:layout_marginLeft="400dp"
+            android:text="身份证号："
+            />
+        <TextView
+            android:id="@+id/tv_idcard"
+            style="@style/measureblood_textview_style"
+            android:layout_marginLeft="470dp"
+            />
+        <TextView
+            style="@style/measureblood_textview_style"
+            android:text="检测日期："
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="160dp"/>
+        <TextView
+            android:id="@+id/tv_createdate"
+            style="@style/measureblood_textview_style"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            />
+        <!--<TextView
+            style="@style/measureblood_textview_style"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:text="2019-5-5"
+            />-->
+        <ImageView
+            style="@style/measureblood_imageview_style"
+            android:layout_marginTop="18dp"
+            />
+    </RelativeLayout>
+    <!--<RelativeLayout
+        style="@style/measureblood_relativeLayout_style"
+        android:background="@color/white"
+        android:layout_height="50dp"
+        >
+        <TextView
+            style="@style/measureblood_textview_style"
+            android:text="性别：" />
+        <TextView
+            android:id="@+id/tv_sex"
+            style="@style/measureblood_textview_style"
+            android:layout_marginLeft="160dp"
+            />
+
+        <TextView
+
+            style="@style/measureblood_textview_style"
+            android:layout_marginLeft="100dp"
+            android:text="身份证号："
+            />
+        <TextView
+            android:id="@+id/tv_idcard"
+            style="@style/measureblood_textview_style"
+            android:layout_marginLeft="160dp"
+            />
+        <TextView
+            android:id="@+id/tv_createdate"
+            style="@style/measureblood_textview_style"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp"
+            />
+    </RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="70dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginTop="10dp">-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/list_item_imageview"-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:background="@drawable/ic_launcher_background" />-->
+        <!--<LinearLayout-->
+            <!--android:layout_toRightOf="@id/list_item_imageview"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<TextView-->
+                <!--android:layout_marginTop="7dp"-->
+                <!--android:id="@+id/tv_idcard"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="aaaaaaaaaaa"-->
+                <!--android:textSize="18sp"/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_createdate"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="15dp"-->
+                <!--android:textSize="16sp"-->
+                <!--android:text="sssssssssss"/>-->
+        <!--</LinearLayout>-->
+
+    <!--</RelativeLayout>-->
+</LinearLayout>

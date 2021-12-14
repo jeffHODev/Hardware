@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_layout"
+        layout="@layout/app_title" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_layout"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layout_measure_mode"
+            style="@style/savepaint_relativeLayout_style"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:background="@color/white"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:id="@+id/measure_mode"
+                style="@style/measureblood_textview_style"
+                android:text="测量模式"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/modeRaidoGroup"
+            style="@style/savepaint_relativeLayout_style"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp">
+
+
+            <RadioGroup
+                android:id="@+id/radioGroup1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/mode_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="250dp"
+                    android:checked="true"
+                    android:text="同步采集" />
+
+                <View
+                    android:layout_width="2dip"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="175dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+
+                <RadioButton
+                    android:id="@+id/mode_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="160dp"
+                    android:text="异步采集" />
+
+            </RadioGroup>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_hospital_name"
+            style="@style/savepaint_relativeLayout_style"
+            android:background="@color/white"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            >
+
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:text="机构名称"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/hospital_name"
+            style="@style/savepaint_relativeLayout_style"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp">
+
+            <EditText
+                android:id="@+id/hospital_name_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="请输入机构名称"
+                android:singleLine="true"
+                android:textSize="14dp" />
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line"
+
+            ></View>
+
+
+        <RelativeLayout
+            android:id="@+id/layout_modify_pass"
+            style="@style/savepaint_relativeLayout_style"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                style="@style/measureblood_textview_style"
+                android:text="修改密码"
+                android:layout_marginLeft="485dp"
+                android:textStyle="bold" />
+
+            <ImageView style="@style/savepaint_imageview_style" />
+
+
+        </RelativeLayout>
+
+            <EditText
+                style="@style/savepaint_textview_style"
+                android:focusableInTouchMode="false"
+                android:textSize="12sp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="10dp"
+                android:text="软件版本 V.NV2.1.0.3"/>
+
+        <Button
+            android:id="@+id/submit"
+            style="@style/savepaint_button_style"
+            android:background="@drawable/ripple_bg"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:text="确定"/>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
