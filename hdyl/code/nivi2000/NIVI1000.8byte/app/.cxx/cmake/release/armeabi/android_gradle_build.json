@@ -1,0 +1,41 @@
+{
+  "stringTable": {
+    "0": "D:/work/AndroidStudioWork/NIVI1000.android/app/.cxx/cmake/release/armeabi",
+    "1": "--target=armv5te-none-linux-androideabi --gcc-toolchain=D:/soft/AndroidNDK1664/android-ndk-r16b/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=D:/soft/AndroidNDK1664/android-ndk-r16b/sysroot -Dnative_lib_EXPORTS -isystem D:/soft/AndroidNDK1664/android-ndk-r16b/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem D:/soft/AndroidNDK1664/android-ndk-r16b/sources/cxx-stl/gnu-libstdc++/4.9/libs/armeabi/include -isystem D:/soft/AndroidNDK1664/android-ndk-r16b/sources/cxx-stl/gnu-libstdc++/4.9/include/backward -isystem D:/soft/AndroidNDK1664/android-ndk-r16b/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -Os -DNDEBUG -fPIC"
+  },
+  "buildFiles": [
+    "D:\\soft\\AndroidNDK1664\\android-ndk-r16b\\build\\cmake\\android.toolchain.cmake",
+    "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "D:\\soft\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\.cxx\\cmake\\release\\armeabi\" clean"
+  ],
+  "buildTargetsCommand": "D:\\soft\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\.cxx\\cmake\\release\\armeabi\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "native-lib-Release-armeabi": {
+      "buildCommand": "D:\\soft\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\.cxx\\cmake\\release\\armeabi\" native-lib",
+      "buildType": "release",
+      "toolchain": "3666281137",
+      "abi": "armeabi",
+      "artifactName": "native-lib",
+      "files": [
+        {
+          "src": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\src\\main\\cpp\\native-lib.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\build\\intermediates\\cmake\\release\\obj\\armeabi\\libnative-lib.so"
+    }
+  },
+  "toolchains": {
+    "3666281137": {
+      "cppCompilerExecutable": "D:\\soft\\AndroidNDK1664\\android-ndk-r16b\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

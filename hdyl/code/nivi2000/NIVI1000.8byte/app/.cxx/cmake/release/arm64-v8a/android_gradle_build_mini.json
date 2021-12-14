@@ -1,0 +1,18 @@
+{
+  "buildFiles": [
+    "D:\\soft\\AndroidNDK1664\\android-ndk-r16b\\build\\cmake\\android.toolchain.cmake",
+    "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "D:\\soft\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\.cxx\\cmake\\release\\arm64-v8a\" clean"
+  ],
+  "buildTargetsCommand": "D:\\soft\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\.cxx\\cmake\\release\\arm64-v8a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "native-lib-Release-arm64-v8a": {
+      "artifactName": "native-lib",
+      "buildCommand": "D:\\soft\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\.cxx\\cmake\\release\\arm64-v8a\" native-lib",
+      "abi": "arm64-v8a",
+      "output": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\build\\intermediates\\cmake\\release\\obj\\arm64-v8a\\libnative-lib.so"
+    }
+  }
+}

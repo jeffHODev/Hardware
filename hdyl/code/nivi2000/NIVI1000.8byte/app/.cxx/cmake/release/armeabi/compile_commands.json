@@ -1,0 +1,7 @@
+[
+{
+  "directory": "D:/work/AndroidStudioWork/NIVI1000.android/app/.cxx/cmake/release/armeabi",
+  "command": "D:\\soft\\AndroidNDK1664\\android-ndk-r16b\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv5te-none-linux-androideabi --gcc-toolchain=D:/soft/AndroidNDK1664/android-ndk-r16b/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=D:/soft/AndroidNDK1664/android-ndk-r16b/sysroot  -Dnative_lib_EXPORTS -isystem D:/soft/AndroidNDK1664/android-ndk-r16b/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem D:/soft/AndroidNDK1664/android-ndk-r16b/sources/cxx-stl/gnu-libstdc++/4.9/libs/armeabi/include -isystem D:/soft/AndroidNDK1664/android-ndk-r16b/sources/cxx-stl/gnu-libstdc++/4.9/include/backward  -isystem D:/soft/AndroidNDK1664/android-ndk-r16b/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security   -Os -DNDEBUG  -fPIC   -o CMakeFiles\\native-lib.dir\\src\\main\\cpp\\native-lib.cpp.o -c D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\src\\main\\cpp\\native-lib.cpp",
+  "file": "D:/work/AndroidStudioWork/NIVI1000.android/app/src/main/cpp/native-lib.cpp"
+}
+]

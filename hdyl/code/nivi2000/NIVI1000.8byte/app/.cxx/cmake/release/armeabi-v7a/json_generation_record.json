@@ -1,0 +1,170 @@
+[
+  {
+    "level": "INFO",
+    "message": "Start JSON generation. Platform version: 21 min SDK version: armeabi-v7a",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "No CMake version was specified in build.gradle. Using default version 3.10.2.",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Trying to locate CMake in local SDK repository.",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\build-tools\\27.0.3\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\build-tools\\28.0.3\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\build-tools\\29.0.0\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\build-tools\\29.0.2\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\build-tools\\30.0.2\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\cmake\\3.10.2.4988404\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\emulator\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\extras\\intel\\Hardware_Accelerated_Execution_Manager\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\ndk\\23.0.7344513\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\patcher\\v4\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\platform-tools\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\platforms\\android-23\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\platforms\\android-24\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\platforms\\android-26\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\platforms\\android-28\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\platforms\\android-29\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\platforms\\android-30\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\sources\\android-24\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\sources\\android-30\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\system-images\\android-24\\google_apis\\x86\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\system-images\\android-29\\android-tv\\x86\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "Parsing D:\\soft\\AndroidSDK\\tools\\package.xml",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "- CMake found in SDK at \u0027D:\\soft\\AndroidSDK\\cmake\\3.10.2.4988404\u0027 had version \u00273.10.2\u0027",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "JSON \u0027D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\android_gradle_build.json\u0027 was up-to-date",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  },
+  {
+    "level": "INFO",
+    "message": "JSON generation completed without problems",
+    "file": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt",
+    "tag": "release|armeabi-v7a"
+  }
+]

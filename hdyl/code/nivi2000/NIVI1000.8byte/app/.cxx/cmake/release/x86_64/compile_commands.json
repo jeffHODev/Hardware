@@ -1,0 +1,7 @@
+[
+{
+  "directory": "D:/work/AndroidStudioWork/NIVI1000.android/app/.cxx/cmake/release/x86_64",
+  "command": "D:\\soft\\AndroidNDK1664\\android-ndk-r16b\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android --gcc-toolchain=D:/soft/AndroidNDK1664/android-ndk-r16b/toolchains/x86_64-4.9/prebuilt/windows-x86_64 --sysroot=D:/soft/AndroidNDK1664/android-ndk-r16b/sysroot  -Dnative_lib_EXPORTS -isystem D:/soft/AndroidNDK1664/android-ndk-r16b/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem D:/soft/AndroidNDK1664/android-ndk-r16b/sources/cxx-stl/gnu-libstdc++/4.9/libs/x86_64/include -isystem D:/soft/AndroidNDK1664/android-ndk-r16b/sources/cxx-stl/gnu-libstdc++/4.9/include/backward  -isystem D:/soft/AndroidNDK1664/android-ndk-r16b/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -o CMakeFiles\\native-lib.dir\\src\\main\\cpp\\native-lib.cpp.o -c D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\src\\main\\cpp\\native-lib.cpp",
+  "file": "D:/work/AndroidStudioWork/NIVI1000.android/app/src/main/cpp/native-lib.cpp"
+}
+]

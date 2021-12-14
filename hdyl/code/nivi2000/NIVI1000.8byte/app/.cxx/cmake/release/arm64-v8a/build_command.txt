@@ -1,0 +1,20 @@
+Executable : D:\soft\AndroidSDK\cmake\3.10.2.4988404\bin\cmake.exe
+arguments : 
+-HD:\work\AndroidStudioWork\NIVI1000.android\app
+-DCMAKE_BUILD_TYPE=Release
+-DCMAKE_TOOLCHAIN_FILE=D:\soft\AndroidNDK1664\android-ndk-r16b\build\cmake\android.toolchain.cmake
+-DANDROID_ABI=arm64-v8a
+-DANDROID_NDK=D:\soft\AndroidNDK1664\android-ndk-r16b
+-DANDROID_PLATFORM=android-21
+-DCMAKE_ANDROID_ARCH_ABI=arm64-v8a
+-DCMAKE_ANDROID_NDK=D:\soft\AndroidNDK1664\android-ndk-r16b
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=D:\work\AndroidStudioWork\NIVI1000.android\app\build\intermediates\cmake\release\obj\arm64-v8a
+-DCMAKE_MAKE_PROGRAM=D:\soft\AndroidSDK\cmake\3.10.2.4988404\bin\ninja.exe
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_SYSTEM_VERSION=21
+-BD:\work\AndroidStudioWork\NIVI1000.android\app\.cxx\cmake\release\arm64-v8a
+-GNinja
+jvmArgs : 
+
+Build command args:
