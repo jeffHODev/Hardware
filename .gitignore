@@ -48,6 +48,7 @@ Obj/
 sourceinsight/
 sourceinsight/!*.siproj
 *.xml
+!/nivi2000/*.xml
 *.sip_sym
 *.sip_xab
 *.sip_xad
