@@ -7,4 +7,4 @@ cd / home /so /           	-------和康源NIVI2000所有C语言算法库
 cd / usr / java / jvm          	-------java jdk环境
 cd / usr / java / redis		-------redis环境
 
-app医院 nivi2000
+app医院 nivi 2000

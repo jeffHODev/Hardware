@@ -47,7 +47,7 @@ Obj/
 *.TMP
 sourceinsight/
 sourceinsight/!*.siproj
-!/nivi2000/*.xml
+!AndroidManifest.xml
 *.sip_sym
 *.sip_xab
 *.sip_xad
