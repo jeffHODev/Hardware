@@ -40,8 +40,12 @@
 #define FLOW_FACTOR	60000/FLOW_PERIOD
 #define PUMP_VALUE    65535
 
-
+#if FLOW_SIZE >=3
 #define FLOW_VALUE 2
+
+#else
+#define FLOW_VALUE 0.5
+#endif
 #define FLOW_RATIO  575//575//650.0//575.0  // 575 499  537
 
 
