@@ -95,7 +95,7 @@ void main (void)
     if(Charge_Process())
         goto next;
     while((Button_Read(1)&KEY_START_HOLD)!=KEY_START_HOLD)
-        key_reset();
+        ;//key_reset();
 next:
     key_reset();
 
@@ -116,23 +116,25 @@ next:
     {
 		//	testt();
         //if(Charge_Set == 0)
-        keycode=Button_Read(init_flag);				// 读取按键
+        keycode=Button_Read(init_flag);				// 读取按键   
         if(Ms_Flage==1)									// 10ms延时标志位
         {
-            set_WDCLR;										// Clear WDT timer
+            set_WDCLR;		
+					Charge_Process();								// Clear WDT timer
             // 清除标志//22
-
-            Charge_Process();
+         
+            
             Work_In_Set(keycode);					// 工作在设置模式下
             Init_adc_read();							// 读取ADC采样值
             Ms_Flage=0;
-            key_reset();
+					keycode = 0;
+          //  key_reset();
 					  dis_flag = 1;
 			//Send_Info();									// 发送数据到串口
         }
 
         // 刷新显示
-      //  Display_Process();								  // LED显示
+        //Display_Process();								  // LED显示
 
     }
 }

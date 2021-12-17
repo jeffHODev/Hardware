@@ -563,7 +563,8 @@ void Speak_value(void)
     // 计数器增加
 
 }
-static uint32_t key_time_start = 0,key_time_star2 = 0,cnt;   // 按键检测时间     START   设定按键
+static uint32_t key_time_start = 0,key_time_star2 = 0;   // 按键检测时间     START   设定按键
+unsigned char update=0,update2;   // 按键检测时间     START   设定按键
 /***********************************************************************************
  * 函数名：Button_Read(void)
  * 描述  ：读取按键数据
@@ -585,58 +586,165 @@ uint8_t Button_Read(unsigned char flag)
     }
     else
     {
-        if (Key_Set == 1)                                           // 开关机按键按下
-        {
-            delay_10ms(30);
-					cnt++;
-            while(Key_Set==1)
-            {
-                key_time_start++;
-                if(key_time_start > BUTTON_LONG_TIME)
-                {
 
+        // START按键按下
+        if(Key_Set==1)												// SET按键按下
+        {
+            if((Key_Status & 0x0f)==KEY_START_HOLD)				// 长按键
+            {
+                update=1;
+                Key_Status = Key_Status & 0xf0;
+                Key_Status = Key_Status | KEY_START_HOLD; 		  //				//
+            }
+            else if((Key_Status & 0x0f)==KEY_START_DOWN)   // 前一次是按键按下
+            {
+                if(key_time_start++>BUTTON_LONG_TIME)				// 检测到长按键
+                {
+                    update=1;
                     Key_Status = Key_Status & 0xf0;
                     Key_Status = Key_Status | KEY_START_HOLD; 		  //
-									
-                    break;
                 }
             }
-
-            if(key_time_start<(BUTTON_LONG_TIME))
+            else 																// 前一次没有按键按下
             {
-                Key_Status = Key_Status & 0xf0;
-                Key_Status = Key_Status | KEY_START_DOWN;
-                if(flag == 0)
-                    Set_Speak_Value(2);
-            }
-            key_time_start = 0;
-        }
-
-
-        if (Key_Pump == 1)                                           // 水泵按键
-        {
-            while(Key_Pump==1)
-            {
-                key_time_star2++;
-                if(key_time_star2 > BUTTON_LONG_TIME)
+                if(key_time_start++>BUTTON_FILTER_TIME)			// 按键通过滤波检测
                 {
-
-                    Key_Status = Key_Status & 0x0f;
-                    Key_Status = Key_Status | KEY_HSTART_HOLD;           //
-                    break;
+                    update=1;
+                    Key_Status = Key_Status & 0xf0;
+                    Key_Status = Key_Status | KEY_START_DOWN;
+                    if(flag == 0)
+                        Set_Speak_Value(2);
+                    //printf("key code = down");
                 }
-
+                else
+                {
+                    update=0;
+                    Key_Status = Key_Status & 0xf0;
+                    Key_Status = Key_Status | KEY_START_UP;
+                    // if(flag == 0)
+                    //   Set_Speak_Value(2);
+                    //printf("key code = down");
+                }
             }
-            if(key_time_star2<BUTTON_LONG_TIME)
+        }
+        else
+        {
+            update=0;
+            Key_Status = Key_Status & 0xf0;
+            Key_Status = Key_Status | KEY_START_UP; 		  //				//
+            // Key_Status=KEY_START_UP;							// 按键抬起
+            key_time_start=0;
+        }
+//           while(Key_Set==1)
+//            {
+//                key_time_start++;
+//                if(key_time_start > BUTTON_LONG_TIME)
+//                {
+
+//                    Key_Status = Key_Status & 0xf0;
+//                    Key_Status = Key_Status | KEY_START_HOLD; 		  //
+//
+//                    break;
+//                }
+//            }
+
+//            if(key_time_start<(BUTTON_LONG_TIME))
+//            {
+//                Key_Status = Key_Status & 0xf0;
+//                Key_Status = Key_Status | KEY_START_DOWN;
+//                if(flag == 0)
+//                    Set_Speak_Value(2);
+//            }
+//            key_time_start = 0;
+//
+//        }
+
+        // START按键按下
+        if(Key_Pump==1)												// SET按键按下
+        {
+            if((Key_Status & 0xf0)==KEY_HSTART_HOLD)				// 长按键
             {
+                update2=1;
                 Key_Status = Key_Status & 0x0f;
-                Key_Status = Key_Status | KEY_HSTART_DOWN;
-                Set_Speak_Value(2);
+                Key_Status = Key_Status | KEY_HSTART_HOLD; 		  //				//
+            }
+            else if((Key_Status & 0xf0)==KEY_HSTART_DOWN)   // 前一次是按键按下
+            {
+                if(key_time_star2++>BUTTON_LONG_TIME)				// 检测到长按键
+                {
+                    update2=1;
+                    Key_Status = Key_Status & 0x0f;
+                    Key_Status = Key_Status | KEY_HSTART_HOLD; 		  //
+                }
+            }
+            else 																// 前一次没有按键按下
+            {
+                if(key_time_star2++>BUTTON_FILTER_TIME)			// 按键通过滤波检测
+                {
+                    update2=1;
+                    Key_Status = Key_Status & 0x0f;
+                    Key_Status = Key_Status | KEY_HSTART_DOWN;
+                    if(flag == 0)
+                        Set_Speak_Value(2);
+                    //printf("key code = down");
+                }
+//                else
+//                {
+//                    update2=0;
+//									key_time_star2=0;
+//                    Key_Status = Key_Status & 0x0f;
+//                    Key_Status = Key_Status | KEY_HSTART_UP;
+//                    // if(flag == 0)
+//                    //   Set_Speak_Value(2);
+//                    //printf("key code = down");
+//                }
+            }
+        }
+        else
+        {
+            update2=1;
+            if((Key_Status & 0xf0)==KEY_HSTART_HOLD)				// 长按键
+            {
+                //update2=1;
+                Key_Status = Key_Status & 0x0f;
+                Key_Status = Key_Status | KEY_HSTART_LHOLD;		  //				//
+            }
+            else  if((Key_Status & 0xf0)!=KEY_HSTART_LHOLD)
+            {
+
+                Key_Status = Key_Status & 0x0f;
+                Key_Status = Key_Status | KEY_HSTART_UP;
 
             }
-            key_time_star2 = 0;
+            key_time_star2=0;
 
         }
+
+
+//        if (Key_Pump == 1)                                           // 水泵按键
+//        {
+//            while(Key_Pump==1)
+//            {
+//                key_time_star2++;
+//                if(key_time_star2 > BUTTON_LONG_TIME)
+//                {
+
+//                    Key_Status = Key_Status & 0x0f;
+//                    Key_Status = Key_Status | KEY_HSTART_HOLD;           //
+//                    break;
+//                }
+
+//            }
+//            if(key_time_star2<BUTTON_LONG_TIME)
+//            {
+//                Key_Status = Key_Status & 0x0f;
+//                Key_Status = Key_Status | KEY_HSTART_DOWN;
+//                Set_Speak_Value(2);
+
+//            }
+//            key_time_star2 = 0;
+
+//        }
     }
 
     return Key_Status;
@@ -682,9 +790,9 @@ unsigned char Charge_Process()
         if (Vbat_value <= MAX_VBAT && Vbat_value >= MIN_VBAT)
         {
             charge_status = 1;
-			Charge_Mode = 1;   // 充电
+            Charge_Mode = 1;   // 充电
         }
-        else if (Vbat_value > MAX_VBAT) 
+        else if (Vbat_value > MAX_VBAT)
         {
             if (stdby_time++ > FCHARGE_LONG_TIME)// 充满
             {
@@ -705,7 +813,7 @@ unsigned char Charge_Process()
             Charge_Mode = 3; //故障
             stdby_time = 0;
             charge_time = 0;
-						charge_status = 0;
+            charge_status = 0;
         }
 
     }
@@ -902,7 +1010,7 @@ void Display_Process()
 
     Clear_Con = 0;
     //equipment = 0x02;
-    Equipment_Ctrl_Set(DIA1, 1);//阀门开
+    // Equipment_Ctrl_Set(DIA1, 1);//阀门开
 
     HC595_Send_Multi_Byte(table[Led_Ram], equipment);
 }
@@ -910,7 +1018,7 @@ void Display_Process()
 
 
 // 用户操作
-unsigned char key_Count;
+static unsigned char key_Count;
 void Work_In_Set(uint8_t keycode)               //
 {
     static uint8_t key = 0;//按键状态临时获取
@@ -965,107 +1073,135 @@ void Work_In_Set(uint8_t keycode)               //
                 //Set_Speak_Value(1);//
             }
         }
-				            key = keycode&0x0f;
+        key = keycode&0x0f;
 //            //******************** 开关机按键，短按电解，长按开关机***************************
 
-						if(key==KEY_START_HOLD) //关机
-            {
-                Shutdown_Mode();
-                Send_Data_To_UART0(3,DEBUG);
-            }
+        if(key==KEY_START_HOLD) //关机
+        {
+            Shutdown_Mode();
+            update =0;
+            Send_Data_To_UART0(3,DEBUG);
+        }
 
     }
     break;
     case 1: //正常工作模式
     {
-		
+
         if(Charge_Mode == 0)
         {
             key = keycode&0x0f;
 //            //******************** 开关机按键，短按电解，长按开关机***************************
-            if(key==KEY_START_DOWN)//短按一次
+            if(update==1)
             {
-                key_Count ++;
-                if(Ele_Flage==0&&vbat_warn_flag ==0)//开始电解
+                update =0;
+                if(key==KEY_START_DOWN)//短按一次
                 {
-                    if( pump_flag == 0)
-                    {
-                        equipment = equipment|0x01|0x80;
-                        Ele_Time = 0;
-                        Ele_Flage = 1;
-                        DJ_Con = 1;//电解
-											  nop_;nop_;nop_;nop_;nop_;nop_;nop_;
-                        tmpa = ELE_TIME*10;
-                        tmpb = (unsigned char)tmpa;
-                        if(tmpb%10>=5)
+                    key_Count ++;
 
-                            Led_Ram = ELE_TIME+1;
-                        else
-                            Led_Ram = ELE_TIME;
-                        Send_Data_To_UART0(1,DEBUG);
-                        Equipment_Ctrl_Set(0x80, 1);//灯开
-                        Equipment_Ctrl_Set(0x01, 1);//灯开
-                        Equipment_Ctrl_Set(DIA1, 1);//阀门开
+                    if(Ele_Flage==0&&vbat_warn_flag ==0)//开始电解
+                    {
+                        if( pump_flag == 0)
+                        {
+                            equipment = equipment|0x01|0x80;
+                            Ele_Time = 0;
+                            Ele_Flage = 1;
+                            DJ_Con = 1;//电解
+                            nop_;
+                            nop_;
+                            nop_;
+                            nop_;
+                            nop_;
+                            nop_;
+                            nop_;
+                            tmpa = ELE_TIME*10;
+                            tmpb = (unsigned char)tmpa;
+                            if(tmpb%10>=5)
+
+                                Led_Ram = ELE_TIME+1;
+                            else
+                                Led_Ram = ELE_TIME;
+                            Send_Data_To_UART0(1,DEBUG);
+                            Equipment_Ctrl_Set(0x80, 1);//灯开
+                            Equipment_Ctrl_Set(0x01, 1);//灯开
+                            Equipment_Ctrl_Set(DIA1, 1);//阀门开
+                            Equipment_Ctrl_Set(SWITCH, 0);//阀门关
+                        }
+
+                    }
+                    else if(Ele_Flage==1)
+                    {
+                        Ele_Time = 0;
+                        Ele_Flage = 0;
+                        Send_Data_To_UART0(2,DEBUG);
+                        Led_Ram = 0;
+                        DJ_Con = 0;//取消电解
+                        Led_Ram = 0x04;
+                        Equipment_Ctrl_Set(0x80, 0);//阀门开
+                        Equipment_Ctrl_Set(0x01, 0);//阀门开
+
                         Equipment_Ctrl_Set(SWITCH, 0);//阀门关
                     }
 
+                    //  Ele_Flage = 0;
+                    //显示
                 }
-                else if(Ele_Flage==1)
+                else if(key==KEY_START_HOLD) //关机
                 {
-                    Ele_Time = 0;
-                    Ele_Flage = 0;
-                    Send_Data_To_UART0(2,DEBUG);
-                    Led_Ram = 0;
-                    DJ_Con = 0;//取消电解
-                    Led_Ram = 0x04;
-                    Equipment_Ctrl_Set(0x80, 0);//阀门开
-                    Equipment_Ctrl_Set(0x01, 0);//阀门开
-
-                    Equipment_Ctrl_Set(SWITCH, 0);//阀门关
+                    Shutdown_Mode();
+                    Send_Data_To_UART0(3,DEBUG);
                 }
-
-                //  Ele_Flage = 0;
-                //显示
             }
-            else if(key==KEY_START_HOLD) //关机
+            if(update2==1)
             {
-                Shutdown_Mode();
-                Send_Data_To_UART0(3,DEBUG);
-            }
-            //******************** 喷雾排水按键，短按喷雾**************************
-            key = keycode&0xf0;
-            if(key==KEY_HSTART_DOWN)//短按一次
-            {
-                if(pump_flag == 1)//正在喷雾
+                update2 = 0;
+                //******************** 喷雾排水按键，短按喷雾**************************
+                key = keycode&0xf0;
+                if(key==KEY_HSTART_DOWN||key==KEY_HSTART_LHOLD)//短按一次
                 {
-                    Equipment_Ctrl_Set(PUMP, 0);//泵关;
-                    pump_flag = 0;
-                    Send_Data_To_UART0(4,DEBUG);
-
-                }
-                else
-                {
-                    if(Ele_Flage == 0&&vbat_warn_flag ==0)
+                    if(pump_flag == 1)//正在喷雾
                     {
-                        pump_flag = 1;
-                        Send_Data_To_UART0(5,DEBUG);
-                        Equipment_Ctrl_Set(PUMP, 1);//泵开;
+                        Equipment_Ctrl_Set(PUMP, 0);//泵关;
+                        pump_flag = 0;
+                        Send_Data_To_UART0(4,DEBUG);
+                        if(key==KEY_HSTART_LHOLD)
+                        {
+                            Key_Status = Key_Status & 0x0f;
+                            Key_Status = Key_Status | KEY_HSTART_UP;
+                        }
                     }
-
-                }
-            }
-            else if(key==KEY_HSTART_HOLD) //喷雾
-            {
-                if(pump_flag == 0)
-                {
-                    if(Ele_Flage == 0&&vbat_warn_flag ==0)
+                    else
                     {
-                        pump_flag = 1;
-                        Send_Data_To_UART0(6,DEBUG);
-                        Equipment_Ctrl_Set(PUMP, 1);//泵开;
+                        if(Ele_Flage == 0&&vbat_warn_flag ==0)
+                        {
+                            pump_flag = 1;
+                            Send_Data_To_UART0(5,DEBUG);
+                            Equipment_Ctrl_Set(PUMP, 1);//泵开;
+                        }
+
                     }
                 }
+                else if(key==KEY_HSTART_HOLD) //喷雾
+                {
+                    if(pump_flag == 0)
+                    {
+                        if(Ele_Flage == 0&&vbat_warn_flag ==0)
+                        {
+                            pump_flag = 1;
+                            Send_Data_To_UART0(6,DEBUG);
+                            Equipment_Ctrl_Set(PUMP, 1);//泵开;
+                        }
+                    }
+//										else
+//									                    {
+//                        Equipment_Ctrl_Set(PUMP, 0);//泵关;
+//                        pump_flag = 0;
+//                        Send_Data_To_UART0(4,DEBUG);
+
+//                    }
+                }
             }
+
 
         }
     }
@@ -1134,9 +1270,9 @@ void Work_In_Set(uint8_t keycode)               //
         if(Charge_Mode == 3) //故障
         {
             Work_Mode = 4;
-             Shutdown_Mode();//关机
+            Shutdown_Mode();//关机
             // Charge_Mode = 0;
-        }				
+        }
     }
     else //正常模式
     {
@@ -1245,7 +1381,7 @@ void Work_In_Set(uint8_t keycode)               //
         DJ_Con = 0;
         Led_Ram = 0x04;
         Equipment_Ctrl_Set(PUMP|SWITCH|DIA1|LED_BLUE, 0);//设备都关
-       // Equipment_Ctrl_Set( LED_GREEN, 0);//设备都关
+        // Equipment_Ctrl_Set( LED_GREEN, 0);//设备都关
         // Equipment_Ctrl_Set( LED_RED, 1);//设备都关
     }
 
@@ -1275,7 +1411,7 @@ void Work_In_Set(uint8_t keycode)               //
                 //  Equipment_Ctrl_Set(PUMP|SWITCH|DIA1|LED_BLUE, 0);//泵关
                 Equipment_Ctrl_Set(LED_RED, 0);//红灯亮
                 Equipment_Ctrl_Set(LED_GREEN, 1);//绿灯灭
-               // Set_Speak_Value(4);// 电量低
+                // Set_Speak_Value(4);// 电量低
                 //    Work_Mode = 4;//异常工作模式
                 timeout = systick;
             }
