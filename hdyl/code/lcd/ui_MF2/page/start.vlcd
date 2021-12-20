@@ -4,6 +4,6 @@
 <desc>Vlcd picture</desc>
 <box style = "fill:none; stroke:Black; stroke-width:1" x = "0" y = "0" width = "480" height = "272" ShapeName = "Box" ShapeNum = "16" >box</box>
 <progress x = "105" y = "94" width = "229" height = "62" ShapeName = "14" StoreType = "Color" ShapeNum = "17" RadianNum = ""
- xlink:href = "F:\projects\git\Hardware\work\hdyl\AOPWMG_GD\VlcdsPrj3\image\">
+ xlink:href = "D:\work\git\Hardware\hdyl\code\lcd\ui_MF2\image\">
 </progress>
 </vlcd>

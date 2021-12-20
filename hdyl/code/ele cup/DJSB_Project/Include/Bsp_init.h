@@ -16,8 +16,8 @@
 #define MUSIC_NUM4  7												// 最小值为2
 #define MUSIC_NUM5  5												// 最小值为2
 #define MUSIC_NUM6  5												// 最小值为2
-#define BUTTON_FILTER_TIME     500						// 50ms
-#define BUTTON_LONG_TIME        100000					// 1500ms
+#define BUTTON_FILTER_TIME     5						// 50ms
+#define BUTTON_LONG_TIME        500//50000					// 1500ms
 #define CHARGE_LONG_TIME        20000					// 1500ms
 #define FCHARGE_LONG_TIME       40000					// 1500ms
 
@@ -53,6 +53,7 @@ typedef enum
     KEY_START_UP=1,
     KEY_START_DOWN=2,
     KEY_START_HOLD=3,
+	  KEY_START_MID=4,
     KEY_HNULL=0,
     KEY_HSTART_UP=0x10,
     KEY_HSTART_DOWN=0x20,
@@ -98,6 +99,7 @@ uint8_t Button_Read(unsigned char flag);
 void Led_Display(void);
 void Work_In_Set(uint8_t keycode);
 void display_init(void);
+uint8_t Button_Read2(unsigned char flag);
 
 void Display_Process(void);
 void key_reset(void);

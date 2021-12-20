@@ -289,30 +289,7 @@ void Flow_Init()
 
         if(GetTickResult(TDS_SETTING_TICK_NO)==1)
         {
-            /*if(GetSensor()->flow<=2.5)
-                flow_switch = TDS_LEVEL1 ;
-            else if(GetSensor()->flow<=3)//2.5---3  500
-            {
-                flow_switch = (GetSensor()->flow-2.5)*300+TDS_LEVEL1;
-                if(flow_switch<TDS_LEVEL1)
-                    flow_switch = TDS_LEVEL1;
-            }
-            else if(GetSensor()->flow<=3.5)//3---3.5 650
-            {
-                flow_switch = (GetSensor()->flow-3)*600+TDS_LEVEL2;
-                if(flow_switch<TDS_LEVEL2)
-                    flow_switch = TDS_LEVEL2;
-            }
 
-            else if(GetSensor()->flow<=4)//3.5---4    950	+30----0.1
-            {
-                flow_switch = (GetSensor()->flow-3.5)*300+TDS_LEVEL3;
-                if(flow_switch<TDS_LEVEL3)
-                    flow_switch = TDS_LEVEL3;
-            }
-
-            else
-                flow_switch = TDS_LEVEL4 ;*/
 						
             if(GetSensor()->flow<=2.5)//450
                 flow_switch = TDS_LEVEL1 ;

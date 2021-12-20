@@ -565,6 +565,7 @@ void Speak_value(void)
 }
 static uint32_t key_time_start = 0,key_time_star2 = 0;   // 按键检测时间     START   设定按键
 unsigned char update=0,update2;   // 按键检测时间     START   设定按键
+unsigned char key_hit_status=2;
 /***********************************************************************************
  * 函数名：Button_Read(void)
  * 描述  ：读取按键数据
@@ -590,19 +591,27 @@ uint8_t Button_Read(unsigned char flag)
         // START按键按下
         if(Key_Set==1)												// SET按键按下
         {
+            if(key_hit_status==0)
+                key_hit_status = 1;
             if((Key_Status & 0x0f)==KEY_START_HOLD)				// 长按键
             {
                 update=1;
                 Key_Status = Key_Status & 0xf0;
                 Key_Status = Key_Status | KEY_START_HOLD; 		  //				//
             }
-            else if((Key_Status & 0x0f)==KEY_START_DOWN)   // 前一次是按键按下
+            else if((Key_Status & 0x0f)==KEY_START_DOWN||(Key_Status & 0x0f)==KEY_START_MID)   // 前一次是按键按下
             {
                 if(key_time_start++>BUTTON_LONG_TIME)				// 检测到长按键
                 {
                     update=1;
                     Key_Status = Key_Status & 0xf0;
                     Key_Status = Key_Status | KEY_START_HOLD; 		  //
+                }
+                else if(key_time_start++>BUTTON_LONG_TIME*3)				// 检测到长按键
+                {
+                    update=1;
+                    Key_Status = Key_Status & 0xf0;
+                    Key_Status = Key_Status | KEY_START_MID; 		  //
                 }
             }
             else 																// 前一次没有按键按下
@@ -629,6 +638,7 @@ uint8_t Button_Read(unsigned char flag)
         }
         else
         {
+
             update=0;
             Key_Status = Key_Status & 0xf0;
             Key_Status = Key_Status | KEY_START_UP; 		  //				//
@@ -702,9 +712,10 @@ uint8_t Button_Read(unsigned char flag)
         }
         else
         {
-            update2=1;
+
             if((Key_Status & 0xf0)==KEY_HSTART_HOLD)				// 长按键
             {
+                update2=1;
                 //update2=1;
                 Key_Status = Key_Status & 0x0f;
                 Key_Status = Key_Status | KEY_HSTART_LHOLD;		  //				//
@@ -714,7 +725,7 @@ uint8_t Button_Read(unsigned char flag)
 
                 Key_Status = Key_Status & 0x0f;
                 Key_Status = Key_Status | KEY_HSTART_UP;
-
+                update2=0;
             }
             key_time_star2=0;
 
@@ -749,9 +760,131 @@ uint8_t Button_Read(unsigned char flag)
 
     return Key_Status;
 }
+static unsigned char key_down_flag,key_down_flag2;
+/***********************************************************************************
+ * 函数名：Button_Read(void)
+ * 描述  ：读取按键数据
+ * 输入  ：无1
+ * 输出  ：无
+************************************************************************************/
+uint8_t Button_Read2(unsigned char flag)
+{
+    //static uint32_t tick_tmp;
+
+
+    // 按键滤波时间计时
+
+//    static unsigned char key_hit_flag;
+
+    if (Key_Set == 1 && Key_Pump == 1)//同时按下无效
+    {
+        return KEY_START_UP;
+    }
+    else
+    {
+
+        // START按键按下
+        if(Key_Set==1)												// SET按键按下
+        {
+
+            if(key_time_start++>BUTTON_FILTER_TIME)			// 按键通过滤波检测
+            {
+
+
+                key_down_flag = 1;
+            }
+            if(key_time_start++>BUTTON_LONG_TIME)			// 按键通过滤波检测
+            {
+                if(key_down_flag == 1)
+                {
+                    update=1;
+                    key_time_start = 0;
+                    key_down_flag = 2;
+                    Key_Status = Key_Status & 0xf0;
+                    Key_Status = Key_Status | KEY_START_HOLD;
+                }
+
+            }
+        }
+
+        else
+        {
+            if( key_down_flag == 1)
+            {
+                            if(flag == 0)
+                    Set_Speak_Value(2);
+                update=1;
+                key_down_flag = 0;
+                Key_Status = Key_Status & 0xf0;
+                Key_Status = Key_Status | KEY_START_DOWN;
+
+            }
+            else
+            {
+                Key_Status = Key_Status & 0xf0;
+                Key_Status = Key_Status | KEY_START_UP;
+
+            }
+            key_down_flag = 0;
+            key_time_start = 0;
+        }
+
+        // START按键按下
+        if(Key_Pump==1)												// SET按键按下
+        {
+
+            if(key_time_star2++>BUTTON_FILTER_TIME) 		// 按键通过滤波检测
+            {
+
+
+                key_down_flag2 = 1;
+            }
+            if(key_time_star2++>BUTTON_LONG_TIME)			// 按键通过滤波检测
+            {
+                if(key_down_flag2 == 1)
+                {
+                    key_time_star2 = 0;
+                    update2=1;
+                    Key_Status = Key_Status & 0x0f;
+                    Key_Status = Key_Status | KEY_HSTART_HOLD;		  //
+
+                }
+
+            }
+        }
+
+        else
+        {
+            if( key_down_flag2 == 1)
+            {             
+            if(flag == 0)
+                    Set_Speak_Value(2);
+                key_down_flag2 = 0;
+                update2=1;
+                Key_Status = Key_Status & 0x0f;
+                Key_Status = Key_Status | KEY_HSTART_DOWN;
+
+
+            }
+            else
+            {
+                Key_Status = Key_Status & 0x0f;
+                Key_Status = Key_Status | KEY_HSTART_UP;
+
+            }
+            key_down_flag2 = 0;
+            key_time_star2 = 0;
+        }
+    }
+
+    return Key_Status;
+
+
+
+}
 void key_reset()
 {
-//		{
+
     Key_Status = Key_Status & 0xf0;
     Key_Status = Key_Status | KEY_START_UP; // 按键抬起
     key_time_start = 0;
@@ -1007,11 +1140,11 @@ void display_init(void)
 }
 void Display_Process()
 {
-
+//Equipment_Ctrl_Set(DIA1, 1);//阀门开
     Clear_Con = 0;
     //equipment = 0x02;
     // Equipment_Ctrl_Set(DIA1, 1);//阀门开
-
+//Led_Ram=2;
     HC595_Send_Multi_Byte(table[Led_Ram], equipment);
 }
 
@@ -1097,54 +1230,62 @@ void Work_In_Set(uint8_t keycode)               //
                 update =0;
                 if(key==KEY_START_DOWN)//短按一次
                 {
-                    key_Count ++;
-
-                    if(Ele_Flage==0&&vbat_warn_flag ==0)//开始电解
+                    //if(Key_Set ==0)
                     {
-                        if( pump_flag == 0)
+                        key_Count ++;
+
+                        if(Ele_Flage==0&&vbat_warn_flag ==0)//开始电解
                         {
-                            equipment = equipment|0x01|0x80;
-                            Ele_Time = 0;
-                            Ele_Flage = 1;
-                            DJ_Con = 1;//电解
-                            nop_;
-                            nop_;
-                            nop_;
-                            nop_;
-                            nop_;
-                            nop_;
-                            nop_;
-                            tmpa = ELE_TIME*10;
-                            tmpb = (unsigned char)tmpa;
-                            if(tmpb%10>=5)
+                            if( pump_flag == 0)
+                            {
+                                equipment = equipment|0x01|0x80;
+                                Ele_Time = 0;
+                                Ele_Flage = 1;
+                                DJ_Con = 1;//电解
+//                            nop_;
+//                            nop_;
+//                            nop_;
+//                            nop_;
+//                            nop_;
+//                            nop_;
+//                            nop_;
+                                tmpa = ELE_TIME*10;
+                                tmpb = (unsigned char)tmpa;
+                                if(tmpb%10>=5)
 
-                                Led_Ram = ELE_TIME+1;
-                            else
-                                Led_Ram = ELE_TIME;
-                            Send_Data_To_UART0(1,DEBUG);
-                            Equipment_Ctrl_Set(0x80, 1);//灯开
-                            Equipment_Ctrl_Set(0x01, 1);//灯开
-                            Equipment_Ctrl_Set(DIA1, 1);//阀门开
-                            Equipment_Ctrl_Set(SWITCH, 0);//阀门关
+                                    Led_Ram = ELE_TIME+1;
+                                else
+                                    Led_Ram = ELE_TIME;
+                                // Send_Data_To_UART0(1,DEBUG);
+                                Equipment_Ctrl_Set(0x80, 1);//灯开
+                                Equipment_Ctrl_Set(0x01, 1);//灯开
+                                Equipment_Ctrl_Set(DIA1, 1);//阀门开
+                                Equipment_Ctrl_Set(SWITCH, 0);//阀门关
+                            }
+
                         }
+                        else if(Ele_Flage==1)
+                        {
 
+                            {
+
+                                Ele_Time = 0;
+                                Ele_Flage = 0;
+                                Send_Data_To_UART0(2,DEBUG);
+                                Led_Ram = 0;
+                                DJ_Con = 0;//取消电解
+                                Led_Ram = 0x04;
+                                Equipment_Ctrl_Set(0x80, 0);//阀门开
+                                Equipment_Ctrl_Set(0x01, 0);//阀门开
+
+                                Equipment_Ctrl_Set(SWITCH, 0);//阀门关											 }
+
+                            }
+                        }
+                        //  Ele_Flage = 0;
+                        //显示
                     }
-                    else if(Ele_Flage==1)
-                    {
-                        Ele_Time = 0;
-                        Ele_Flage = 0;
-                        Send_Data_To_UART0(2,DEBUG);
-                        Led_Ram = 0;
-                        DJ_Con = 0;//取消电解
-                        Led_Ram = 0x04;
-                        Equipment_Ctrl_Set(0x80, 0);//阀门开
-                        Equipment_Ctrl_Set(0x01, 0);//阀门开
 
-                        Equipment_Ctrl_Set(SWITCH, 0);//阀门关
-                    }
-
-                    //  Ele_Flage = 0;
-                    //显示
                 }
                 else if(key==KEY_START_HOLD) //关机
                 {
@@ -1157,18 +1298,22 @@ void Work_In_Set(uint8_t keycode)               //
                 update2 = 0;
                 //******************** 喷雾排水按键，短按喷雾**************************
                 key = keycode&0xf0;
-                if(key==KEY_HSTART_DOWN||key==KEY_HSTART_LHOLD)//短按一次
+                if(key==KEY_HSTART_DOWN||key==KEY_HSTART_HOLD)//短按一次
                 {
                     if(pump_flag == 1)//正在喷雾
                     {
-                        Equipment_Ctrl_Set(PUMP, 0);//泵关;
-                        pump_flag = 0;
-                        Send_Data_To_UART0(4,DEBUG);
-                        if(key==KEY_HSTART_LHOLD)
+
+                        if(key==KEY_HSTART_HOLD)
                         {
                             Key_Status = Key_Status & 0x0f;
                             Key_Status = Key_Status | KEY_HSTART_UP;
                         }
+												else
+												{
+                        Equipment_Ctrl_Set(PUMP, 0);//泵关;
+                        pump_flag = 0;
+                        Send_Data_To_UART0(4,DEBUG);												
+												}
                     }
                     else
                     {
@@ -1270,6 +1415,7 @@ void Work_In_Set(uint8_t keycode)               //
         if(Charge_Mode == 3) //故障
         {
             Work_Mode = 4;
+            Ele_Flage=0;
             Shutdown_Mode();//关机
             // Charge_Mode = 0;
         }
@@ -1301,13 +1447,13 @@ void Work_In_Set(uint8_t keycode)               //
                 if(Ele_value>MIN_TDSVALUE)  // 水质差
                 {
 
-                    Send_Data_To_UART0(8,DEBUG);
+                    //  Send_Data_To_UART0(8,DEBUG);
                     Set_Speak_Value(5);//报警
                     TDS_Alarm_Num++;                    // TDS报警数值累计增加
                 }
                 else
                 {
-                    Send_Data_To_UART0(9,DEBUG);
+                    //  Send_Data_To_UART0(9,DEBUG);
 
                     Set_Speak_Value(3);//电解结束
                 }
@@ -1316,7 +1462,7 @@ void Work_In_Set(uint8_t keycode)               //
             if(Now_current<=MIN_CURRENT)//无水检测
             {
                 NoWaterTick++;
-                if(NoWaterTick>=1000)//超过10s
+                if(NoWaterTick>=1100)//超过10s
                 {
                     Led_Ram = 0x04;
                     NoWaterTick = 0;
@@ -1325,7 +1471,7 @@ void Work_In_Set(uint8_t keycode)               //
                     DJ_Con = 0;
                     Equipment_Ctrl_Set(0x80, 0);//灯开
                     Equipment_Ctrl_Set(0x01, 0);//灯开
-                    Send_Data_To_UART0(10,DEBUG);
+                    //Send_Data_To_UART0(10,DEBUG);
                     Equipment_Ctrl_Set(SWITCH, 0);//阀门关
                     Set_Speak_Value(5);//异常报警
                 }
@@ -1342,7 +1488,7 @@ void Work_In_Set(uint8_t keycode)               //
                     DJ_Con = 0;
                     Equipment_Ctrl_Set(0x80, 0);//灯开
                     Equipment_Ctrl_Set(0x01, 0);//灯开
-                    Send_Data_To_UART0(11,DEBUG);
+                    // Send_Data_To_UART0(11,DEBUG);
                     Equipment_Ctrl_Set(SWITCH, 0);//阀门关
                     Set_Speak_Value(5);//异常报警
                 }
@@ -1360,7 +1506,7 @@ void Work_In_Set(uint8_t keycode)               //
             {
                 if((Ele_Time++)>=SWITCH_PERIOD)
                 {
-                    Send_Data_To_UART0(12,DEBUG);
+                    // Send_Data_To_UART0(12,DEBUG);
                     light_flag = 0;
                     Equipment_Ctrl_Set(SWITCH, 0);//阀门关
                     Ele_Time = 0;
@@ -1397,7 +1543,7 @@ void Work_In_Set(uint8_t keycode)               //
                 vbat_warn_flag = 1;
                 timeout = systick;
                 Shutdown_Mode();
-                Send_Data_To_UART0(12,DEBUG);
+                //Send_Data_To_UART0(12,DEBUG);
             }
         }
         else if(Vbat_value <=BATTER_ALARM)//低压报警
@@ -1406,7 +1552,7 @@ void Work_In_Set(uint8_t keycode)               //
             {
                 vbat_warn_flag = 1;
 
-                Send_Data_To_UART0(13,DEBUG);
+                //  Send_Data_To_UART0(13,DEBUG);
                 // Led_Ram = 0x04;
                 //  Equipment_Ctrl_Set(PUMP|SWITCH|DIA1|LED_BLUE, 0);//泵关
                 Equipment_Ctrl_Set(LED_RED, 0);//红灯亮

@@ -49,16 +49,16 @@ void Timer1_ISR (void) interrupt 3  //interrupt address is 0x001B
     {
         time=0;
         Speak_value();
-			if(dis_flag)
-			{
-			dis_flag = 0;
-				Display_Process();
-			}
-			 
+
     }
-   	
-    // 10ms标志
     Ms_Flage=1;
+    // 10ms标志
+//			if(dis_flag)
+//			{
+//			dis_flag = 0;
+//				Display_Process();
+//			}
+
 }
 
 /***********************************************************************
@@ -83,7 +83,8 @@ here after stack initialization.
 ------------------------------------------------*/
 void main (void)
 {
-     uint8_t keycode=0;								// 按键
+    uint8_t keycode=0;								// 按键
+
     uint8_t init;											// 初始化ADC
     unsigned char init_flag;
     init_flag = 1;
@@ -92,13 +93,26 @@ void main (void)
     Board_gpio_init();								// 初始化IO
     Timer1_init();										// 初始化定时器
 
-    if(Charge_Process())
-        goto next;
-    while((Button_Read(1)&KEY_START_HOLD)!=KEY_START_HOLD)
-        ;//key_reset();
-next:
-    key_reset();
+   if(Charge_Process())
+   goto next;
+	Ms_Flage=0;
+    while(1)
+    {
+        if(Ms_Flage==1)									// 10ms延时标志位
+        {
+            Ms_Flage=0;
+					keycode=Button_Read2(init_flag);
+            if((keycode&0xf)==KEY_START_HOLD)
+                break;
 
+        }
+    }
+
+
+next:
+		
+    key_reset();
+    display_init();
 
     WDT_Config_Enable();							// WDT run
     InitialUART0_Timer3(9600);				// 初始化串口1
@@ -109,32 +123,33 @@ next:
         Init_adc_read();								// 初始化ADC
         //	set_WDCLR;											// Clear WDT timer
     }
-    display_init();
+    Ms_Flage=0;
     init_flag = 0;
     // 读取ADC采样值
     while(1)
     {
-		//	testt();
+        //	testt();
         //if(Charge_Set == 0)
-        keycode=Button_Read(init_flag);				// 读取按键   
+
+
+
+		
+
         if(Ms_Flage==1)									// 10ms延时标志位
         {
-            set_WDCLR;		
-					Charge_Process();								// Clear WDT timer
-            // 清除标志//22
-         
-            
+            keycode=Button_Read2(init_flag); 			// 读取按键
+            set_WDCLR;
+            Charge_Process();								// Clear WDT timer
             Work_In_Set(keycode);					// 工作在设置模式下
             Init_adc_read();							// 读取ADC采样值
             Ms_Flage=0;
-					keycode = 0;
-          //  key_reset();
-					  dis_flag = 1;
-			//Send_Info();									// 发送数据到串口
+            keycode = 0;
+            dis_flag = 1;
+
         }
 
         // 刷新显示
-        //Display_Process();								  // LED显示
+        Display_Process();								  // LED显示
 
     }
 }
