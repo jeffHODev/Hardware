@@ -3,8 +3,8 @@
 
 #define ELE_PERIOD		        ELE_TIME*60*100
 #define ELE_TIME				1.5
-#define MIN_CURRENT      0.85
-#define MAX_CURRENT      2.5
+#define MIN_CURRENT      0.5
+#define MAX_CURRENT      3
 #define RS      0.2
 
 #define Refvalue 1.22												// 带隙参考源电压

@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/20/2021  15:44:44  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/20/2021  17:02:48  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -59,7 +59,7 @@ LINK MAP OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
             XDATA   0086H     0002H     INPAGE       ?PD?_EQUIPMENT_CTRL_SET?BSP_INIT
             XDATA   0088H     0001H     INPAGE       ?PD?_SET_SPEAK_VALUE?BSP_INIT
             XDATA   0089H     0001H     INPAGE       ?PD?_BUTTON_READ?BSP_INIT
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 2
 
 
             XDATA   008AH     0001H     INPAGE       ?PD?_BUTTON_READ2?BSP_INIT
@@ -119,7 +119,7 @@ LINK MAP OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
             CODE    2744H     008EH     UNIT         ?PR?TIMER1_ISR?MAIN
             CODE    27D2H     0085H     UNIT         ?PR?_SENDTO595?BSP_INIT
             CODE    2857H     0080H     UNIT         ?PR?_DELAY_10MS?BSP_INIT
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 3
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 3
 
 
             CODE    28D7H     0069H     UNIT         ?PR?_TIMER3_DELAY100MS?DELAY
@@ -179,7 +179,7 @@ SEGMENT
   +--> ?C_INITSEG
 
 ?PR?MAIN?MAIN
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 4
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 4
 
 
   +--> ?PR?BOARD_GPIO_INIT?BSP_INIT
@@ -239,7 +239,7 @@ SEGMENT
   +--> ?PR?ISP_REST?BSP_INIT
 
 ?PR?SHUTDOWN_MODE?BSP_INIT
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 5
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 5
 
 
   +--> ?PR?_SET_SPEAK_VALUE?BSP_INIT
@@ -299,7 +299,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   D:00C7H         PUBLIC        TA
   X:002FH         PUBLIC        Ele_value
   X:0033H         PUBLIC        Led_Ram
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 6
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 6
 
 
   D:00B8H         PUBLIC        IP
@@ -359,7 +359,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   X:005BH         PUBLIC        equipment
   C:167FH         PUBLIC        _Button_Read
   C:2F92H         PUBLIC        HC595_STCP_Low
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 7
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 7
 
 
   X:005CH         SYMBOL        key_down_flag
@@ -419,7 +419,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:2E70H         LINE#         109
   C:2E76H         LINE#         112
   C:2E7CH         LINE#         113
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 8
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 8
 
 
   C:2E82H         LINE#         114
@@ -479,7 +479,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:1A03H         LINE#         174
   C:1A06H         LINE#         175
   C:1A19H         LINE#         176
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 9
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 9
 
 
   C:1A1EH         LINE#         177
@@ -539,7 +539,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:0E48H         LINE#         240
   C:0E65H         LINE#         241
   C:0E68H         LINE#         243
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 10
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 10
 
 
   C:0E7DH         LINE#         244
@@ -599,7 +599,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   X:0086H         SYMBOL        dev
   X:0087H         SYMBOL        level
   C:1E50H         LINE#         331
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 11
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 11
 
 
   C:1E58H         LINE#         332
@@ -659,7 +659,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:1F46H         LINE#         396
   C:1F46H         LINE#         397
   C:1F52H         LINE#         398
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 12
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 12
 
 
   C:1F54H         LINE#         400
@@ -719,7 +719,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:1345H         LINE#         455
   C:1350H         LINE#         456
   C:1354H         LINE#         457
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 13
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 13
 
 
   C:1355H         LINE#         458
@@ -779,7 +779,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:150AH         LINE#         515
   C:150BH         LINE#         517
   C:150BH         LINE#         518
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 14
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 14
 
 
   C:1531H         LINE#         519
@@ -839,7 +839,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:1692H         LINE#         593
   C:1692H         LINE#         594
   C:169CH         LINE#         595
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 15
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 15
 
 
   C:16A1H         LINE#         596
@@ -899,7 +899,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:183AH         LINE#         684
   C:183AH         LINE#         685
   C:183FH         LINE#         686
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 16
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 16
 
 
   C:184BH         LINE#         687
@@ -959,7 +959,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:1B7CH         LINE#         802
   C:1B81H         LINE#         803
   C:1B8DH         LINE#         804
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 17
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 17
 
 
   C:1B99H         LINE#         805
@@ -1019,7 +1019,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:1CC9H         LINE#         878
   C:1CC9H         LINE#         880
   C:1CCDH         LINE#         884
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 18
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 18
 
 
   -------         ENDPROC       _BUTTON_READ2
@@ -1079,7 +1079,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:2273H         LINE#         939
   C:2273H         LINE#         940
   C:2278H         LINE#         941
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 19
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 19
 
 
   C:227DH         LINE#         942
@@ -1139,7 +1139,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:2856H         LINE#         1006
   -------         ENDPROC       _SENDTO595
   -------         PROC          HC595_DATA_HIGH
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 20
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 20
 
 
   C:0017H         LINE#         1008
@@ -1199,7 +1199,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:2D02H         LINE#         1056
   C:2D09H         LINE#         1057
   -------         ENDPROC       _HC595_SEND_BYTE
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 21
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 21
 
 
   -------         PROC          HC595_CS
@@ -1259,7 +1259,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:2C3EH         LINE#         1128
   C:2C43H         LINE#         1129
   C:2C46H         LINE#         1130
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 22
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 22
 
 
   C:2C4FH         LINE#         1132
@@ -1319,7 +1319,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:014CH         LINE#         1191
   C:014CH         LINE#         1192
   C:0153H         LINE#         1193
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 23
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 23
 
 
   C:015AH         LINE#         1194
@@ -1379,7 +1379,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:02AAH         LINE#         1268
   C:02AAH         LINE#         1270
   C:02AAH         LINE#         1272
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 24
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 24
 
 
   C:02B1H         LINE#         1273
@@ -1439,7 +1439,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:03E2H         LINE#         1337
   C:03E9H         LINE#         1338
   C:03E9H         LINE#         1339
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 25
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 25
 
 
   C:03E9H         LINE#         1347
@@ -1499,7 +1499,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:04D4H         LINE#         1409
   C:04E0H         LINE#         1410
   C:04E0H         LINE#         1411
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 26
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 26
 
 
   C:04E5H         LINE#         1414
@@ -1559,7 +1559,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:063CH         LINE#         1479
   C:0657H         LINE#         1480
   C:0657H         LINE#         1481
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 27
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 27
 
 
   C:0662H         LINE#         1482
@@ -1619,7 +1619,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:07FBH         LINE#         1551
   C:0841H         LINE#         1552
   C:0841H         LINE#         1553
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 28
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 28
 
 
   C:0846H         LINE#         1558
@@ -1679,7 +1679,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:1E30H         LINE#         1621
   C:1E30H         LINE#         1622
   C:1E42H         LINE#         1623
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 29
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 29
 
 
   C:1E4FH         LINE#         1624
@@ -1739,7 +1739,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:27B7H         LINE#         62
   -------         ENDPROC       TIMER1_ISR
   -------         PROC          WDT_CONFIG_ENABLE
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 30
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 30
 
 
   C:2E1EH         LINE#         69
@@ -1799,7 +1799,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:235EH         LINE#         140
   C:2369H         LINE#         141
   C:237CH         LINE#         142
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 31
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 31
 
 
   C:237FH         LINE#         143
@@ -1859,7 +1859,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   X:00C7H         SYMBOL        u16_addrl_r
   -------         ENDDO         
   C:1FCEH         LINE#         23
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 32
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 32
 
 
   C:1FCEH         LINE#         24
@@ -1919,7 +1919,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   D:00A0H         PUBLIC        P2
   D:00B0H         PUBLIC        P3
   D:00D8H         PUBLIC        PWMCON0
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 33
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 33
 
 
   D:00A8H         PUBLIC        IE
@@ -1979,7 +1979,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:2509H         LINE#         52
   C:250CH         LINE#         53
   C:250FH         LINE#         54
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 34
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 34
 
 
   C:2512H         LINE#         57
@@ -2039,7 +2039,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   -------         ENDPROC       _INITIALUART1_TIMER3
   -------         PROC          RECEIVE_DATA_FROM_UART1
   -------         DO            
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 35
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 35
 
 
   X:00D9H         SYMBOL        c
@@ -2099,7 +2099,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   B:00C8H.2       PUBLIC        TR2
   D:00E8H         PUBLIC        ADCCON0
   C:2B8BH         PUBLIC        _delay_us
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 36
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 36
 
 
   D:00C0H         PUBLIC        I2CON
@@ -2159,7 +2159,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:2AD2H         LINE#         68
   C:2AD2H         LINE#         69
   C:2AD5H         LINE#         70
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 37
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 37
 
 
   C:2AD8H         LINE#         71
@@ -2219,7 +2219,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:28DFH         LINE#         120
   C:28E2H         LINE#         121
   C:28FEH         LINE#         122
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 38
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 38
 
 
   C:28FEH         LINE#         123
@@ -2279,7 +2279,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   C:0000H         LINE#         94
   C:2449H         LINE#         100
   C:244CH         LINE#         101
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 39
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 39
 
 
   C:244FH         LINE#         102
@@ -2339,7 +2339,7 @@ SYMBOL TABLE OF MODULE:  .\Output\DBX-DJSB-V1.0 (BSP_INIT)
   -------         ENDMOD        ?C?ULDIV
 
   -------         MODULE        ?C?SLDIV
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  15:44:44  PAGE 40
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/20/2021  17:02:48  PAGE 40
 
 
   C:2D97H         PUBLIC        ?C?SLDIV

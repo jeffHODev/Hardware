@@ -1479,7 +1479,7 @@ void Work_In_Set(uint8_t keycode)               //
             else  if(Now_current>=MAX_CURRENT)//短路保护
             {
                 NoWaterTick++;
-                if(NoWaterTick>=400)//超过10s
+                if(NoWaterTick>=500)//超过10s
                 {
                     Led_Ram = 0x04;
                     NoWaterTick = 0;
@@ -1538,7 +1538,7 @@ void Work_In_Set(uint8_t keycode)               //
         if(Vbat_value <= BATTER_DS)
         {
 
-            if((systick-timeout)>=10000)
+            if((systick-timeout)>=30000)
             {
                 vbat_warn_flag = 1;
                 timeout = systick;
@@ -1548,7 +1548,7 @@ void Work_In_Set(uint8_t keycode)               //
         }
         else if(Vbat_value <=BATTER_ALARM)//低压报警
         {
-            if((systick-timeout)>=1000)
+            if((systick-timeout)>=3000)
             {
                 vbat_warn_flag = 1;
 
