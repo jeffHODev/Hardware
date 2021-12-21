@@ -3,8 +3,8 @@
 
 #define ELE_PERIOD		        ELE_TIME*60*100
 #define ELE_TIME				1.5
-#define MIN_CURRENT      0.85
-#define MAX_CURRENT      2.5
+#define MIN_CURRENT      0.5
+#define MAX_CURRENT      3
 #define RS      0.2
 
 #define Refvalue 1.22												// 带隙参考源电压
@@ -16,18 +16,18 @@
 #define MUSIC_NUM4  7												// 最小值为2
 #define MUSIC_NUM5  5												// 最小值为2
 #define MUSIC_NUM6  5												// 最小值为2
-#define BUTTON_FILTER_TIME     20						// 50ms
-#define BUTTON_LONG_TIME        200000					// 1500ms
+#define BUTTON_FILTER_TIME     5						// 50ms
+#define BUTTON_LONG_TIME        500//50000					// 1500ms
 #define CHARGE_LONG_TIME        20000					// 1500ms
 #define FCHARGE_LONG_TIME       40000					// 1500ms
 
-#define BATTER_DS								3.5*2				// 放电过程中电压低于该值关机
+#define BATTER_DS								3.0*2				// 放电过程中电压低于该值关机
 #define BATTER_01								3.411*2				// 01%电量	无电红灯
 #define BATTER_30								3.663*2				// 30%电量	一个绿灯
 #define BATTER_60								3.872*2				// 60%电量	两个绿灯
 #define BATTER_90								4.075*2				// 90%电量	三个绿灯
 
-#define BATTER_ALARM							3.75*2				// 90%电量	三个绿灯
+#define BATTER_ALARM							3.4*2				// 90%电量	三个绿灯
 #define MAX_VBAT                                8.35
 #define MIN_VBAT                                6
 
@@ -50,14 +50,16 @@
 typedef enum
 {
     KEY_NULL=0,
-    KEY_START_UP,
-    KEY_START_DOWN,
-    KEY_START_HOLD,
+    KEY_START_UP=1,
+    KEY_START_DOWN=2,
+    KEY_START_HOLD=3,
+	  KEY_START_MID=4,
     KEY_HNULL=0,
     KEY_HSTART_UP=0x10,
     KEY_HSTART_DOWN=0x20,
     KEY_HSTART_HOLD=0x30,
 
+    KEY_HSTART_LHOLD=0x40,
 
 } KEY_ENUM;
 typedef enum
@@ -97,6 +99,7 @@ uint8_t Button_Read(unsigned char flag);
 void Led_Display(void);
 void Work_In_Set(uint8_t keycode);
 void display_init(void);
+uint8_t Button_Read2(unsigned char flag);
 
 void Display_Process(void);
 void key_reset(void);
