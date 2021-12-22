@@ -91,7 +91,7 @@ uint32_t led_tick;
 int main(void)
 {
     /* USER CODE BEGIN 1 */
-    static unsigned char flag;
+    static unsigned char flag,test;
     /* USER CODE END 1 */
 #if CPU ==ST
     /* MCU Configuration--------------------------------------------------------*/
@@ -161,20 +161,47 @@ int main(void)
         /* USER CODE END WHILE */
 
 		//	fwdgt_counter_reload();
-      sensor_process();
-             // ele_ctrl(ON);
-//			     timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
-//			RelayCtrl(FORWARD);
-//			delay_ms(5000);
-//      RelayCtrl(BACKWARD);
-//     timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,65535);
-        //timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,5000);
+			if(gpio_input_bit_get(GPIOA,GPIO_PIN_2)==0)
+			{
+				registerTick(TEST_TICK,3000,1,0);
+
+				if(GetTickResult(TEST_TICK)==1)
+				{
+
+					registerTick(TEST_TICK,0,0,1);			
+					GetSensor()->ele_status=3;
+					if(test==0)
+					{
+						timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+						RelayCtrl(FORWARD);					
+					}
+					else
+					{
+						RelayCtrl(BACKWARD);
+						timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,65535);					
+					}	
+					if(test== 0)
+						test = 1;
+					else 
+						test = 0;
+				}
+			}
+			else
+			{
+      sensor_process();		
+      if(GetSensor()->ele_status==3)
+				GetSensor()->ele_status=0;				
+			}
+
+
 		 if(GetSensor()->ele_status==1)//电解时快闪
 			led_tick = 300;
 		else if(GetSensor()->online == 2)//修改地址1s闪烁
 			led_tick = 1000;		
 		else if(GetSensor()->online == 1)//在线2s慢闪
 			led_tick = 2000;
+		else if(GetSensor()->ele_status == 3)//在线2s慢闪
+			led_tick = 100;
     else
 			led_tick = 0xffffffff;			
 		if((HAL_GetTick()-tick_usr1)>=led_tick)
@@ -293,6 +320,7 @@ void gpio_config(void)
 {
     /* config the GPIO as analog mode */
     gpio_init(GPIOA, GPIO_MODE_AIN, GPIO_OSPEED_50MHZ, GPIO_PIN_0);
+	gpio_init(GPIOA, GPIO_MODE_IPU, GPIO_OSPEED_50MHZ, GPIO_PIN_2);
     gpio_bit_write(LED1_GPIO_Port, LED1_Pin,SET);
     gpio_bit_write(GPIOB, Ele_ConB_Pin,RESET);
     gpio_bit_write(GPIOB, Ele_ConA_Pin,RESET);
