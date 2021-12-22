@@ -1,0 +1,3 @@
+D:/work/git/Hardware/hdyl/code/nivi2000/V1.0.3_TypeTest/app/.cxx/cmake/release/x86/CMakeFiles/native-lib.dir
+D:/work/git/Hardware/hdyl/code/nivi2000/V1.0.3_TypeTest/app/.cxx/cmake/release/x86/CMakeFiles/edit_cache.dir
+D:/work/git/Hardware/hdyl/code/nivi2000/V1.0.3_TypeTest/app/.cxx/cmake/release/x86/CMakeFiles/rebuild_cache.dir
