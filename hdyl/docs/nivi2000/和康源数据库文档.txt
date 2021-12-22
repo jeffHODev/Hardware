@@ -1,0 +1,16 @@
+NIVI2000端：
+1. basis_measurement：血压测量表；
+2. device：设备表；
+3. original_waveform：原始波形数据；
+4. patient：患者基本信息；
+5. 修改记录表；
+
+医院端：
+1. app_account：账户表；
+2. doctor_evaluation：评估表；
+3. sys_dealers：经销商；
+4. sys_device_hospital：医院设备中间表；
+5. sys_doctor：医生表；
+6. sys_hospital：医院表；
+7. sys_hospital_dictionary：医院字典表；
+8. sys_pay：支付表；

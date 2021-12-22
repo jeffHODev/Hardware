@@ -8,3 +8,8 @@ cd / usr / java / jvm          	-------java jdk环境
 cd / usr / java / redis		-------redis环境
 
 app医院 nivi 2000
+
+常用命令
+reboot重启
+netstat -nltp查看端口
+systemctl restart 重启服务

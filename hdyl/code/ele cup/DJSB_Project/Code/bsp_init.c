@@ -1459,7 +1459,7 @@ void Work_In_Set(uint8_t keycode)               //
                 }
             }
 
-            if(Now_current<=MIN_CURRENT)//无水检测
+            if(Now_current<=MIN_CURRENT||(Ele_Time>=4000&&Now_current<=0.8))//无水检测
             {
                 NoWaterTick++;
                 if(NoWaterTick>=1100)//超过10s
