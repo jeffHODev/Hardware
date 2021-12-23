@@ -139,7 +139,7 @@ unsigned char abnormalDec()
     }
     else
     {
-        status = status & TickTimeoutNor(TDS1_TICK_NO,0xbf,MAX_SHORT_TICK);
+        status = status & TickTimeoutNor(TDS1_TICK_NO,0xbf,2000);
     }
 
     if(dstTds<150)
@@ -1493,7 +1493,8 @@ void ele_dev_proc()
 
         }
         flow_proc();
-        if(GetSensor()->status[SYSTEM_INDEX] == SYSTEM_INDEX||GetSensor()->status[TDS2_INDEX] == TDS2_INDEX||GetSensor()->status[SHUNT_INDEX] == SHUNT_INDEX)
+		 tds_proc();
+        if(GetSensor()->status[TDS1_INDEX]==TDS1_INDEX||GetSensor()->status[SYSTEM_INDEX] == SYSTEM_INDEX||GetSensor()->status[TDS2_INDEX] == TDS2_INDEX||GetSensor()->status[SHUNT_INDEX] == SHUNT_INDEX)
         {
             EleSwCtrl(6,OFF);//关所有阀
             DcMotorCtrl(7,OFF);//关所有电机

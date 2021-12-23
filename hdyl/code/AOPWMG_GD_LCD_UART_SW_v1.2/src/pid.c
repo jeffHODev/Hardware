@@ -231,14 +231,14 @@ double PIDCalc( PID *pp, double NextPoint )
 
 
 
-    if( pp->result<=10000)
+    if( pp->result<=16000)//19900  15000
     {
 //        if(Error<-100)
 //            pp->result = 17000;
 //				else
 //            pp->result = 17000;					
        // if( pp->result<17000)
-            pp->result = 10000;
+            pp->result = 16000;
         // integ =  0;
     }
 
@@ -587,6 +587,7 @@ uint32_t pid_proc_pump(double rIn)
     //sPID.SumError = 0;
     rIn_PID_pump = rIn;				 // 读取输入变量函数(Read Input )
     rOut_pump = PIDCalc_pump ( &sPID_pump,rIn_PID_pump );   // PID计算函数(Perform PID Interation)
+	   //rOut_pump = 65535;
     return (uint32_t)( rOut_pump );			   // 输出变量控制函数(Effect Needed Changes)
 
 
