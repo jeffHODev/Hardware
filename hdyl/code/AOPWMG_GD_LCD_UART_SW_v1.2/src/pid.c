@@ -537,14 +537,14 @@ double PIDCalc_pump( PID *pp, double NextPoint )
 	
 	
 	
-		if( pp->result<=10000)
+		if( pp->result<=5000)
 		{
 	//		  if(Error<-100)
 	//			  pp->result = 17000;
 	//				else
 	//			  pp->result = 17000;					
 		   // if( pp->result<17000)
-				pp->result = 10000;
+				pp->result = 5000;
 			// integ =	0;
 		}
 	

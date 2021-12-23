@@ -148,9 +148,9 @@ unsigned char abnormalDec()
     {
         //GetSensor()->tds2 >= MAX_TDS_VALUE||
         if(GetSensor()->water_status = 1)
-       	 status = status | TickTimeoutAb(TDS_TICK_NO,0x02,1.5*MAX_TICK);
-		else
-		 status = status | TickTimeoutAb(TDS_TICK_NO,0x02,MAX_TICK);	
+            status = status | TickTimeoutAb(TDS_TICK_NO,0x02,1.5*MAX_TICK);
+        else
+            status = status | TickTimeoutAb(TDS_TICK_NO,0x02,MAX_TICK);
         if(status &0x02)
         {
             GetSensor()->err_flag =GetSensor()->err_flag |0x01;//超时计时
@@ -290,28 +290,58 @@ void Flow_Init()
         if(GetTickResult(TDS_SETTING_TICK_NO)==1)
         {
 
-						
-            if(GetSensor()->flow<=2.5)//450
-                flow_switch = TDS_LEVEL1 ;
-            else if(GetSensor()->flow<=3)//2.5---3  480--530
+            switch(FLOW_SIZE)
             {
-                flow_switch = (GetSensor()->flow-2.5)*100+TDS_LEVEL1;
-                if(flow_switch<TDS_LEVEL1)
-                    flow_switch = TDS_LEVEL1;
-            }
-            else if(GetSensor()->flow<=3.5)//3---3.5 510-660
-            {
-                flow_switch = (GetSensor()->flow-3)*300+TDS_LEVEL2;
-                if(flow_switch<TDS_LEVEL2)
-                    flow_switch = TDS_LEVEL2;
+            case 4:
+                if(GetSensor()->flow<=2.5)//450
+                    flow_switch = TDS_LEVEL1 ;
+                else if(GetSensor()->flow<=3)//2.5---3	480--530
+                {
+                    flow_switch = (GetSensor()->flow-2.5)*100+TDS_LEVEL1;
+                    if(flow_switch<TDS_LEVEL1)
+                        flow_switch = TDS_LEVEL1;
+                }
+                else if(GetSensor()->flow<=3.5)//3---3.5 510-660
+                {
+                    flow_switch = (GetSensor()->flow-3)*300+TDS_LEVEL2;
+                    if(flow_switch<TDS_LEVEL2)
+                        flow_switch = TDS_LEVEL2;
+                }
+
+                else //(GetSensor()->flow<=4)//3.5---4	  670-970	+30----0.1
+                {
+                    flow_switch = (GetSensor()->flow-3.5)*600+TDS_LEVEL3;
+                    if(flow_switch>=TDS_LEVEL4)//1120
+                        flow_switch = TDS_LEVEL4;
+                }
+
+
+                break;
+            case 2:
+                if(GetSensor()->flow<=1)//510
+                    flow_switch = TDS_LEVEL2 ;
+                else if(GetSensor()->flow<=2)//1---2	510---610
+                {
+                    flow_switch = (GetSensor()->flow-1)*100+TDS_LEVEL2;
+
+                }
+                else if(GetSensor()->flow<=3)//2---3 510-660
+                {
+                    flow_switch = (GetSensor()->flow-2)*300+TDS_LEVEL4;
+
+                }
+
+                else//3--- 
+                {
+                    flow_switch = (GetSensor()->flow-3)*600+TDS_LEVEL4;
+
+                }
+
+
+                break;
+
             }
 
-            else //(GetSensor()->flow<=4)//3.5---4    670-970	+30----0.1
-            {
-                flow_switch = (GetSensor()->flow-3.5)*600+TDS_LEVEL3;
-                if(flow_switch>=TDS_LEVEL4)//1120
-                    flow_switch = TDS_LEVEL4;
-            }
             //else
             // flow_switch = TDS_LEVEL5 ;//1000
             registerTick(TDS_SETTING_TICK_NO, 0,0,1);
@@ -365,8 +395,8 @@ void FlowCtrl()
 
         registerTick(PID_SETTING_TICK_NO, 10, 1,0);//超时计时开始
 
-      //  if(GetTickResult(PID_SETTING_TICK_NO)==0)
-      //     return ;
+        //  if(GetTickResult(PID_SETTING_TICK_NO)==0)
+        //     return ;
         /* if(tds_out<=650)
          tds_out = tds_out + 5;
          if(tds_out>=680)
@@ -529,16 +559,16 @@ polling_status:
     switch(status_tmp)// 0:正常  1：tds1 2:tds2 3：流量 4：orp
         //  5:高压开关6：水位开关 7:电解中
     {
-    /*	str = "正常          ";
-    	str = "原水TDS异常	 ";
-    	str = "缺盐		 	 ";
-    	str = "流量异常 	 ";
-    	str = "盐水箱注水中";
-    	str = "清洗中		 ";
-    	str = "缺水			 ";
-    	str = "系统故障 	 ";
-    	str = "正常			 ";
-    	str = "正常			 ";*/
+        /*	str = "正常          ";
+        	str = "原水TDS异常	 ";
+        	str = "缺盐		 	 ";
+        	str = "流量异常 	 ";
+        	str = "盐水箱注水中";
+        	str = "清洗中		 ";
+        	str = "缺水			 ";
+        	str = "系统故障 	 ";
+        	str = "正常			 ";
+        	str = "正常			 ";*/
 
 
 
@@ -983,15 +1013,15 @@ void pump_ctrl(unsigned char mode)
     {
         if(pump_flag==0&&GetSensor()->status[NOWATER_INDEX]==0&&delay_cnt>=10000)
         {
-			
-		//	motor_pwm = GetSensor()->flow*(-13883.75)+65535;
-		////	if(motor_pwm <10000)
-			//	motor_pwm = 10000;
-			
-			
-			 DcMotorCtrl(3,pid_proc_pump(GetSensor()->flow));
-		}
-           
+
+            //	motor_pwm = GetSensor()->flow*(-13883.75)+65535;
+            ////	if(motor_pwm <10000)
+            //	motor_pwm = 10000;
+
+
+            DcMotorCtrl(3,pid_proc_pump(GetSensor()->flow));
+        }
+
         else
             DcMotorCtrl(3,0);
 
