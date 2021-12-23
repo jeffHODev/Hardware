@@ -1,0 +1,260 @@
+#include "bsp.h"
+#include "main.h"
+bsp_sru bsp_usr;
+spi_sru spi_usr;
+void  light_red(void)
+{
+    /* OUT1_0;
+     OUT2_1;
+     OUT3_1;
+     OUT4_0;	*/ //红光
+    gpio_bit_write(OUT1_GPIO_Port, OUT1_Pin, RESET);
+    gpio_bit_write(OUT2_GPIO_Port, OUT2_Pin, SET);
+    gpio_bit_write(OUT3_GPIO_Port, OUT3_Pin, SET);
+    gpio_bit_write(OUT4_GPIO_Port, OUT4_Pin, RESET);
+}
+//打开红外光
+void  light_Ired(void)
+{
+    /* OUT1_1;
+     OUT2_0;
+     OUT3_0;
+     OUT4_1;*/	 //红外光
+    gpio_bit_write(OUT1_GPIO_Port, OUT1_Pin, SET);
+    gpio_bit_write(OUT2_GPIO_Port, OUT2_Pin, RESET);
+    gpio_bit_write(OUT3_GPIO_Port, OUT3_Pin, RESET);
+    gpio_bit_write(OUT4_GPIO_Port, OUT4_Pin, SET);
+
+}
+//光熄灭
+void  light_stop(void)
+{
+
+    /* OUT1_1;
+     OUT2_1;
+     OUT3_0;
+     OUT4_0;	*/ //停止
+    gpio_bit_write(OUT1_GPIO_Port, OUT1_Pin, SET);
+    gpio_bit_write(OUT2_GPIO_Port, OUT2_Pin, SET);
+    gpio_bit_write(OUT3_GPIO_Port, OUT3_Pin, RESET);
+    gpio_bit_write(OUT4_GPIO_Port, OUT4_Pin, RESET);
+
+}
+
+bsp_sru *getAdcBuf()
+{
+    return &bsp_usr;
+}
+spi_sru *getSpiBuf()
+{
+    return &spi_usr;
+}
+void adc_start()
+{
+    /* enable ADC software trigger */
+    adc_software_trigger_enable(ADC0, ADC_REGULAR_CHANNEL);
+    dma_channel_enable(DMA1, DMA_CH0);
+}
+void power_manage(unsigned char ctrl)
+{
+    if(ctrl == OFF)
+    {
+        gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, RESET);
+        gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, RESET);
+        gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, RESET);
+        gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, RESET);
+    }
+    else
+    {
+        gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, SET);
+        gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, SET);
+        gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, SET);
+        gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, SET);
+
+    }
+}
+void chip_sel(unsigned char spix_chipx,unsigned char oper)
+{
+    if(oper == 1)
+    {
+        if(spix_chipx == 1)
+        {
+            //gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
+            gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, RESET);
+
+
+
+        }
+        else
+        {
+            gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, RESET);
+            // gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
+
+        }
+
+    }
+    else if(oper == 2)
+    {
+        if(spix_chipx == 1)
+        {
+            gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
+            //gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, RESET);
+
+
+
+        }
+        else
+        {
+            //gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, RESET);
+            gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
+
+        }
+
+    }
+    else
+    {
+
+        gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
+        gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
+
+    }
+
+
+}
+u8 spi_TransmitReceive(uint16_t buf)
+{
+
+    uint16_t i ;
+    i = 0;
+    /*if(spix_chipx == 1)
+    {
+        gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
+        gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, RESET);
+
+
+
+    }
+    else
+    {
+        gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, RESET);
+        gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
+
+    }*/
+    //while(i<len)
+    {
+
+        while(RESET == spi_i2s_flag_get(SPI1, SPI_FLAG_TBE));
+        spi_i2s_data_transmit(SPI1, buf);
+        while(RESET == spi_i2s_flag_get(SPI1, SPI_FLAG_RBNE));
+        return  spi_i2s_data_receive(SPI1);
+    }
+    gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
+    gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
+}
+void spi_receive(unsigned char spix_chipx,uint32_t len,uint16_t buf)
+{
+
+    uint16_t i ;
+    i = 0;
+    if(spix_chipx == 1)
+    {
+        gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
+        gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, RESET);
+
+
+
+    }
+    else
+    {
+        gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, RESET);
+        gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
+
+    }
+    while(i<len)
+    {
+
+        while(RESET == spi_i2s_flag_get(SPI1, SPI_FLAG_RBNE));
+        spi_usr.rx_array[i++] = spi_i2s_data_receive(SPI1);
+
+
+    }
+    gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
+    gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
+}
+
+void SendStr(unsigned char moduleType,uint8_t *str)
+{
+    unsigned char i,len;
+	i = 0;
+	len = strlen(str);
+     //HAL_UART_Transmit(&huart1, str, len, 1000);
+    while(i<=len)
+    {
+        usart_data_transmit(UART3, str[i++]);
+        while(RESET == usart_flag_get(UART3, USART_FLAG_TBE));
+    }
+}
+unsigned int sendCommand(unsigned char moduleType,char *Command, char *Response, uint32_t Timeout, unsigned char Retry,unsigned char eflag)
+{
+    unsigned char *USARTX_RX_BUF;
+
+
+    static unsigned char RetryCount;
+    static uint32_t timeout;
+
+    uint32_t tmp;
+    tmp = HAL_GetTick()-timeout;
+    if((tmp)>=Timeout)
+    {
+        if(RetryCount<=Retry)
+        {
+            if(Retry>0)
+            {
+                SendStr( moduleType,Command);
+                RetryCount = RetryCount +1;
+                timeout = HAL_GetTick();
+            }
+
+        }
+        else
+        {
+            RetryCount = 0;
+        }
+
+        if (strstr(USARTX_RX_BUF, Response) != NULL)
+        {
+            RetryCount = 0;
+            if(eflag == 0)
+                USART1_CLR_Buf();
+            return Success;
+        }
+        else
+        {
+					  if(eflag == 1)
+            USART1_CLR_Buf();
+            return Failure;
+        }
+
+    }
+    else
+    {
+        if (strstr(USARTX_RX_BUF, Response) != NULL)
+        {
+            RetryCount = 0;
+            if(eflag == 0)
+                USART1_CLR_Buf();
+            return Success;
+        }
+        else
+        {
+
+			// USART1_CLR_Buf();
+            return Failure;
+        }
+
+    }
+
+}
+
+
+

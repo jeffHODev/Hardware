@@ -1,0 +1,58 @@
+#include "ble.h"
+
+void BleModeSetting(unsigned char mode)
+{
+    switch(mode)
+    {
+    case CONFIG_MODE:
+        gpio_bit_write(BMOD_GPIO_Port, BMOD_Pin, RESET);
+
+        break;
+    case TRANSMIMT_MODE:
+        gpio_bit_write(BMOD_GPIO_Port, BMOD_Pin, SET);
+
+        break;
+    }
+}
+unsigned char BleConSeting(unsigned char mode)
+{
+    unsigned char result;
+    result = NULL;
+    switch(mode)
+    {
+    case 1:
+    {
+        gpio_bit_write(BDISC_GPIO_Port, BDISC_Pin, SET);//透传模式
+        delay_ms(200);
+        gpio_bit_write(BDISC_GPIO_Port, BDISC_Pin, RESET);//配置模式
+        //gpio_bit_write(BDISC_GPIO_Port, BDISC_Pin, RESET);
+        result = NULL;;
+
+
+    }
+    break;
+    case 2:
+    {
+        if(gpio_input_bit_get(BLINK_GPIO_Port, BLINK_Pin))
+        {
+            result =  1;
+        }
+        else
+            result = 0;//有蓝牙连接
+    }
+    break;
+	case 3:
+		{
+			if(gpio_input_bit_get(BDATA_GPIO_Port, BDATA_Pin))
+			{
+				result =  1;
+			}
+			else
+				result =  0; //有数据在正在发送
+		}
+		break;
+
+    }
+return result;
+}
+
