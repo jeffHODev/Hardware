@@ -1,0 +1,277 @@
+/*!
+    \file    gd32f4xx_libopt.h
+    \brief   library optional for gd32f4xx
+    
+    \version 2016-08-15, V1.0.0, firmware for GD32F4xx
+    \version 2018-12-12, V2.0.0, firmware for GD32F4xx
+    \version 2020-09-30, V2.1.0, firmware for GD32F4xx
+*/
+
+/*
+    Copyright (c) 2020, GigaDevice Semiconductor Inc.
+
+    Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+    1. Redistributions of source code must retain the above copyright notice, this 
+       list of conditions and the following disclaimer.
+    2. Redistributions in binary form must reproduce the above copyright notice, 
+       this list of conditions and the following disclaimer in the documentation 
+       and/or other materials provided with the distribution.
+    3. Neither the name of the copyright holder nor the names of its contributors 
+       may be used to endorse or promote products derived from this software without 
+       specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+*/
+#include "timer.h"
+#include "gd32f4xx_it.h"
+#include "sys.h"
+#include "bsp_esp8266.h"
+#include "inout.h"
+#include "modbus.h"
+#include "app_lcd.h"
+#include "cmd_queue.h"
+uint32_t sys_tick;
+extern ui_struct ui_usr;
+ uint8_t buf_cmd[LCD_BUF_SIZE];
+//extern FlagStatus g_transfer_complete;
+
+/*!
+    \brief      this function handles NMI exception
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void NMI_Handler(void)
+{
+}
+
+/*!
+    \brief      this function handles HardFault exception
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void HardFault_Handler(void)
+{
+    /* if Hard Fault exception occurs, go to infinite loop */
+    while (1);
+}
+
+/*!
+    \brief      this function handles MemManage exception
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void MemManage_Handler(void)
+{
+    /* if Memory Manage exception occurs, go to infinite loop */
+    while (1);
+}
+
+/*!
+    \brief      this function handles BusFault exception
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void BusFault_Handler(void)
+{
+    /* if Bus Fault exception occurs, go to infinite loop */
+    while (1);
+}
+
+/*!
+    \brief      this function handles UsageFault exception
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void UsageFault_Handler(void)
+{
+    /* if Usage Fault exception occurs, go to infinite loop */
+    while (1);
+}
+
+/*!
+    \brief      this function handles SVC exception
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void SVC_Handler(void)
+{
+}
+
+/*!
+    \brief      this function handles DebugMon exception
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void DebugMon_Handler(void)
+{
+}
+
+/*!
+    \brief      this function handles PendSV exception
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void PendSV_Handler(void)
+{
+}
+
+/*!
+    \brief      this function handles SysTick exception
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void SysTick_Handler(void)
+{
+	 TickPro();
+	sys_tick++;
+}
+
+/*!
+    \brief      this function handles DMA1_Channel7_IRQHandler interrupt
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void DMA1_Channel7_IRQHandler(void)
+{
+    if(dma_interrupt_flag_get(DMA1, DMA_CH7, DMA_INT_FLAG_FTF)){
+        dma_interrupt_flag_clear(DMA1, DMA_CH7, DMA_INT_FLAG_FTF);
+       ;// g_transfer_complete = SET;
+    }
+}
+
+/*!
+    \brief      this function handles DMA0_Channel4_IRQHandler interrupt
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void DMA1_Channel2_IRQHandler(void)
+{ dma_interrupt_flag_clear(DMA1, DMA_CH2, DMA_INT_FLAG_FTF);
+    if(dma_interrupt_flag_get(DMA1, DMA_CH2, DMA_INT_FLAG_FTF)){
+       
+        ;//g_transfer_complete = SET;
+    }
+}
+void USART2_IRQHandler(void)
+{
+	static uint8_t buf[128],i=0,data;
+	static uint8_t index;
+	static len=0;
+    if(RESET != usart_interrupt_flag_get(USART2, USART_INT_FLAG_RBNE)) //空闲中断
+    {
+		    usart_interrupt_flag_clear(USART2,USART_INT_FLAG_RBNE);	/* 清除空闲中断标志位 */				
+        data = usart_data_receive(USART2);
+			 if(ui_usr.interrupt_flag == 0)
+			 {
+					if(data==0xaa)
+					{
+						 i = 0;
+						 len = 0;
+						// queue_reset();
+					}
+						
+					
+						buf_cmd[i++] = data;
+			 
+			 }
+					if(i>=LCD_BUF_SIZE)
+						i = 0;
+				if(buf_cmd[0] ==0xaa)
+				{
+					if((buf_cmd[2] == 0x62||buf_cmd[2] == 0x7c||buf_cmd[2] == 0x7b))
+					len = buf_cmd[1]+1;
+				}
+				if(i == len)
+				{
+					ui_usr.interrupt_flag = 1;
+          lcd_touch_interrupt();	
+          ui_usr.interrupt_flag= 0 ;					
+				}
+
+//				if(index == 1)
+//					que._data[i]=data;
+    }
+//    if(RESET != usart_interrupt_flag_get(USART2, USART_INT_FLAG_IDLE)) //空闲中断
+//    {
+//			   
+//			 dma_single_data_parameter_struct dma_init_struct;
+//		    usart_interrupt_flag_clear(USART2,USART_INT_FLAG_IDLE);	/* 清除空闲中断标志位 */
+//       if(buf_cmd[0] ==0xaa&&buf_cmd[2] == 0x62)			
+//			 {
+//				// queue_reset();
+//        ui_usr.interrupt_flag = 1;
+//				 index = 0;		
+//         i = 0;
+// }
+//    dma_deinit(DMA0, DMA_CH1);
+//    dma_init_struct.direction = DMA_PERIPH_TO_MEMORY;
+//    dma_init_struct.memory0_addr = (uint32_t)(buf_cmd);
+//    dma_init_struct.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+//    dma_init_struct.number = LCD_BUF_SIZE;
+//    dma_init_struct.periph_addr = (uint32_t)&USART_DATA(USART2);
+//    dma_init_struct.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+//    dma_init_struct.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
+//    dma_init_struct.priority = DMA_PRIORITY_ULTRA_HIGH;
+//    dma_single_data_mode_init(DMA0, DMA_CH1, &dma_init_struct);
+
+//    /* configure DMA mode */
+//    dma_circulation_disable(DMA0, DMA_CH1);
+//    dma_channel_subperipheral_select(DMA0, DMA_CH1, DMA_SUBPERI4);
+//    /* enable DMA1 channel2 transfer complete interrupt */
+//    dma_interrupt_enable(DMA0, DMA_CH1, DMA_CHXCTL_FTFIE);
+//    /* enable DMA1 channel2 */
+//    dma_channel_enable(DMA0, DMA_CH1);				 
+//			
+//			
+//        data = usart_data_receive(USART2);
+//       // queue_push(data);
+//    }
+}
+
+void USART5_IRQHandler(void)
+{
+  if(RESET != usart_interrupt_flag_get(USART5, USART_INT_FLAG_IDLE)) //空闲中断
+	{
+		usart_interrupt_flag_clear(USART5,USART_INT_FLAG_IDLE);	/* 清除空闲中断标志位 */
+
+		usart_data_receive(USART5);	
+		RS485_RxCpltCallback();						/* 清除接收完成标志位 */	
+    }
+
+
+}
+uint32_t count;
+void TIMER2_IRQHandler(void)
+{
+HAL_TIM_IC_CaptureCallback();
+	count++;
+}
+
+void EXTI10_15_IRQHandler(void)
+{
+    if (RESET != exti_interrupt_flag_get(EXTI_13)) {
+        exti_interrupt_flag_clear(EXTI_13);
+			getuiCallback()->interrupt_flag = 1;
+    }
+}

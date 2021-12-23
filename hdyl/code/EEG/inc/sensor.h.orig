@@ -1,0 +1,117 @@
+#ifndef SENSOR_H
+#define SENSOR_H
+#include "main.h"
+#include "modbus.h"
+
+
+
+
+#define FLOW_RATIO  547.0  // 575 499  537
+
+#define FLOW_THRES   0.5
+#define WATER_H	0   // high water level
+#define WATER_L	1  // low level
+#define WATER_M	2 // middle level
+#define WATER_F	3 //sensor fault
+#define SALT_TIMEOUT   0xffffffff
+
+#define WATER_LEVEL 0   //water level voltage level
+#define FIR_NUM          50  //filter 1
+#define FIR_NUM_MAX      100 // filter 2
+
+#define MAX_FLOW  7 //
+#define MIN_FLOW  0
+#define MAX_PH    7
+#define MIN_PH    0
+#define MAX_ORP   1550
+#define MIN_ORP   -100
+#define MAX_TDS_VALUE  1200
+#define MIN_TDS_VALUE  600
+
+#define MAX_TDS1_VALUE  100
+#define MIN_TDS1_VALUE  0
+
+
+//#define MAX_TDS_VALUE  10
+//#define MIN_TDS_VALUE  0
+
+
+#define TDS_TEMP_FACTOR 0.99f								// TDS温度补偿系数 20摄氏度标准值
+#define TDS_NUM      112									// TDS 数量
+
+
+
+#define MAX_LONG_TICK	    1000
+#define MAX_SHORT_TICK	    5000
+#define MAX_TICK	        120000
+#define WATER_LSHORT_TICK	1000
+
+#define WASH_TIME_SETTING        1*60000   //wash time setting
+#define INIT_WASH_TIME_SETTING   15000    // init wash time setting 
+
+#define TX_PERIOD   1000
+#define WASH_TIME   30000
+
+#define ADC_SIZE    2
+#define MODULE_SIZE  4
+
+
+#define NORMAL_INDEX  			0
+#define TDS1_INDEX  			1
+#define TDS2_INDEX  			2
+#define FLOW_INDEX  			3
+#define ORP_INDEX  				4
+#define HSW_INDEX  				5
+#define WATER_LEVEL_INDEX  		6
+#define ELE_INDEX  				7
+#define WASH_INDEX  			8
+#define PH_INDEX  				9
+#define SHUNT_INDEX  				10
+#define NOWATER_INDEX  				11
+#define SYSTEM_INDEX  				12
+
+#define WORK_STATUS_SIZE  14
+#define MAX_WASH_TIME  3
+
+#define MAX_TX_TIMES   10
+
+typedef struct
+{
+    unsigned char swH;
+	unsigned char water_level;
+	float tds1;
+	float tds2;
+	double  flow;
+	double temperature;
+	double ph;
+	double orp;
+	double vcc;
+	unsigned int warn;
+	double ele_curr;
+	float ele_Mcurr[MODULE_SIZE];
+	float ele_MOnLine[MODULE_SIZE];
+	unsigned char ele_offLine_T[MODULE_SIZE];
+	float ele_EleStatus[MODULE_SIZE];
+	float orp_ph_adc;
+	uint32_t delay_timeout;
+	uint32_t salt_water_timeout;
+	unsigned char wash_time;
+    unsigned char sum_module;
+	unsigned char err_flag;
+	unsigned char water_status;
+	unsigned char status[WORK_STATUS_SIZE];// 20:正常  1：tds1 2:tds2 3：流量 4：orp 
+	                     //  5:高压开关6：水位开关 7:电解中8:清洗中
+	
+}sensor_stru;
+void GetWaterLevel(void);
+void sensor_process(void);
+sensor_stru *GetSensor(void);
+modbus_pack_stru *GetModbusPack(void);
+void adcInit(void);
+void adcResume(void);
+uint16_t *get_adc_buf(void);
+void GetModbusSens(unsigned char addr,unsigned char func,unsigned int reg,unsigned int regCount,unsigned char *buf,unsigned char datcount);
+void setState(unsigned char setvealue, unsigned char addr);
+void GetFlow(void);
+
+#endif
