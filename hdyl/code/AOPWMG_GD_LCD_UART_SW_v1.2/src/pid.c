@@ -316,97 +316,26 @@ double PIDCalc1( PID *pp, double NextPoint )
         }
     }
 
-
-
-    if( Error<0)
-    {
-        if(pp->LastError>Error)
-        {
-            pp->dir_cnt_pos++;//实际值增加
-            pp->dir_cnt_neg=0;
-
-        }
-
-        else
-        {
-            pp->dir_cnt_neg++;//实际值减小
-            pp->dir_cnt_pos=0;
-
-        }
-        if(pp->dir_cnt_neg>255)
-            pp->dir_cnt_neg=255;
-        if(pp->dir_cnt_pos>255)
-            pp->dir_cnt_pos=255;
-
-
-    }
-    else
-    {
-        pp->dir_cnt_pos=0;
-        pp->dir_cnt_neg=0;
-
-    }
-
     dError = pp->LastError - pp->PrevError; //  当前微分
     pp->PrevError = pp->LastError;
     pp->iError = Error;
     pp->LastError = Error;
-    /*      pp->result =(pp->Proportion * Error // 比例项
-                       +pp->Integral * pp->SumError // 积分项
-                       + pp->Derivative * dError );*/
-    if(pp->dir_cnt_neg>=3)//由于滞后，降低到一定误差范围，控制量需要增加
-    {
-        if( Error<-150&&Error>=-100)
-        {
-            pp->result =  pp->result+10;
-        }
-        else
-        {
+	pp->result =(pp->Proportion * Error // 比例项
+				 +index*pp->Integral * pp->SumError // 积分项
+				 + pp->Derivative * dError );
 
-            pp->result =(pp->Proportion * Error // 比例项
-                         +index*pp->Integral * pp->SumError // 积分项
-                         + pp->Derivative * dError );
-
-        }
-    }
-    else
-    {
-        if(Error>=300)
-        {
-            pp->result = MAX_OUTPUT;
-
-        }
-        else
-        {
-
-            pp->result =(pp->Proportion * Error // 比例项
-                         +index*pp->Integral * pp->SumError // 积分项
-                         + pp->Derivative * dError );
-
-        }
-    }
 
 
 
     if( pp->result<=16000)//19900  15000
     {
-//        if(Error<-100)
-//            pp->result = 17000;
-//				else
-//            pp->result = 17000;
-        // if( pp->result<17000)
         pp->result = 16000;
-        // integ =  0;
     }
 
     if( pp->result>=MAX_OUTPUT)
     {
         pp->result = MAX_OUTPUT;
-        // integ =  0;
     }
-    //result = 27000;
-
-//   pp->result = 23000;
     return  pp->result;        // 微分项
 }
 
