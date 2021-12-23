@@ -106,7 +106,7 @@ double PIDCalc( PID *pp, double NextPoint )
     double dError;//,res_tmp;
     float Error;
     static double last_result;//,integ;
-     static unsigned char index;
+    static unsigned char index;
     Error = pp->SetPoint - NextPoint; // 偏差
     if(pp->LastError==0)
         pp->LastError = Error;
@@ -136,7 +136,7 @@ double PIDCalc( PID *pp, double NextPoint )
         }
         else
         {
-             index = 1;
+            index = 1;
             if(Error>0)
             {
                 pp->SumError += Error;	//正饱和只积分负偏差
@@ -153,14 +153,14 @@ double PIDCalc( PID *pp, double NextPoint )
         }
         else
         {
-             index = 1;
+            index = 1;
             pp->SumError += Error;	//正饱和只积分负偏差
 
         }
     }
 
 
-	
+
     if( Error<0)
     {
         if(pp->LastError>Error)
@@ -194,9 +194,9 @@ double PIDCalc( PID *pp, double NextPoint )
     pp->PrevError = pp->LastError;
     pp->iError = Error;
     pp->LastError = Error;
-      /*      pp->result =(pp->Proportion * Error // 比例项
-                         +pp->Integral * pp->SumError // 积分项
-                         + pp->Derivative * dError );*/	
+    /*      pp->result =(pp->Proportion * Error // 比例项
+                       +pp->Integral * pp->SumError // 积分项
+                       + pp->Derivative * dError );*/
     if(pp->dir_cnt_neg>=3)//由于滞后，降低到一定误差范围，控制量需要增加
     {
         if( Error<-150&&Error>=-100)
@@ -236,20 +236,177 @@ double PIDCalc( PID *pp, double NextPoint )
 //        if(Error<-100)
 //            pp->result = 17000;
 //				else
-//            pp->result = 17000;					
-       // if( pp->result<17000)
-            pp->result = 16000;
+//            pp->result = 17000;
+        // if( pp->result<17000)
+        pp->result = 16000;
         // integ =  0;
     }
 
     if( pp->result>=MAX_OUTPUT)
-    {  
+    {
         pp->result = MAX_OUTPUT;
         // integ =  0;
     }
     //result = 27000;
 
- //   pp->result = 23000;
+//   pp->result = 23000;
+    return  pp->result;        // 微分项
+}
+double PIDCalc1( PID *pp, double NextPoint )
+{
+    double dError;//,res_tmp;
+    float Error;
+    static double last_result;//,integ;
+    static unsigned char index;
+    Error = pp->SetPoint - NextPoint; // 偏差
+    if(pp->LastError==0)
+        pp->LastError = Error;
+    pp->NextPoint = NextPoint;
+    if( pp->SumError>=PID_SI_MAX)
+    {
+       // if(NextPoint>(pp->SetPoint+PID_O_MAX))    //如果上一次输出变量出现正向的饱和
+        {
+            tmp = fabs(Error);
+            if(tmp>PID_I_MAX)
+            {
+                index = 0;//偏差大积分不起作用
+            }
+            else
+            {
+                index = 1;
+                if(Error<0)
+                {
+                    pp->SumError += Error;  //正饱和只积分负偏差
+                }
+            }
+        }
+    }
+    else if( pp->SumError>=PID_SI_MIN)
+    {
+       // if(NextPoint<(pp->SetPoint-PID_O_MAX))  //如果上一次输出变量出现负向的饱和
+        {
+            tmp = fabs(Error);
+            if(tmp>PID_I_MAX)
+            {
+                index = 0;//偏差大积分不起作用
+            }
+            else
+            {
+                index = 1;
+                if(Error>0)
+                {
+                    pp->SumError += Error;	//正饱和只积分负偏差
+
+                }
+            }
+        }
+    }
+    else
+    {
+        tmp = fabs(Error);
+        if(tmp>PID_I_MAX)     //积分分离的PID优化，可参考以往的文章
+        {
+            index = 0;//偏差大积分不起作用
+        }
+        else
+        {
+            index = 1;
+            pp->SumError += Error;	//正饱和只积分负偏差
+
+        }
+    }
+
+
+
+    if( Error<0)
+    {
+        if(pp->LastError>Error)
+        {
+            pp->dir_cnt_pos++;//实际值增加
+            pp->dir_cnt_neg=0;
+
+        }
+
+        else
+        {
+            pp->dir_cnt_neg++;//实际值减小
+            pp->dir_cnt_pos=0;
+
+        }
+        if(pp->dir_cnt_neg>255)
+            pp->dir_cnt_neg=255;
+        if(pp->dir_cnt_pos>255)
+            pp->dir_cnt_pos=255;
+
+
+    }
+    else
+    {
+        pp->dir_cnt_pos=0;
+        pp->dir_cnt_neg=0;
+
+    }
+
+    dError = pp->LastError - pp->PrevError; //  当前微分
+    pp->PrevError = pp->LastError;
+    pp->iError = Error;
+    pp->LastError = Error;
+    /*      pp->result =(pp->Proportion * Error // 比例项
+                       +pp->Integral * pp->SumError // 积分项
+                       + pp->Derivative * dError );*/
+    if(pp->dir_cnt_neg>=3)//由于滞后，降低到一定误差范围，控制量需要增加
+    {
+        if( Error<-150&&Error>=-100)
+        {
+            pp->result =  pp->result+10;
+        }
+        else
+        {
+
+            pp->result =(pp->Proportion * Error // 比例项
+                         +index*pp->Integral * pp->SumError // 积分项
+                         + pp->Derivative * dError );
+
+        }
+    }
+    else
+    {
+        if(Error>=300)
+        {
+            pp->result = MAX_OUTPUT;
+
+        }
+        else
+        {
+
+            pp->result =(pp->Proportion * Error // 比例项
+                         +index*pp->Integral * pp->SumError // 积分项
+                         + pp->Derivative * dError );
+
+        }
+    }
+
+
+
+    if( pp->result<=16000)//19900  15000
+    {
+//        if(Error<-100)
+//            pp->result = 17000;
+//				else
+//            pp->result = 17000;
+        // if( pp->result<17000)
+        pp->result = 16000;
+        // integ =  0;
+    }
+
+    if( pp->result>=MAX_OUTPUT)
+    {
+        pp->result = MAX_OUTPUT;
+        // integ =  0;
+    }
+    //result = 27000;
+
+//   pp->result = 23000;
     return  pp->result;        // 微分项
 }
 
@@ -409,155 +566,155 @@ void pid_init(float setvalue)
 #endif
 double PIDCalc_pump( PID *pp, double NextPoint )
 {
-	  double dError;//,res_tmp;
-		float Error;
-		static double last_result;//,integ;
-		// static unsigned char index;
-		Error = (pp->SetPoint - NextPoint)*1000; // 偏差
-		if(pp->LastError==0)
-			pp->LastError = Error;
-		pp->NextPoint = NextPoint;
-		if(NextPoint>(pp->SetPoint+PID_O_MAX))	  //如果上一次输出变量出现正向的饱和
-		{
-			tmp = fabs(Error);
-			if(tmp>PID_I_MAX)
-			{
-				;//index = 0;//偏差大积分不起作用
-			}
-			else
-			{
-				//index = 1;
-				if(Error<0)
-				{
-					pp->SumError += Error;	//正饱和只积分负偏差
-				}
-			}
-		}
-		else if(NextPoint<(pp->SetPoint-PID_O_MAX))  //如果上一次输出变量出现负向的饱和
-		{
-			tmp = fabs(Error);
-			if(tmp>PID_I_MAX)
-			{
-				;//index = 0;//偏差大积分不起作用
-			}
-			else
-			{
-				// index = 1;
-				if(Error>0)
-				{
-					pp->SumError += Error;	//正饱和只积分负偏差
-	
-				}
-			}
-		}
-		else
-		{
-			tmp = fabs(Error);
-			if(tmp>PID_I_MAX)	  //积分分离的PID优化，可参考以往的文章
-			{
-				;//index = 0;//偏差大积分不起作用
-			}
-			else
-			{
-				// index = 1;
-				pp->SumError += Error;	//正饱和只积分负偏差
-	
-			}
-		}
-	
-	
-		
-		if( Error<0)
-		{
-			if(pp->LastError>Error)
-			{
-				pp->dir_cnt_pos++;//实际值增加
-				pp->dir_cnt_neg=0;
-	
-			}
-	
-			else
-			{
-				pp->dir_cnt_neg++;//实际值减小
-				pp->dir_cnt_pos=0;
-	
-			}
-			if(pp->dir_cnt_neg>255)
-				pp->dir_cnt_neg=255;
-			if(pp->dir_cnt_pos>255)
-				pp->dir_cnt_pos=255;
-	
-	
-		}
-		else
-		{
-			pp->dir_cnt_pos=0;
-			pp->dir_cnt_neg=0;
-	
-		}
-	
-		dError = pp->LastError - pp->PrevError; //	当前微分
-		pp->PrevError = pp->LastError;
-		pp->iError = Error;
-		pp->LastError = Error;
-		  /*	  pp->result =(pp->Proportion * Error // 比例项
-							 +pp->Integral * pp->SumError // 积分项
-							 + pp->Derivative * dError );*/ 
-		if(pp->dir_cnt_neg>=3)//由于滞后，降低到一定误差范围，控制量需要增加
-		{
-			if( Error<-150&&Error>=-100)
-			{
-				pp->result =  pp->result+10;
-			}
-			else
-			{
-	
-				pp->result =(pp->Proportion * Error // 比例项
-							 +pp->Integral * pp->SumError // 积分项
-							 + pp->Derivative * dError );
-	
-			}
-		}
-		else
-		{
-			if(Error>=300)
-			{
-				pp->result = MAX_OUTPUT;
-	
-			}
-			else
-			{
-	
-				pp->result =(pp->Proportion * Error // 比例项
-							 +pp->Integral * pp->SumError // 积分项
-							 + pp->Derivative * dError );
-	
-			}
-		}
-	
-	
-	
-		if( pp->result<=5000)
-		{
-	//		  if(Error<-100)
-	//			  pp->result = 17000;
-	//				else
-	//			  pp->result = 17000;					
-		   // if( pp->result<17000)
-				pp->result = 5000;
-			// integ =	0;
-		}
-	
-		if( pp->result>=MAX_OUTPUT)
-		{
-			pp->result = MAX_OUTPUT;
-			// integ =	0;
-		}
-		//result = 27000;
-	
-	 //   pp->result = 23000;
-		return	pp->result; 	   // 微分项
-	}
+    double dError;//,res_tmp;
+    float Error;
+    static double last_result;//,integ;
+    // static unsigned char index;
+    Error = (pp->SetPoint - NextPoint)*1000; // 偏差
+    if(pp->LastError==0)
+        pp->LastError = Error;
+    pp->NextPoint = NextPoint;
+    if(NextPoint>(pp->SetPoint+PID_O_MAX))	  //如果上一次输出变量出现正向的饱和
+    {
+        tmp = fabs(Error);
+        if(tmp>PID_I_MAX)
+        {
+            ;//index = 0;//偏差大积分不起作用
+        }
+        else
+        {
+            //index = 1;
+            if(Error<0)
+            {
+                pp->SumError += Error;	//正饱和只积分负偏差
+            }
+        }
+    }
+    else if(NextPoint<(pp->SetPoint-PID_O_MAX))  //如果上一次输出变量出现负向的饱和
+    {
+        tmp = fabs(Error);
+        if(tmp>PID_I_MAX)
+        {
+            ;//index = 0;//偏差大积分不起作用
+        }
+        else
+        {
+            // index = 1;
+            if(Error>0)
+            {
+                pp->SumError += Error;	//正饱和只积分负偏差
+
+            }
+        }
+    }
+    else
+    {
+        tmp = fabs(Error);
+        if(tmp>PID_I_MAX)	  //积分分离的PID优化，可参考以往的文章
+        {
+            ;//index = 0;//偏差大积分不起作用
+        }
+        else
+        {
+            // index = 1;
+            pp->SumError += Error;	//正饱和只积分负偏差
+
+        }
+    }
+
+
+
+    if( Error<0)
+    {
+        if(pp->LastError>Error)
+        {
+            pp->dir_cnt_pos++;//实际值增加
+            pp->dir_cnt_neg=0;
+
+        }
+
+        else
+        {
+            pp->dir_cnt_neg++;//实际值减小
+            pp->dir_cnt_pos=0;
+
+        }
+        if(pp->dir_cnt_neg>255)
+            pp->dir_cnt_neg=255;
+        if(pp->dir_cnt_pos>255)
+            pp->dir_cnt_pos=255;
+
+
+    }
+    else
+    {
+        pp->dir_cnt_pos=0;
+        pp->dir_cnt_neg=0;
+
+    }
+
+    dError = pp->LastError - pp->PrevError; //	当前微分
+    pp->PrevError = pp->LastError;
+    pp->iError = Error;
+    pp->LastError = Error;
+    /*	  pp->result =(pp->Proportion * Error // 比例项
+    				 +pp->Integral * pp->SumError // 积分项
+    				 + pp->Derivative * dError );*/
+    if(pp->dir_cnt_neg>=3)//由于滞后，降低到一定误差范围，控制量需要增加
+    {
+        if( Error<-150&&Error>=-100)
+        {
+            pp->result =  pp->result+10;
+        }
+        else
+        {
+
+            pp->result =(pp->Proportion * Error // 比例项
+                         +pp->Integral * pp->SumError // 积分项
+                         + pp->Derivative * dError );
+
+        }
+    }
+    else
+    {
+        if(Error>=300)
+        {
+            pp->result = MAX_OUTPUT;
+
+        }
+        else
+        {
+
+            pp->result =(pp->Proportion * Error // 比例项
+                         +pp->Integral * pp->SumError // 积分项
+                         + pp->Derivative * dError );
+
+        }
+    }
+
+
+
+    if( pp->result<=5000)
+    {
+        //		  if(Error<-100)
+        //			  pp->result = 17000;
+        //				else
+        //			  pp->result = 17000;
+        // if( pp->result<17000)
+        pp->result = 5000;
+        // integ =	0;
+    }
+
+    if( pp->result>=MAX_OUTPUT)
+    {
+        pp->result = MAX_OUTPUT;
+        // integ =	0;
+    }
+    //result = 27000;
+
+    //   pp->result = 23000;
+    return	pp->result; 	   // 微分项
+}
 
 
 
@@ -576,7 +733,7 @@ uint32_t pid_proc(double rIn)
 uint32_t pid_proc_pump(double rIn)
 {
 
-       // PIDInit ( &sPID ); // Initialize Structure
+    // PIDInit ( &sPID ); // Initialize Structure
     sPID_pump.Proportion =185; // Set PID Coefficients  260
     sPID_pump.Integral = 0.003;//0.95;//
     sPID_pump.Derivative = 0.0004;
@@ -587,7 +744,7 @@ uint32_t pid_proc_pump(double rIn)
     //sPID.SumError = 0;
     rIn_PID_pump = rIn;				 // 读取输入变量函数(Read Input )
     rOut_pump = PIDCalc_pump ( &sPID_pump,rIn_PID_pump );   // PID计算函数(Perform PID Interation)
-	   //rOut_pump = 65535;
+    //rOut_pump = 65535;
     return (uint32_t)( rOut_pump );			   // 输出变量控制函数(Effect Needed Changes)
 
 

@@ -3,8 +3,9 @@
 #define PID_TYPE  2
 #define PID_O_MAX   100
 
-#define PID_I_MAX   300
-
+#define PID_I_MAX   120
+#define PID_SI_MAX   300000
+#define PID_SI_MIN   -300
 #define MAX_OUTPUT  45000
 #define MIN_OUTPUT  0
 #include<main.h>
