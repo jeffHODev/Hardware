@@ -281,7 +281,7 @@ double PIDCalc1( PID *pp, double NextPoint )
             }
         }
     }
-    else if( pp->SumError>=PID_SI_MIN)
+    else if( pp->SumError<=PID_SI_MIN)
     {
        // if(NextPoint<(pp->SetPoint-PID_O_MAX))  //如果上一次输出变量出现负向的饱和
         {
