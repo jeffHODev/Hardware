@@ -27,7 +27,7 @@ void RS485_Init()
     __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);	//Ê¹ÄÜ¿ÕÏÐÖÐ¶Ï
     HAL_UART_Receive_DMA(&huart1,modbus_usr.RS485_RX_BUFF,MODBUS_BSIZE);
 #endif
-    modbus_usr.RS485_Addr = 0x04;
+    modbus_usr.RS485_Addr = 0x03;
 
 }
 //////////////////////////////////////////////////////////////////////////////

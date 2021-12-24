@@ -178,7 +178,7 @@ int main(void)
 					else
 					{
 						RelayCtrl(BACKWARD);
-						timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,65535);					
+						timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,30000);					
 					}	
 					if(test== 0)
 						test = 1;
@@ -188,9 +188,14 @@ int main(void)
 			}
 			else
 			{
-      sensor_process();		
       if(GetSensor()->ele_status==3)
-				GetSensor()->ele_status=0;				
+			{
+				GetSensor()->ele_status=0;	
+				gpio_bit_write(LED1_GPIO_Port, LED1_Pin,RESET);
+				ele_ctrl(OFF);
+			}				
+      sensor_process();		
+				
 			}
 
 
