@@ -69,7 +69,7 @@ void Error_Handler(void);
 #define EN1_485_Pin GPIO_PIN_11
 #define EN1_485_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
-
+#define  FLOW_SIZE 2
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

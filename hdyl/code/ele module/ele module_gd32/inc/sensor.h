@@ -31,9 +31,11 @@
 
 #define MAX_CURR_VALUE  13000
 #define MIN_CURR_VALUE  700
+#if FLOW_SIZE == 4
 #define DES_CURR_VALUE  10000   //目标电流
-
-
+#else
+#define DES_CURR_VALUE  10000   //目标电流
+#endif
 #define MAX_LONG_TICK	1000
 #define MAX_SHORT_TICK	1000
 #define MAX_TICK	18000

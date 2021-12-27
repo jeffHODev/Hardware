@@ -134,7 +134,7 @@ int main(void)
 #endif
     /* USER CODE END SysInit */
     rcu_config();
-	 
+	 //
     gpio_config();
 	  SystemParamsRead();
     systick_config();
@@ -174,6 +174,7 @@ int main(void)
     while(module_stop_ele())
         ;
     Speak_Flage=0;
+		//DcMotorCtrl(1,30000);//泵2调整流量
    //fwdgt_config(0x1fff,FWDGT_PSC_DIV64);
     //fwdgt_enable();
     while (1)

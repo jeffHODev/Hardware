@@ -535,7 +535,7 @@ unsigned char GetPH_ORP()
             break;//read ph
         case 3:
 
-            if(GetSensor()->ele_offLine_T[addr_tmp-3]>=MAX_TX_TIMES )
+            if(GetSensor()->ele_offLine_T[addr_tmp-3]>=MAX_TX_TIMES&&((addr_tmp-3))<FLOW_SIZE )
             {
                 GetSensor()->ele_MOnLine[addr_tmp-3]=0;
                 GetSensor()->status[SYSTEM_INDEX] = SYSTEM_INDEX;

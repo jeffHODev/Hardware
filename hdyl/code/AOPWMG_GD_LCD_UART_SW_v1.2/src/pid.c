@@ -231,14 +231,14 @@ double PIDCalc( PID *pp, double NextPoint )
 
 
 
-    if( pp->result<=16000)//19900  15000
+    if( pp->result<=10000)//19900  15000
     {
 //        if(Error<-100)
 //            pp->result = 17000;
 //				else
 //            pp->result = 17000;
         // if( pp->result<17000)
-        pp->result = 16000;
+        pp->result = 10000;
         // integ =  0;
     }
 
@@ -327,9 +327,9 @@ double PIDCalc1( PID *pp, double NextPoint )
 
 
 
-    if( pp->result<=16000)//19900  15000
+    if( pp->result<=8000)//19900  15000
     {
-        pp->result = 16000;
+        pp->result = 8000;
     }
 
     if( pp->result>=MAX_OUTPUT)
@@ -451,16 +451,24 @@ void pid_init(float setvalue)
 void pid_init(float setvalue)
 {
 
-
     // PIDInit ( &sPID ); // Initialize Structure
     sPID.Proportion =185; // Set PID Coefficients  185 260
     sPID.Integral = 0.003;//0.95;//
-    sPID.Derivative = 0.0004;
+    sPID.Derivative = 0.004;
     // sPID.result = 0;
     sPID.SetPoint = setvalue; // Set PID Setpoint
 //   sPID.LastError = 0;
 //	sPID.PrevError = 0;
 //	sPID.SumError = 0;
+//    // PIDInit ( &sPID ); // Initialize Structure
+//    sPID.Proportion =185; // Set PID Coefficients  185 260
+//    sPID.Integral = 0.003;//0.95;//
+//    sPID.Derivative = 0.0004;
+//    // sPID.result = 0;
+//    sPID.SetPoint = setvalue; // Set PID Setpoint
+////   sPID.LastError = 0;
+////	sPID.PrevError = 0;
+////	sPID.SumError = 0;
 }
 void pid_init2(float setvalue)
 {
@@ -654,7 +662,7 @@ uint32_t pid_proc(double rIn)
 {
 
     rIn_PID = rIn;				 // 读取输入变量函数(Read Input )
-    rOut = PIDCalc ( &sPID,rIn_PID );   // PID计算函数(Perform PID Interation)
+    rOut = PIDCalc1 ( &sPID,rIn_PID );   // PID计算函数(Perform PID Interation)
     return (uint32_t)( rOut );			   // 输出变量控制函数(Effect Needed Changes)
 
 
@@ -667,7 +675,7 @@ uint32_t pid_proc_pump(double rIn)
     sPID_pump.Integral = 0.003;//0.95;//
     sPID_pump.Derivative = 0.0004;
     //  sPID.result = 0;
-    sPID_pump.SetPoint = 4.0; // Set PID Setpoint
+    sPID_pump.SetPoint = SET_FLOW; // Set PID Setpoint
     //sPID.LastError = 0;
     //sPID.PrevError = 0;
     //sPID.SumError = 0;
