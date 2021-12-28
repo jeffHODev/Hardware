@@ -110,7 +110,7 @@ void GetEle_EleCurr()
         // sensor.ele_curr = sensor.ele_curr/vcc;
         //电流= （2*x-2.5）*15=30x-37.5
         curr_I = 30*curr_v-37.5;
-				sensor.ele_curr_tmp  = curr_I*1000;
+        sensor.ele_curr_tmp  = curr_I*1000;
         //curr_I = 1000*curr_I;
         // sensor.ele_curr = sensor.ele_curr- sensor.ele_curr /FIR_NUM+curr_I/FIR_NUM;
         curr_1000_I =  curr_1000_I- curr_1000_I /FIR_NUM+curr_I/FIR_NUM;
@@ -376,7 +376,7 @@ void RelayCtrl(unsigned char dir)
 
 void ele_ctrl(unsigned char mode)
 {
-
+    static unsigned char flag = 0;
     GetEle_EleCurr();
     if(mode == ON)
     {
@@ -386,10 +386,29 @@ void ele_ctrl(unsigned char mode)
         __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_3, pid_proc(sensor.ele_curr));
         RelayCtrl(FORWARD);
 #else
+
         if(sensor.inverEle == 0)
+        {
+            if(flag != 1)
+            {
+                timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+                flag = 1;
+                delay_ms(100);
+            }
             RelayCtrl(FORWARD);
+        }
+
+
         else if (sensor.inverEle == 1)
+        {
+            if(flag != 2)
+            {
+                timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+                flag = 2;
+                delay_ms(100);
+            }
             RelayCtrl(BACKWARD);
+        }
         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,pid_proc(sensor.ele_curr));
 
 #endif
@@ -401,10 +420,13 @@ void ele_ctrl(unsigned char mode)
         HAL_Delay(10);
         RelayCtrl(3);
 #else
-			  registerTick(PID_OUT_TICK,0,0,1);
-        RelayCtrl(3);
-			 // RelayCtrl(FORWARD);
         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+        flag = 0;
+        delay_ms(100);
+        registerTick(PID_OUT_TICK,0,0,1);
+        RelayCtrl(3);
+        // RelayCtrl(FORWARD);
+
 #endif
     }
 
@@ -431,13 +453,13 @@ void work_process()
         if((sensor.ele_curr_tmp >= MAX_CURR_VALUE))//电流 异常保护
             // if(sensor.ele_curr >= MAX_CURR_VALUE)//电流 异常保护
         {
-           // ele_ctrl(OFF);
-					GetEle_EleCurr();
-					        timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+            // ele_ctrl(OFF);
+            GetEle_EleCurr();
+            timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
 
             pid_init(DES_CURR_VALUE);
-					  delay_ms(100);
-					cnt++;
+            delay_ms(100);
+            cnt++;
             //sensor.ele_status =0;
         }
         else
@@ -448,9 +470,9 @@ void work_process()
                 if((sensor.ele_curr <= MIN_CURR_VALUE||sensor.ele_curr >= MAX_CURR_VALUE)&& sensor.inverEle == 0)//电流 异常保护
                     // if(sensor.ele_curr >= MAX_CURR_VALUE)//电流 异常保护
                 {
-                   // ele_ctrl(OFF);
-														GetEle_EleCurr();
-					        timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+                    // ele_ctrl(OFF);
+                    GetEle_EleCurr();
+                    timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
 
                     pid_init(DES_CURR_VALUE);
                     sensor.ele_status =0;

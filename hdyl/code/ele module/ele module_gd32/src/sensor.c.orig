@@ -41,8 +41,8 @@ void SystemParamsRead()
     {
 
         bsp_ReadCpuFlash(addr+i,&GetModbusPack()->RS485_Addr, 1);
-			if(GetModbusPayLoad()->RS485_Addr<3||GetModbusPayLoad()->RS485_Addr>6)
-				GetModbusPayLoad()->RS485_Addr = 0xff;
+        if(GetModbusPayLoad()->RS485_Addr<3||GetModbusPayLoad()->RS485_Addr>6)
+            GetModbusPayLoad()->RS485_Addr = 0xff;
     }
     else
     {
@@ -65,10 +65,10 @@ extern PID sPID; // PID Control Structure
 void setCurrent(unsigned char curr)
 {
 
-		if(curr == 0)
-			sPID.SetPoint = DES_CURR_VALUE;
+    if(curr == 0)
+        sPID.SetPoint = DES_CURR_VALUE;
     else
-			sPID.SetPoint = curr*1000;
+        sPID.SetPoint = curr*1000;
 
 }
 uint32_t *get_adc_buf()
@@ -110,6 +110,7 @@ void GetEle_EleCurr()
         // sensor.ele_curr = sensor.ele_curr/vcc;
         //电流= （2*x-2.5）*15=30x-37.5
         curr_I = 30*curr_v-37.5;
+        sensor.ele_curr_tmp  = curr_I*1000;
         //curr_I = 1000*curr_I;
         // sensor.ele_curr = sensor.ele_curr- sensor.ele_curr /FIR_NUM+curr_I/FIR_NUM;
         curr_1000_I =  curr_1000_I- curr_1000_I /FIR_NUM+curr_I/FIR_NUM;
@@ -154,20 +155,20 @@ void analysis_process()
 {
     unsigned int tmp;
     unsigned char curr_tmp[2];
-	unsigned char tmp_buf[2];
+    unsigned char tmp_buf[2];
     unsigned char result;
     result = RS485_Service();
     if( result== 2||result== 3)
     {
-      
+
 
         if( GetModbusPack()->func == FUNC_READ)//读命令响应
         {
 
             if(sensor.ele_status==0)
-						{
-							 sensor.online = 1;
-						}
+            {
+                sensor.online = 1;
+            }
             if( GetModbusPack()->startaddr  == 0x0040 )//ele status
             {
                 GetModbusSens(0x02,FUNC_READ,0x0040,0,(unsigned char *)(&sensor.ele_status),2);
@@ -178,7 +179,7 @@ void analysis_process()
 
             if(GetModbusPack()->startaddr  == 0x0041 )//read addr
             {
-                
+
                 tmp_buf[0] =0;
                 tmp_buf[1] = GetModbusPayLoad()->RS485_Addr;
                 GetModbusSens(0x02,FUNC_READ,0x0041,0,tmp_buf,2);
@@ -208,10 +209,10 @@ void analysis_process()
             if( GetModbusPack()->startaddr  == 0x0040 )
             {
                 sensor.ele_status = GetModbusPayLoad()->RS485_RX_BUFF[5];
-							//  setCurrent(sensor.ele_status>>4);
-							  sensor.ele_status = sensor.ele_status &0x0f;
+                //  setCurrent(sensor.ele_status>>4);
+                sensor.ele_status = sensor.ele_status &0x0f;
                 sensor.inverEle = 0;
-						  	//sensor.online = 0;
+                //sensor.online = 0;
 
             }
 
@@ -219,7 +220,7 @@ void analysis_process()
             {
                 sensor.inverEle = GetModbusPayLoad()->RS485_RX_BUFF[5]; //需要倒电极
                 sensor.ele_status =1;
-							//sensor.online = 0;
+                //sensor.online = 0;
 
             }
 
@@ -229,10 +230,10 @@ void analysis_process()
                 GetModbusPack()->RS485_Addr = sensor.addr;
                 GetModbusPayLoad()->RS485_Addr = sensor.addr;
                 SystemParamsSave();
-				//SystemParamsRead();
-							  //tmp_buf[0] =0;
-               // tmp_buf[1] = GetModbusPayLoad()->RS485_Addr;
-				       //GetModbusSens(0x02,FUNC_READ,0x0041,0,tmp,2);
+                //SystemParamsRead();
+                //tmp_buf[0] =0;
+                // tmp_buf[1] = GetModbusPayLoad()->RS485_Addr;
+                //GetModbusSens(0x02,FUNC_READ,0x0041,0,tmp,2);
                 sensor.online = 2;
             }
 
@@ -241,39 +242,39 @@ void analysis_process()
                 sensor.reset = GetModbusPayLoad()->RS485_RX_BUFF[5];
                 Soft_Reset();
             }
-					 if(sensor.ele_status)
-						{
-							 sensor.online = 0;
-						}
+            if(sensor.ele_status)
+            {
+                sensor.online = 0;
+            }
 
         }
-				if(GetModbusPack()->startaddr  != 0x0045&&GetModbusPack()->startaddr  != 0x0040)
-				{
-							registerTick(ABNORMAL_TICK,8000,1,0);
-							if(GetTickResult(ABNORMAL_TICK))//与主控板超时自我保护，超时时间10s
-							{
-						sensor.ele_status =0;
-						sensor.inverEle = 0;
-						registerTick(ABNORMAL_TICK,0,0,1); 
-					}
-				}
-				else
-					 registerTick(ABNORMAL_TICK,0,0,1);
+        if(GetModbusPack()->startaddr  != 0x0045&&GetModbusPack()->startaddr  != 0x0040)
+        {
+            registerTick(ABNORMAL_TICK,8000,1,0);
+            if(GetTickResult(ABNORMAL_TICK))//与主控板超时自我保护，超时时间10s
+            {
+                sensor.ele_status =0;
+                sensor.inverEle = 0;
+                registerTick(ABNORMAL_TICK,0,0,1);
+            }
+        }
+        else
+            registerTick(ABNORMAL_TICK,0,0,1);
 
     }
-	else
-	{
-		    registerTick(ABNORMAL_TICK,8000,1,0);
+    else
+    {
+        registerTick(ABNORMAL_TICK,8000,1,0);
         if(GetTickResult(ABNORMAL_TICK))//与主控板超时自我保护，超时时间10s
         {
-			sensor.ele_status =0;
-			sensor.inverEle = 0;
-			registerTick(ABNORMAL_TICK,0,0,1); 
-		}
-		
-    
-	}
- buffer_reset();
+            sensor.ele_status =0;
+            sensor.inverEle = 0;
+            registerTick(ABNORMAL_TICK,0,0,1);
+        }
+
+
+    }
+    buffer_reset();
 }
 #if CPU == ST
 extern TIM_HandleTypeDef htim3;
@@ -348,26 +349,26 @@ void RelayCtrl(unsigned char dir)
 #else
     if(dir == FORWARD)
     {
-			
+
         gpio_bit_write(Ele_ConA_GPIO_Port, Ele_ConA_Pin, SET);
-        delay_ms(10);
+        delay_ms(20);
         gpio_bit_write(Ele_ConB_GPIO_Port, Ele_ConB_Pin, RESET);
-			 delay_ms(10);
+        delay_ms(20);
 
     }
     else if(dir == BACKWARD)
     {
         gpio_bit_write(Ele_ConA_GPIO_Port, Ele_ConA_Pin, RESET);
-        delay_ms(10);
+        delay_ms(20);
         gpio_bit_write(Ele_ConB_GPIO_Port, Ele_ConB_Pin, SET);
-			delay_ms(10);
+        delay_ms(20);
     }
     else
     {
         gpio_bit_write(Ele_ConA_GPIO_Port, Ele_ConA_Pin, RESET);
-        delay_ms(10);
+        delay_ms(20);
         gpio_bit_write(Ele_ConB_GPIO_Port, Ele_ConB_Pin, RESET);
-			   delay_ms(10);
+        delay_ms(20);
     }
 
 #endif
@@ -375,7 +376,7 @@ void RelayCtrl(unsigned char dir)
 
 void ele_ctrl(unsigned char mode)
 {
-
+    static unsigned char flag = 0;
     GetEle_EleCurr();
     if(mode == ON)
     {
@@ -385,10 +386,35 @@ void ele_ctrl(unsigned char mode)
         __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_3, pid_proc(sensor.ele_curr));
         RelayCtrl(FORWARD);
 #else
+        if(flag == 0)
+        {
+         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+		 flag = 1;
+		 delay_ms(100);
+		}
+
         if(sensor.inverEle == 0)
-            RelayCtrl(FORWARD);
+        	{
+			        if(flag ！= 1)
+        {
+         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+		 flag = 1;
+		 delay_ms(100);
+		}
+		RelayCtrl(FORWARD);
+		}
+
+            
         else if (sensor.inverEle == 1)
+		{
+		if(flag ！= 2)
+        {
+         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+		 flag = 2;
+		 delay_ms(100);
+		}
             RelayCtrl(BACKWARD);
+        	}
         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,pid_proc(sensor.ele_curr));
 
 #endif
@@ -400,8 +426,13 @@ void ele_ctrl(unsigned char mode)
         HAL_Delay(10);
         RelayCtrl(3);
 #else
-        //RelayCtrl(3);
         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+		flag = 0;
+        delay_ms(100);
+        registerTick(PID_OUT_TICK,0,0,1);
+        RelayCtrl(3);
+        // RelayCtrl(FORWARD);
+        
 #endif
     }
 
@@ -413,54 +444,57 @@ void params_Init()
 //							  if(GetModbusPayLoad()->RS485_Addr == 0x03)
 //									 pid_init(DES_CURR_VALUE/2);
 //								else
-                pid_init(DES_CURR_VALUE);
+    pid_init(DES_CURR_VALUE);
 
 
 
 }
+uint32_t cnt ;
 void work_process()
 {
     static uint32_t timeout_tick;
     if(sensor.ele_status == 1)//电解模式
     {
-        registerTick(LOWCURR_TICK,3000,1,0);
-		if((sensor.ele_curr >= MAX_CURR_VALUE))//电流 异常保护
-             // if(sensor.ele_curr >= MAX_CURR_VALUE)//电流 异常保护
-            {
-                ele_ctrl(OFF);
-//							  if(GetModbusPayLoad()->RS485_Addr == 0x03)
-//									 pid_init(DES_CURR_VALUE%50);
-//								else
-                pid_init(DES_CURR_VALUE);
-                sensor.ele_status =0;
-            }	
-     else
-     {
-	        if(GetTickResult(LOWCURR_TICK)==1)
+        registerTick(LOWCURR_TICK,12000,1,0);
+        if((sensor.ele_curr_tmp >= MAX_CURR_VALUE))//电流 异常保护
+            // if(sensor.ele_curr >= MAX_CURR_VALUE)//电流 异常保护
         {
-					 
-           if((sensor.ele_curr <= MIN_CURR_VALUE||sensor.ele_curr >= MAX_CURR_VALUE)&& sensor.inverEle == 0)//电流 异常保护
-             // if(sensor.ele_curr >= MAX_CURR_VALUE)//电流 异常保护
-            {
-                ele_ctrl(OFF);
-//							  if(GetModbusPayLoad()->RS485_Addr == 0x03)
-//									 pid_init(DES_CURR_VALUE%50);
-//								else
-                pid_init(DES_CURR_VALUE);
-                sensor.ele_status =0;
-            }
-            registerTick(LOWCURR_TICK,0,0,1);
+            // ele_ctrl(OFF);
+            GetEle_EleCurr();
+            timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+
+            pid_init(DES_CURR_VALUE);
+            delay_ms(100);
+            cnt++;
+            //sensor.ele_status =0;
         }
         else
         {
-            if(sensor.wash_time >=MAX_WASH_TIME)
+            if(GetTickResult(LOWCURR_TICK)==1)
             {
-                ele_ctrl(OFF);
+
+                if((sensor.ele_curr <= MIN_CURR_VALUE||sensor.ele_curr >= MAX_CURR_VALUE)&& sensor.inverEle == 0)//电流 异常保护
+                    // if(sensor.ele_curr >= MAX_CURR_VALUE)//电流 异常保护
+                {
+                    // ele_ctrl(OFF);
+                    GetEle_EleCurr();
+                    timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+
+                    pid_init(DES_CURR_VALUE);
+                    sensor.ele_status =0;
+                }
+                registerTick(LOWCURR_TICK,0,0,1);
             }
             else
-                ele_ctrl(ON);
-        }	 
-		 }			 
+            {
+                if(sensor.wash_time >=MAX_WASH_TIME)
+                {
+                    ele_ctrl(OFF);
+                }
+                else
+                    ele_ctrl(ON);
+            }
+        }
 
         if(sensor.inverEle == 1)//
         {
@@ -501,5 +535,5 @@ void sensor_process()
 }
 void test2()
 {
- pid_init(2000);
+    pid_init(2000);
 }

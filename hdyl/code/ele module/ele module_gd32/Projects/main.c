@@ -149,8 +149,8 @@ int main(void)
 				//	 rcu_all_reset_flag_clear();
     /* enable WWDGT clock */
     rcu_periph_clock_enable(RCU_WWDGT);
-	//	fwdgt_config(0xfff, FWDGT_PSC_DIV128);
-   // fwdgt_enable();
+		fwdgt_config(0xfff, FWDGT_PSC_DIV128);
+    fwdgt_enable();
     /* USER CODE END 2 */
  
  // test2();
@@ -160,7 +160,7 @@ int main(void)
     {
         /* USER CODE END WHILE */
 
-		//	fwdgt_counter_reload();
+			fwdgt_counter_reload();
 			if(gpio_input_bit_get(GPIOA,GPIO_PIN_2)==0)
 			{
 				registerTick(TEST_TICK,3000,1,0);
