@@ -27,12 +27,12 @@ void RS485_Init()
     __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);	//使能空闲中断
     HAL_UART_Receive_DMA(&huart1,modbus_usr.RS485_RX_BUFF,MODBUS_BSIZE);
 #endif
-    modbus_usr.RS485_Addr = 0x06;
+    modbus_usr.RS485_Addr = 0x03;
 
 }
 //////////////////////////////////////////////////////////////////////////////
 //发送n个字节数据
-//buff:发送区首地址
+//buff: 发送区首地址
 //len：发送的字节数
 void RS485_SendData(uint8_t *buff,uint8_t len,unsigned char flag)
 {
