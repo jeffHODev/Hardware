@@ -29,9 +29,16 @@
 
 
 #else if FLOW_SIZE == 2
-#define TDS_LEVEL1   350
+/*#define TDS_LEVEL1   350
 #define TDS_LEVEL2   500  // 650-150
-#define TDS_LEVEL3   550//650-30   //850
+#define TDS_LEVEL3   700//650-30   //850
+#define TDS_LEVEL4   550//-100  //1000
+#define SET_FLOW     2
+*/
+
+#define TDS_LEVEL1   400
+#define TDS_LEVEL2   530  // 650-150
+#define TDS_LEVEL3   700//650-30   //850
 #define TDS_LEVEL4   550//-100  //1000
 #define SET_FLOW     2
 

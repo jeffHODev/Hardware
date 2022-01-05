@@ -320,12 +320,12 @@ void Flow_Init()
             case 2:
                 if(GetSensor()->flow<=1)//400
                     flow_switch = 300 ;
-                else if(GetSensor()->flow<=2)//1---2	400---450
+                else if(GetSensor()->flow<=2)//1---2	400---530
                 {
-                    flow_switch = (GetSensor()->flow-1)*50+TDS_LEVEL1;
+                    flow_switch = (GetSensor()->flow-1)*130+TDS_LEVEL1;
 
                 }
-                else if(GetSensor()->flow<=3)//2---3 500-700
+                else if(GetSensor()->flow<=3)//2---3 530-700
                 {
                     flow_switch = (GetSensor()->flow-2)*200+TDS_LEVEL2;
 
