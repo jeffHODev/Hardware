@@ -377,7 +377,7 @@ void GetFlow()
             flow_tmp   = (flow_cal*flow_tmp)/(flow_cnt);
 					  //if((flow_cnt*FLOW_PERIOD/1000)%10==0)
 						{
-						sensor.flow =sensor.flow*0.3+flow_tmp*0.7;
+						sensor.flow =sensor.flow*0.1+flow_tmp*0.9;
 						}
 						//else
             //sensor.flow =sensor.flow -sensor.flow /FIR_NUM_FLOW+flow_tmp/FIR_NUM_FLOW;

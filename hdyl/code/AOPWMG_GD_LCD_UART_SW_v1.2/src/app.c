@@ -331,11 +331,11 @@ void Flow_Init()
 
                 }
 
-                else//3---700-800 
+                else//3---700-800
                 {
                     flow_switch = (GetSensor()->flow-3)*100+TDS_LEVEL3;
-				if(flow_switch>=900)//1120
-					flow_switch = 900;
+                    if(flow_switch>=900)//1120
+                        flow_switch = 900;
 
 
                 }
@@ -562,16 +562,16 @@ polling_status:
     switch(status_tmp)// 0:正常  1：tds1 2:tds2 3：流量 4：orp
         //  5:高压开关6：水位开关 7:电解中
     {
-        /*	str = "正常          ";
-        	str = "原水TDS异常	 ";
-        	str = "缺盐		 	 ";
-        	str = "流量异常 	 ";
-        	str = "盐水箱注水中";
-        	str = "清洗中		 ";
-        	str = "缺水			 ";
-        	str = "系统故障 	 ";
-        	str = "正常			 ";
-        	str = "正常			 ";*/
+    /*	str = "正常          ";
+    	str = "原水TDS异常	 ";
+    	str = "缺盐		 	 ";
+    	str = "流量异常 	 ";
+    	str = "盐水箱注水中";
+    	str = "清洗中		 ";
+    	str = "缺水			 ";
+    	str = "系统故障 	 ";
+    	str = "正常			 ";
+    	str = "正常			 ";*/
 
 
 
@@ -1496,11 +1496,22 @@ void ele_dev_proc()
 
         }
         flow_proc();
-		 tds_proc();
+        tds_proc();
         if(GetSensor()->status[TDS1_INDEX]==TDS1_INDEX||GetSensor()->status[SYSTEM_INDEX] == SYSTEM_INDEX||GetSensor()->status[TDS2_INDEX] == TDS2_INDEX||GetSensor()->status[SHUNT_INDEX] == SHUNT_INDEX)
         {
-            EleSwCtrl(6,OFF);//关所有阀
-            DcMotorCtrl(7,OFF);//关所有电机
+            if(GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)
+            {
+
+                water_levelAbnormal_proc();
+
+            }
+            else //水位开关异常
+            {
+                EleSwCtrl(SALT_SW,OFF);//关阀2
+                EleSwCtrl(6,OFF);//关所有阀
+                DcMotorCtrl(7,OFF);//关所有电机
+            }
+
 
         }
         else

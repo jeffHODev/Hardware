@@ -32,7 +32,7 @@ void RS485_Init()
 }
 //////////////////////////////////////////////////////////////////////////////
 //发送n个字节数据
-//buff:发送区首地址
+//buff: 发送区首地址
 //len：发送的字节数
 void RS485_SendData(uint8_t *buff,uint8_t len,unsigned char flag)
 {

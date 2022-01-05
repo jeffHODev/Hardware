@@ -1,0 +1,25 @@
+/api/create：
+1. /bloodpressure：新建患者血压测量(基本测量)；
+2. /patientbasismeasurement：根据测试号获取对应患者相关检测的基本信息；
+
+/api/detection：
+1. /saveOriginalWaveform：保存原始检测波形并且返回计算结果；
+2. /getOriginalWaveform：根据测试号获取原始检测波形（内部需要查看原始波形数据时使用）；
+
+HospitalController类中接口说明：
+1. /login：医院设备登录；
+2. /api/loginout：医院设备退出登录；
+3. /api/uppass：修改医院设备密码；
+
+/api/patient：
+1. /create：创建患者基本信息；
+2. /info：查询患者基本信息(身份证号)；
+3. /getinfo：根据患者姓名、手机号获取患者基本信息；
+4. /getinfobyuniqueid：根据患者身份证号获取患者基本信息；
+5. /patientlist：分页获取医院设备对应患者列表；
+6. /updatepatient：修改患者基本信息；
+7. /historypatientlist：根据设备分页获取对应历史患者检测记录；
+8. /patienthistorylist：根据患者id获取对应历史检测记录；
+
+JfreeChartTest类中接口说明：
+/retStamper：下载PDF接口；
