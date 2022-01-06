@@ -1499,7 +1499,7 @@ void ele_dev_proc()
         tds_proc();
         if(GetSensor()->status[TDS1_INDEX]==TDS1_INDEX||GetSensor()->status[SYSTEM_INDEX] == SYSTEM_INDEX||GetSensor()->status[TDS2_INDEX] == TDS2_INDEX||GetSensor()->status[SHUNT_INDEX] == SHUNT_INDEX)
         {
-            if(GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)
+            if((GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)&&GetSensor()->status[SYSTEM_INDEX] != SYSTEM_INDEX)
             {
 
                 water_levelAbnormal_proc();
