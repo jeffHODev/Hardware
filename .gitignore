@@ -92,3 +92,4 @@ sourceinsight/!*.siproj
 !lcd/
 Project.uvgui.*
 Project.uvguix.*
+JLinkLog.txt
