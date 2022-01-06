@@ -6,6 +6,15 @@
 #define SPI_TX_SIZE 16
 #define SPI_RX_SIZE 16
 
+#define BLE_PWR		    0
+#define EN_3V3_PWR		1
+#define EN_5V_PWR		2
+#define PRESS__PWR		3
+#define POW_HEA_PWR		4
+
+
+
+
 
 typedef struct
 {
@@ -25,6 +34,8 @@ void  light_stop(void);
 bsp_sru *getAdcBuf(void);
 spi_sru *getSpiBuf(void);
 void SendStr(uint8_t *str);
-void power_manage(unsigned char ctrl);
+void power_manage(unsigned char pwr,unsigned char ctrl);
+void uart1_dma_tx(uint32_t *pb,uint32_t len);
+void uart3_dma_tx(uint32_t *pb,uint32_t len);
 
 #endif

@@ -57,15 +57,33 @@ void adc_start()
 }
 void power_manage(unsigned char ctrl)
 {
+    switch(pwr)
+    {
+		case  BLE_PWR:
+		break;
+	case  EN_3V3_PWR:
+	break;
+	case  EN_5V_PWR:
+	break;
+	case  PRESS__PWR:
+	break;
+	case  POW_HEA_PWR:
+	break;
+	default:
+	break;
+
+	}
     if(ctrl == OFF)
     {
         gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, RESET);
         gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, RESET);
         gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, RESET);
         gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, RESET);
+		    gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, RESET);
     }
     else
     {
+        gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, SET);
         gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, SET);
         gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, SET);
         gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, SET);
@@ -182,79 +200,74 @@ void spi_receive(unsigned char spix_chipx,uint32_t len,uint16_t buf)
     gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
 }
 
-void SendStr(unsigned char moduleType,uint8_t *str)
+void SendStr(uint8_t *str)
 {
     unsigned char i,len;
-	i = 0;
-	len = strlen(str);
-     //HAL_UART_Transmit(&huart1, str, len, 1000);
+    i = 0;
+    len = strlen(str);
+    //HAL_UART_Transmit(&huart1, str, len, 1000);
     while(i<=len)
     {
         usart_data_transmit(UART3, str[i++]);
         while(RESET == usart_flag_get(UART3, USART_FLAG_TBE));
     }
 }
-unsigned int sendCommand(unsigned char moduleType,char *Command, char *Response, uint32_t Timeout, unsigned char Retry,unsigned char eflag)
+
+void uart3_dma_tx(uint32_t *pb,uint32_t len)
 {
-    unsigned char *USARTX_RX_BUF;
+	dma_single_data_parameter_struct dma_single_data_parameter;
 
-
-    static unsigned char RetryCount;
-    static uint32_t timeout;
-
-    uint32_t tmp;
-    tmp = HAL_GetTick()-timeout;
-    if((tmp)>=Timeout)
-    {
-        if(RetryCount<=Retry)
-        {
-            if(Retry>0)
-            {
-                SendStr( moduleType,Command);
-                RetryCount = RetryCount +1;
-                timeout = HAL_GetTick();
-            }
-
-        }
-        else
-        {
-            RetryCount = 0;
-        }
-
-        if (strstr(USARTX_RX_BUF, Response) != NULL)
-        {
-            RetryCount = 0;
-            if(eflag == 0)
-                USART1_CLR_Buf();
-            return Success;
-        }
-        else
-        {
-					  if(eflag == 1)
-            USART1_CLR_Buf();
-            return Failure;
-        }
-
-    }
-    else
-    {
-        if (strstr(USARTX_RX_BUF, Response) != NULL)
-        {
-            RetryCount = 0;
-            if(eflag == 0)
-                USART1_CLR_Buf();
-            return Success;
-        }
-        else
-        {
-
-			// USART1_CLR_Buf();
-            return Failure;
-        }
-
-    }
+	rcu_periph_clock_enable(RCU_DMA0);
+	dma_deinit(DMA0, DMA_CH4);
+	while(RESET == dma_flag_get(DMA0, DMA_CH4, DMA_FLAG_FTF));	
+	dma_single_data_parameter.direction = DMA_MEMORY_TO_PERIPH;
+	dma_single_data_parameter.memory0_addr = (uint32_t)pb;
+	dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+	dma_single_data_parameter.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
+	dma_single_data_parameter.number = len;
+	dma_single_data_parameter.periph_addr = (uint32_t)&USART_DATA(UART3);
+	dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+	dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
+	dma_single_data_mode_init(DMA0, DMA_CH4, &dma_single_data_parameter);
+	/* configure DMA mode */
+	dma_circulation_disable(DMA0, DMA_CH4);
+	dma_channel_subperipheral_select(DMA0, DMA_CH4, DMA_SUBPERI4);
+	/* enable DMA channel7 */
+	dma_channel_enable(DMA0, DMA_CH4);
+	
+	/* USART DMA enable for transmission and reception */
+	usart_dma_transmit_config(UART3, USART_DENT_ENABLE);
+	 /* wait DMA Channel transfer complete */
+	//
 
 }
+void uart1_dma_tx(uint32_t *pb,uint32_t len)
+{
+	dma_single_data_parameter_struct dma_single_data_parameter;
 
+	rcu_periph_clock_enable(RCU_DMA0);
+	dma_deinit(DMA0, DMA_CH6);
+	while(RESET == dma_flag_get(DMA0, DMA_CH6, DMA_FLAG_FTF));	
+	dma_single_data_parameter.direction = DMA_MEMORY_TO_PERIPH;
+	dma_single_data_parameter.memory0_addr = (uint32_t)pb;
+	dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+	dma_single_data_parameter.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
+	dma_single_data_parameter.number = len;
+	dma_single_data_parameter.periph_addr = (uint32_t)&USART_DATA(USART1);
+	dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+	dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
+	dma_single_data_mode_init(DMA0, DMA_CH6, &dma_single_data_parameter);
+	/* configure DMA mode */
+	dma_circulation_disable(DMA0, DMA_CH6);
+	dma_channel_subperipheral_select(DMA0, DMA_CH6, DMA_SUBPERI4);
+	/* enable DMA channel7 */
+	dma_channel_enable(DMA0, DMA_CH6);
+	
+	/* USART DMA enable for transmission and reception */
+	usart_dma_transmit_config(USART1, USART_DENT_ENABLE);
+	 /* wait DMA Channel transfer complete */
+	//
+
+}
 
 

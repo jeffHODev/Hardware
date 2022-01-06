@@ -3,25 +3,39 @@
 #include "myQueue.h"
 #include "usart.h"
 #include "ADS129x.h"
+#include "bsp.h"
+#include "ecg.h"
+#include "protocol.h"
+#include "mmr901mx.h"
+#include "nibp_if.h"
+#include "ecg.h"
+
 QueueInfo *UART_Queue;//队列缓冲区指针
 extern u8 UART3_DMA_Finish;
 
 void dev_init()
 {
-        gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, ON);
-	BleModeSetting(CONFIG_MODE);
-	while(sendCommand("AT+BAUD?", "460800",100, 3)== Failure)//波特率)
-	{
-	    usart_baudrate_set(((UART3)), 115200);
-		sendCommand("AT+BAUD = 460800", "+OK",100, 1);//波特率
-		sendCommand("AT+LINKMAST = 1", "+OK",100, 1);//连接1个主设备
-		//sendCommand("AT+DEVMANUF = HDYL", "+OK",100, 3);;//设备厂
-	}
-	 gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, OFF);
-	delay_ms(200);
-	gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, ON);
-	usart_baudrate_set(((UART3)), 460800);
-	//sendCommand("AT+ADVDAT1 = HDYLEEGDEVADV", "+OK",100, 3);//广播数据
+    power_manage(BLE_PWR,ON);//电源使能
+    BleModeSetting(CONFIG_MODE);//配置模式
+    BleConSeting(DIS_CONNECT);
+    usart_baudrate_set(((UART3)), 460800);//蓝牙串口波特率
+    while(sendCommand("AT+BAUD?", "460800",100, 3)== Failure)//波特率)
+    {
+        usart_baudrate_set(((UART3)), 115200);
+        sendCommand("AT+BAUD = 460800", "+OK",100, 1);//波特率
+        sendCommand("AT+LINKMAST = 1", "+OK",100, 1);//连接1个主设备
+        //sendCommand("AT+DEVMANUF = HDYL", "+OK",100, 3);;//设备厂
+    }
+    power_manage(BLE_PWR,OFF);//配置重启生效
+    delay_ms(200);
+    power_manage(BLE_PWR,ON);
+    usart_baudrate_set(((UART3)), 460800);
+    //sendCommand("AT+ADVDAT1 = HDYLEEGDEVADV", "+OK",100, 3);//广播数据
+
+}
+void app_init(void)
+{
+    dev_init();
 
 }
 //主串口发送
@@ -122,15 +136,18 @@ void Send_UART3(void)
     //Main_printf("内存当前占用 %d\r\n",mem_perused());
 }
 
-void app()
+void app(void)
 {
-	if(BleConSeting(CONNECT_STA)==0)//蓝牙已经连接
-	{
-		Send_UART3();
+    if(BleConSeting(CONNECT_STA)==0)//蓝牙已经连接
+    {
+        Send_UART3();
+        protocol_process();
+        // MMR_process();
+        nibp_if_process();
 
-	}
-	else
-	{
+    }
+    else
+    {
 
-	}
+    }
 }

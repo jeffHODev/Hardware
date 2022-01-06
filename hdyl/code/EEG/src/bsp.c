@@ -55,23 +55,73 @@ void adc_start()
     adc_software_trigger_enable(ADC0, ADC_REGULAR_CHANNEL);
     dma_channel_enable(DMA1, DMA_CH0);
 }
-void power_manage(unsigned char ctrl)
+void power_manage(unsigned char pwr,unsigned char ctrl)
 {
+    switch(pwr)
+    {
+    case  BLE_PWR:
+        break;
+    case  EN_3V3_PWR:
+        break;
+    case  EN_5V_PWR:
+        break;
+    case  PRESS__PWR:
+        break;
+    case  POW_HEA_PWR:
+        break;
+    default:
+        break;
+
+    }
     if(ctrl == OFF)
     {
-        gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, RESET);
-        gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, RESET);
-        gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, RESET);
-        gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, RESET);
-		    gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, RESET);
+
+		switch(pwr)
+		{
+		case  BLE_PWR:gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, RESET);
+			break;
+		case  EN_3V3_PWR:gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, RESET);
+			break;
+		case  EN_5V_PWR:gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, RESET);
+			break;
+		case  PRESS__PWR:gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, RESET);
+			break;
+		case  POW_HEA_PWR:gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, RESET);
+			break;
+		default:
+			gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, RESET);
+			gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, RESET);
+			gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, RESET);
+			gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, RESET);
+			gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, RESET);
+
+			break;
+		
+		}
     }
     else
     {
-         gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, SET);
-        gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, SET);
-        gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, SET);
-        gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, SET);
-        gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, SET);
+		switch(pwr)
+		{
+		case  BLE_PWR:gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, SET);
+			break;
+		case  EN_3V3_PWR:gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, SET);
+			break;
+		case  EN_5V_PWR:gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, SET);
+			break;
+		case  PRESS__PWR: gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, SET);
+			break;
+		case  POW_HEA_PWR:
+			gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, SET);break;
+		default: 
+				gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, SET);
+				gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, SET);
+				gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, SET);
+				gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, SET);
+				gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, SET);
+				break;
+		
+		}
 
     }
 }
@@ -126,8 +176,8 @@ void chip_sel(unsigned char spix_chipx,unsigned char oper)
 u8 spi_TransmitReceive(uint16_t buf)
 {
 
-    uint16_t i ;
-    i = 0;
+//    uint16_t i ;
+   // i = 0;
     /*if(spix_chipx == 1)
     {
         gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
@@ -150,8 +200,8 @@ u8 spi_TransmitReceive(uint16_t buf)
         while(RESET == spi_i2s_flag_get(SPI1, SPI_FLAG_RBNE));
         return  spi_i2s_data_receive(SPI1);
     }
-    gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
-    gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
+    //gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
+   // gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
 }
 void spi_receive(unsigned char spix_chipx,uint32_t len,uint16_t buf)
 {
@@ -197,5 +247,61 @@ void SendStr(uint8_t *str)
     }
 }
 
+void uart3_dma_tx(uint32_t *pb,uint32_t len)
+{
+    dma_single_data_parameter_struct dma_single_data_parameter;
+
+    rcu_periph_clock_enable(RCU_DMA0);
+    dma_deinit(DMA0, DMA_CH4);
+    while(RESET == dma_flag_get(DMA0, DMA_CH4, DMA_FLAG_FTF));
+    dma_single_data_parameter.direction = DMA_MEMORY_TO_PERIPH;
+    dma_single_data_parameter.memory0_addr = (uint32_t)pb;
+    dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+    dma_single_data_parameter.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
+    dma_single_data_parameter.number = len;
+    dma_single_data_parameter.periph_addr = (uint32_t)&USART_DATA(UART3);
+    dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+    dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
+    dma_single_data_mode_init(DMA0, DMA_CH4, &dma_single_data_parameter);
+    /* configure DMA mode */
+    dma_circulation_disable(DMA0, DMA_CH4);
+    dma_channel_subperipheral_select(DMA0, DMA_CH4, DMA_SUBPERI4);
+    /* enable DMA channel7 */
+    dma_channel_enable(DMA0, DMA_CH4);
+
+    /* USART DMA enable for transmission and reception */
+    usart_dma_transmit_config(UART3, USART_DENT_ENABLE);
+    /* wait DMA Channel transfer complete */
+    //
+
+}
+void uart1_dma_tx(uint32_t *pb,uint32_t len)
+{
+    dma_single_data_parameter_struct dma_single_data_parameter;
+
+    rcu_periph_clock_enable(RCU_DMA0);
+    dma_deinit(DMA0, DMA_CH6);
+    while(RESET == dma_flag_get(DMA0, DMA_CH6, DMA_FLAG_FTF));
+    dma_single_data_parameter.direction = DMA_MEMORY_TO_PERIPH;
+    dma_single_data_parameter.memory0_addr = (uint32_t)pb;
+    dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+    dma_single_data_parameter.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
+    dma_single_data_parameter.number = len;
+    dma_single_data_parameter.periph_addr = (uint32_t)&USART_DATA(USART1);
+    dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+    dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
+    dma_single_data_mode_init(DMA0, DMA_CH6, &dma_single_data_parameter);
+    /* configure DMA mode */
+    dma_circulation_disable(DMA0, DMA_CH6);
+    dma_channel_subperipheral_select(DMA0, DMA_CH6, DMA_SUBPERI4);
+    /* enable DMA channel7 */
+    dma_channel_enable(DMA0, DMA_CH6);
+
+    /* USART DMA enable for transmission and reception */
+    usart_dma_transmit_config(USART1, USART_DENT_ENABLE);
+    /* wait DMA Channel transfer complete */
+    //
+
+}
 
 

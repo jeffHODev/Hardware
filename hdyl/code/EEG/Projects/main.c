@@ -22,6 +22,12 @@
 #include "bsp.h"
 #include "app_ble.h"
 #include "ADS129x.h"
+#include "sys.h"
+#include "ecg.h"
+#include "protocol.h"
+#include "mmr901mx.h"
+#include "nibp_if.h"
+#include "ecg.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -45,6 +51,7 @@ void nvic_config(void);
 void dma_config(void);
 void adc_config(void);
 void spi_config(void);
+void uart0_config(void);
 void uart1_config(void);
 void uart3_config(void);
 
@@ -65,9 +72,16 @@ int main(void)
     gpio_config();
     adc_config();
     spi_config();
+	uart0_config();
+	uart1_config();
+	uart3_config();	
     dma_config();
     ADS129x_ReInit(0);
-
+	app_init();
+    protocol_init();
+    //ecg_init();
+//	MMR901MX_Init();
+    nibp_if_init();
     while (1)
     {
 
@@ -330,6 +344,66 @@ void dma_config()
     //usart_dma_receive_config(USART0, USART_DENR_ENABLE);
 
 }
+void uart0_config(void)
+{
+    rcu_periph_clock_enable(RCU_USART0);
+
+    /* configure the USART4 Tx pin and USART0 Rx pin */
+    gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_9);
+    gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_10);
+
+    /* configure USART4 Tx as alternate function push-pull */
+    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_9);
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_9);
+
+    /* configure USART0 Rx as alternate function push-pull */
+    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_10);
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_10);
+
+    /* USART configure */
+    usart_deinit(USART0);
+    usart_baudrate_set(((USART0)), 115200);
+    usart_receive_config(((USART0)), USART_RECEIVE_ENABLE);
+    usart_transmit_config(((USART0)), USART_TRANSMIT_ENABLE);
+    usart_enable(((USART0)));
+    //nvic_irq_enable(USART1_IRQn, 0, 0);
+    // usart_interrupt_enable(USART1, USART_INT_IDLE);
+    // usart_interrupt_enable(USART1, USART_INT_TC);
+    /* USART DMA enable*/
+
+
+}
+
+void uart1_config(void)
+{
+    rcu_periph_clock_enable(RCU_USART1);
+
+    /* configure the USART4 Tx pin and USART0 Rx pin */
+    gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_2);
+    gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_3);
+
+    /* configure USART4 Tx as alternate function push-pull */
+    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_2);
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_2);
+
+    /* configure USART0 Rx as alternate function push-pull */
+    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_3);
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_3);
+
+    /* USART configure */
+    usart_deinit(USART1);
+    usart_baudrate_set(((USART1)), 115200);
+    usart_receive_config(((USART1)), USART_RECEIVE_ENABLE);
+    usart_transmit_config(((USART1)), USART_TRANSMIT_ENABLE);
+    usart_enable(((USART1)));
+    //nvic_irq_enable(USART1_IRQn, 0, 0);
+    // usart_interrupt_enable(USART1, USART_INT_IDLE);
+    // usart_interrupt_enable(USART1, USART_INT_TC);
+    /* USART DMA enable*/
+
+
+}
+
 void uart3_config(void)
 {
     rcu_periph_clock_enable(RCU_UART3);

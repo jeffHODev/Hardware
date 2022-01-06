@@ -34,8 +34,7 @@ unsigned char BleConSeting(unsigned char mode)
         result = NULL;;
 
 
-    }
-    break;
+    }   break;
     case CONNECT_STA:
     {
         if(gpio_input_bit_get(BLINK_GPIO_Port, BLINK_Pin))
@@ -44,8 +43,7 @@ unsigned char BleConSeting(unsigned char mode)
         }
         else
             result = 0;//有蓝牙连接
-    }
-    break;
+    }  break;
     case DATA_STA:
     {
         if(gpio_input_bit_get(BDATA_GPIO_Port, BDATA_Pin))
@@ -54,23 +52,21 @@ unsigned char BleConSeting(unsigned char mode)
         }
         else
             result =  0; //有数据在正在发送
-    }
-    break;
+    }  break;
     case WAKUP:
     {   
         gpio_bit_write(BWKP_GPIO_Port, BWKP_Pin, SET);//
         delay_ms(200);
         gpio_bit_write(BWKP_GPIO_Port, BWKP_Pin, RESET);//
         result =  0; //有数据在正在发送
-    }
-    break;
+    }  break;
     case SLEEP:
     {   
         gpio_bit_write(BWKP_GPIO_Port, BWKP_Pin, RESET);//
         delay_ms(200);
         gpio_bit_write(BWKP_GPIO_Port, BWKP_Pin, SET);//
         result =  0; //有数据在正在发送
-    }
+    }break;
 
 	default: result = NULL;break;
 

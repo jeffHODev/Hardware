@@ -91,6 +91,7 @@ unsigned char GetTickResult(unsigned char TickNo)
 unsigned char setTickResult(unsigned char TickNo,unsigned char oper)
 {
       tick_usr.TickStatus[TickNo] = oper;
+	 return 0;
 }
 void TickPro()
 {

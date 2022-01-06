@@ -1199,9 +1199,6 @@ void normal_proc()
 
     if(GetSensor()->status[SHUNT_INDEX] == 0)//非停机模式
     {
-
-
-
         if(abnormalDec()&0x20)//水位异常
         {
 

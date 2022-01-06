@@ -32,7 +32,7 @@ u8 data_to_send[50];//串口发送缓存
 volatile u8 ads129x_Cache[27];		//129x	数据缓冲区
 volatile u8 ads129x_read_flag=0;	//DRDY读取完成标志
 volatile u8 lead_off_flag; //导联脱落标志
-unsigned char ads_num;//ads1299片选，1：芯片1；2：芯片2
+unsigned char ads_num=1;//ads1299片选，1：芯片1；2：芯片2
 
 
 
