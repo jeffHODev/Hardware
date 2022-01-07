@@ -57,22 +57,7 @@ void adc_start()
 }
 void power_manage(unsigned char pwr,unsigned char ctrl)
 {
-    switch(pwr)
-    {
-    case  BLE_PWR:
-        break;
-    case  EN_3V3_PWR:
-        break;
-    case  EN_5V_PWR:
-        break;
-    case  PRESS__PWR:
-        break;
-    case  POW_HEA_PWR:
-        break;
-    default:
-        break;
-
-    }
+ 
     if(ctrl == OFF)
     {
 
@@ -212,9 +197,6 @@ void spi_receive(unsigned char spix_chipx,uint32_t len,uint16_t buf)
     {
         gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
         gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, RESET);
-
-
-
     }
     else
     {
@@ -227,8 +209,6 @@ void spi_receive(unsigned char spix_chipx,uint32_t len,uint16_t buf)
 
         while(RESET == spi_i2s_flag_get(SPI1, SPI_FLAG_RBNE));
         spi_usr.rx_array[i++] = spi_i2s_data_receive(SPI1);
-
-
     }
     gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
     gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);

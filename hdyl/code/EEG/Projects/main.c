@@ -106,6 +106,7 @@ void rcu_config(void)
     rcu_periph_clock_enable(RCU_DMA1);
     /* config ADC clock */
     adc_clock_config(ADC_ADCCK_PCLK2_DIV6);
+	
 }
 void gpio_config(void)
 {
