@@ -3,6 +3,7 @@
 
 #define MAX_OUTPUT  33000  //最大pwm输出量
 #define MIN_OUTPUT  0
+#define MAX_I 30000
 #include<main.h>
 typedef struct PID {
 double SetPoint; // 设定目标Desired value

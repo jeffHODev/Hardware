@@ -25,6 +25,8 @@ double PIDCalc( PID *pp, double NextPoint )
 //	pp->LastError=Error;	
 	
     pp->SumError += Error; // 积分
+//	  if(pp->SumError>=MAX_I)
+//			pp->SumError = MAX_I;
     dError = pp->LastError - pp->PrevError; // 当前微分
     pp->PrevError = pp->LastError;
     pp->LastError = Error;

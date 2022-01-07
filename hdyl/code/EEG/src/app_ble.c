@@ -17,6 +17,7 @@ void dev_init()
 {
     power_manage(BLE_PWR,ON);//电源使能
     BleModeSetting(CONFIG_MODE);//配置模式
+     BleConSeting(WAKUP);
     BleConSeting(DIS_CONNECT);
     usart_baudrate_set(((UART3)), 460800);//蓝牙串口波特率
     while(sendCommand("AT+BAUD?", "460800",100, 3)== Failure)//波特率)
