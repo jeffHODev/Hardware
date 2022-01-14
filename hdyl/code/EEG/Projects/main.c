@@ -325,7 +325,7 @@ void dma_config()
 
 
     /* wait DMA Channel transfer complete */
-    while(RESET == dma_flag_get(DMA1, DMA_CH7, DMA_FLAG_FTF));
+ //   while(RESET == dma_flag_get(DMA1, DMA_CH7, DMA_FLAG_FTF));
     /* deinitialize DMA channel2 (USART0 rx) */
 //		   dma_deinit(DMA0, DMA_CH4);
 //		   dma_single_data_parameter.direction = DMA_PERIPH_TO_MEMORY;

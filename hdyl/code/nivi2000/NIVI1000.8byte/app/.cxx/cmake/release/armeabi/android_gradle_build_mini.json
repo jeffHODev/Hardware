@@ -1,18 +1,18 @@
 {
   "buildFiles": [
-    "D:\\soft\\AndroidNDK1664\\android-ndk-r16b\\build\\cmake\\android.toolchain.cmake",
-    "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\CMakeLists.txt"
+    "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000.8byte\\app\\CMakeLists.txt",
+    "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\build\\cmake\\android.toolchain.cmake"
   ],
   "cleanCommands": [
-    "D:\\soft\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\.cxx\\cmake\\release\\armeabi\" clean"
+    "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000.8byte\\app\\.cxx\\cmake\\release\\armeabi\" clean"
   ],
-  "buildTargetsCommand": "D:\\soft\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\.cxx\\cmake\\release\\armeabi\" {LIST_OF_TARGETS_TO_BUILD}",
+  "buildTargetsCommand": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000.8byte\\app\\.cxx\\cmake\\release\\armeabi\" {LIST_OF_TARGETS_TO_BUILD}",
   "libraries": {
     "native-lib-Release-armeabi": {
       "artifactName": "native-lib",
-      "buildCommand": "D:\\soft\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\.cxx\\cmake\\release\\armeabi\" native-lib",
+      "buildCommand": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000.8byte\\app\\.cxx\\cmake\\release\\armeabi\" native-lib",
       "abi": "armeabi",
-      "output": "D:\\work\\AndroidStudioWork\\NIVI1000.android\\app\\build\\intermediates\\cmake\\release\\obj\\armeabi\\libnative-lib.so"
+      "output": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000.8byte\\app\\build\\intermediates\\cmake\\release\\obj\\armeabi\\libnative-lib.so"
     }
   }
 }

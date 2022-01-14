@@ -115,7 +115,7 @@ public class SerialPortUtil {
 
                 while (isFlagSerial) {
                     try {
-                        byte[] readData = new byte[24];
+                        byte[] readData = new byte[32];
                         if (inputStream == null) {
                             return;
                         }
@@ -126,7 +126,7 @@ public class SerialPortUtil {
 
                             serialBuffer.put(dataString);
                             try {
-                                Thread.sleep(2); //240/44  44=1408/32一个包有44个readData，然后采样率为240ms一个包
+                                Thread.sleep(3); //240/44  44=1408/32一个包有44个readData，然后采样率为240ms一个包1608 67*3ms=201ms,
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }

@@ -110,7 +110,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 
     private int DRAW_COUNT = 40;
     private int DRAW_COUNT_View = 40; //7200
-
+    private int flag = 0;
     DataForView ecgData, pcgData, heatData,tstData;
     //public volatile static float[][] buffer;
     public float[][] buffer;
@@ -1995,6 +1995,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 }
             }
         };
+
         timer.scheduleAtFixedRate(task, 0, 35);
     }
 
@@ -2023,7 +2024,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
             return;
         }
 
-        for (int i = 0; i < DRAW_COUNT; i++) {
+        for (int i = 0; i < DRAW_COUNT; i++)
+          {
             if (ecgPointList.size() < 5000) { //没有超过5000个
 //                ecgPointList.add(buffer[0][i + curPos * DRAW_COUNT]);
 //                pcgPointList.add(buffer[1][i + curPos * DRAW_COUNT]);
@@ -2038,7 +2040,9 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 pcgPointListView.add(bufferFilter[1][i + curPos * DRAW_COUNT]); //5000
                 heatPointListView.add(bufferFilter[2][i + curPos * DRAW_COUNT]); //5000
                 tstPointListView.add(bufferFilter[3][i + curPos * DRAW_COUNT]); //5000
-            } else { //超过5000个,开始执行替换操作
+            }
+            else
+                { //超过5000个,开始执行替换操作
 //                updateViewData(ecgPointList, buffer[0][i + curPos * DRAW_COUNT]);
 //                updateViewData(pcgPointList, buffer[1][i + curPos * DRAW_COUNT]);
 //                updateViewData(heatPointList, buffer[2][i + curPos * DRAW_COUNT]);
