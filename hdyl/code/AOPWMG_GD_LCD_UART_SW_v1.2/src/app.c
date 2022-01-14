@@ -22,7 +22,7 @@ void SystemParamsRead(void);
 //目标tds 3 ------650
 //目标tds 3.5 ------950   +30----0.1
 //目标tds 4 ------1100
-
+unsigned char First_flag;
 
 uint32_t dstTds=1100;//目标tds 2.5----500
 //unsigned char module_reset_flag=0;
@@ -434,8 +434,11 @@ void FlowCtrl()
         ; //DcMotorCtrl(3,PUMP_VALUE);
         // DcMotorCtrl(1,PUMP_VALUE);
     }
+    if(First_flag ==1)
+        DcMotorCtrl(2,65535);//泵2调整流量
 
-    DcMotorCtrl(2,pwm2);//泵2调整流量
+    else
+        DcMotorCtrl(2,pwm2);//泵2调整流量
 }
 void fill_pro(unsigned char x,unsigned char y,unsigned char len,unsigned char maxlen)
 {
@@ -562,16 +565,16 @@ polling_status:
     switch(status_tmp)// 0:正常  1：tds1 2:tds2 3：流量 4：orp
         //  5:高压开关6：水位开关 7:电解中
     {
-    /*	str = "正常          ";
-    	str = "原水TDS异常	 ";
-    	str = "缺盐		 	 ";
-    	str = "流量异常 	 ";
-    	str = "盐水箱注水中";
-    	str = "清洗中		 ";
-    	str = "缺水			 ";
-    	str = "系统故障 	 ";
-    	str = "正常			 ";
-    	str = "正常			 ";*/
+        /*	str = "正常          ";
+        	str = "原水TDS异常	 ";
+        	str = "缺盐		 	 ";
+        	str = "流量异常 	 ";
+        	str = "盐水箱注水中";
+        	str = "清洗中		 ";
+        	str = "缺水			 ";
+        	str = "系统故障 	 ";
+        	str = "正常			 ";
+        	str = "正常			 ";*/
 
 
 
@@ -1437,6 +1440,7 @@ void ele_dev_proc()
     if(GetSensor()->wash_time>=3||GetSensor()->status[TDS1_INDEX]==TDS1_INDEX||GetSensor()->status[SYSTEM_INDEX]==SYSTEM_INDEX||GetSensor()->status[NOWATER_INDEX]==NOWATER_INDEX||
             GetSensor()->status[TDS2_INDEX] == TDS2_INDEX||GetSensor()->status[SHUNT_INDEX] == SHUNT_INDEX)//
     {
+       registerTick(SW_ON_TICK, 0,0, 1);
 
         if(shunt_flag ==0)
         {
@@ -1532,10 +1536,21 @@ void ele_dev_proc()
         {
 
             hsw_proc();
+            registerTick(SW_ON_TICK, 0,0, 1);
+            First_flag = 0;
         }
         else //正常工作模式
         {
             //state_flag=1;
+            
+            registerTick(SW_ON_TICK, 4000,1, 0);
+            if( GetTickResult(SW_ON_TICK)==1)
+            {
+                First_flag = 0;
+
+            }
+			else
+				First_flag = 1;
             Flow_Init();
             normal_proc();
 
