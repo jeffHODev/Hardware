@@ -123,10 +123,27 @@ public class SerialBeanFilterEcg {
         double y7 = filterOrder2(y6, m70, m71, a[7], b, gain[7]);  //第二级二阶滤波
         double y8 = filterOrder2(y7, m80, m81, a[8], b, gain[8]);  //第二级二阶滤波
         double y9 = filterOrder2(y8, m90, m91, a[9], b, gain[9]);  //第二级二阶滤波
+      /*  System.out.println("ECG_Filter：" +m00[0]);
+        System.out.println("ECG_Filter：" +m01[0]);
+        System.out.println("ECG_Filter：" +m10[0]);
+        System.out.println("ECG_Filter：" +m11[0]);
+        System.out.println("ECG_Filter：" +m20[0]);
+        System.out.println("ECG_Filter：" +m21[0]);
+        System.out.println("ECG_Filter：" +m30[0]);
+        System.out.println("ECG_Filter：" +m31[0]);
+        System.out.println("ECG_Filter：" +m40[0]);
+        System.out.println("ECG_Filter：" +m41[0]);
+        System.out.println("ECG_Filter：" +m50[0]);
+        System.out.println("ECG_Filter：" +m51[0]);
+        System.out.println("ECG_Filter：" +m60[0]);
+        System.out.println("ECG_Filter：" +m61[0]);
+        System.out.println("ECG_Filter：" +m70[0]);
+        System.out.println("ECG_Filter：" +m71[0]);
+        System.out.println("ECG_Filter：" +m80[0]);
+        System.out.println("ECG_Filter：" +m81[0]);
+        System.out.println("ECG_Filter：" +m90[0]);
+        System.out.println("ECG_Filter：" +m91[0]);*/
 
-        if (y9>3000 | y9< -3000){
-            y9=x;
-        }
         return (float)y9;
 
     }

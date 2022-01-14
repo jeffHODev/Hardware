@@ -36,6 +36,7 @@ OF SUCH DAMAGE.
 
 
 #include "gd32f4xx_it.h"
+#include "protocol.h"
 
 uint32_t sys_tick;
 uint8_t UART3_DMA_Finish=1;
@@ -161,7 +162,7 @@ void DMA0_Channel3_IRQHandler(void)
     if(dma_interrupt_flag_get(DMA0, DMA_CH3, DMA_INT_FLAG_FTF))
     {
         dma_interrupt_flag_clear(DMA0, DMA_CH3, DMA_INT_FLAG_FTF);
-       UART3_DMA_Finish=1;;
+        UART3_DMA_Finish=1;;
     }
 }
 /*!
@@ -172,16 +173,38 @@ void DMA0_Channel3_IRQHandler(void)
 */
 void DMA1_Channel2_IRQHandler(void)
 {
-    dma_interrupt_flag_clear(DMA1, DMA_CH2, DMA_INT_FLAG_FTF);
-    if(dma_interrupt_flag_get(DMA1, DMA_CH2, DMA_INT_FLAG_FTF))
+   
+	    if(dma_interrupt_flag_get(DMA1, DMA_CH2, DMA_INT_FLAG_FTF))
     {
+		dma_interrupt_flag_clear(DMA1, DMA_CH2, DMA_INT_FLAG_FTF);
 
         ;//g_transfer_complete = SET;
     }
 }
+void USART3_IRQHandler(void)
+{
+    dma_single_data_parameter_struct dma_single_data_parameter;
+    if(RESET != usart_interrupt_flag_get(UART3, USART_INT_FLAG_IDLE)) //空闲中断
+    {
+        usart_interrupt_flag_clear(UART3,USART_INT_FLAG_IDLE);	/* 清除空闲中断标志位 */
+
+        usart_data_receive(UART3);
+        uart3_rx_config();
+
+    }
+
+    if(RESET != usart_interrupt_flag_get(UART3, USART_INT_FLAG_TC)) //空闲中断
+    {
+        usart_interrupt_flag_clear(UART3,USART_INT_FLAG_TC);	/* 清除空闲中断标志位 */
+
+        HAL_UART_TxCpltCallback();
+        // RS485_RxCpltCallback();						/* 清除接收完成标志位 */
+    }
+
+}
 void USART2_IRQHandler(void)
 {
-  
+
 
 
 

@@ -1,4 +1,5 @@
 {
+  "ndkFolder": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499",
   "messages": [
     {
       "level": "INFO",
@@ -6,7 +7,7 @@
     },
     {
       "level": "INFO",
-      "message": "ndk.dir in local.properties is not set"
+      "message": "ndk.dir in local.properties is C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499"
     },
     {
       "level": "INFO",
@@ -14,23 +15,31 @@
     },
     {
       "level": "INFO",
-      "message": "sdkFolder is C:\\Users\\HDYL-YF\\AppData\\Local\\Android\\Sdk"
+      "message": "sdkFolder is C:\\Users\\86152\\AppData\\Local\\Android\\Sdk"
     },
     {
       "level": "INFO",
-      "message": "NDK side-by-side folder from sdkFolder C:\\Users\\HDYL-YF\\AppData\\Local\\Android\\Sdk\\ndk does not exist"
+      "message": "Considering C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499 by ndk.dir"
     },
     {
       "level": "INFO",
-      "message": "Considering C:\\Users\\HDYL-YF\\AppData\\Local\\Android\\Sdk\\ndk-bundle in SDK ndk-bundle folder"
+      "message": "Considering C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk-bundle in SDK ndk-bundle folder"
     },
     {
       "level": "INFO",
-      "message": "Rejected C:\\Users\\HDYL-YF\\AppData\\Local\\Android\\Sdk\\ndk-bundle in SDK ndk-bundle folder because that location has no source.properties"
+      "message": "Considering C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499 in SDK ndk folder"
     },
     {
-      "level": "WARN",
-      "message": "Compatible side by side NDK version was not found for android.ndkVersion \u002716.1.4479499\u0027"
+      "level": "INFO",
+      "message": "Considering C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\24.0.7956693 in SDK ndk folder"
+    },
+    {
+      "level": "INFO",
+      "message": "Rejected C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk-bundle in SDK ndk-bundle folder because that location has no source.properties"
+    },
+    {
+      "level": "INFO",
+      "message": "Choosing C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499 from ndk.dir which had the requested version 16.1.4479499"
     }
   ]
 }

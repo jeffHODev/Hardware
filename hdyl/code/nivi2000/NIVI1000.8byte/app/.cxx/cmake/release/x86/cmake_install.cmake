@@ -1,4 +1,4 @@
-# Install script for directory: D:/work/AndroidStudioWork/NIVI1000.android/app
+# Install script for directory: D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000.8byte/app
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/work/AndroidStudioWork/NIVI1000.android/app/.cxx/cmake/release/x86/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000.8byte/app/.cxx/cmake/release/x86/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
