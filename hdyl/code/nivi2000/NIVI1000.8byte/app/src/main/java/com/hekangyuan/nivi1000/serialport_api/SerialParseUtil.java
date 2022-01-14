@@ -15,6 +15,9 @@ public class SerialParseUtil {
     private static int count;
 
     private static int getSn() {
+        if (sn >= 256){
+            sn=sn-256;
+        }
         return sn++;
     }
 
@@ -27,7 +30,7 @@ public class SerialParseUtil {
 //    }
 
     //head是byte，串口协议head都小于128
-    public static String packetSend(int head, int sn,byte[] data){
+    public static String packetSend(int head, int sn, byte[] data){
         StringBuilder buf = new StringBuilder();
         buf.append(HexUtil.Dec2HexString(head));
         buf.append(HexUtil.Dec2HexString(sn));
