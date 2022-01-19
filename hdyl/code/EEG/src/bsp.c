@@ -74,7 +74,7 @@ void power_manage(unsigned char pwr,unsigned char ctrl)
 		case  POW_HEA_PWR:gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, RESET);
 			break;
 		default:
-			gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, RESET);
+			//gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, RESET);
 			gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, RESET);
 			gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, RESET);
 			gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, RESET);
@@ -282,6 +282,10 @@ void uart1_dma_tx(uint32_t *pb,uint32_t len)
     /* wait DMA Channel transfer complete */
     //
 
+}
+void power_sleep(void)
+{
+	power_manage(5,OFF);
 }
 
 

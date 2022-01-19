@@ -9,6 +9,8 @@
 #include "mmr901mx.h"
 #include "nibp_if.h"
 #include "ecg.h"
+#include "sensor.h"
+#include "ble_set.h"
 
 QueueInfo *UART_Queue;//队列缓冲区指针
 extern u8 UART3_DMA_Finish;
@@ -90,7 +92,7 @@ void Send_UART3(void)
     nvic_irq_enable(EXTI1_IRQn, 2U, 0U);
     nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
 /////////////////////////////////////////////////////////////////
-    while(work_state==SEND_UART)
+    while(work_state==SEND_BULE)
     {
         //	Key_Scan();
         //	Change_Mode();
@@ -143,6 +145,7 @@ void app(void)
     {
         Send_UART3();
         protocol_process();
+		sensor_proc();
         // MMR_process();
         nibp_if_process();
 

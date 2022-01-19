@@ -1,4 +1,4 @@
-#ifdef BLE_H
+#ifndef BLE_H
 #define BLE_H
 void app(void);
 void app_init(void);

@@ -2,6 +2,10 @@
 #include "string.h"
 #include "bsp.h"
 #include "kfifo.h"
+#include "ADS129x.h"
+#include "sensor.h"
+#include "spo.h"
+
 //extern SPI_HandleTypeDef hspi2;
 //extern TIM_HandleTypeDef htim2;
 //extern TIM_HandleTypeDef htim1;
@@ -116,23 +120,58 @@ void HAL_TIM_PeriodElapsedCallback()
 {
   static uint16_t adcbuf[3];
   MISCDATA miscdata;
-  
-  uint8_t buffer[3];
+  uint32_t *buffer;
+ // uint8_t buffer[3];
   //error_flag =ecg_read_reg(0x19);
   if(error_flag ==0)
   ;//ecg_read_regs(0x50, buffer, 3);
   else
    err_cnt = err_cnt+1; 
+  buffer = get_ads();
+  
   //data = (buffer[0] << 16) | (buffer[1] << 8) | buffer[2];
   //data = (data - 0xB964F0 / 2) * 4 * 240000 / 0xB964F0 / 7;//0.01mV; 0.11287477uV / LSB
-  miscdata.data[0] = buffer[0];
-  miscdata.data[1] = buffer[1];
-  miscdata.data[2] = (buffer[2] & 0xF0) | (adcbuf[0] >> 8);
-  miscdata.data[3] = adcbuf[0] & 0xFF;
-  miscdata.data[4] = adcbuf[1] >> 4;
-  miscdata.data[5] = ((adcbuf[1] << 4) & 0xF0) | (adcbuf[2] >> 8);
-  miscdata.data[6] = adcbuf[2] & 0xFF;
+  miscdata.data[0] = (uint8_t)(buffer[0]>>16);//ecg
+  miscdata.data[1] =(uint8_t)(buffer[0]>>8);
+  miscdata.data[2] = (uint8_t)(buffer[0]);
   
+  miscdata.data[3] = (uint8_t)(buffer[1]>>16);//eeg
+  miscdata.data[4] =(uint8_t)(buffer[1]>>8);
+  miscdata.data[5] = (uint8_t)(buffer[1]);
+  
+  miscdata.data[6] = (uint8_t)(buffer[2]>>16);//emg
+  miscdata.data[7] =(uint8_t)(buffer[2]>>8);
+  miscdata.data[8] = (uint8_t)(buffer[2]);
+
+
+ /* miscdata.data[9] = (uint8_t)getSensor(getAdcBuf()->adc_value[5]>>8);//hea
+  miscdata.data[10] =(uint8_t)( getAdcBuf()->adc_value[5]);
+
+  
+  miscdata.data[11] = (uint8_t)(*getSpo());//spo;
+  miscdata.data[12] = (uint8_t)(*(getSpo()+1));//p;
+  miscdata.data[13] = (uint8_t)(getAdcBuf()->adc_value[0]>>8);//t;
+  miscdata.data[14] = (uint8_t)(getAdcBuf()->adc_value[1]>>8);//t;
+
+  miscdata.data[15] = (uint8_t)(getAdcBuf()->adc_value[4]>>8);//br;
+  miscdata.data[16] = (uint8_t)(getAdcBuf()->adc_value[4]>>8);//br;
+  
+  miscdata.data[15] = (uint8_t)(getAdcBuf()->adc_value[4]>>8);//br;
+  miscdata.data[16] = (uint8_t)(getAdcBuf()->adc_value[4]>>8);//br;*/
+
+
+
+  miscdata.data[9] = (uint8_t)(getAdcBuf()->adc_value[5]>>8);//hea
+	miscdata.data[10] =(uint8_t)( getAdcBuf()->adc_value[5]);
+
+  miscdata.data[11] = (uint8_t)(*getSpo());//spo;
+  miscdata.data[12] = (uint8_t)(*(getSpo()+1));//p;
+  miscdata.data[13] = (uint8_t)(getSensor()->temperature>>8);//t;
+  miscdata.data[14] = (uint8_t)(getSensor()->temperature);//t;
+
+  miscdata.data[15] = (uint8_t)(getSensor()->br>>8);//br;
+  miscdata.data[16] = (uint8_t)(getSensor()->br);//br;
+ 
   __kfifo_in(&ecgfifo, &miscdata, 1);
    adc_start();
   //HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcbuf, 3);
@@ -150,7 +189,12 @@ void TIMER3_IRQHandler(void) {
 
 
 
-
+//    adc_regular_channel_config(ADC0, 0, ADC_CHANNEL_10, ADC_SAMPLETIME_15);//ta
+//    adc_regular_channel_config(ADC0, 1, ADC_CHANNEL_11, ADC_SAMPLETIME_15);//tb
+//    adc_regular_channel_config(ADC0, 2, ADC_CHANNEL_13, ADC_SAMPLETIME_15);//vbat
+//    adc_regular_channel_config(ADC0, 3, ADC_CHANNEL_14, ADC_SAMPLETIME_15);//spo
+//    adc_regular_channel_config(ADC0, 4, ADC_CHANNEL_15, ADC_SAMPLETIME_15);//br
+//    adc_regular_channel_config(ADC0, 5, ADC_CHANNEL_4, ADC_SAMPLETIME_15);//hea
 
 
 

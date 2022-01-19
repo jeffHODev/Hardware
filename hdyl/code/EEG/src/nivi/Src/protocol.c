@@ -5,6 +5,8 @@
 #include "crc16.h"
 #include "nibp_if.h"
 #include "bsp.h"
+#include "ADS129x.h"
+
 //extern UART_HandleTypeDef huart1;
 extern struct __kfifo ecgfifo;
 
@@ -183,10 +185,13 @@ static void protocol_parse_process(void)
         break;
         case 0x07:
             protocol_ack_send(acksn, 0, 0);
+			*getstate()=SEND_BULE;
             ecg_enable(1);
+		
             break;
         case 0x08:
             protocol_ack_send(acksn, 0, 0);
+			*getstate()=SEND_WIFI;
             ecg_enable(0);
             break;
         case 0x09:

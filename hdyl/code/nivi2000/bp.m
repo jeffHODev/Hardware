@@ -59,10 +59,10 @@ error_fileter4 = filter(b,a,error_fileter2);
 
 figure (1);
 plot(k,'black');
-figure (2);
+%figure (2);
 hold on
 plot(error_fileter3,'b');
-figure (3);
+%figure (3);
 hold on
 plot(error_fileter2,'r');
 hold on

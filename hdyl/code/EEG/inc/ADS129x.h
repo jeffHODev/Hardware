@@ -120,6 +120,8 @@ void ADS129x_Send_CMD(u8 data);//发送命令
 void ADS129x_WR_REGS(u8 reg,u8 len,u8 *data);//读写寄存器
 u8 ADS129x_WRITE_REGBUFF(void);//将寄存器数组写入寄存器
 u8 ADS129x_REG_Init(void);//寄存器初始化
+uint32_t *get_ads(void);
+u8 *getstate(void);
 
 #endif
 
