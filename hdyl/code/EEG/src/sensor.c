@@ -73,7 +73,27 @@ sensors_stru *getSensor(void)
 {
 	return &sensors_usr;
 }
+void key_proc(void)
+{
+    static uint32_t key_tick;
+	
+	key_tick = HAL_GetTick();
+    while(gpio_input_bit_get(KEY1_GPIO_Port, KEY1_Pin)==1)
+    {
+		if((HAL_GetTick()-key_tick)>=4000)
+		{
+			sensors_usr.key_status = 2;
+			break;
+		}
+		else
+		{
+			sensors_usr.key_status = 1;
 
+		}
+	}
+	
+	
+}
 void sensor_proc(void)
 {
 	if(*getstate()==SEND_BULE)
@@ -82,12 +102,12 @@ void sensor_proc(void)
 	    br_proc();
 	    vbat_proc();
 	 	spo_proc();
-		temperature_proc();
+
 
 	}
 	else
 	{
-		power_sleep();
+		
 	}
 }
 

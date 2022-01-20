@@ -214,8 +214,12 @@ void TIMER2_IRQHandler(void)
 {
 
 }
+void EXTI5_9_IRQHandler(void)
+{
+    if(  exti_interrupt_flag_get(EXTI_6)==1)//数据接收中断
+    {
+        key_proc();
+        exti_interrupt_flag_clear(EXTI_6); //清除LINE上的中断标志位
+    }
+}
 
-//void EXTI10_15_IRQHandler(void)
-//{
-
-//}

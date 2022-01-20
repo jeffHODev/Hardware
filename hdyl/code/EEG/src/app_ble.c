@@ -22,17 +22,18 @@ void dev_init()
      BleConSeting(WAKUP);
     BleConSeting(DIS_CONNECT);
     usart_baudrate_set(((UART3)), 460800);//蓝牙串口波特率
-    while(sendCommand("AT+BAUD?", "460800",100, 3)== Failure)//波特率)
+    while(sendCommand("AT+BAUD?", "460800",100000, 3)== Failure)//波特率)
     {
         usart_baudrate_set(((UART3)), 115200);
-        sendCommand("AT+BAUD = 460800", "+OK",100, 1);//波特率
-        sendCommand("AT+LINKMAST = 1", "+OK",100, 1);//连接1个主设备
+        sendCommand("AT+BAUD = 460800", "+OK",100000, 1);//波特率
+        sendCommand("AT+LINKMAST = 1", "+OK",100000, 1);//连接1个主设备
         //sendCommand("AT+DEVMANUF = HDYL", "+OK",100, 3);;//设备厂
     }
     power_manage(BLE_PWR,OFF);//配置重启生效
     delay_ms(200);
     power_manage(BLE_PWR,ON);
     usart_baudrate_set(((UART3)), 460800);
+	BleModeSetting(TRANSMIMT_MODE);//透传模式
     //sendCommand("AT+ADVDAT1 = HDYLEEGDEVADV", "+OK",100, 3);//广播数据
 
 }
@@ -141,17 +142,44 @@ void Send_UART3(void)
 
 void app(void)
 {
-    if(BleConSeting(CONNECT_STA)==0)//蓝牙已经连接
+    static uint32_t powerSleepTick;
+    if(getSensor()->key_status)
     {
-        Send_UART3();
-        protocol_process();
-		sensor_proc();
-        // MMR_process();
-        nibp_if_process();
+		if(getSensor()->key_status==2)
+		{
 
-    }
-    else
-    {
+		}
+		else
+		{
 
-    }
+		}
+		getSensor()->key_status=0;
+	}
+	else
+	{
+	    if(BleConSeting(CONNECT_STA)==0)//蓝牙已经连接
+	    {
+	       if((HAL_GetTick()-powerSleepTick)>=300000)
+	       	{
+				if(*getstate()!=SEND_BULE)
+				{
+					BleConSeting(DIS_CONNECT);
+				}
+		   }
+	        Send_UART3();
+	        protocol_process();
+			sensor_proc();
+	        // MMR_process();
+	        nibp_if_process();
+
+	    }
+	    else
+	    {
+	        powerSleepTick = HAL_GetTick();
+			power_sleep();
+
+	    }
+
+	}
+
 }

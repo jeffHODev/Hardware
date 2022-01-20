@@ -286,6 +286,17 @@ void uart1_dma_tx(uint32_t *pb,uint32_t len)
 void power_sleep(void)
 {
 	power_manage(5,OFF);
+
+    /*rcu_periph_clock_enable(RCU_PMU);
+    /* 
+    gd_eval_key_init(KEY_WAKEUP,KEY_MODE_GPIO);
+
+    gd_eval_key_init(KEY_TAMPER,KEY_MODE_EXTI);
+     if(RESET == gpio_input_bit_get(WAKEUP_KEY_GPIO_PORT, WAKEUP_KEY_PIN))
+     pmu_to_deepsleepmode(PMU_LDO_LOWPOWER, WFI_CMD);*/
+
+
+	
 }
 
 
