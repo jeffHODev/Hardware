@@ -52,7 +52,7 @@
 #include "stack/ble/hci/hci_event.h"
 
 #ifndef MASTER_MAX_NUM
-#define MASTER_MAX_NUM         						4
+#define MASTER_MAX_NUM         						1
 #endif
 
 #ifndef SLAVE_MAX_NUM

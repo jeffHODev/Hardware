@@ -55,7 +55,28 @@ extern	int master_disconnect_connhandle;
 
 extern	int master_auto_connect;
 extern	int user_manual_pairing;
+#define BUTTON_LONG_TIME   300
+#define BUTTON_FILTER_TIME  5
+#define KEY_START_HOLD   1
+#define KEY_START_DOWN   2
+#define KEY_PAIR         3
+#define KEY_UNPAIR       4
 
+#define AUTO_PAIR    1
+
+typedef struct
+{
+	u8 start;
+	u8 stop;
+	u16 dis;
+	u32 time;
+	u16 sum;
+	u32 tick;
+	u32 motor_tick;
+	u8 key;
+	u8 key_update;
+	u8 key_down_flag;
+}measure_stru;
 
 /**
  * @brief      keyboard task handler

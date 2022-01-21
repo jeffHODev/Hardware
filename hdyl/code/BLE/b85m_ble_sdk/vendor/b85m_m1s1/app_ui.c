@@ -87,6 +87,7 @@ _attribute_ble_data_retention_	u8 		key_type;
  * @param   none.
  * @return  none.
  */
+/*
 void key_change_proc(void)
 {
 
@@ -114,11 +115,11 @@ void key_change_proc(void)
 			}
 
 
-			/*Here is just Telink Demonstration effect. Cause the demo board has limited key to use, when Vol+/Vol- key pressed, we
+			Here is just Telink Demonstration effect. Cause the demo board has limited key to use, when Vol+/Vol- key pressed, we
 			send media key "Vol+" or "Vol-" to master for all slave in connection.
 			For users, you should known that this is not a good method, you should manage your device and GATT data transfer
 			according to  conn_dev_list[]
-			 * */
+			 *
 			for(int i=MASTER_MAX_NUM; i < (MASTER_MAX_NUM + SLAVE_MAX_NUM); i++){ //slave index is from "MASTER_MAX_NUM" to "MASTER_MAX_NUM + SLAVE_MAX_NUM - 1"
 				if(conn_dev_list[i].conn_state){
 					blc_gatt_pushHandleValueNotify (conn_dev_list[i].conn_handle, HID_CONSUME_REPORT_INPUT_DP_H, (u8 *)&consumer_key, 2);
@@ -135,13 +136,13 @@ void key_change_proc(void)
 			}
 			else if(key0 == BTN_UNPAIR) //Manual un_pair triggered by Key Press
 			{
-				/*Here is just Telink Demonstration effect. Cause the demo board has limited key to use, only one "un_pair" key is
-				 available. When "un_pair" key pressed, we will choose and un_pair one device in connection state */
+				Here is just Telink Demonstration effect. Cause the demo board has limited key to use, only one "un_pair" key is
+				 available. When "un_pair" key pressed, we will choose and un_pair one device in connection state
 				if(conn_master_num){ //at least 1 master connection exist
 
 					if(!master_disconnect_connhandle){  //if one master un_pair disconnection flow not finish, here new un_pair not accepted
 
-						/* choose one master connection to disconnect */
+						 choose one master connection to disconnect
 						for(int i=0; i < MASTER_MAX_NUM; i++){ //slave index is from 0 to "MASTER_MAX_NUM - 1"
 							if(conn_dev_list[i].conn_state){
 								master_unpair_enable = conn_dev_list[i].conn_handle;  //mark connHandle on master_unpair_enable
@@ -187,6 +188,71 @@ void key_change_proc(void)
 
 
 }
+*/
+void key_change_proc(void)
+{
+
+    u8 key0 = kb_event.keycode[0];
+//	u8 key_buf[8] = {0,0,0,0,0,0,0,0};
+
+    key_not_released = 1;
+    if(measure_usr.key_update  == 1)
+    {
+        measure_usr.key_update  = 0;
+
+        key_type = PAIR_UNPAIR_KEY;
+
+        if(measure_usr.key == KEY_PAIR)   //Manual pair triggered by Key Press
+        {
+            master_pairing_enable = 1;
+            my_dump_str_data(APP_DUMP_EN, "UI PAIR begin", 0, 0);
+        }
+        else if(measure_usr.key == KEY_UNPAIR) //Manual un_pair triggered by Key Press
+        {
+            if(conn_master_num)  //at least 1 master connection exist
+            {
+
+                if(!master_disconnect_connhandle)   //if one master un_pair disconnection flow not finish, here new un_pair not accepted
+                {
+
+
+                    for(int i=0; i < MASTER_MAX_NUM; i++)  //slave index is from 0 to "MASTER_MAX_NUM - 1"
+                    {
+                        if(conn_dev_list[i].conn_state)
+                        {
+                            master_unpair_enable = conn_dev_list[i].conn_handle;  //mark connHandle on master_unpair_enable
+                            my_dump_str_data(APP_DUMP_EN, "UI UNPAIR", &master_unpair_enable, 2);
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
+        else if(measure_usr.key == KEY_START_DOWN)
+        {
+            key_not_released = 0;
+            if(key_type == PAIR_UNPAIR_KEY)
+            {
+                if(master_pairing_enable)
+                {
+                    master_pairing_enable = 0;
+                    my_dump_str_data(APP_DUMP_EN, "UI PAIR end", 0, 0);
+                }
+
+                if(master_unpair_enable)
+                {
+                    master_unpair_enable = 0;
+                }
+            }
+        }
+
+    }
+
+}
+
+
+
 
 
 #define GPIO_WAKEUP_KEYPROC_CNT				3
@@ -202,27 +268,111 @@ _attribute_ble_data_retention_	static int gpioWakeup_keyProc_cnt = 0;
  */
 void proc_keyboard (u8 e, u8 *p, int n)
 {
-	//when key press GPIO wake_up sleep, process key_scan at least GPIO_WAKEUP_KEYPROC_CNT times
-	if(e == BLT_EV_FLAG_GPIO_EARLY_WAKEUP){
-		gpioWakeup_keyProc_cnt = GPIO_WAKEUP_KEYPROC_CNT;
-	}
-	else if(gpioWakeup_keyProc_cnt){
-		gpioWakeup_keyProc_cnt --;
-	}
+#if 0
+    //when key press GPIO wake_up sleep, process key_scan at least GPIO_WAKEUP_KEYPROC_CNT times
+    if(e == BLT_EV_FLAG_GPIO_EARLY_WAKEUP)
+    {
+        gpioWakeup_keyProc_cnt = GPIO_WAKEUP_KEYPROC_CNT;
+    }
+    else if(gpioWakeup_keyProc_cnt)
+    {
+        gpioWakeup_keyProc_cnt --;
+    }
 
-	if(gpioWakeup_keyProc_cnt || clock_time_exceed(keyScanTick, 10 * 1000)){ //keyScan interval: 10mS
-		keyScanTick = clock_time();
-	}
-	else{
-		return;
-	}
+    if(gpioWakeup_keyProc_cnt || clock_time_exceed(keyScanTick, 10 * 1000))  //keyScan interval: 10mS
+    {
+        keyScanTick = clock_time();
+    }
+    else
+    {
+        return;
+    }
 
-	kb_event.keycode[0] = 0;
-	int det_key = kb_scan_key (0, 1);
+    kb_event.keycode[0] = 0;
+    int det_key = kb_scan_key (0, 1);
 
-	if (det_key){
-		key_change_proc();
-	}
+
+    if (det_key)
+    {
+        key_change_proc();
+    }
+#endif
+
+#if 1
+    static u32 key_delay_tick,key_time_start;
+    if(clock_time_exceed(keyScanTick, 10 * 1000))
+    {
+        key_delay_tick = clock_time();
+
+    }
+    else
+        return ;
+
+
+
+    // START按键按下
+    if(gpio_read(KB)==1)											  // SET按键按下
+    {
+
+        if(key_time_start++>BUTTON_FILTER_TIME)		 // 按键通过滤波检测
+        {
+
+
+            measure_usr.key_down_flag = 1;
+        }
+
+        if(key_time_start++>BUTTON_LONG_TIME) 		  // 按键通过滤波检测
+        {
+            if(measure_usr.key_down_flag == 1)
+            {
+                measure_usr.key_update=1;
+                key_time_start = 0;
+                measure_usr.key_down_flag = 2;
+                measure_usr.key = KEY_START_HOLD;
+            }
+
+        }
+    }
+
+    else
+    {
+        if( measure_usr.key_down_flag == 1)
+        {
+            if( measure_usr.key != KEY_PAIR)
+            {
+                measure_usr.key_update=1;
+                measure_usr.key_down_flag = 0;
+                measure_usr.key = KEY_PAIR;
+
+            }
+            else if(measure_usr.key != KEY_UNPAIR)
+            {
+                measure_usr.key_update=1;
+                measure_usr.key_down_flag = 0;
+                measure_usr.key = KEY_UNPAIR;
+
+            }
+            else if(measure_usr.key != KEY_START_DOWN)
+            {
+                measure_usr.key_update=1;
+                measure_usr.key_down_flag = 0;
+                measure_usr.key = KEY_START_DOWN;
+
+            }
+
+
+        }
+        else if( measure_usr.key_down_flag == 0)
+        {
+            measure_usr.key = 0;
+
+
+        }
+        measure_usr.key_down_flag = 0;
+        key_time_start = 0;
+    }
+
+#endif
 }
 
 
@@ -238,10 +388,11 @@ void proc_keyboard (u8 e, u8 *p, int n)
 _attribute_ram_code_ void  app_set_kb_wakeup (u8 e, u8 *p, int n)
 {
 #if (BLE_APP_PM_ENABLE)
-	/* suspend time > 50ms.add GPIO wake_up */
-	if(((u32)(blc_pm_getWakeupSystemTick() - clock_time())) > 100 * SYSTEM_TIMER_TICK_1MS){
-		blc_pm_setWakeupSource(PM_WAKEUP_PAD);  //GPIO PAD wake_up
-	}
+    /* suspend time > 50ms.add GPIO wake_up */
+    if(((u32)(blc_pm_getWakeupSystemTick() - clock_time())) > 100 * SYSTEM_TIMER_TICK_1MS)
+    {
+        blc_pm_setWakeupSource(PM_WAKEUP_PAD);  //GPIO PAD wake_up
+    }
 #endif
 }
 
@@ -254,14 +405,15 @@ _attribute_ram_code_ void  app_set_kb_wakeup (u8 e, u8 *p, int n)
 void keyboard_init(void)
 {
 #if (BLE_APP_PM_ENABLE)
-	/////////// keyboard GPIO wakeup init ////////
-	u32 pin[] = KB_DRIVE_PINS;
-	for (int i=0; i<(sizeof (pin)/sizeof(*pin)); i++){
-		cpu_set_gpio_wakeup (pin[i], Level_High, 1);  //drive pin pad high level wakeup deepsleep
-	}
+    /////////// keyboard GPIO wakeup init ////////
+    u32 pin[] = KB_DRIVE_PINS;
+    for (int i=0; i<(sizeof (pin)/sizeof(*pin)); i++)
+    {
+        cpu_set_gpio_wakeup (pin[i], Level_High, 1);  //drive pin pad high level wakeup deepsleep
+    }
 
-	blc_ll_registerTelinkControllerEventCallback (BLT_EV_FLAG_SLEEP_ENTER, &app_set_kb_wakeup);
-	blc_ll_registerTelinkControllerEventCallback (BLT_EV_FLAG_GPIO_EARLY_WAKEUP, &proc_keyboard);
+    blc_ll_registerTelinkControllerEventCallback (BLT_EV_FLAG_SLEEP_ENTER, &app_set_kb_wakeup);
+    blc_ll_registerTelinkControllerEventCallback (BLT_EV_FLAG_GPIO_EARLY_WAKEUP, &proc_keyboard);
 #endif
 }
 
@@ -275,47 +427,52 @@ void keyboard_init(void)
 void proc_master_role_unpair(void)
 {
 #if (!BLE_MASTER_SMP_ENABLE)
-    if(blm_manPair.manual_pair && clock_time_exceed(blm_manPair.pair_tick, 2000000)){  //@@
-    	blm_manPair.manual_pair = 0;
+    if(blm_manPair.manual_pair && clock_time_exceed(blm_manPair.pair_tick, 2000000))   //@@
+    {
+        blm_manPair.manual_pair = 0;
     }
 #endif
 
 
-	//terminate and un_pair process, Telink demonstration effect: triggered by "un_pair" key press
-	if(master_unpair_enable){
+    //terminate and un_pair process, Telink demonstration effect: triggered by "un_pair" key press
+    if(master_unpair_enable)
+    {
 
-		dev_char_info_t* dev_char_info = dev_char_info_search_by_connhandle(master_unpair_enable); //connHandle has marked on on master_unpair_enable
+        dev_char_info_t* dev_char_info = dev_char_info_search_by_connhandle(master_unpair_enable); //connHandle has marked on on master_unpair_enable
 
-		if( dev_char_info ){ //un_pair device in still in connection state
+        if( dev_char_info )  //un_pair device in still in connection state
+        {
 
-			if(blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN) == BLE_SUCCESS){
+            if(blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN) == BLE_SUCCESS)
+            {
 
-				master_disconnect_connhandle = master_unpair_enable; //mark conn_handle
+                master_disconnect_connhandle = master_unpair_enable; //mark conn_handle
 
-				master_unpair_enable = 0;  //every "un_pair" key can only triggers one connection disconnect
-
-
-				#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
-					// delete ATT handle storage on flash
-					dev_char_info_delete_peer_att_handle_by_peer_mac(dev_char_info->peer_adrType, dev_char_info->peer_addr);
-				#endif
+                master_unpair_enable = 0;  //every "un_pair" key can only triggers one connection disconnect
 
 
-				// delete this device information(mac_address and distributed keys...) on FLash
-				#if (BLE_MASTER_SMP_ENABLE)
-					blc_smp_deleteBondingSlaveInfo_by_PeerMacAddress(dev_char_info->peer_adrType, dev_char_info->peer_addr);
-				#else
-					user_tbl_slave_mac_delete_by_adr(dev_char_info->peer_adrType, dev_char_info->peer_addr);
-				#endif
-			}
+#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
+                // delete ATT handle storage on flash
+                dev_char_info_delete_peer_att_handle_by_peer_mac(dev_char_info->peer_adrType, dev_char_info->peer_addr);
+#endif
 
-		}
-		else{ //un_pair device can not find in device list, it's not connected now
 
-			master_unpair_enable = 0;  //every "un_pair" key can only triggers one connection disconnect
-		}
+                // delete this device information(mac_address and distributed keys...) on FLash
+#if (BLE_MASTER_SMP_ENABLE)
+                blc_smp_deleteBondingSlaveInfo_by_PeerMacAddress(dev_char_info->peer_adrType, dev_char_info->peer_addr);
+#else
+                user_tbl_slave_mac_delete_by_adr(dev_char_info->peer_adrType, dev_char_info->peer_addr);
+#endif
+            }
 
-	}
+        }
+        else  //un_pair device can not find in device list, it's not connected now
+        {
+
+            master_unpair_enable = 0;  //every "un_pair" key can only triggers one connection disconnect
+        }
+
+    }
 }
 
 
@@ -324,133 +481,181 @@ void proc_master_role_unpair(void)
 
 void user_gpio_init()
 {
-	sleep_ms(2000);
-	//1.init the LED pin,for indication
-	gpio_set_func(GPIO_LED_RED ,AS_GPIO);                      //设置GPIO功能
-	gpio_set_output_en(GPIO_LED_RED, 1); 		//输出使能
-	gpio_set_input_en(GPIO_LED_RED ,0);			//输入失能
-	gpio_write(GPIO_LED_RED, 0);              	//LED On
+    sleep_ms(2000);
+    //1.init the LED pin,for indication
+    gpio_set_func(GPIO_LED_RED,AS_GPIO);                       //设置GPIO功能
+    gpio_set_output_en(GPIO_LED_RED, 1); 		//输出使能
+    gpio_set_input_en(GPIO_LED_RED,0);			//输入失能
+    gpio_write(GPIO_LED_RED, 0);              	//LED On
 
-	gpio_set_func(KB ,AS_GPIO);                      //设置GPIO功能
-	gpio_set_output_en(KB, 0); 		//输出使能
-	gpio_set_input_en(KB ,1);			//输入失能
-	//gpio_write(GPIO_LED_RED, 0);              	//LED On
-
-
-
-	gpio_set_func(ECHO ,AS_GPIO);
-	gpio_set_output_en(ECHO, 0); 			//enable output
-	gpio_set_input_en(ECHO ,1);				//disable input
-	gpio_setup_up_down_resistor(ECHO, PM_PIN_PULLDOWN_100K);
-	gpio_set_interrupt_risc0(ECHO, POL_RISING);
-
-	gpio_set_func(M_EN ,AS_GPIO);                      //设置GPIO功能
-	gpio_set_output_en(M_EN, 0); 		//输出使能
-	gpio_set_input_en(M_EN ,1);			//输入失能
+    gpio_set_func(KB,AS_GPIO);                       //设置GPIO功能
+    gpio_set_output_en(KB, 0); 		//输出使能
+    gpio_set_input_en(KB,1);			//输入失能
+    //gpio_write(GPIO_LED_RED, 0);              	//LED On
 
 
 
-	gpio_set_func(CS102_EN ,AS_GPIO);                      //设置GPIO功能
-	gpio_set_output_en(CS102_EN, 1); 		//输出使能
-	gpio_set_input_en(CS102_EN ,0);			//输入失能
-	gpio_write(CS102_EN, 0);      
+    gpio_set_func(ECHO,AS_GPIO);
+    gpio_set_output_en(ECHO, 0); 			//enable output
+    gpio_set_input_en(ECHO,1);				//disable input
+    gpio_setup_up_down_resistor(ECHO, PM_PIN_PULLDOWN_100K);
+    gpio_set_interrupt_risc0(ECHO, POL_RISING);
 
-	gpio_set_func(CS102_T ,AS_GPIO);                      //设置GPIO功能
-	gpio_set_output_en(CS102_T, 1); 		//输出使能
-	gpio_set_input_en(CS102_T ,0);			//输入失能
-	gpio_write(CS102_T, 0);      
-
-
+    gpio_set_func(M_EN,AS_GPIO);                       //设置GPIO功能
+    gpio_set_output_en(M_EN, 0); 		//输出使能
+    gpio_set_input_en(M_EN,1);			//输入失能
 
 
 
-/*	//2.init the SW1 pin,for trigger interrupt
-#if (GPIO_MODE == GPIO_IRQ )
-	gpio_set_func(SW1 ,AS_GPIO);
-	gpio_set_output_en(SW1, 0); 			//enable output
-	gpio_set_input_en(SW1 ,1);				//disable input
-	gpio_setup_up_down_resistor(SW1, PM_PIN_PULLUP_10K);
-	gpio_set_interrupt(SW1, POL_FALLING);
-#elif(GPIO_MODE == GPIO_IRQ_RSIC0)
-	gpio_set_func(SW2 ,AS_GPIO);
-	gpio_set_output_en(SW2, 0); 			//enable output
-	gpio_set_input_en(SW2 ,1);				//disable input
-	gpio_setup_up_down_resistor(SW2, PM_PIN_PULLUP_10K);
-	gpio_set_interrupt_risc0(SW2, POL_FALLING);
+    gpio_set_func(CS102_EN,AS_GPIO);                       //设置GPIO功能
+    gpio_set_output_en(CS102_EN, 1); 		//输出使能
+    gpio_set_input_en(CS102_EN,0);			//输入失能
+    gpio_write(CS102_EN, 0);
 
-#elif(GPIO_MODE == GPIO_IRQ_RSIC1)
-	gpio_set_func(SW2 ,AS_GPIO);
-	gpio_set_output_en(SW2, 0); 			//enable output
-	gpio_set_input_en(SW2 ,1);				//disable input
-	gpio_setup_up_down_resistor(SW2, PM_PIN_PULLUP_10K);
-	gpio_set_interrupt_risc1(SW2, POL_FALLING);
+    gpio_set_func(CS102_T,AS_GPIO);                       //设置GPIO功能
+    gpio_set_output_en(CS102_T, 1); 		//输出使能
+    gpio_set_input_en(CS102_T,0);			//输入失能
+    gpio_write(CS102_T, 0);
 
-#elif(GPIO_MODE == GPIO_TOGGLE)
-	gpio_write(LED1, !gpio_read(LED1)); 
-	gpio_toggle(LED1);
 
-#elif(GPIO_MODE == GPIO_HIGH_RESISTOR)
-	gpio_shutdown(GPIO_ALL);				//set all gpio as high resistor except sws and mspi
-	
-#endif*/
+
+
+
+    /*	//2.init the SW1 pin,for trigger interrupt
+    #if (GPIO_MODE == GPIO_IRQ )
+    	gpio_set_func(SW1 ,AS_GPIO);
+    	gpio_set_output_en(SW1, 0); 			//enable output
+    	gpio_set_input_en(SW1 ,1);				//disable input
+    	gpio_setup_up_down_resistor(SW1, PM_PIN_PULLUP_10K);
+    	gpio_set_interrupt(SW1, POL_FALLING);
+    #elif(GPIO_MODE == GPIO_IRQ_RSIC0)
+    	gpio_set_func(SW2 ,AS_GPIO);
+    	gpio_set_output_en(SW2, 0); 			//enable output
+    	gpio_set_input_en(SW2 ,1);				//disable input
+    	gpio_setup_up_down_resistor(SW2, PM_PIN_PULLUP_10K);
+    	gpio_set_interrupt_risc0(SW2, POL_FALLING);
+
+    #elif(GPIO_MODE == GPIO_IRQ_RSIC1)
+    	gpio_set_func(SW2 ,AS_GPIO);
+    	gpio_set_output_en(SW2, 0); 			//enable output
+    	gpio_set_input_en(SW2 ,1);				//disable input
+    	gpio_setup_up_down_resistor(SW2, PM_PIN_PULLUP_10K);
+    	gpio_set_interrupt_risc1(SW2, POL_FALLING);
+
+    #elif(GPIO_MODE == GPIO_TOGGLE)
+    	gpio_write(LED1, !gpio_read(LED1));
+    	gpio_toggle(LED1);
+
+    #elif(GPIO_MODE == GPIO_HIGH_RESISTOR)
+    	gpio_shutdown(GPIO_ALL);				//set all gpio as high resistor except sws and mspi
+
+    #endif*/
 }
 
 measure_stru measure_usr;
 
 void measure_start()
 {
-	measure_usr.start = 1;
-	measure_usr.dis = MAX_DIS;
-	measure_usr.tick = clock_time();
+    measure_usr.start = 1;
+    measure_usr.dis = MAX_DIS;
+    measure_usr.tick = clock_time();
+    gpio_write(CS102_EN, 1);
+    gpio_write(CS102_T, 0);
+    sleep_us(10);
+    gpio_write(CS102_T, 1);
+    sleep_us(100);
+    gpio_write(CS102_T, 0);
+
+
+
 }
 void measure_stop()
 {
-	measure_usr.stop = 1;
+    gpio_write(CS102_EN, 0);
+    gpio_write(CS102_T, 0);
+
+    measure_usr.stop = 1;
 }
 void mesure_proc()
 {
     static u32 tick_tmp;
-	tick_tmp = clock_time()-measure_usr.tick;
-	if(measure_usr.start == 1)
-	{
-		if(tick_tmp>=40*CLOCK_16M_SYS_TIMER_CLK_1MS)
-		{
-		   
-			measure_usr.dis = MAX_DIS+1;
-			measure_usr.start = 0;
-			measure_usr.sum  = 0;
-			measure_stop();
-		}
-		else
-		{
-			 if(gpio_read(ECHO)== 0)
-			 {
-			 	measure_usr.time = tick_tmp/CLOCK_16M_SYS_TIMER_CLK_1MS;
-				
-			 	measure_usr.dis = measure_usr.time*17;
-				if(measure_usr.dis>=MAX_DIS)
-					measure_usr.dis = MAX_DIS + 2;
-				if(measure_usr.dis<=MIN_DIS)
-				{
-					measure_usr.sum  = measure_usr.sum + 1;
-					measure_usr.dis = MAX_DIS + 3;
-				}
-				else
-				{
-				measure_usr.sum  = 0;
-				measure_usr.dis = MAX_DIS + 4;
+#if ROLE == MASTER//for master
 
-				}
-			 	measure_usr.start = 0;
-			 	measure_stop();
+    tick_tmp = clock_time()-measure_usr.tick;
+    if(measure_usr.start == 1)
+    {
+        if(tick_tmp>=40*CLOCK_16M_SYS_TIMER_CLK_1MS)
+        {
 
-			 }
-		}
-	}
-	else
-	{
-		
-	}
+            measure_usr.dis = MAX_DIS+1;
+            measure_usr.start = 0;
+            measure_usr.sum  = 0;
+            measure_stop();
+        }
+        else
+        {
+            if(gpio_read(ECHO)== 0)
+            {
+                measure_usr.time = tick_tmp/CLOCK_16M_SYS_TIMER_CLK_1MS;
+
+                measure_usr.dis = measure_usr.time*17;
+                if(measure_usr.dis>=MAX_DIS)
+                    measure_usr.dis = MAX_DIS + 2;
+                if(measure_usr.dis<=MIN_DIS)
+                {
+                    measure_usr.sum  = measure_usr.sum + 1;
+                    measure_usr.dis = MAX_DIS + 3;
+                }
+                else
+                {
+                    measure_usr.sum  = 0;
+                    measure_usr.dis = MAX_DIS + 4;
+
+                }
+                measure_usr.start = 0;
+                measure_stop();
+
+            }
+        }
+    }
+    else
+    {
+        measure_stop();
+    }
+    if(measure_usr.sum>=10)//超过10次报警，震动
+    {
+
+        if((clock_time()-measure_usr.motor_tick)>=500*CLOCK_16M_SYS_TIMER_CLK_1MS)
+        {
+            measure_usr.motor_tick = clock_time();
+            gpio_set_input_en(M_EN,0); 		//输入失能
+        }
+        else
+        {
+            if((clock_time()-measure_usr.motor_tick)>=490*CLOCK_16M_SYS_TIMER_CLK_1MS)
+                gpio_set_input_en(M_EN,0); 		//输入失能
+            else
+                gpio_set_input_en(M_EN,1); 		//输入失能
+
+        }
+
+    }
+    else
+    {
+        gpio_set_input_en(M_EN,0); 		//输入失能
+
+    }
+#else//for salve
+    tick_tmp = clock_time()-measure_usr.tick;
+    if(tick_tmp>=100*CLOCK_16M_SYS_TIMER_CLK_1MS)
+    {
+        measure_start();
+    }
+    else
+    {
+        measure_stop();
+    }
+#endif
 }
 
 

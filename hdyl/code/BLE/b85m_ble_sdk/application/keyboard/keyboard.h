@@ -132,3 +132,4 @@ static inline unsigned int kb_scan_key (int numlock_status, int read_key) {
 		return 0;
 	}
 }
+

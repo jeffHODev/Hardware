@@ -53,15 +53,7 @@
 #define MAX_DIS 100
 #define MIN_DIS 10
 
-typedef struct
-{
-	u8 start;
-	u8 stop;
-	u16 dis;
-	u32 time;
-	u16 sum;
-	u32 tick;
-}measure_stru;
+
 /**
  * @brief		user initialization when MCU power on or wake_up from deepSleep mode
  * @param[in]	none

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hengde.nivi.modules.create.dao.BasisMeasurementMapper" >
+  <resultMap id="BaseResultMap" type="com.hengde.nivi.modules.create.entity.BasisMeasurement" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="height" property="height" jdbcType="INTEGER" />
+    <result column="weight" property="weight" jdbcType="INTEGER" />
+    <result column="diag_date" property="diagDate" jdbcType="TIMESTAMP" />
+    <result column="ps" property="ps" jdbcType="INTEGER" />
+    <result column="pd" property="pd" jdbcType="INTEGER" />
+    <result column="br_ps" property="brPs" jdbcType="INTEGER" />
+    <result column="br_pd" property="brPd" jdbcType="INTEGER" />
+    <result column="al_ps" property="alPs" jdbcType="INTEGER" />
+    <result column="al_pd" property="alPd" jdbcType="INTEGER" />
+    <result column="ar_ps" property="arPs" jdbcType="INTEGER" />
+    <result column="ar_pd" property="arPd" jdbcType="INTEGER" />
+    <result column="pcmpt" property="pcmpt" jdbcType="INTEGER" />
+    <result column="pexpd" property="pexpd" jdbcType="INTEGER" />
+    <result column="pavrg" property="pavrg" jdbcType="INTEGER" />
+    <result column="p_hr" property="pHr" jdbcType="INTEGER" />
+    <result column="patient_id" property="patientId" jdbcType="VARCHAR" />
+    <result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+    <result column="model" property="model" jdbcType="TINYINT" />
+    <result column="del_flag" property="delFlag" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, height, weight, diag_date, ps, pd, br_ps, br_pd, al_ps, al_pd, ar_ps, ar_pd, 
+    pcmpt, pexpd, pavrg, p_hr, patient_id, device_id, model, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from basis_measurement
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 根据测试号获取对应患者相关检测的基本信息 -->
+  <select id="getPatientBasisMeasurement" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from basis_measurement
+    where id = #{basisMeasurementId,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 根据测试号获取对应患者相关检测的基本信息-结果业务使用 -->
+  <select id="getPatientBasisMeasurementnew" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from basis_measurement
+    where id = #{basisMeasurementId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getPatientBasisMeasurementnew1" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from basis_measurement
+    where id = #{basisMeasurementId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getPatientBasisMeasurementApg" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from basis_measurement
+    where id = #{basisMeasurementId,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 查询测量模式 -->
+  <select id="selectModel" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select
+    model
+    from basis_measurement
+    where id = #{basisMeasurementId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from basis_measurement
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hengde.nivi.modules.create.entity.BasisMeasurement" >
+    insert into basis_measurement (id, height, weight, 
+      diag_date, ps, pd, 
+      br_ps, br_pd, al_ps, al_pd, 
+      ar_ps, ar_pd, pcmpt, 
+      pexpd, pavrg, p_hr, 
+      patient_id, del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
+      #{diagDate,jdbcType=TIMESTAMP}, #{ps,jdbcType=INTEGER}, #{pd,jdbcType=INTEGER}, 
+      #{brPs,jdbcType=INTEGER}, #{brPd,jdbcType=INTEGER}, #{alPs,jdbcType=INTEGER}, #{alPd,jdbcType=INTEGER}, 
+      #{arPs,jdbcType=INTEGER}, #{arPd,jdbcType=INTEGER}, #{pcmpt,jdbcType=INTEGER}, 
+      #{pexpd,jdbcType=INTEGER}, #{pavrg,jdbcType=INTEGER}, #{pHr,jdbcType=INTEGER},
+      #{patientId,jdbcType=VARCHAR}, #{delFlag,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hengde.nivi.modules.create.entity.BasisMeasurement" >
+    insert into basis_measurement
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="diagDate != null" >
+        diag_date,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+      <if test="pd != null" >
+        pd,
+      </if>
+      <if test="brPs != null" >
+        br_ps,
+      </if>
+      <if test="brPd != null" >
+        br_pd,
+      </if>
+      <if test="alPs != null" >
+        al_ps,
+      </if>
+      <if test="alPd != null" >
+        al_pd,
+      </if>
+      <if test="arPs != null" >
+        ar_ps,
+      </if>
+      <if test="arPd != null" >
+        ar_pd,
+      </if>
+      <if test="pcmpt != null" >
+        pcmpt,
+      </if>
+      <if test="pexpd != null" >
+        pexpd,
+      </if>
+      <if test="pavrg != null" >
+        pavrg,
+      </if>
+      <if test="pHr != null" >
+        p_hr,
+      </if>
+      <if test="patientId != null" >
+        patient_id,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="diagDate != null" >
+        #{diagDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=INTEGER},
+      </if>
+      <if test="pd != null" >
+        #{pd,jdbcType=INTEGER},
+      </if>
+      <if test="brPs != null" >
+        #{brPs,jdbcType=INTEGER},
+      </if>
+      <if test="brPd != null" >
+        #{brPd,jdbcType=INTEGER},
+      </if>
+      <if test="alPs != null" >
+        #{alPs,jdbcType=INTEGER},
+      </if>
+      <if test="alPd != null" >
+        #{alPd,jdbcType=INTEGER},
+      </if>
+      <if test="arPs != null" >
+        #{arPs,jdbcType=INTEGER},
+      </if>
+      <if test="arPd != null" >
+        #{arPd,jdbcType=INTEGER},
+      </if>
+      <if test="pcmpt != null" >
+        #{pcmpt,jdbcType=INTEGER},
+      </if>
+      <if test="pexpd != null" >
+        #{pexpd,jdbcType=INTEGER},
+      </if>
+      <if test="pavrg != null" >
+        #{pavrg,jdbcType=INTEGER},
+      </if>
+      <if test="pHr != null" >
+        #{pHr,jdbcType=INTEGER},
+      </if>
+      <if test="patientId != null" >
+        #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hengde.nivi.modules.create.entity.BasisMeasurement" >
+    update basis_measurement
+    <set >
+      <if test="height != null" >
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="diagDate != null" >
+        diag_date = #{diagDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=INTEGER},
+      </if>
+      <if test="pd != null" >
+        pd = #{pd,jdbcType=INTEGER},
+      </if>
+      <if test="brPs != null" >
+        br_ps = #{brPs,jdbcType=INTEGER},
+      </if>
+      <if test="brPd != null" >
+        br_pd = #{brPd,jdbcType=INTEGER},
+      </if>
+      <if test="alPs != null" >
+        al_ps = #{alPs,jdbcType=INTEGER},
+      </if>
+      <if test="alPd != null" >
+        al_pd = #{alPd,jdbcType=INTEGER},
+      </if>
+      <if test="arPs != null" >
+        ar_ps = #{arPs,jdbcType=INTEGER},
+      </if>
+      <if test="arPd != null" >
+        ar_pd = #{arPd,jdbcType=INTEGER},
+      </if>
+      <if test="pcmpt != null" >
+        pcmpt = #{pcmpt,jdbcType=INTEGER},
+      </if>
+      <if test="pexpd != null" >
+        pexpd = #{pexpd,jdbcType=INTEGER},
+      </if>
+      <if test="pavrg != null" >
+        pavrg = #{pavrg,jdbcType=INTEGER},
+      </if>
+      <if test="pHr != null" >
+        p_hr = #{pHr,jdbcType=INTEGER},
+      </if>
+      <if test="patientId != null" >
+        patient_id = #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hengde.nivi.modules.create.entity.BasisMeasurement" >
+    update basis_measurement
+    set height = #{height,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=INTEGER},
+      diag_date = #{diagDate,jdbcType=TIMESTAMP},
+      ps = #{ps,jdbcType=INTEGER},
+      pd = #{pd,jdbcType=INTEGER},
+      br_ps = #{brPs,jdbcType=INTEGER},
+      br_pd = #{brPd,jdbcType=INTEGER},
+      al_ps = #{alPs,jdbcType=INTEGER},
+      al_pd = #{alPd,jdbcType=INTEGER},
+      ar_ps = #{arPs,jdbcType=INTEGER},
+      ar_pd = #{arPd,jdbcType=INTEGER},
+      pcmpt = #{pcmpt,jdbcType=INTEGER},
+      pexpd = #{pexpd,jdbcType=INTEGER},
+      pavrg = #{pavrg,jdbcType=INTEGER},
+      p_hr = #{pHr,jdbcType=INTEGER},
+      patient_id = #{patientId,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=TINYINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 更新测量模式 -->
+  <update id="updateModel" parameterType="java.util.Map" >
+    update basis_measurement
+    set model = #{model}
+    where id = #{basisMeasurementId,jdbcType=VARCHAR}
+  </update>
+</mapper>

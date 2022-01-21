@@ -395,6 +395,7 @@ int		matrix_wptr, matrix_rptr;
 
 u32 kb_key_pressed(unsigned char * gpio)
 {
+ 
 	foreach_arr(i,drive_pins){
 		gpio_write(drive_pins[i], KB_LINE_HIGH_VALID);
 		gpio_set_output_en(drive_pins[i], 1);
@@ -409,7 +410,7 @@ u32 kb_key_pressed(unsigned char * gpio)
 	foreach_arr(i,scan_pins){
 		if(KB_LINE_HIGH_VALID != !gpio_read_cache (scan_pins[i], gpio)){
 			ret |= (1 << i);
-			release_cnt = 6;
+			release_cnt = 1;
 			ret_last = ret;
 		}
 		//ret = ret && gpio_read(scan_pins[i]);
@@ -423,6 +424,7 @@ u32 kb_key_pressed(unsigned char * gpio)
 		gpio_set_output_en(drive_pins[i], 0);
 	}
 	return ret;
+
 }
 
 u32 kb_scan_key_value (int numlock_status, int read_key,unsigned char * gpio)

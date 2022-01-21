@@ -125,10 +125,18 @@ int app_le_adv_report_event_handle(u8 *p)
 
 	master_auto_connect = 0;
 	user_manual_pairing = 0;
-
+	#if AUTO_PAIR
+    u8 advdata[31];
+	memcpy(advdata,pa->data,pa->len);
+	u8 name[9] = {'t','e','s','t','t','e','s','t','b'};
+	if(memcmp(&advdata[2],name,9)==0)
+	{
+		user_manual_pairing = 1;
+	}
+	#else
 	//manual pairing methods 1: key press triggers
 	user_manual_pairing = master_pairing_enable && (rssi > -56);  //button trigger pairing(RSSI threshold, short distance)
-
+    #endif
 	#if (BLE_MASTER_SMP_ENABLE)
 		master_auto_connect = blc_smp_searchBondingSlaveDevice_by_PeerMacAddress(pa->adr_type, pa->mac);
 	#else

@@ -107,7 +107,7 @@
 #define	LOW_BATT_FLG					BIT(0)
 #endif
 
-#define  KB_DRIVE_PINS  {GPIO_PD2}
+#define  KB_DRIVE_PINS  {GPIO_PB6}
 
 
 //----------------------------------------------
@@ -135,8 +135,8 @@
 
 
 //////////////////// KEY CONFIG (EVK board) ///////////////////////////
-#define  KB_DRIVE_PINS  		{GPIO_PB4, GPIO_PB5}
-#define  KB_SCAN_PINS   		{GPIO_PB2, GPIO_PB3}
+#define  KB_DRIVE_PINS  		{GPIO_PB6}
+#define  KB_SCAN_PINS   		{GPIO_PD2}
 
 //drive pin as gpio
 #define	PB4_FUNC				AS_GPIO
@@ -173,19 +173,27 @@
 #define	GPIO_LED_BLUE			GPIO_PB6
 #define	GPIO_LED_GREEN			GPIO_PB6
 #define	GPIO_LED_WHITE			GPIO_PB6
+#if ROLE==MASTER
 #define	GPIO_LED_RED			GPIO_PD7
-
-
 #define LED_ON_LEVAL 			0 		//gpio output high voltage to turn on led
 #define ECHO                    GPIO_PC4
-
 
 #define CS102_EN			 GPIO_PC1
 #define CS102_T				 GPIO_PC0
 #define M_EN 				 GPIO_PD3
 #define KB                   GPIO_PD2
 
+#else
 
+#define	GPIO_LED_RED			GPIO_PB5
+#define LED_ON_LEVAL 			0 		//gpio output high voltage to turn on led
+#define ECHO                    GPIO_PC4
+#define CS102_EN			 GPIO_PC1
+#define CS102_T				 GPIO_PC0
+#define M_EN 				 GPIO_PD3
+#define KB                   GPIO_PD2
+
+#endif
 
 
 /*#define PD2_FUNC				AS_GPIO
