@@ -129,7 +129,7 @@ static void nibp_if_parse_process(void)
   if(len >= 6)
   {
     __kfifo_out_peek(&rxfifo, buffer, 6);
-    if(buffer[4] == 0x03 && buffer[5] == 0x0D)//æµ‹é‡ç»“æŸ
+    if(buffer[4] == 0x03 && buffer[5] == 0x0D)//²âÁ¿½áÊø
     {
       __kfifo_out(&rxfifo, buffer, 6);
       nibp_if_cmd(0x18);
@@ -139,7 +139,7 @@ static void nibp_if_parse_process(void)
   if(len >= 10)
   {
     __kfifo_out_peek(&rxfifo, buffer, 10);
-    if(buffer[8] == 0x03 && buffer[9] == 0x0D)//è¢–å¸¦å‹è¿”    
+    if(buffer[8] == 0x03 && buffer[9] == 0x0D)//Ğä´øÑ¹·µ    
 			{
       __kfifo_out(&rxfifo, buffer, 10);
       char buf[4];
@@ -154,7 +154,7 @@ static void nibp_if_parse_process(void)
   if(len >= 42)
   {
     __kfifo_out_peek(&rxfifo, buffer, 42);
-    if(buffer[40] == 0x03 && buffer[41] == 0x0D)//ç³»ç»ŸçŠ¶æ€è¿”   
+    if(buffer[40] == 0x03 && buffer[41] == 0x0D)//ÏµÍ³×´Ì¬·µ   
 			{
       __kfifo_out(&rxfifo, buffer, 42);
       int sta, mode, mmode, err, sbp, dbp, mbp, pr;

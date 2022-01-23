@@ -5,6 +5,8 @@
 #include "crc16.h"
 #include "nibp_if.h"
 #include "bsp.h"
+#include "ADS129x.h"
+
 //extern UART_HandleTypeDef huart1;
 extern struct __kfifo ecgfifo;
 
@@ -16,13 +18,13 @@ static struct __kfifo rxfifo;
 static uint8_t rxfifobuf[2048];
 uint8_t *getBleUartBuf(void)
 {
-  return buffer_rx;
+    return buffer_rx;
 }
 void uart3_rx_config(void)
 {
-	dma_single_data_parameter_struct dma_single_data_parameter;
-	rcu_periph_clock_enable(RCU_DMA0);
-	dma_deinit(DMA0, DMA_CH2);
+    dma_single_data_parameter_struct dma_single_data_parameter;
+    rcu_periph_clock_enable(RCU_DMA0);
+    dma_deinit(DMA0, DMA_CH2);
 
     dma_single_data_parameter.direction = DMA_PERIPH_TO_MEMORY;
     dma_single_data_parameter.memory0_addr = (uint32_t)buffer_rx;
@@ -35,19 +37,19 @@ void uart3_rx_config(void)
     dma_single_data_mode_init(DMA0, DMA_CH2, &dma_single_data_parameter);
     /* configure DMA mode */
     dma_circulation_disable(DMA0, DMA_CH2);
-    dma_channel_subperipheral_select(DMA0, DMA_CH2, DMA_SUBPERI4);	
-	usart_dma_receive_config(UART3, USART_DENR_ENABLE);
-	lastcounter =  dma_transfer_number_get(DMA0, DMA_CH2);
+    dma_channel_subperipheral_select(DMA0, DMA_CH2, DMA_SUBPERI4);
+    usart_dma_receive_config(UART3, USART_DENR_ENABLE);
+    lastcounter =  dma_transfer_number_get(DMA0, DMA_CH2);
 
 }
 void protocol_init(void)
 {
-   
+
     __kfifo_init(&rxfifo, rxfifobuf, sizeof(rxfifobuf), sizeof(uint8_t));
 
 
 //		dma_deinit(DMA0, DMA_CH4);
-//		
+//
 //		dma_single_data_parameter.direction = DMA_MEMORY_TO_PERIPH;
 //		dma_single_data_parameter.memory0_addr = (uint32_t)buffer_tx;
 //		dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
@@ -62,17 +64,17 @@ void protocol_init(void)
 //		dma_channel_subperipheral_select(DMA0, DMA_CH4, DMA_SUBPERI4);
 //		/* enable DMA channel7 */
 //		dma_channel_enable(DMA0, DMA_CH4);
-//		
+//
 //		/* USART DMA enable for transmission and reception */
 //		usart_dma_transmit_config(UART3, USART_DENT_ENABLE);
 //		 /* wait DMA Channel transfer complete */
 //		//while(RESET == dma_flag_get(DMA0, DMA_CH4, DMA_FLAG_FTF));
 
 
-	uart3_rx_config();
+    uart3_rx_config();
 
-    
-   
+
+
 
 }
 
@@ -150,6 +152,8 @@ static void protocol_parse_process(void)
     uint16_t crc = (buffer[packetlen-2] << 8) | buffer[packetlen-1];
     if(localcrc != crc)
     {
+        //__kfifo_out(&rxfifo, buffer, packetlen);
+       // memmove(buffer, &buffer[4], packetlen - 6);
         return;
     }
     if(buffer[0] == 0x55)
@@ -170,7 +174,7 @@ static void protocol_parse_process(void)
             uint8_t buffer[2];
             buffer[0] = 0x05;
             //buffer[1] = MMR_get_pressure() / 100;
-            protocol_ack_send(acksn, buffer, 2);
+           // protocol_ack_send(acksn, buffer, 2);
         }
         break;
         case 0x06:
@@ -183,27 +187,30 @@ static void protocol_parse_process(void)
         break;
         case 0x07:
             protocol_ack_send(acksn, 0, 0);
+            *getstate()=SEND_BULE;
             ecg_enable(1);
+
             break;
         case 0x08:
             protocol_ack_send(acksn, 0, 0);
+            *getstate()=SEND_WIFI;
             ecg_enable(0);
             break;
         case 0x09:
-            protocol_ack_send(acksn, 0, 0);
-            nibp_tst_start(buffer[5]);
+           // protocol_ack_send(acksn, 0, 0);
+           // nibp_tst_start(buffer[5]);
             break;
         case 0x0A:
-            protocol_ack_send(acksn, 0, 0);
-            nibp_tst_stop();
+           // protocol_ack_send(acksn, 0, 0);
+           // nibp_tst_stop();
             break;
         case 0x0B:
-            protocol_ack_send(acksn, 0, 0);
-            nibp_tst_valve_set(buffer[5]);
+          //  protocol_ack_send(acksn, 0, 0);
+           // nibp_tst_valve_set(buffer[5]);
             break;
         case 0x0C:
-            protocol_ack_send(acksn, 0, 0);
-            nibp_tst_motor_set(buffer[5] << 8);
+          //  protocol_ack_send(acksn, 0, 0);
+          //  nibp_tst_motor_set(buffer[5] << 8);
             break;
         }
     }
@@ -269,8 +276,8 @@ static void protocol_send_process(void)
         {
             if(usart_flag_get(UART3, USART_FLAG_BSY) != SET)
             {
-                 uart3_dma_tx(packet_tx_buffer, packet_tx_len);
-              
+                uart3_dma_tx(packet_tx_buffer, packet_tx_len);
+
                 uart_flag = 1;
                 //printf("%d\n", packet_tx_buffer[1]);
                 packet_ticktmp = current;
@@ -300,8 +307,8 @@ static void protocol_wave_send_process(void)
         return;
     }
     uint32_t len;
-		uint8_t i=0;
-    static uint8_t buffer[WAVE_PACKET_SIZE * 7 + 2];
+    uint8_t i=0;
+    static uint8_t buffer[WAVE_PACKET_SIZE * PARAMS_SIZE + 2];
     MISCDATA miscdata;
     uint8_t *pdata = &buffer[0];
     *pdata++ = 0x01;
@@ -319,6 +326,16 @@ static void protocol_wave_send_process(void)
             *pdata++ = miscdata.data[4];
             *pdata++ = miscdata.data[5];
             *pdata++ = miscdata.data[6];
+            *pdata++ = miscdata.data[7];
+            *pdata++ = miscdata.data[8];
+            *pdata++ = miscdata.data[9];
+            *pdata++ = miscdata.data[10];
+            *pdata++ = miscdata.data[11];
+            *pdata++ = miscdata.data[12];
+            *pdata++ = miscdata.data[13];
+            *pdata++ = miscdata.data[14];
+            *pdata++ = miscdata.data[15];
+            *pdata++ = miscdata.data[16];
         }
         protocol_data_send(buffer, pdata - buffer, 2);
     }

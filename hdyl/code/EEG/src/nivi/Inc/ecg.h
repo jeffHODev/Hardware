@@ -2,9 +2,9 @@
 #define __ECG_H__
 
 #include "main.h"
-
+#define PARAMS_SIZE  20
 typedef struct{
-  uint8_t data[7];
+  uint8_t data[PARAMS_SIZE];
 }MISCDATA;
 
 void ecg_init(void);

@@ -114,7 +114,11 @@ u8 ADS129x_REG_BUF[ADS129X_REGNUM]=   //ads1299¼Ä´æÆ÷Êý×é
 
 
 
+u8 *getstate(void)
+{
+	return &work_state;
 
+}
 
 
 void ads1299NoSet(unsigned char num)
@@ -472,5 +476,10 @@ int32_t get_volt(u32 num)
     change <<= 8;
     change >>= 8;
     return change;
+}
+uint32_t *get_ads(void)
+{
+	return cannle;
+
 }
 

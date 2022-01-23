@@ -30,8 +30,8 @@ unsigned  char     samp_process=0;       //采样流程
 unsigned  char     peak=0;               //峰谷值
 unsigned  char     valley=0;
 unsigned  char     Freq=0;               //报警
-unsigned  char     MB=0;
-unsigned  char     XY=0;
+//unsigned  char     MB=0;
+unsigned  char     XYMB[2];
 unsigned  char     step=0;
 unsigned  char     cycle=0;               //周期 
 //unsigned  char     cycle1=0;              //周期1

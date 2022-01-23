@@ -206,9 +206,9 @@ void  Slide_filter(void)
     sum=sum-MB_max;
     sum=sum-MB_min;
     //以上完成去极值作用
-    MB=sum/6;
-    if(MB>160)                          //对脉搏进行限制
-        MB=160;
+    XYMB[1]=sum/6;
+    if(XYMB[1]>160)                          //对脉搏进行限制
+        XYMB[1]=160;
 }
 //滑动平均滤波
 void  Slide_filter_spo2(void)
@@ -225,7 +225,7 @@ void  Slide_filter_spo2(void)
     {
         sum+=filter_SPO2[j];
     }
-    XY=sum>>3;
+    XYMB[0]=sum>>3;
 }
 
 //数据采集处理
@@ -286,10 +286,10 @@ void spo_proc()
             deal_spo2();			  //血氧处理
             Slide_filter();		  //滑动滤波
             Slide_filter_spo2();   //滤除血氧
-            data_proc(XY);		  //血氧饱和度
+            data_proc(XYMB[0]);		  //血氧饱和度
             SPO2_buf[1]=sw;
             SPO2_buf[0]=gw;
-            data_proc(MB);		  //脉搏
+            data_proc(XYMB[1]);		  //脉搏
             MB_buf[2]=bw;
             MB_buf[1]=sw;
             MB_buf[0]=gw;
@@ -308,4 +308,9 @@ void spo_proc()
     }
 
 }
+uint8_t *getSpo(void)
+{
+   return XYMB;
+}
+
 
