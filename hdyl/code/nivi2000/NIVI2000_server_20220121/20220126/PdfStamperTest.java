@@ -31,7 +31,7 @@ public class PdfStamperTest {
     @Autowired
     private IBasisMeasurementService basisMeasurementService;
 
-    public byte[] fillTemplate(String url, Entity en){//利用模板生成pdf
+    public byte[] fillTemplate(String url){//利用模板生成pdf
         //模板路径
         String templatePath = url + "/moban.pdf";
         //生成的新文件路径
@@ -46,18 +46,10 @@ public class PdfStamperTest {
             stamper = new PdfStamper(reader, bos);
             AcroFields form = stamper.getAcroFields();
             form.addSubstitutionFont(BaseFont.createFont("STSong-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED));
-            //form.addSubstitutionFont(BaseFont.createFont("SimSun","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED));
-
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = null;
-            try {
-                date = format.parse((String) en.getAge());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            form.addSubstitutionFont(BaseFont.createFont("/usr/share/fonts/dejavu/simsun.ttc,0", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED));
 
 //            String[] str = {"Ms Wang", "age", "70", "doctore", "name", "cc"};
-            String[] str = {en.getPatientName(), GetAge.getAge(date)+"", en.getWeight(), en.getDoctoreName(), "name", "cc"};
+//            String[] str = {en.getPatientName(), GetAge.getAge(date)+"", en.getWeight(), en.getDoctoreName(), "name", "cc"};
 //            int i = 0;
 //            java.util.Iterator<String> it = form.getFields().keySet().iterator();
 //            while(it.hasNext()){
@@ -66,13 +58,42 @@ public class PdfStamperTest {
 //                form.setField(name, str[i++]);
 //            }
 
-            form.setField("a", str[0]);
-            form.setField("b", str[1]);
-            form.setField("c", str[2]);
-            form.setField("d", str[3]);
+//            form.setField("a", str[0]);
+//            form.setField("b", str[1]);
+//            form.setField("c", str[2]);
+//            form.setField("d", str[3]);
 
             //todo 开始放入图片--start
             // 通过域名获取所在页和坐标，左下角为起点
+
+            File fileHeight = new File(url + "/patientHeight.jpg");//所属文件夹的路径
+            if(fileHeight.exists()){
+                addImage(form, "height", url, "/patientHeight.jpg", stamper);
+            }
+            File fileSex = new File(url + "/patientSex.jpg");//所属文件夹的路径
+            if(fileSex.exists()){
+                addImage(form, "sex", url, "/patientSex.jpg", stamper);
+            }
+            File fileTime = new File(url + "/Time.jpg");//所属文件夹的路径
+            if(fileTime.exists()){
+                addImage(form, "time", url, "/Time.jpg", stamper);
+            }
+            File filea = new File(url + "/patientName.jpg");//所属文件夹的路径
+            if(filea.exists()){
+                addImage(form, "a", url, "/patientName.jpg", stamper);
+            }
+            File fileb = new File(url + "/patientAge.jpg");//所属文件夹的路径
+            if(fileb.exists()){
+                addImage(form, "b", url, "/patientAge.jpg", stamper);
+            }
+            File filec = new File(url + "/patientWeight.jpg");//所属文件夹的路径
+            if(filec.exists()){
+                addImage(form, "c", url, "/patientWeight.jpg", stamper);
+            }
+            File filed = new File(url + "/doctoreName.jpg");//所属文件夹的路径
+            if(filed.exists()){
+                addImage(form, "d", url, "/doctoreName.jpg", stamper);
+            }
             addImage(form, "e", url, "/newBig.png", stamper);
             addImage(form, "g", url, "/ecgPr.jpg", stamper); //ecg_pr 右颈动脉心电波
             addImage(form, "h", url, "/pcgPr.jpg", stamper); //pcg_pr 右颈动脉心音波
@@ -101,6 +122,13 @@ public class PdfStamperTest {
             file.createNewFile();
             FileOutputStream fos = new FileOutputStream(file);//创建文件输出流
             fos.write(bos.toByteArray());//写入数据
+            fileHeight.delete();
+            fileSex.delete();
+            fileTime.delete();
+            filea.delete();
+            fileb.delete();
+            filec.delete();
+            filed.delete();
             fos.close();
 
         } catch (IOException e) {

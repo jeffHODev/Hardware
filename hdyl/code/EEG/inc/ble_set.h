@@ -15,5 +15,7 @@
 unsigned int sendCommand(char *Command, char *Response, uint32_t Timeout, unsigned char Retry);
 void BleModeSetting(unsigned char mode);
 unsigned char BleConSeting(unsigned char mode);
+void ble_proc(void);
+
 #endif
 

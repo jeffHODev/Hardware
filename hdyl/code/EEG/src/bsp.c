@@ -1,5 +1,6 @@
 #include "bsp.h"
 #include "main.h"
+#include "ble_set.h"
 bsp_sru bsp_usr;
 spi_sru spi_usr;
 void  light_red(void)
@@ -52,8 +53,10 @@ spi_sru *getSpiBuf()
 void adc_start()
 {
     /* enable ADC software trigger */
-    adc_software_trigger_enable(ADC0, ADC_REGULAR_CHANNEL);
-    dma_channel_enable(DMA1, DMA_CH0);
+	dma_channel_enable(DMA1, DMA_CH0);
+	adc_software_trigger_enable(ADC0, ADC_REGULAR_CHANNEL);
+
+
 }
 void power_manage(unsigned char pwr,unsigned char ctrl)
 {
@@ -64,6 +67,8 @@ void power_manage(unsigned char pwr,unsigned char ctrl)
 		switch(pwr)
 		{
 		case  BLE_PWR:gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, RESET);
+		gpio_bit_write(BRST_GPIO_Port, BRST_Pin, RESET);delay_ms(100);
+		gpio_bit_write(BRST_GPIO_Port, BRST_Pin, SET);
 			break;
 		case  EN_3V3_PWR:gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, RESET);
 			break;
@@ -89,6 +94,8 @@ void power_manage(unsigned char pwr,unsigned char ctrl)
 		switch(pwr)
 		{
 		case  BLE_PWR:gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, SET);
+			gpio_bit_write(BRST_GPIO_Port, BRST_Pin, RESET);delay_ms(100);
+		gpio_bit_write(BRST_GPIO_Port, BRST_Pin, SET);		
 			break;
 		case  EN_3V3_PWR:gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, SET);
 			break;
@@ -112,11 +119,11 @@ void power_manage(unsigned char pwr,unsigned char ctrl)
 }
 void chip_sel(unsigned char spix_chipx,unsigned char oper)
 {
-    if(oper == 1)
+    if(oper == 0)
     {
         if(spix_chipx == 1)
         {
-            //gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
+            gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
             gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, RESET);
 
 
@@ -125,14 +132,14 @@ void chip_sel(unsigned char spix_chipx,unsigned char oper)
         else
         {
             gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, RESET);
-            // gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
+             gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
 
         }
 
     }
-    else if(oper == 2)
+    else if(oper == 1)
     {
-        if(spix_chipx == 1)
+        if(spix_chipx == 2)
         {
             gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
             //gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, RESET);
@@ -148,13 +155,7 @@ void chip_sel(unsigned char spix_chipx,unsigned char oper)
         }
 
     }
-    else
-    {
 
-        gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
-        gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
-
-    }
 
 
 }
@@ -220,7 +221,7 @@ void SendStr(uint8_t *str)
     i = 0;
     len = strlen(str);
     //HAL_UART_Transmit(&huart1, str, len, 1000);
-    while(i<=len)
+    while(i<len)
     {
         usart_data_transmit(UART3, str[i++]);
         while(RESET == usart_flag_get(UART3, USART_FLAG_TBE));
@@ -231,28 +232,21 @@ void uart3_dma_tx(uint32_t *pb,uint32_t len)
 {
     dma_single_data_parameter_struct dma_single_data_parameter;
 
-    rcu_periph_clock_enable(RCU_DMA0);
-    dma_deinit(DMA0, DMA_CH4);
-    while(RESET == dma_flag_get(DMA0, DMA_CH4, DMA_FLAG_FTF));
-    dma_single_data_parameter.direction = DMA_MEMORY_TO_PERIPH;
-    dma_single_data_parameter.memory0_addr = (uint32_t)pb;
-    dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
-    dma_single_data_parameter.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
-    dma_single_data_parameter.number = len;
-    dma_single_data_parameter.periph_addr = (uint32_t)&USART_DATA(UART3);
-    dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
-    dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
-    dma_single_data_mode_init(DMA0, DMA_CH4, &dma_single_data_parameter);
-    /* configure DMA mode */
-    dma_circulation_disable(DMA0, DMA_CH4);
-    dma_channel_subperipheral_select(DMA0, DMA_CH4, DMA_SUBPERI4);
-    /* enable DMA channel7 */
-    dma_channel_enable(DMA0, DMA_CH4);
+   // rcu_periph_clock_enable(RCU_DMA0);
+   // dma_deinit(DMA0, DMA_CH4);
+   // while(RESET == dma_flag_get(DMA0, DMA_CH4, DMA_FLAG_FTF));
+	
+	dma_flag_clear(DMA0,DMA_CH4,DMA_INTF_FTFIF);
+	NVIC_EnableIRQ(DMA0_Channel4_IRQn);
+	dma_channel_disable(DMA0, DMA_CH4);
+	dma_memory_address_config(DMA0, DMA_CH4,DMA_MEMORY_0, (uint32_t *)(pb)); //设置要发送数据的内存地址
+	dma_transfer_number_config(DMA0, DMA_CH4,  len+2);					   //一共发多少个数据
+	//dma_transfer_number_config(DMA0, DMA_CH4,  2);
+	
+	dma_channel_enable(DMA0, DMA_CH4);
+	/* USART DMA enable for transmission and reception */
+	usart_dma_transmit_config(UART3, USART_DENT_ENABLE); //使能串口DMA发送
 
-    /* USART DMA enable for transmission and reception */
-    usart_dma_transmit_config(UART3, USART_DENT_ENABLE);
-    /* wait DMA Channel transfer complete */
-    //
 
 }
 void uart1_dma_tx(uint32_t *pb,uint32_t len)
@@ -286,6 +280,10 @@ void uart1_dma_tx(uint32_t *pb,uint32_t len)
 void power_sleep(void)
 {
 	power_manage(5,OFF);
+	BleConSeting(WAKUP);
+	nvic_irq_disable(EXTI10_15_IRQn);
+	nvic_irq_disable(EXTI1_IRQn);
+
 
     /*rcu_periph_clock_enable(RCU_PMU);
     /* 

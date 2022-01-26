@@ -71,7 +71,7 @@ extern _ADS129x_info ADS129x_info;//芯片结构
 extern u8 work_state;//系统工作状态
 //芯片相关变量
 extern	u8 ADS129x_REG_BUF[ADS129X_REGNUM];//寄存器数组
-extern	u8 data_to_send[50];//串口发送缓存
+
 extern	u32 cannle[8];	//存储8个通道的数据g
 extern	int32_t	p_Temp[8];	//数据缓存
 extern volatile u8 ads129x_Cache[27];		//129x数据缓冲区

@@ -157,12 +157,15 @@ void DMA1_Channel7_IRQHandler(void)
         ;// g_transfer_complete = SET;
     }
 }
-void DMA0_Channel3_IRQHandler(void)
+void DMA0_Channel4_IRQHandler(void)
 {
-    if(dma_interrupt_flag_get(DMA0, DMA_CH3, DMA_INT_FLAG_FTF))
+    if(dma_interrupt_flag_get(DMA0, DMA_CH4, DMA_INT_FLAG_FTF))
     {
-        dma_interrupt_flag_clear(DMA0, DMA_CH3, DMA_INT_FLAG_FTF);
-        UART3_DMA_Finish=1;;
+        dma_interrupt_flag_clear(DMA0, DMA_CH4, DMA_INT_FLAG_FTF);
+        UART3_DMA_Finish=1;
+			//	nvic_irq_enable(EXTI1_IRQn, 2U, 0U);
+			//	nvic_irq_disable(EXTI10_15_IRQn);
+
     }
 }
 /*!
@@ -181,14 +184,25 @@ void DMA1_Channel2_IRQHandler(void)
         ;//g_transfer_complete = SET;
     }
 }
-void USART3_IRQHandler(void)
+void DMA0_Channel2_IRQHandler(void)
+{
+    dma_interrupt_flag_clear(DMA0, DMA_CH2, DMA_INT_FLAG_FTF);
+    if(dma_interrupt_flag_get(DMA0, DMA_CH2, DMA_INT_FLAG_FTF))
+    {
+
+        ;//g_transfer_complete = SET;
+    }
+}
+unsigned char tmp2[128],i;
+void UART3_IRQHandler(void)
 {
     dma_single_data_parameter_struct dma_single_data_parameter;
     if(RESET != usart_interrupt_flag_get(UART3, USART_INT_FLAG_IDLE)) //空闲中断
     {
         usart_interrupt_flag_clear(UART3,USART_INT_FLAG_IDLE);	/* 清除空闲中断标志位 */
 
-        usart_data_receive(UART3);
+        tmp2[i++] = usart_data_receive(UART3);
+			 packet_proc();
         uart3_rx_config();
 
     }

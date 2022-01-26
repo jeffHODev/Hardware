@@ -56,7 +56,7 @@ void uart1_config(void);
 void uart3_config(void);
 
 
-
+extern  uint8_t buffer_rx2[16];
 
 /* USER CODE END 0 */
 
@@ -70,16 +70,19 @@ int main(void)
     rcu_config();
     systick_config();
     gpio_config();
-    adc_config();
+	
+   
     spi_config();
 	uart0_config();
 	uart1_config();
 	uart3_config();	
-    dma_config();
-    ADS129x_ReInit(0);
-	app_init();
+    dma_config();  
+	 adc_config();
+    timer_config(TIMER3, 1);
+   //ADS129x_ReInit(0);
+	 app_init();
     protocol_init();
-    //ecg_init();
+    ecg_init();
 //	MMR901MX_Init();
     nibp_if_init();
     while (1)
@@ -104,9 +107,10 @@ void rcu_config(void)
     rcu_periph_clock_enable(RCU_ADC0);
     /* enable DMA clock */
     rcu_periph_clock_enable(RCU_DMA1);
+	rcu_periph_clock_enable(RCU_DMA0);
     /* config ADC clock */
     adc_clock_config(ADC_ADCCK_PCLK2_DIV6);
-	
+	  rcu_periph_clock_enable(RCU_SPI1);
 }
 void gpio_config(void)
 {
@@ -153,8 +157,8 @@ void gpio_config(void)
 
     /* configure key EXTI line */
     exti_init(EXTI_6, EXTI_INTERRUPT, EXTI_TRIG_RISING);
-    exti_init(EXTI_7, EXTI_INTERRUPT, EXTI_TRIG_RISING);
-    exti_interrupt_flag_clear(EXTI_7);
+    //exti_init(EXTI_7, EXTI_INTERRUPT, EXTI_TRIG_RISING);
+   // exti_interrupt_flag_clear(EXTI_7);
     exti_interrupt_flag_clear(EXTI_6);
 
 
@@ -234,6 +238,7 @@ void gpio_config(void)
     gpio_output_options_set(POW_EN_3V3_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,POW_EN_3V3_Pin);
 
 
+	gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, SET);
 
     gpio_bit_write(BDISC_GPIO_Port, BDISC_Pin, RESET);
     gpio_bit_write(BMOD_GPIO_Port, BMOD_Pin, RESET);
@@ -270,12 +275,63 @@ void gpio_config(void)
 
 
     /* SPI1 GPIO config */
-    gpio_af_set(GPIOB, GPIO_AF_5, GPIO_PIN_13 | GPIO_PIN_14 |GPIO_PIN_15);
-    gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_13 | GPIO_PIN_14 |GPIO_PIN_15);
-    gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,  GPIO_PIN_13 | GPIO_PIN_14 |GPIO_PIN_15);
+
+
+	    gpio_af_set(GPIOB, GPIO_AF_5,  GPIO_PIN_15 | GPIO_PIN_13 |GPIO_PIN_14);
+    gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_NONE,  GPIO_PIN_15 | GPIO_PIN_13 |GPIO_PIN_14);
+    gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_15 | GPIO_PIN_13 |GPIO_PIN_14);
+
+
+
 
 
 }
+
+void timer_config(uint32_t timer_periph, uint32_t time_interval_ms) {
+    timer_parameter_struct timer_initpara;
+
+    switch(timer_periph){
+    case TIMER0:
+    	rcu_periph_clock_enable(RCU_TIMER0);
+    	break;
+    case TIMER1:
+        rcu_periph_clock_enable(RCU_TIMER1);
+        break;
+    case TIMER2:
+        rcu_periph_clock_enable(RCU_TIMER2);
+        break;
+    case TIMER3:
+        rcu_periph_clock_enable(RCU_TIMER3);
+        break;
+    case TIMER4:
+        rcu_periph_clock_enable(RCU_TIMER4);
+        break;
+    case TIMER5:
+        rcu_periph_clock_enable(RCU_TIMER5);
+        break;
+    case TIMER6:
+        rcu_periph_clock_enable(RCU_TIMER6);
+        break;
+    default:
+    	break;
+    }
+
+    timer_deinit(timer_periph);
+    timer_struct_para_init(&timer_initpara);
+    timer_initpara.prescaler         = 11999; //10799;	//108M/10800 = 10K Hz
+    timer_initpara.alignedmode       = TIMER_COUNTER_EDGE;
+    timer_initpara.counterdirection  = TIMER_COUNTER_UP;
+    timer_initpara.period            = (uint32_t)10*time_interval_ms;//(uint32_t)1000000U/time_interval_us;
+    timer_initpara.clockdivision     = TIMER_CKDIV_DIV1;
+    timer_init(timer_periph, &timer_initpara);
+	
+	timer_enable(timer_periph);
+	
+
+    
+   
+}
+
 
 void dma_config()
 {
@@ -285,9 +341,10 @@ void dma_config()
     rcu_periph_clock_enable(RCU_DMA0);
     /* ADC DMA_channel configuration */
     dma_deinit(DMA1, DMA_CH0);
+	rcu_periph_clock_enable(RCU_DMA1);
 
     /* initialize DMA single data mode */
-    dma_single_data_parameter.periph_addr = (uint32_t)(&ADC_RDATA(ADC0));
+  /*  dma_single_data_parameter.periph_addr = (uint32_t)(&ADC_RDATA(ADC0));
     dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
     dma_single_data_parameter.memory0_addr = (uint32_t)&(getAdcBuf()->adc_value);
     dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
@@ -297,28 +354,74 @@ void dma_config()
     dma_single_data_parameter.priority = DMA_PRIORITY_HIGH;
     dma_single_data_mode_init(DMA1, DMA_CH0, &dma_single_data_parameter);
     dma_channel_subperipheral_select(DMA1, DMA_CH0, DMA_SUBPERI0);
+		dma_channel_enable(DMA1, DMA_CH0);
+
+*/
+
+
+
+		dma_deinit(DMA1, DMA_CH0);
+		
+		/* initialize DMA single data mode */
+		dma_single_data_parameter.periph_addr = (uint32_t)(&ADC_RDATA(ADC0));
+		dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+		dma_single_data_parameter.memory0_addr = (uint32_t)(getAdcBuf()->adc_value);
+		dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+		dma_single_data_parameter.periph_memory_width = DMA_PERIPH_WIDTH_16BIT;
+		dma_single_data_parameter.direction = DMA_PERIPH_TO_MEMORY;
+		dma_single_data_parameter.number = 6;
+		dma_single_data_parameter.priority = DMA_PRIORITY_HIGH;
+		dma_single_data_mode_init(DMA1, DMA_CH0, &dma_single_data_parameter);
+		dma_channel_subperipheral_select(DMA1, DMA_CH0, DMA_SUBPERI0);
+		
+		/* enable DMA circulation mode */
+		dma_circulation_enable(DMA1, DMA_CH0);
+		
+		/* enable DMA channel */
 
 
 
 
 
-    /* deinitialize DMA channel7(USART0 tx) */
-    dma_deinit(DMA0, DMA_CH3);
-    dma_single_data_parameter.direction = DMA_MEMORY_TO_PERIPH;
-    dma_single_data_parameter.memory0_addr = (uint32_t)data_to_send;
-    dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
-    dma_single_data_parameter.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
-    dma_single_data_parameter.number = 16;
-    dma_single_data_parameter.periph_addr = (uint32_t)&USART_DATA(USART0);
-    dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
-    dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
-    dma_single_data_mode_init(DMA0, DMA_CH7, &dma_single_data_parameter);
-    /* configure DMA mode */
-    dma_circulation_disable(DMA0, DMA_CH3);
-    dma_channel_subperipheral_select(DMA0, DMA_CH3, DMA_SUBPERI4);
-    dma_interrupt_enable(DMA0, DMA_CH3, DMA_CHXCTL_FTFIE);
-    /* enable DMA channel7 */
-    // dma_channel_enable(DMA0, DMA_CH3);
+		
+		/* deinitialize DMA channel1 */
+		dma_deinit(DMA0,DMA_CH4);
+		dma_single_data_parameter.direction = DMA_MEMORY_TO_PERIPH;
+		dma_single_data_parameter.memory0_addr = NULL;
+		dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+		dma_single_data_parameter.periph_memory_width = DMA_MEMORY_WIDTH_8BIT;
+		dma_single_data_parameter.number = 0;
+		dma_single_data_parameter.periph_addr = (uint32_t)&USART_DATA(UART3);
+		dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+		dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
+		dma_single_data_mode_init(DMA0, DMA_CH4, &dma_single_data_parameter);
+		
+   /* configure DMA mode */
+    dma_circulation_disable(DMA0, DMA_CH4);
+    dma_channel_subperipheral_select(DMA0, DMA_CH4, DMA_SUBPERI4);
+    dma_interrupt_enable(DMA0, DMA_CH4, DMA_CHXCTL_FTFIE);
+
+
+	 
+	 /* deinitialize DMA1 channel2 (USART0 rx) */
+	 dma_deinit(DMA0, DMA_CH2);
+	 dma_single_data_parameter.direction = DMA_PERIPH_TO_MEMORY;
+	 dma_single_data_parameter.memory0_addr = (uint32_t)buffer_rx2;
+	 dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+	 dma_single_data_parameter.number = 16;
+	 dma_single_data_parameter.periph_addr = (uint32_t)&USART_DATA(UART3);
+	 dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+	 dma_single_data_parameter.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
+	 dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
+	 dma_single_data_mode_init(DMA0, DMA_CH2, &dma_single_data_parameter);
+	 
+	 /* configure DMA mode */
+	 dma_circulation_enable(DMA0, DMA_CH2);
+	 dma_channel_subperipheral_select(DMA0, DMA_CH2, DMA_SUBPERI4);
+	 /* enable DMA1 channel2 transfer complete interrupt */
+	 dma_interrupt_enable(DMA0, DMA_CH2, DMA_CHXCTL_FTFIE);
+	 /* enable DMA1 channel2 */
+	 dma_channel_enable(DMA0, DMA_CH2);
 
     /* USART DMA enable for transmission and reception */
     //usart_dma_transmit_config(USART0, USART_DENT_ENABLE);
@@ -423,7 +526,7 @@ void uart3_config(void)
 
     /* USART configure */
     usart_deinit(UART3);
-    usart_baudrate_set(((UART3)), 115200);
+    usart_baudrate_set(((UART3)), 460800);
     usart_receive_config(((UART3)), USART_RECEIVE_ENABLE);
     usart_transmit_config(((UART3)), USART_TRANSMIT_ENABLE);
     usart_enable(((UART3)));
@@ -433,6 +536,12 @@ void uart3_config(void)
     usart_dma_receive_config(UART3, USART_DENR_ENABLE);
     usart_dma_transmit_config(UART3, USART_DENT_ENABLE);
 
+usart_interrupt_enable(UART3, USART_INT_FLAG_TC);
+
+//    nvic_irq_enable(UART3_IRQn, 0, 0);
+//    usart_interrupt_enable(UART3, USART_INT_RBNE);
+
+
 }
 
 void spi_config(void)
@@ -440,7 +549,7 @@ void spi_config(void)
     spi_parameter_struct spi_init_struct;
 
     /* SPI1 parameter config */
-    spi_init_struct.trans_mode           = SPI_TRANSMODE_FULLDUPLEX;
+   /* spi_init_struct.trans_mode           = SPI_TRANSMODE_FULLDUPLEX;
     spi_init_struct.device_mode          = SPI_MASTER;
     spi_init_struct.frame_size           = SPI_FRAMESIZE_8BIT;
     spi_init_struct.clock_polarity_phase = SPI_CK_PL_LOW_PH_2EDGE;
@@ -450,44 +559,76 @@ void spi_config(void)
     spi_init_struct.nss         = SPI_NSS_SOFT;
     spi_init(SPI1, &spi_init_struct);
 
+*/
+
+
+
+    /* SPI1 parameter config */
+    spi_init_struct.trans_mode           = SPI_TRANSMODE_FULLDUPLEX;
+    spi_init_struct.device_mode          = SPI_MASTER;
+    spi_init_struct.frame_size           = SPI_FRAMESIZE_8BIT;
+    spi_init_struct.clock_polarity_phase = SPI_CK_PL_LOW_PH_2EDGE;
+    spi_init_struct.nss                  = SPI_NSS_SOFT;
+    spi_init_struct.prescale             = SPI_PSC_32;
+    spi_init_struct.endian               = SPI_ENDIAN_MSB;
+    spi_init(SPI1, &spi_init_struct);
+
+	spi_enable(SPI1);
+
+
+
+
+
+
 }
 void adc_config(void)
 {
-    /* ADC mode config */
-    adc_sync_mode_config(ADC_SYNC_MODE_INDEPENDENT);
-    /* ADC contineous function disable */
-    adc_special_function_config(ADC0, ADC_CONTINUOUS_MODE, ENABLE);
-    /* ADC scan mode disable */
-    adc_special_function_config(ADC0, ADC_SCAN_MODE, ENABLE);
-    /* ADC data alignment config */
-    adc_data_alignment_config(ADC0, ADC_DATAALIGN_RIGHT);
 
-    /* ADC channel length config */
-    adc_channel_length_config(ADC0, ADC_REGULAR_CHANNEL, 6);
-    /* ADC regular channel config */
-    adc_regular_channel_config(ADC0, 0, ADC_CHANNEL_10, ADC_SAMPLETIME_15);//ta
-    adc_regular_channel_config(ADC0, 1, ADC_CHANNEL_11, ADC_SAMPLETIME_15);//tb
-    adc_regular_channel_config(ADC0, 2, ADC_CHANNEL_13, ADC_SAMPLETIME_15);//vbat
-    adc_regular_channel_config(ADC0, 3, ADC_CHANNEL_14, ADC_SAMPLETIME_15);//spo
-    adc_regular_channel_config(ADC0, 4, ADC_CHANNEL_15, ADC_SAMPLETIME_15);//br
-    adc_regular_channel_config(ADC0, 5, ADC_CHANNEL_4, ADC_SAMPLETIME_15);//hea
+	adc_deinit();
 
-    /* ADC trigger config */
-    adc_external_trigger_source_config(ADC0, ADC_REGULAR_CHANNEL, ADC_EXTTRIG_REGULAR_T0_CH0);
-    adc_external_trigger_config(ADC0, ADC_REGULAR_CHANNEL, EXTERNAL_TRIGGER_DISABLE);
+	/* ADC mode config */
+	   adc_sync_mode_config(ADC_SYNC_MODE_INDEPENDENT);
+	   /* ADC contineous function disable */
+	   adc_special_function_config(ADC0, ADC_CONTINUOUS_MODE, ENABLE);
+	   /* ADC scan mode disable */
+	   adc_special_function_config(ADC0, ADC_SCAN_MODE, ENABLE);
+	   /* ADC data alignment config */
+	   adc_data_alignment_config(ADC0, ADC_DATAALIGN_RIGHT);
+	   
+	   /* ADC channel length config */
+	   //adc_channel_length_config(ADC0, ADC_REGULAR_CHANNEL, 4);
+	   /* ADC regular channel config */
+	   /* ADC channel length config */
+	   adc_channel_length_config(ADC0, ADC_REGULAR_CHANNEL, 6);
+	   /* ADC regular channel config */
+	   adc_regular_channel_config(ADC0, 0, ADC_CHANNEL_10, ADC_SAMPLETIME_15);//ta
+	   adc_regular_channel_config(ADC0, 1, ADC_CHANNEL_11, ADC_SAMPLETIME_15);//tb
+	   adc_regular_channel_config(ADC0, 2, ADC_CHANNEL_13, ADC_SAMPLETIME_15);//vbat
+	   adc_regular_channel_config(ADC0, 3, ADC_CHANNEL_14, ADC_SAMPLETIME_15);//spo
+	   adc_regular_channel_config(ADC0, 4, ADC_CHANNEL_15, ADC_SAMPLETIME_15);//br
+	   adc_regular_channel_config(ADC0, 5, ADC_CHANNEL_4, ADC_SAMPLETIME_15);//hea
+	   /* ADC trigger config */
+	   adc_external_trigger_source_config(ADC0, ADC_REGULAR_CHANNEL, ADC_EXTTRIG_REGULAR_T0_CH0); 
+	   adc_external_trigger_config(ADC0, ADC_REGULAR_CHANNEL, EXTERNAL_TRIGGER_DISABLE);
+	   
+	   /* ADC DMA function enable */
+	   adc_dma_request_after_last_enable(ADC0);
+	   adc_dma_mode_enable(ADC0);
+	   
+	   /* enable ADC interface */
+	   adc_enable(ADC0);
+	   /* wait for ADC stability */
+	   //delay_1ms(1);
+	   /* ADC calibration and reset calibration */
+	   adc_calibration_enable(ADC0);
+	   
+	   /* enable ADC software trigger */
+	  
 
-    /* ADC DMA function enable */
-    adc_dma_request_after_last_enable(ADC0);
-    adc_dma_mode_enable(ADC0);
 
-    /* enable ADC interface */
-    adc_enable(ADC0);
-    /* wait for ADC stability */
-    /* ADC calibration and reset calibration */
-    adc_calibration_enable(ADC0);
 
-    /* enable ADC software trigger */
-    adc_software_trigger_enable(ADC0, ADC_REGULAR_CHANNEL);
+
+
 
 }
 /**

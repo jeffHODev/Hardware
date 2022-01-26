@@ -18,7 +18,7 @@
 
 typedef struct
 {
- uint32_t adc_value[ADC_SIZE];
+ uint16_t adc_value[ADC_SIZE];
 }bsp_sru;
 typedef struct
 {

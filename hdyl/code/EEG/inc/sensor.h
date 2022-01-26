@@ -11,6 +11,7 @@ typedef struct
 	unsigned char key_status;
 }sensors_stru;
 sensors_stru *getSensor(void);
+void sensor_proc(void);
 
 #endif
 

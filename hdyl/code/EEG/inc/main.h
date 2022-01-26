@@ -37,7 +37,7 @@ typedef unsigned char u8;
 typedef uint32_t u32;
 #include "string.h"
 /* USER CODE END Includes */
-
+#define BLE_DEBUG  0
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
@@ -134,7 +134,7 @@ void Error_Handler(void);
 #define MOTOR_GPIO_Port GPIOB
 #define VALUE_Pin GPIO_PIN_9
 #define VALUE_GPIO_Port GPIOB
-#define POW_EN_3V3_Pin GPIO_PIN_10
+#define POW_EN_3V3_Pin GPIO_PIN_0
 #define POW_EN_3V3_GPIO_Port GPIOE
 
 

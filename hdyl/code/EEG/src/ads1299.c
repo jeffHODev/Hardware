@@ -4,7 +4,7 @@
 
 //#include "sd_card.h"
 #include "myQueue.h"
-
+#include "usart.h"
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,13 +22,13 @@ extern QueueInfo *UART_Queue;//¶ÓÁÐ»º³åÇøÖ¸Õë
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 //Ð¾Æ¬½á¹¹Ìå
-_ADS129x_info ADS129x_info;
+ _ADS129x_info ADS129x_info;
 //ÏµÍ³¹¤×÷×´Ì¬
 u8 work_state;		//¹¤×÷×´Ì¬
 //Ð¾Æ¬ÓÃ
 u32 cannle[8];	//´æ´¢8¸öÍ¨µÀµÄÊý¾Ýg
 int32_t	p_Temp[8];	//Êý¾Ý·¢ËÍ»º´æ
-u8 data_to_send[50];//´®¿Ú·¢ËÍ»º´æ
+__align(4) u8 data_to_send[50];//´®¿Ú·¢ËÍ»º´æ
 volatile u8 ads129x_Cache[27];		//129x	Êý¾Ý»º³åÇø
 volatile u8 ads129x_read_flag=0;	//DRDY¶ÁÈ¡Íê³É±êÖ¾
 volatile u8 lead_off_flag; //µ¼ÁªÍÑÂä±êÖ¾
@@ -232,6 +232,7 @@ void EXTI10_15_IRQHandler(void)
         //__enable_irq();
     }
 }
+uint32_t count;
 
 void EXTI1_IRQHandler(void)
 {
@@ -246,10 +247,14 @@ void EXTI1_IRQHandler(void)
             ///////////////////////////////////////////////////////////////////
             if(work_state == SEND_UART || work_state == SEND_BULE)//À¶ÑÀ/´®¿Ú·¢ËÍ
             {
+							  count ++;
+							 if(ADS129x_info.Ads129x_Data_Move!=24||ADS129x_info.Ads129x_Write_Num!=1)
+								 ADS129x_info.Ads129x_Write_Num = 24;
                 //°áÔËÊý¾ÝÖÁ¶ÓÁÐ»º³åÇø
-                if(queue_data_push(UART_Queue,ads129x_Cache+3,ADS129x_info.Ads129x_Data_Move,ADS129x_info.Ads129x_Write_Num))
+               // if(queue_data_push(UART_Queue,ads129x_Cache+3,24,1))
+									if(queue_data_push(UART_Queue,ads129x_Cache+3,ADS129x_info.Ads129x_Data_Move,ADS129x_info.Ads129x_Write_Num))
                 {
-
+                   
                 }
             }
 
@@ -265,7 +270,7 @@ __INLINE void ADS129x_Read_Data()//72MÊ±ÖÓÏÂº¯ÊýºÄÊ±´óÔ¼10us  8MÊ±ÖÓÏÂ º¯ÊýºÄÊ±´
     u8 i;
 
     chip_sel(ads_num,0);
-
+    
     for(i=0; i<ADS129X_DATANUM; i++)
     {
         ads129x_Cache[i]=ADS129x_SPI_ReadWriteByte(0X00);
@@ -433,6 +438,7 @@ void ADS129x_ReInit(u8 cmd)
 
     ADS129x_REG_BUF[13] = RL_temp; //ÉèÖÃÓÒÍÈÇý¶¯
     ADS129x_REG_BUF[14] = RL_temp;
+	ADS129x_Send_CMD(0x00);//·¢ËÍÍ£Ö¹Á¬Ðø¶ÁÈ¡Êý¾ÝÃüÁî
 ///////////////////////////////////////////////////////////////////////////
     while(ADS129x_REG_Init())//³õÊ¼»¯¼Ä´æÆ÷
     {
@@ -450,7 +456,7 @@ void ADS129x_ReInit(u8 cmd)
 
 //		if(cmd==0)//´®¿Ú/À¶ÑÀ
 //		{
-//				ADS129x_info.Ads129x_Write_Num = UART_QUEUE_LENGTH/ADS129x_info.Ads129x_Data_Move ; //°áÔËN´Î×öÒ»¸ö°ü
+				ADS129x_info.Ads129x_Write_Num = UART_QUEUE_LENGTH/ADS129x_info.Ads129x_Data_Move ; //°áÔËN´Î×öÒ»¸ö°ü
 //		}
 //		else if(cmd==1)//WiFi
 //		{
