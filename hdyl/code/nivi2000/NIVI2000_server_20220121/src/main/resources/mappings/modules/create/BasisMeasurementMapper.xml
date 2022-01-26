@@ -75,7 +75,7 @@
   <!-- 获取pdf文件头信息 -->
   <select id="selectPDFInfoBybasisMeasurementId" resultType="com.hengde.nivi.modules.pdftest.Entity" parameterType="java.lang.String" >
     select
-    p.name as patientName,p.birthday as age,b.weight,sd.name as doctoreName
+    p.name as patientName,p.birthday as age,b.weight,sd.name as doctoreName,b.height,p.sex,b.diag_date as diagDate
     from basis_measurement b left join sys_doctor sd on b.doctor_id = sd.id left join patient p on b.patient_id = p.id
     where b.id = #{id,jdbcType=VARCHAR} and b.del_flag = 0
   </select>

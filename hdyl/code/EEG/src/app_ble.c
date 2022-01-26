@@ -226,6 +226,12 @@ void app(void)
                 Send_UART3();
                 
             }
+			else
+			{
+			  nvic_irq_disable(EXTI1_IRQn);
+			  nvic_irq_disable(EXTI10_15_IRQn);
+
+			}
 						protocol_process();
 						nibp_if_process();
         	}

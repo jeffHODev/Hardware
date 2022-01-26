@@ -16,4 +16,8 @@ public class Entity {
     private String age;
     private String weight;
     private String doctoreName;
+    private String height;
+    private String sex;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private String diagDate;
 }

@@ -261,7 +261,7 @@ static void protocol_parse_process(void)
 
 }
 
-#define WAVE_PACKET_SIZE  (10)
+#define WAVE_PACKET_SIZE  (100)
 
 static uint8_t protocol_packet_num(void)
 {
