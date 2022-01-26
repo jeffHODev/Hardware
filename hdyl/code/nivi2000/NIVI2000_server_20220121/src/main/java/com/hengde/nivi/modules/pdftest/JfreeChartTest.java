@@ -379,13 +379,13 @@ public class JfreeChartTest {
             }else{
                 en.setSex("女");
             }
-            createImage(en.getSex(), new Font("宋体", Font.PLAIN, 200), Paths.get(courseFile, "patientSex.jpg").toFile());
+            createImage(en.getSex(), new Font("宋体", Font.PLAIN, 100), Paths.get(courseFile, "patientSex.jpg").toFile());
         }
         if(!(null == en.getDiagDate() || en.getDiagDate().length() == 0)){
             createImage(en.getDiagDate(), new Font("宋体", Font.PLAIN, 200), Paths.get(courseFile, "Time.jpg").toFile());
         }
         if(!(null == en.getPatientName() || en.getPatientName().length() == 0)){
-            createImage(en.getPatientName(), new Font("宋体", Font.PLAIN, 100), Paths.get(courseFile, "patientName.jpg").toFile());
+            createImage(en.getPatientName(), new Font("宋体", Font.PLAIN, 200), Paths.get(courseFile, "patientName.jpg").toFile());
         }
 
         if(!(null == en.getAge() || en.getAge().length() == 0)){
@@ -682,6 +682,7 @@ public class JfreeChartTest {
         BufferedImage image = new BufferedImage(width, height,
                 BufferedImage.TYPE_INT_BGR);//创建图片画布
         Graphics g = image.getGraphics();
+
         g.setColor(Color.WHITE); // 先用白色填充整张图片,也就是背景
         g.fillRect(0, 0, width, height);//画出矩形区域，以便于在矩形区域内写入文字
         g.setColor(Color.black);// 再换成黑色，以便于写入文字
