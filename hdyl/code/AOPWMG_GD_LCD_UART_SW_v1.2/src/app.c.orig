@@ -22,7 +22,7 @@ void SystemParamsRead(void);
 //目标tds 3 ------650
 //目标tds 3.5 ------950   +30----0.1
 //目标tds 4 ------1100
-
+unsigned char First_flag;
 
 uint32_t dstTds=1100;//目标tds 2.5----500
 //unsigned char module_reset_flag=0;
@@ -320,22 +320,22 @@ void Flow_Init()
             case 2:
                 if(GetSensor()->flow<=1)//400
                     flow_switch = 300 ;
-                else if(GetSensor()->flow<=2)//1---2	400---450
+                else if(GetSensor()->flow<=2)//1---2	400---530
                 {
-                    flow_switch = (GetSensor()->flow-1)*50+TDS_LEVEL1;
+                    flow_switch = (GetSensor()->flow-1)*130+TDS_LEVEL1;
 
                 }
-                else if(GetSensor()->flow<=3)//2---3 500-700
+                else if(GetSensor()->flow<=3)//2---3 530-700
                 {
                     flow_switch = (GetSensor()->flow-2)*200+TDS_LEVEL2;
 
                 }
 
-                else//3---700-800 
+                else//3---700-800
                 {
                     flow_switch = (GetSensor()->flow-3)*100+TDS_LEVEL3;
-				if(flow_switch>=900)//1120
-					flow_switch = 900;
+                    if(flow_switch>=900)//1120
+                        flow_switch = 900;
 
 
                 }
@@ -434,7 +434,10 @@ void FlowCtrl()
         ; //DcMotorCtrl(3,PUMP_VALUE);
         // DcMotorCtrl(1,PUMP_VALUE);
     }
+    if(First_flag ==1)
+		DcMotorCtrl(2,65535);//泵2调整流量
 
+	else
     DcMotorCtrl(2,pwm2);//泵2调整流量
 }
 void fill_pro(unsigned char x,unsigned char y,unsigned char len,unsigned char maxlen)
@@ -562,16 +565,16 @@ polling_status:
     switch(status_tmp)// 0:正常  1：tds1 2:tds2 3：流量 4：orp
         //  5:高压开关6：水位开关 7:电解中
     {
-        /*	str = "正常          ";
-        	str = "原水TDS异常	 ";
-        	str = "缺盐		 	 ";
-        	str = "流量异常 	 ";
-        	str = "盐水箱注水中";
-        	str = "清洗中		 ";
-        	str = "缺水			 ";
-        	str = "系统故障 	 ";
-        	str = "正常			 ";
-        	str = "正常			 ";*/
+    /*	str = "正常          ";
+    	str = "原水TDS异常	 ";
+    	str = "缺盐		 	 ";
+    	str = "流量异常 	 ";
+    	str = "盐水箱注水中";
+    	str = "清洗中		 ";
+    	str = "缺水			 ";
+    	str = "系统故障 	 ";
+    	str = "正常			 ";
+    	str = "正常			 ";*/
 
 
 
@@ -1199,9 +1202,6 @@ void normal_proc()
 
     if(GetSensor()->status[SHUNT_INDEX] == 0)//非停机模式
     {
-
-
-
         if(abnormalDec()&0x20)//水位异常
         {
 
@@ -1496,21 +1496,21 @@ void ele_dev_proc()
 
         }
         flow_proc();
-		 tds_proc();
+        tds_proc();
         if(GetSensor()->status[TDS1_INDEX]==TDS1_INDEX||GetSensor()->status[SYSTEM_INDEX] == SYSTEM_INDEX||GetSensor()->status[TDS2_INDEX] == TDS2_INDEX||GetSensor()->status[SHUNT_INDEX] == SHUNT_INDEX)
         {
-                if(GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)
-                {
+            if((GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)&&GetSensor()->status[SYSTEM_INDEX] != SYSTEM_INDEX)
+            {
 
-                    water_levelAbnormal_proc();
+                water_levelAbnormal_proc();
 
-                }
-                else //水位开关异常
-                {
-                    EleSwCtrl(SALT_SW,OFF);//关阀2 
-                    EleSwCtrl(6,OFF);//关所有阀
-            DcMotorCtrl(7,OFF);//关所有电机
-                }
+            }
+            else //水位开关异常
+            {
+                EleSwCtrl(SALT_SW,OFF);//关阀2
+                EleSwCtrl(6,OFF);//关所有阀
+                DcMotorCtrl(7,OFF);//关所有电机
+            }
 
 
         }
@@ -1535,10 +1535,19 @@ void ele_dev_proc()
         {
 
             hsw_proc();
+			registerTick(PUMP_TICK_NO, 0,0, 1);
+			First_flag = 0;
         }
         else //正常工作模式
         {
             //state_flag=1;
+            First_flag = 1;
+			 registerTick(SW_ON_TICK, 30000,1, 0);
+    if( GetTickResult(SW_ON_TICK)==1)
+    {
+        First_flag = 0;
+        
+    }
             Flow_Init();
             normal_proc();
 
