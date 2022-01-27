@@ -194,13 +194,14 @@ void DMA0_Channel2_IRQHandler(void)
     }
 }
 unsigned char tmp2[128],i;
+extern  uint32_t powerSleepTick;
 void UART3_IRQHandler(void)
 {
     dma_single_data_parameter_struct dma_single_data_parameter;
     if(RESET != usart_interrupt_flag_get(UART3, USART_INT_FLAG_IDLE)) //空闲中断
     {
         usart_interrupt_flag_clear(UART3,USART_INT_FLAG_IDLE);	/* 清除空闲中断标志位 */
-
+ powerSleepTick = HAL_GetTick();
         tmp2[i++] = usart_data_receive(UART3);
 			 packet_proc();
         uart3_rx_config();

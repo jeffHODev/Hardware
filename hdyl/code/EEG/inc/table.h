@@ -2,7 +2,7 @@
 #define TABLE_H
 #include "main.h"
 
-const float res_table[]=
+const float res_table[205]=
 {
 	120.6973,
 	114.9366,

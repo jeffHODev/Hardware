@@ -280,7 +280,7 @@ void uart1_dma_tx(uint32_t *pb,uint32_t len)
 void power_sleep(void)
 {
 	power_manage(5,OFF);
-	BleConSeting(WAKUP);
+	BleConSeting(SLEEP);
 	nvic_irq_disable(EXTI10_15_IRQn);
 	nvic_irq_disable(EXTI1_IRQn);
 

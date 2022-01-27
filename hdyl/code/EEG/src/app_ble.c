@@ -48,7 +48,7 @@ void app_init(void)
 void Send_UART3(void)
 {
     u8 i,sum;
-	  static u8 res;
+    static u8 res;
     static u8 flag;
     //printf("主串口发送\r\n");
     //TIM_Cmd(TIM4, DISABLE);
@@ -85,12 +85,12 @@ void Send_UART3(void)
         UART3_DMA_Finish=1;
         /////////////////////////////////////////////////////////////////
         //printf("开始发送数据\r\n");
-        #if BLE_DEBUG
+#if BLE_DEBUG
         data_to_send[0]=0xAA;
         data_to_send[1]=0xAA;
         data_to_send[2]=0xF1;
         data_to_send[3]=33; //发送个8通道的数据 + 1字节丢包测试
-        #endif
+#endif
         //		LED_1=LED_ON;
         //		LED_2=LED_ON;
         //		delay_s(1);
@@ -173,7 +173,7 @@ void Send_UART3(void)
                 UART3_DMA_Finish=0;
 
                 UART_Queue->front = (UART_Queue->front+1) % UART_Queue->capacity;//取数据，队头自增，存数据，队尾自增
-                
+
             }
         }
     }
@@ -183,10 +183,10 @@ void Send_UART3(void)
     //queue_Deinit(UART_Queue);//循环队列注销
     //Main_printf("内存当前占用 %d\r\n",mem_perused());
 }
-
+ uint32_t powerSleepTick;
 void app(void)
 {
-    static uint32_t powerSleepTick;
+    
     static unsigned char init_flag;
     if(getSensor()->key_status)
     {
@@ -204,19 +204,22 @@ void app(void)
     {
         if(BleConSeting(CONNECT_STA)==0)//蓝牙已经连接
         {
-            *getstate()=SEND_BULE;
-            if((HAL_GetTick()-powerSleepTick)>=300000)
+            //*getstate()=SEND_BULE;
+            if((HAL_GetTick()-powerSleepTick)>=30000)
             {
                 if(*getstate()!=SEND_BULE)
                 {
                     BleConSeting(DIS_CONNECT);
+                    power_sleep();
                 }
+								else
+									 powerSleepTick = HAL_GetTick();
             }
             if(*getstate()==SEND_BULE)
             {
                 power_manage(5,ON);
                 // MMR_process();
-               
+
                 if(init_flag == 0)
                 {
                     init_flag = 1;
@@ -224,25 +227,25 @@ void app(void)
                 }
                 sensor_proc();
                 Send_UART3();
-                
-            }
-			else
-			{
-			  nvic_irq_disable(EXTI1_IRQn);
-			  nvic_irq_disable(EXTI10_15_IRQn);
 
-			}
-						protocol_process();
-						nibp_if_process();
-        	}
+            }
             else
-            {                
-                 // nvic_irq_disable(EXTI1_IRQn);
-                // nvic_irq_disable(EXTI10_15_IRQn);
-                powerSleepTick = HAL_GetTick();
-                //	power_sleep();
+            {
+                nvic_irq_disable(EXTI1_IRQn);
+                nvic_irq_disable(EXTI10_15_IRQn);
 
             }
+            protocol_process();
+            nibp_if_process();
+        }
+        else
+        {
+            // nvic_irq_disable(EXTI1_IRQn);
+            // nvic_irq_disable(EXTI10_15_IRQn);
+            powerSleepTick = HAL_GetTick();
+            //	power_sleep();
 
         }
+
+    }
 }

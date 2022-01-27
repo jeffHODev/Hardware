@@ -8,9 +8,9 @@ sensors_stru sensors_usr;
 uint16_t find_from_ntc_table( uint16_t adcv )
 {
   uint16_t i,len;
-  len = sizeof(res_table);
+  len = 205;
   for( i = 0; i < len; i ++ ) // 200根据自己表的元素数目来定
-  if( res_table[i] >=adcv )break;
+  if( res_table[i] <=adcv )break;
   return i;
 }
 
@@ -18,13 +18,18 @@ void temperature_proc()
 {
     float temp;
 	uint16_t res_index;
-	if(getAdcBuf()->adc_value[0]>=getAdcBuf()->adc_value[1])
+	if(getAdcBuf()->adc_value[1]>=getAdcBuf()->adc_value[0])
 	{
-      temp = getAdcBuf()->adc_value[1]*300/getAdcBuf()->adc_value[0];
-	  sensors_usr.res = sensors_usr.res +temp/FIR_NUM-sensors_usr.res/FIR_NUM;
+	
+		sensors_usr.ta =getAdcBuf()->adc_value[0]*3.3/4095;
+		sensors_usr.tb =getAdcBuf()->adc_value[1]*3.3/4095;
+		sensors_usr.vol=sensors_usr.tb-sensors_usr.ta;
+	    sensors_usr.res_cal =(sensors_usr.vol)*560;//sensors_usr.ta/1000 ;
+     // temp = getAdcBuf()->adc_value[1]*300/getAdcBuf()->adc_value[0];
+	  sensors_usr.res = sensors_usr.res +sensors_usr.res_cal/FIR_NUM-sensors_usr.res/FIR_NUM;
 	  res_index = find_from_ntc_table(sensors_usr.res );
-      
-      if(res_table[res_index]>temp)
+
+      if(res_table[res_index]<temp)
       	{
 			if(res_index>0)
 			{
@@ -39,8 +44,8 @@ void temperature_proc()
 	  }
 	  else
 	  {
-	  	sensors_usr.temperature = temp_table[0];
-
+	  	//sensors_usr.temperature = temp_table[0];
+     sensors_usr.temperature = (temp_table[res_index]+temp_table[res_index+1])/2.0;
 	  }
 	 
 	  

@@ -5,6 +5,11 @@
 typedef struct 
 {
     uint16_t res;
+	float ta;
+	float tb;
+
+	float res_cal;
+	float vol;
 	uint16_t br;
 	uint16_t vbat;	
 	uint16_t temperature;
