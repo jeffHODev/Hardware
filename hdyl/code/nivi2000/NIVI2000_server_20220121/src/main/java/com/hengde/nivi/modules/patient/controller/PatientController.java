@@ -44,9 +44,9 @@ public class PatientController {
     　* @return
     　*/
     public String check(Patient patient){
-        if(isBlank(patient.getName())){
-            return "患者姓名为空";
-        }
+     //   if(isBlank(patient.getName())){
+        //    return "患者姓名为空";
+     //   }
 //        if(isBlank(patient.getPhone())){
 //            return "患者手机号为空";
 //        }

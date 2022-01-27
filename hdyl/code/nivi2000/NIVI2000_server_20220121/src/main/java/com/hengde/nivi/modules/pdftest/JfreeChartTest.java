@@ -371,7 +371,7 @@ public class JfreeChartTest {
         PdfStamperTest pd = new PdfStamperTest();
         Entity en = basisMeasurementService.selectPDFInfoBybasisMeasurementId(basisMeasurementId);
         if(!(null == en.getHeight() || en.getHeight().length() == 0)){
-            createImage(en.getHeight(), new Font("宋体", Font.PLAIN, 200), Paths.get(courseFile, "patientHeight.jpg").toFile());
+            createImage(en.getHeight(), new Font("宋体", Font.PLAIN, 64), Paths.get(courseFile, "patientHeight.jpg").toFile());
         }
         if(!(null == en.getSex() || en.getSex().length() == 0)){
             if(en.getSex().equals("0")){
@@ -379,13 +379,13 @@ public class JfreeChartTest {
             }else{
                 en.setSex("女");
             }
-            createImage(en.getSex(), new Font("宋体", Font.PLAIN, 100), Paths.get(courseFile, "patientSex.jpg").toFile());
+            createImage(en.getSex(), new Font("宋体", Font.PLAIN, 64), Paths.get(courseFile, "patientSex.jpg").toFile());
         }
         if(!(null == en.getDiagDate() || en.getDiagDate().length() == 0)){
-            createImage(en.getDiagDate(), new Font("宋体", Font.PLAIN, 200), Paths.get(courseFile, "Time.jpg").toFile());
+            createImage(en.getDiagDate(), new Font("宋体", Font.PLAIN, 64), Paths.get(courseFile, "Time.jpg").toFile());
         }
         if(!(null == en.getPatientName() || en.getPatientName().length() == 0)){
-            createImage(en.getPatientName(), new Font("宋体", Font.PLAIN, 200), Paths.get(courseFile, "patientName.jpg").toFile());
+            createImage(en.getPatientName(), new Font("宋体", Font.PLAIN, 64), Paths.get(courseFile, "patientName.jpg").toFile());
         }
 
         if(!(null == en.getAge() || en.getAge().length() == 0)){
@@ -397,13 +397,13 @@ public class JfreeChartTest {
                 e.printStackTrace();
             }
 
-            createImage(GetAge.getAge(date)+"", new Font("宋体", Font.PLAIN, 200), Paths.get(courseFile, "patientAge.jpg").toFile());
+            createImage(GetAge.getAge(date)+"", new Font("宋体", Font.PLAIN, 32), Paths.get(courseFile, "patientAge.jpg").toFile());
         }
         if(!(null == en.getWeight() || en.getWeight().length() == 0)){
-            createImage(en.getWeight(), new Font("宋体", Font.PLAIN, 200), Paths.get(courseFile, "patientWeight.jpg").toFile());
+            createImage(en.getWeight(), new Font("宋体", Font.PLAIN, 64), Paths.get(courseFile, "patientWeight.jpg").toFile());
         }
         if(!(null == en.getDoctoreName() || en.getDoctoreName().length() == 0)){
-            createImage(en.getDoctoreName(), new Font("宋体", Font.PLAIN, 100), Paths.get(courseFile, "doctoreName.jpg").toFile());
+            createImage(en.getDoctoreName(), new Font("宋体", Font.PLAIN, 64), Paths.get(courseFile, "doctoreName.jpg").toFile());
         }
         byteMap.put("PDFByte", pd.fillTemplate(courseFile));
         return result.ok().setData(byteMap);
@@ -412,7 +412,7 @@ public class JfreeChartTest {
     //保存图片公共调用
     public void saveFile(CategoryDataset dataset, String courseFile, String img){
         JFreeChart freeChart = createChart(dataset);
-        saveAsFile(freeChart, courseFile + img, 600, 400);
+        saveAsFile(freeChart, courseFile + img, 800, 300);
     }
 
     /**
@@ -636,7 +636,7 @@ public class JfreeChartTest {
             yy = (float) (PTV / 100 - 2.25) * dpy; // 2.25 y坐标在原点的值
             g2.setPaint(Color.BLUE);
             g2.fillOval(xx, (int)(baseY - yy), 10, 10); //填充一个圆形 圆的外切矩形 左上角坐标为(0, 0), 宽高为10
-            g2.drawString("PWV = " + PTV / 100 + "M/S", (int) x - 180, (int)ascent - 5);
+            g2.drawString("PWV = " + String.format("%.2f", PTV / 100) + "M/S", (int) x - 180, (int)ascent - 5);
 
             /** 再次设置生成图片的文字样式 * */
             Font font1 = new Font("黑体", Font.BOLD, 15);
@@ -668,21 +668,27 @@ public class JfreeChartTest {
         // 把单个字符的高度+3保证高度绝对能容纳字符串作为图片的高度
         int height = unitHeight + 3;
         System.out.println("width:" + width + ", height:" + height);
-        return new int[]{width*3, height*3};
+        return new int[]{width*4, height*2};
     }
 
     // 根据str,font的样式以及输出文件目录
     public void createImage(String text, Font font, File outFile)
             throws Exception {
         // 获取font的样式应用在str上的整个矩形
-        int[] arr = getWidthAndHeight(text, font);
+      /*  int[] arr = getWidthAndHeight(text, font);
         int width = arr[0];
         int height = arr[1];
         // 创建图片
         BufferedImage image = new BufferedImage(width, height,
                 BufferedImage.TYPE_INT_BGR);//创建图片画布
         Graphics g = image.getGraphics();
+          g.setColor(Color.WHITE); // 先用白色填充整张图片,也就是背景
+        g.fillRect(0, 0, width, height);//画出矩形区域，以便于在矩形区域内写入文字
+        g.setColor(Color.black);// 再换成黑色，以便于写入文字
+        g.drawString(text, 0, font.getSize());// 画出一行字符串
 
+
+//        g.drawString(text, 0, 2 * font.getSize());// 画出第二行字符串，注意y轴坐标需要变动
         g.setColor(Color.WHITE); // 先用白色填充整张图片,也就是背景
         g.fillRect(0, 0, width, height);//画出矩形区域，以便于在矩形区域内写入文字
         g.setColor(Color.black);// 再换成黑色，以便于写入文字
@@ -690,6 +696,42 @@ public class JfreeChartTest {
         g.drawString(text, 0, font.getSize());// 画出一行字符串
 //        g.drawString(text, 0, 2 * font.getSize());// 画出第二行字符串，注意y轴坐标需要变动
         g.dispose();
-        ImageIO.write(image, "jpg", outFile);// 输出png图片
+        ImageIO.write(image, "jpg", outFile);// 输出png图片*/
+
+        int[] arr = getWidthAndHeight(text, font);
+        int width = arr[0];
+        int height = arr[1];
+        // 创建图片
+        BufferedImage bi = new BufferedImage(width, height,
+                BufferedImage.TYPE_INT_BGR);//创建图片画布
+        Graphics2D g = bi.createGraphics();
+        g.setBackground(Color.WHITE);
+        g.clearRect(0, 0, width, height);
+
+        /** 设置生成图片的文字样式 * */
+        //Font font = new Font("黑体", Font.BOLD, 25);
+        g.setFont(font);
+        g.setPaint(Color.BLACK);
+
+        /** 设置字体在图片中的位置 在这里是坐标位置* */
+        FontRenderContext context = g.getFontRenderContext();
+        Rectangle2D bounds = font.getStringBounds(text, context);
+        //double x = (width - bounds.getWidth()) / 2; //居中
+        double x = width - bounds.getWidth();
+        //double y = (height - bounds.getHeight()) / 2; //Y轴居中
+        double y = (height - bounds.getHeight());
+        double ascent = -bounds.getY();
+        double baseY = y + ascent;
+        int base= (int)(x -bounds.getX());
+        g.setFont(font);
+        g.setPaint(Color.BLACK);
+        g.drawString(text, 0, (int)(y+20) );
+        ImageIO.write(bi, "jpg", outFile);// 输出png图片
+
+
+
     }
 }
+
+
+

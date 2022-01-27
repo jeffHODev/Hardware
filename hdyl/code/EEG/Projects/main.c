@@ -79,6 +79,7 @@ int main(void)
     dma_config();  
 	 adc_config();
     timer_config(TIMER3, 1);
+	delay_ms(500);
    //ADS129x_ReInit(0);
 	 app_init();
     protocol_init();
@@ -325,7 +326,7 @@ void timer_config(uint32_t timer_periph, uint32_t time_interval_ms) {
     timer_initpara.clockdivision     = TIMER_CKDIV_DIV1;
     timer_init(timer_periph, &timer_initpara);
 	
-	timer_enable(timer_periph);
+	
 	
 
     
