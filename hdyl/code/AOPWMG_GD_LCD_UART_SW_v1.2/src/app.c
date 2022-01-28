@@ -144,7 +144,8 @@ unsigned char abnormalDec()
 
     if(dstTds<150)
         dstTds = 150;
-    if((GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=dstTds-150)))//tds异常
+    if((GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=dstTds-150))&&
+		GetSensor()->status[TDS2_INDEX]==0)//tds异常
     {
         //GetSensor()->tds2 >= MAX_TDS_VALUE||
         if(GetSensor()->water_status = 1)
@@ -1054,7 +1055,7 @@ unsigned char flow_proc()
             else
                 GetSensor()->status[FLOW_INDEX] = 0;//流量异常
 #endif
-            if(GetSensor()->flow==0)
+            if(GetSensor()->flow==0&&GetSensor()->status[TDS2_INDEX] ==0)
                 GetSensor()->status[NOWATER_INDEX] = NOWATER_INDEX;//缺水
             result = 1;
         }
@@ -1202,7 +1203,7 @@ void normal_proc()
 
     if(GetSensor()->status[SHUNT_INDEX] == 0)//非停机模式
     {
-        if(abnormalDec()&0x20)//水位异常
+        if(abnormalDec()&0x20&&GetSensor()->status[TDS2_INDEX]==0)//水位异常
         {
 
             //pump_ctrl(1);
@@ -1473,7 +1474,7 @@ void ele_dev_proc()
             if(GetSensor()->wash_time>=3)
             {
                 //  GetSensor()->wash_time =0;
-                GetSensor()->status[SHUNT_INDEX] = 0;//停机
+              /*  GetSensor()->status[SHUNT_INDEX] = 0;//停机
 
                 if(GetSensor()->tds2>=MAX_TDS_VALUE)
                 {
@@ -1482,32 +1483,38 @@ void ele_dev_proc()
 
                 }
 
-                else if(GetSensor()->tds2 <=dstTds-150||GetSensor()->tds2 <=MIN_TDS_VALUE)
+                else if(GetSensor()->tds2 <=dstTds-150||GetSensor()->tds2 <=MIN_TDS_VALUE)*/
                 {
                     GetSensor()->status[TDS2_INDEX] = TDS2_INDEX;//tds2异常
                     GetSensor()->status[SHUNT_INDEX] = SHUNT_INDEX;//停机
+				
 
                 }
 
 
-                else
-                    GetSensor()->status[SHUNT_INDEX] = 0;//停机
+               // else
+                 //   GetSensor()->status[SHUNT_INDEX] = 0;//停机
 
             }
 
         }
         flow_proc();
-        tds_proc();
+        //tds_proc();
         if(GetSensor()->status[TDS1_INDEX]==TDS1_INDEX||GetSensor()->status[SYSTEM_INDEX] == SYSTEM_INDEX||GetSensor()->status[TDS2_INDEX] == TDS2_INDEX||GetSensor()->status[SHUNT_INDEX] == SHUNT_INDEX)
         {
-            if((GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)&&GetSensor()->status[SYSTEM_INDEX] != SYSTEM_INDEX)
+          /*  if((GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)&&GetSensor()->status[SYSTEM_INDEX] != SYSTEM_INDEX&&
+				GetSensor()->status[TDS2_INDEX] == 0)
             {
 
                 water_levelAbnormal_proc();
 
             }
-            else //水位开关异常
+            
+            else //水位开关异常*/
             {
+               GetSensor()->status[NORMAL_INDEX] = 0;//
+                GetSensor()->status[WASH_INDEX] = 0;//
+               GetSensor()->status[WATER_LEVEL_INDEX] = 0;//
                 EleSwCtrl(SALT_SW,OFF);//关阀2
                 EleSwCtrl(6,OFF);//关所有阀
                 DcMotorCtrl(7,OFF);//关所有电机
@@ -1599,7 +1606,7 @@ void ele_process()
                 GetSensor()->status[SHUNT_INDEX]!=SHUNT_INDEX)
         {
             pump_ctrl(0);
-            if(abnormalDec()&0x20)//水位异常
+            if(abnormalDec()&0x20&&GetSensor()->status[TDS2_INDEX]==0)//水位异常
             {
 
                 GetSensor()->status[WATER_LEVEL_INDEX] = WATER_LEVEL_INDEX;//水位异常

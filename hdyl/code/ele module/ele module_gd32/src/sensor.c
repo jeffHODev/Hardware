@@ -458,7 +458,7 @@ void work_process()
             timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
 
             pid_init(DES_CURR_VALUE);
-            delay_ms(100);
+            delay_ms(1000);
             cnt++;
             //sensor.ele_status =0;
         }
@@ -473,7 +473,7 @@ void work_process()
                     // ele_ctrl(OFF);
                     GetEle_EleCurr();
                     timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
-
+                     delay_ms(1000);
                     pid_init(DES_CURR_VALUE);
                     sensor.ele_status =0;
                 }
@@ -484,6 +484,7 @@ void work_process()
                 if(sensor.wash_time >=MAX_WASH_TIME)
                 {
                     ele_ctrl(OFF);
+									delay_ms(1000);
                 }
                 else
                     ele_ctrl(ON);
@@ -510,6 +511,7 @@ void work_process()
     else if(sensor.ele_status == 0||sensor.reset== 1)//非电解模式
     {
         ele_ctrl(OFF);
+			//delay_ms(1000);
         if(sensor.reset==1)
         {
 

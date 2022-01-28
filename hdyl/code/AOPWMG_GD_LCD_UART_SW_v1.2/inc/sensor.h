@@ -89,7 +89,7 @@
 #define MIN_ORP   -100
 
 #define MAX_TDS_VALUE  1700 //进水tds阈值300----  1300
-#define MIN_TDS_VALUE  300
+#define MIN_TDS_VALUE  200
 
 #define MAX_TDS1_VALUE  150//150  //原水tds阈值 150
 #define MIN_TDS1_VALUE  0
