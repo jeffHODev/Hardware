@@ -393,7 +393,7 @@ void ele_ctrl(unsigned char mode)
             {
                 timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
                 flag = 1;
-                delay_ms(100);
+                delay_ms(1000);
             }
             RelayCtrl(FORWARD);
         }
@@ -405,7 +405,7 @@ void ele_ctrl(unsigned char mode)
             {
                 timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
                 flag = 2;
-                delay_ms(100);
+                delay_ms(1000);
             }
             RelayCtrl(BACKWARD);
         }
@@ -422,7 +422,7 @@ void ele_ctrl(unsigned char mode)
 #else
         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
         flag = 0;
-        delay_ms(100);
+        delay_ms(2000);
         registerTick(PID_OUT_TICK,0,0,1);
         RelayCtrl(3);
         // RelayCtrl(FORWARD);
@@ -458,7 +458,7 @@ void work_process()
             timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
 
             pid_init(DES_CURR_VALUE);
-            delay_ms(100);
+            delay_ms(1000);
             cnt++;
             //sensor.ele_status =0;
         }

@@ -243,7 +243,7 @@ void app(void)
             // nvic_irq_disable(EXTI1_IRQn);
             // nvic_irq_disable(EXTI10_15_IRQn);
             powerSleepTick = HAL_GetTick();
-            //	power_sleep();
+            	power_sleep();
 
         }
 

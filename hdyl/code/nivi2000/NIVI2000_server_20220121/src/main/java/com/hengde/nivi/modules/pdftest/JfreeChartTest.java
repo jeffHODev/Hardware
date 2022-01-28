@@ -727,9 +727,6 @@ public class JfreeChartTest {
         g.setPaint(Color.BLACK);
         g.drawString(text, 0, (int)(y+20) );
         ImageIO.write(bi, "jpg", outFile);// 输出png图片
-
-
-
     }
 }
 
