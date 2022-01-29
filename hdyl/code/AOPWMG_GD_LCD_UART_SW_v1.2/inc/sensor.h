@@ -140,7 +140,7 @@
 #define WORK_STATUS_SIZE  			15
 #define MAX_WASH_TIME  				3
 
-#define MAX_TX_TIMES   				3
+#define MAX_TX_TIMES   				10
 
 typedef struct
 {
