@@ -386,35 +386,29 @@ void ele_ctrl(unsigned char mode)
         __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_3, pid_proc(sensor.ele_curr));
         RelayCtrl(FORWARD);
 #else
-        if(flag == 0)
-        {
-         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
-		 flag = 1;
-		 delay_ms(100);
-		}
 
         if(sensor.inverEle == 0)
-        	{
-			        if(flag ！= 1)
         {
-         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
-		 flag = 1;
-		 delay_ms(100);
-		}
-		RelayCtrl(FORWARD);
-		}
+            if(flag != 1)
+            {
+                timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+                flag = 1;
+                delay_ms(1000);
+            }
+            RelayCtrl(FORWARD);
+        }
 
-            
+
         else if (sensor.inverEle == 1)
-		{
-		if(flag ！= 2)
         {
-         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
-		 flag = 2;
-		 delay_ms(100);
-		}
+            if(flag != 2)
+            {
+                timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+                flag = 2;
+                delay_ms(1000);
+            }
             RelayCtrl(BACKWARD);
-        	}
+        }
         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,pid_proc(sensor.ele_curr));
 
 #endif
@@ -427,12 +421,12 @@ void ele_ctrl(unsigned char mode)
         RelayCtrl(3);
 #else
         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
-		flag = 0;
-        delay_ms(100);
+        flag = 0;
+        delay_ms(200);
         registerTick(PID_OUT_TICK,0,0,1);
         RelayCtrl(3);
         // RelayCtrl(FORWARD);
-        
+
 #endif
     }
 
@@ -453,6 +447,7 @@ uint32_t cnt ;
 void work_process()
 {
     static uint32_t timeout_tick;
+	static unsigned char update_falg=0;
     if(sensor.ele_status == 1)//电解模式
     {
         registerTick(LOWCURR_TICK,12000,1,0);
@@ -464,7 +459,7 @@ void work_process()
             timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
 
             pid_init(DES_CURR_VALUE);
-            delay_ms(100);
+            delay_ms(1000);
             cnt++;
             //sensor.ele_status =0;
         }
@@ -479,7 +474,7 @@ void work_process()
                     // ele_ctrl(OFF);
                     GetEle_EleCurr();
                     timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
-
+                     delay_ms(1000);
                     pid_init(DES_CURR_VALUE);
                     sensor.ele_status =0;
                 }
@@ -490,9 +485,19 @@ void work_process()
                 if(sensor.wash_time >=MAX_WASH_TIME)
                 {
                     ele_ctrl(OFF);
+					delay_ms(1000);
                 }
                 else
-                    ele_ctrl(ON);
+                {
+					
+							if(GetTickResult(ELE_TICK)==1)
+						{
+						   ele_ctrl(ON);
+							update_falg = 0;
+							registerTick(ELE_TICK,3000,1,0);			
+						}
+				}
+                    
             }
         }
 
@@ -516,6 +521,13 @@ void work_process()
     else if(sensor.ele_status == 0||sensor.reset== 1)//非电解模式
     {
         ele_ctrl(OFF);
+		if(update_falg == 0)
+		{
+			update_falg = 1;
+			registerTick(ELE_TICK,0,0,1);
+			registerTick(ELE_TICK,3000,1,0);			
+		}
+			//delay_ms(1000);
         if(sensor.reset==1)
         {
 
