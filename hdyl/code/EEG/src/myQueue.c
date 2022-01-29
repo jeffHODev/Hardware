@@ -192,7 +192,7 @@ int8_t queue_data_push(QueueInfo *q, u8 *cache,u8 length,u16 times)
 				//return 0;//满了
 		}
 		
-		memcpy( *(q->databuf + q->rear)+ q->carry_num *length,cache,length);//搬运  length 个字节
+		memmove( *(q->databuf + q->rear)+ q->carry_num *length,cache,length);//搬运  length 个字节
 	
 		q->carry_num++;//数据搬运次数计数			
 		if(q->carry_num == times) //搬运N次数据

@@ -12,8 +12,12 @@ import android_serialport_api.SerialPortUtil;
 public class SerialParseUtil {
 
     private static int sn = 0;
+    private static int count;
 
     private static int getSn() {
+        if (sn >= 256){
+            sn=sn-256;
+        }
         return sn++;
     }
 
@@ -26,7 +30,7 @@ public class SerialParseUtil {
 //    }
 
     //head是byte，串口协议head都小于128
-    public static String packetSend(int head, int sn,byte[] data){
+    public static String packetSend(int head, int sn, byte[] data){
         StringBuilder buf = new StringBuilder();
         buf.append(HexUtil.Dec2HexString(head));
         buf.append(HexUtil.Dec2HexString(sn));
@@ -73,7 +77,7 @@ public class SerialParseUtil {
 //        Log.e("packetSend","buf---------@@@@@@@@@"+buf.toString());
 //        return buf.toString();
 //    }
-
+//   private int count;
     //全局buffer，开始只有10000个
     //1、是否是因为处理速度不快，导致inputStream读取数据的时候不连续
     //2、在解析数据的时候数据本身处理位置有问题，导致数据错误
@@ -86,6 +90,7 @@ public class SerialParseUtil {
     private static void doParse(ParseSerialCallBack parseSerialCallBack,ParseBPCallBack parseBPCallBack,
                                 ParseRealBPCallBack parseRealBPCallBack) {
         //buffer,append处理buffer剩余的数据+serialPortData
+        //byte[] pData = HexUtil.HexString2Bytes(SerialBuffer.stringBuffer.toString());
         byte[] pData = HexUtil.HexString2Bytes(SerialBuffer.stringBuffer.toString());
         SerialBean serialBean = new SerialBean();
         SBPBean sbpBean = new SBPBean();
@@ -140,16 +145,27 @@ public class SerialParseUtil {
                         int i = 6;
                         int index = 0;
                         for(int j=0;j<(pData[5]&0xff);j++) {
-                            if(i+7 > pData.length) {
+                            if(i+8 > pData.length) {
                                 break;
                             }
-                            int data = ((pData[0+i] & 0xff) << 12) | ((pData[1+i] & 0xff) << 4) | ((pData[2+i] & 0xff) >> 4);
-                            data = (data - 0xB964 / 2) * 4 * 240000 / 0xB964 / 7;
+                           // pData[0+i] = (byte)0x85;12882 3cc0
+                            float data = ((pData[0+i] & 0xff) << 12) | ((pData[1+i] & 0xff) << 4) | ((pData[2+i] & 0xff) >> 4);
+
+                            //System.out.println("RRRECG1：" + pData[0+i]);
+                           // System.out.println("RRRECG2：" + pData[1+i]);
+                           // System.out.println("RRRECG3：" + pData[2+i]);
+                           // System.out.println("ECG1：" + data);
+                            data = (data - 0xF300 / 2) * 4.0f * 240000 / 0xF300 / 7;
+                            //System.out.println("ECG2：" + data);
+                            //System.out.println("ECG2：" +data);
+                           // count++;
+                          //  System.out.println("count：" +count);
+                           // System.out.println("ECG2：" + data);
                             int headData = (((pData[2+i] & 0xff) & 0x0F) << 8) | (pData[3+i] & 0xff);
                             int pcgData = ((pData[4+i] & 0xff) << 4) | ((pData[5+i] & 0xff) >> 4);
 //                            int tstData = (((pData[5+i] & 0xff) & 0x0F) << 8) | (pData[6+i] & 0xff);
                             int tstData = ((((pData[5+i] & 0xff) & 0x0F) << 12)| (pData[6+i] & 0xff) << 4 | (((pData[7+i] & 0xff) & 0xF0) >> 4) );
-
+                            System.out.println("ECG2：" + headData);
 //                            serialBean.getEcgdata()[index] = Math.abs(data);
                             serialBean.getEcgdata()[index] = data;
                             serialBean.getPcgdata()[index] = Math.abs(headData);

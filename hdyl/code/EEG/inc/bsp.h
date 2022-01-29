@@ -18,7 +18,7 @@
 
 typedef struct
 {
- uint32_t adc_value[ADC_SIZE];
+ uint16_t adc_value[ADC_SIZE];
 }bsp_sru;
 typedef struct
 {
@@ -37,5 +37,7 @@ void SendStr(uint8_t *str);
 void power_manage(unsigned char pwr,unsigned char ctrl);
 void uart1_dma_tx(uint32_t *pb,uint32_t len);
 void uart3_dma_tx(uint32_t *pb,uint32_t len);
+void adc_start(void);
+void power_sleep(void);
 
 #endif

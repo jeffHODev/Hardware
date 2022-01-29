@@ -12,8 +12,12 @@ import android_serialport_api.SerialPortUtil;
 public class SerialParseUtil {
 
     private static int sn = 0;
+    private static int count;
 
     private static int getSn() {
+        if (sn >= 256){
+            sn=sn-256;
+        }
         return sn++;
     }
 

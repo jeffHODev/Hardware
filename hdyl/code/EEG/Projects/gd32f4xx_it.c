@@ -36,6 +36,7 @@ OF SUCH DAMAGE.
 
 
 #include "gd32f4xx_it.h"
+#include "protocol.h"
 
 uint32_t sys_tick;
 uint8_t UART3_DMA_Finish=1;
@@ -156,12 +157,15 @@ void DMA1_Channel7_IRQHandler(void)
         ;// g_transfer_complete = SET;
     }
 }
-void DMA0_Channel3_IRQHandler(void)
+void DMA0_Channel4_IRQHandler(void)
 {
-    if(dma_interrupt_flag_get(DMA0, DMA_CH3, DMA_INT_FLAG_FTF))
+    if(dma_interrupt_flag_get(DMA0, DMA_CH4, DMA_INT_FLAG_FTF))
     {
-        dma_interrupt_flag_clear(DMA0, DMA_CH3, DMA_INT_FLAG_FTF);
-       UART3_DMA_Finish=1;;
+        dma_interrupt_flag_clear(DMA0, DMA_CH4, DMA_INT_FLAG_FTF);
+        UART3_DMA_Finish=1;
+			//	nvic_irq_enable(EXTI1_IRQn, 2U, 0U);
+			//	nvic_irq_disable(EXTI10_15_IRQn);
+
     }
 }
 /*!
@@ -172,16 +176,50 @@ void DMA0_Channel3_IRQHandler(void)
 */
 void DMA1_Channel2_IRQHandler(void)
 {
-    dma_interrupt_flag_clear(DMA1, DMA_CH2, DMA_INT_FLAG_FTF);
-    if(dma_interrupt_flag_get(DMA1, DMA_CH2, DMA_INT_FLAG_FTF))
+   
+	    if(dma_interrupt_flag_get(DMA1, DMA_CH2, DMA_INT_FLAG_FTF))
+    {
+		dma_interrupt_flag_clear(DMA1, DMA_CH2, DMA_INT_FLAG_FTF);
+
+        ;//g_transfer_complete = SET;
+    }
+}
+void DMA0_Channel2_IRQHandler(void)
+{
+    dma_interrupt_flag_clear(DMA0, DMA_CH2, DMA_INT_FLAG_FTF);
+    if(dma_interrupt_flag_get(DMA0, DMA_CH2, DMA_INT_FLAG_FTF))
     {
 
         ;//g_transfer_complete = SET;
     }
 }
+unsigned char tmp2[128],i;
+extern  uint32_t powerSleepTick;
+void UART3_IRQHandler(void)
+{
+    dma_single_data_parameter_struct dma_single_data_parameter;
+    if(RESET != usart_interrupt_flag_get(UART3, USART_INT_FLAG_IDLE)) //空闲中断
+    {
+        usart_interrupt_flag_clear(UART3,USART_INT_FLAG_IDLE);	/* 清除空闲中断标志位 */
+ powerSleepTick = HAL_GetTick();
+        tmp2[i++] = usart_data_receive(UART3);
+			 packet_proc();
+        uart3_rx_config();
+
+    }
+
+    if(RESET != usart_interrupt_flag_get(UART3, USART_INT_FLAG_TC)) //空闲中断
+    {
+        usart_interrupt_flag_clear(UART3,USART_INT_FLAG_TC);	/* 清除空闲中断标志位 */
+
+        HAL_UART_TxCpltCallback();
+        // RS485_RxCpltCallback();						/* 清除接收完成标志位 */
+    }
+
+}
 void USART2_IRQHandler(void)
 {
-  
+
 
 
 
@@ -191,8 +229,12 @@ void TIMER2_IRQHandler(void)
 {
 
 }
+void EXTI5_9_IRQHandler(void)
+{
+    if(  exti_interrupt_flag_get(EXTI_6)==1)//数据接收中断
+    {
+        key_proc();
+        exti_interrupt_flag_clear(EXTI_6); //清除LINE上的中断标志位
+    }
+}
 
-//void EXTI10_15_IRQHandler(void)
-//{
-
-//}

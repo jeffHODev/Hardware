@@ -80,7 +80,7 @@ public class SerialBeanFilterEcg {
             0.084886431736559
     };
 
-    public static double[] m00 = {0};
+    /*public static double[] m00 = {0};
     public static double[] m01 = {0};
 
     public static double[] m10 = {0};
@@ -108,9 +108,38 @@ public class SerialBeanFilterEcg {
     public static double[] m81 = {0};
 
     public static double[] m90 = {0};
-    public static double[] m91 = {0};
+    public static double[] m91 = {0};*/
 
 
+
+    public static double[] m00 = {2.996604653375066E7};
+    public static double[] m01 = {2.9966317210695818E7};
+
+    public static double[] m10 = {-25119.23898006606};
+    public static double[] m11 = {-24267.74294422823};
+
+    public static double[] m20 = {-1077681.3459361133};
+    public static double[] m21 = {-1075628.2943147745};
+
+    public static double[] m30 = {-10871.676481231687};
+    public static double[] m31 = {-11049.885867942092};
+
+    public static double[] m40 = {-401865.58794318244};
+    public static double[] m41 = {-405013.9283509676};
+
+    public static double[] m50 = {17572.7178197892};
+    public static double[] m51 = {17508.600191594196};
+
+    public static double[] m60 = {391799.45501621295};
+    public static double[] m61 = {390586.7069861517};
+
+    public static double[] m70 = {7003.498511991923};
+    public static double[] m71 = {6964.880155890668};
+
+    public static double[] m80 = {140192.4832369028};
+    public static double[] m81 = {140776.47056417257};
+    public static double[] m90 = {-3937.402856666678};
+    public static double[] m91 = {-3959.631413930063};
     //IIR
     public static float serialBeanFilter(float x) {
         double y0 = filterOrder2(x, m00, m01, a[0], b, gain[0]);  //第一级二阶滤波
@@ -124,9 +153,27 @@ public class SerialBeanFilterEcg {
         double y8 = filterOrder2(y7, m80, m81, a[8], b, gain[8]);  //第二级二阶滤波
         double y9 = filterOrder2(y8, m90, m91, a[9], b, gain[9]);  //第二级二阶滤波
 
-        if (y9>3000 | y9< -3000){
-            y9=x;
-        }
+
+        /*System.out.println("ECG_Filter1：" +m00[0]);
+        System.out.println("ECG_Filter：" +m01[0]);
+        System.out.println("ECG_Filter：" +m10[0]);
+        System.out.println("ECG_Filter：" +m11[0]);
+        System.out.println("ECG_Filter：" +m20[0]);
+        System.out.println("ECG_Filter：" +m21[0]);
+        System.out.println("ECG_Filter：" +m30[0]);
+        System.out.println("ECG_Filter：" +m31[0]);
+        System.out.println("ECG_Filter：" +m40[0]);
+        System.out.println("ECG_Filter：" +m41[0]);
+        System.out.println("ECG_Filter：" +m50[0]);
+        System.out.println("ECG_Filter：" +m51[0]);
+        System.out.println("ECG_Filter：" +m60[0]);
+        System.out.println("ECG_Filter：" +m61[0]);
+        System.out.println("ECG_Filter：" +m70[0]);
+        System.out.println("ECG_Filter：" +m71[0]);
+        System.out.println("ECG_Filter：" +m80[0]);
+        System.out.println("ECG_Filter：" +m81[0]);
+        System.out.println("ECG_Filter：" +m90[0]);
+        System.out.println("ECG_Filter20：" +m91[0]);*/
         return (float)y9;
 
     }

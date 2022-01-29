@@ -1,0 +1,9 @@
+Output: Bill of Materials
+Type  : BOM
+From  : Project [RX.PrjPcb]
+
+
+Files Generated   : 0
+Documents Printed : 0
+
+Finished Output Generation At 17:08:55 On 2022/1/23
