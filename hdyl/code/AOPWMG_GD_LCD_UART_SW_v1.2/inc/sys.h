@@ -1,7 +1,7 @@
 #ifndef SYS_H
 #define SYS_H
 #include "main.h"
-#define TICK_SIZE  25
+#define TICK_SIZE  26
 #define FLOW_TICK_NO  	0
 #define TDS_TICK_NO  	1
 #define ORP_TICK_NO  	2
@@ -25,7 +25,7 @@
 #define SW_TICK  	21
 #define PUMP_TICK_NO  	22
 #define SW_ON_TICK  	23
-
+#define HW_TICK   24 
 typedef struct
 {
 	unsigned char TickNum[TICK_SIZE];

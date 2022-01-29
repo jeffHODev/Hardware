@@ -422,7 +422,7 @@ void ele_ctrl(unsigned char mode)
 #else
         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
         flag = 0;
-        delay_ms(2000);
+        delay_ms(200);
         registerTick(PID_OUT_TICK,0,0,1);
         RelayCtrl(3);
         // RelayCtrl(FORWARD);
