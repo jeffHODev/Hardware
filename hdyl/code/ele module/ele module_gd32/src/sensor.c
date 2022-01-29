@@ -492,6 +492,7 @@ void work_process()
 
                     if(GetTickResult(ELE_TICK)==1||init_flag==0)
                     {
+                      if(sensor.ele_curr==0)
                         ele_ctrl(ON);
 						init_flag = 1;
                         update_falg = 0;
