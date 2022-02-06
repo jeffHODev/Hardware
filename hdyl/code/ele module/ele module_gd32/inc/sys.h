@@ -17,6 +17,8 @@
 #define ABNORMAL_TICK       3
 #define PID_OUT_TICK      4 
 #define TEST_TICK      5 
+#define ELE_TICK     6 
+
 #define TICK_SIZE       9
 
 //#define WASH_TIME_SETTING        5*60000   //wash time setting
