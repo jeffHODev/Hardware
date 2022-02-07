@@ -490,14 +490,14 @@ void work_process()
                 else
                 {
 
-                    if(GetTickResult(ELE_TICK)==1||init_flag==0)
-                    {
+//                    if(GetTickResult(ELE_TICK)==1||init_flag==0)
+//                    {
                       if(sensor.ele_curr==0)
                         ele_ctrl(ON);
-						init_flag = 1;
-                        update_falg = 0;
-                        registerTick(ELE_TICK,3000,1,0);
-                    }
+//												init_flag = 1;
+//                        update_falg = 0;
+//                        registerTick(ELE_TICK,3000,1,0);
+//                    }
                 }
 
             }
@@ -522,13 +522,14 @@ void work_process()
     }
     else if(sensor.ele_status == 0||sensor.reset== 1)//非电解模式
     {
+			
         ele_ctrl(OFF);
-        if(update_falg == 0)
-        {
-            update_falg = 1;
-            registerTick(ELE_TICK,0,0,1);
-            registerTick(ELE_TICK,3000,1,0);
-        }
+//        if(update_falg == 0)
+//        {
+//            update_falg = 1;
+//            registerTick(ELE_TICK,0,0,1);
+//            registerTick(ELE_TICK,3000,1,0);
+//        }
         //delay_ms(1000);
         if(sensor.reset==1)
         {
