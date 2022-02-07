@@ -77,17 +77,17 @@
 #define BLE_MASTER_SIMPLE_SDP_ENABLE				1   //simple service discovery for BLE master
 #define BLE_OTA_SERVER_ENABLE						1
 
-#define BLE_APP_PM_ENABLE							1
+#define BLE_APP_PM_ENABLE							0
 #define PM_DEEPSLEEP_RETENTION_ENABLE				1
 
 
 ///////////////////////// UI Configuration ////////////////////////////////////////////////////
 #define UI_LED_ENABLE								1
-#define	UI_KEYBOARD_ENABLE							0
+#define	UI_KEYBOARD_ENABLE							1
 
 ///////////////////////// DEBUG  Configuration ////////////////////////////////////////////////
 #define DEBUG_GPIO_ENABLE							0
-#define UART_PRINT_DEBUG_ENABLE                     0  //printf
+#define UART_PRINT_DEBUG_ENABLE                     1  //printf
 #define MASTER_CONNECT_SLAVE_MAC_FILTER_EN			0
 
 
@@ -173,7 +173,7 @@
 #define	GPIO_LED_BLUE			GPIO_PB6
 #define	GPIO_LED_GREEN			GPIO_PB6
 #define	GPIO_LED_WHITE			GPIO_PB6
-#if ROLE==MASTER
+#if ROLE
 #define	GPIO_LED_RED			GPIO_PD7
 #define LED_ON_LEVAL 			0 		//gpio output high voltage to turn on led
 #define ECHO                    GPIO_PC4
@@ -224,12 +224,14 @@
 
 
 /////////////////// Clock  /////////////////////////////////
-#define	SYS_CLK_TYPE										SYS_CLK_32M_Crystal
+#define	SYS_CLK_TYPE										SYS_CLK_24M_Crystal
 
 #if(SYS_CLK_TYPE == SYS_CLK_32M_Crystal)
 #define CLOCK_SYS_CLOCK_HZ  							32000000
 #elif(SYS_CLK_TYPE == SYS_CLK_48M_Crystal)
 #define CLOCK_SYS_CLOCK_HZ  							48000000
+#elif(SYS_CLK_TYPE == SYS_CLK_24M_Crystal)
+#define CLOCK_SYS_CLOCK_HZ  							24000000
 #endif
 
 enum
@@ -244,11 +246,11 @@ enum
 /////////////////////////////////////// PRINT DEBUG INFO ///////////////////////////////////////
 #if (UART_PRINT_DEBUG_ENABLE)
 //the baud rate should not bigger than 1M(system timer clock is constant 16M)
-#define PRINT_BAUD_RATE             		1000000//1M baud rate,should Not bigger than 1Mb/s
-#define DEBUG_INFO_TX_PIN           		GPIO_PA0
-#define PULL_WAKEUP_SRC_PA0         		PM_PIN_PULLUP_10K
-#define PA0_OUTPUT_ENABLE         			1
-#define PA0_DATA_OUT                     	1 //must
+#define PRINT_BAUD_RATE             		115200//1M baud rate,should Not bigger than 1Mb/s
+#define DEBUG_INFO_TX_PIN           		GPIO_PB4
+#define PULL_WAKEUP_SRC_PB4         		PM_PIN_PULLUP_1M
+#define PB4_OUTPUT_ENABLE         			1
+#define PB4_DATA_OUT                     	1 //must
 #include "application/print/u_printf.h"
 #endif
 

@@ -97,6 +97,9 @@ int app_le_adv_report_event_handle(u8 *p)
 {
 	event_adv_report_t *pa = (event_adv_report_t *)p;
 	s8 rssi = pa->data[pa->len];
+//	u8 adv[31];
+//	memcpy(adv,&pa->data,pa->len);
+//	u8 mac[6]={0x89,0xEE,0xBD,0x38,0xc1,0xa4};
 
 	#if 0  //debug, print ADV report number every 5 seconds
 		AA_dbg_adv_rpt ++;
@@ -129,6 +132,9 @@ int app_le_adv_report_event_handle(u8 *p)
     u8 advdata[31];
 	memcpy(advdata,pa->data,pa->len);
 	u8 name[9] = {'t','e','s','t','t','e','s','t','b'};
+//	if(memcmp(pa->mac,&mac,6)==0){
+	//	user_manual_pairing=1;
+//	}	
 	if(memcmp(&advdata[2],name,9)==0)
 	{
 		user_manual_pairing = 1;
@@ -180,18 +186,23 @@ int app_le_adv_report_event_handle(u8 *p)
  * @param[in]  p         Pointer point to event parameter buffer.
  * @return
  */
+u16 handle_s=0;
+u16 handle_m=0;
+u8 con_stare=0;
 int app_le_connection_complete_event_handle(u8 *p)
 {
 	hci_le_connectionCompleteEvt_t *pConnEvt = (hci_le_connectionCompleteEvt_t *)p;
+	blc_pm_setSleepMask(PM_SLEEP_DISABLE);
 
 	if(pConnEvt->status == BLE_SUCCESS){
-
+       
 		dev_char_info_insert_by_conn_event(pConnEvt);
 
 		if(pConnEvt->role == LL_ROLE_SLAVE){	// slave role
 			bls_l2cap_requestConnParamUpdate (pConnEvt->connHandle, CONN_INTERVAL_10MS, CONN_INTERVAL_10MS, 99, CONN_TIMEOUT_4S);	// 1 second
 //			bls_l2cap_requestConnParamUpdate (pConnEvt->connHandle, CONN_INTERVAL_10MS, CONN_INTERVAL_10MS, 199, CONN_TIMEOUT_6S);	// 2 second
 //			bls_l2cap_requestConnParamUpdate (pConnEvt->connHandle, CONN_INTERVAL_10MS, CONN_INTERVAL_10MS, 299, CONN_TIMEOUT_8S);	// 3 second
+			handle_s=pConnEvt->connHandle;
 		}
 		else if(pConnEvt->role == LL_ROLE_MASTER){ // master role, process SMP and SDP if necessary
 			#if (BLE_MASTER_SMP_ENABLE)
@@ -204,7 +215,8 @@ int app_le_connection_complete_event_handle(u8 *p)
 				}
 			#endif
 
-
+				handle_m=pConnEvt->connHandle;
+				con_stare=1;
 
 			#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
 				memset(&cur_sdp_device, 0, sizeof(dev_char_info_t));
@@ -256,8 +268,8 @@ int app_le_connection_complete_event_handle(u8 *p)
 int 	app_disconnect_event_handle(u8 *p)
 {
 	event_disconnection_t	*pCon = (event_disconnection_t *)p;
-
-	//terminate reason
+	con_stare=0;
+	printf("discon\r\n");
 	if(pCon->reason == HCI_ERR_CONN_TIMEOUT){  	//connection timeout
 
 	}
@@ -290,8 +302,8 @@ int 	app_disconnect_event_handle(u8 *p)
 	}
 
 	dev_char_info_delete_by_connhandle(pCon->connHandle);
-
-
+     ble_status(0);
+    printf("pCon->reason:%x \n",pCon->reason);
 	return 0;
 }
 
@@ -306,7 +318,8 @@ int app_le_connection_update_complete_event_handle(u8 *p)
 	hci_le_connectionUpdateCompleteEvt_t *pUpt = (hci_le_connectionUpdateCompleteEvt_t *)p;
 
 	if(pUpt->status == BLE_SUCCESS){
-
+      printf("conn\n");
+	  ble_status(1);
 	}
 
 	return 0;
@@ -375,7 +388,7 @@ int app_controller_event_callback (u32 h, u8 *p, int n)
 int app_host_event_callback (u32 h, u8 *para, int n)
 {
 	u8 event = h & 0xFF;
-
+ 
 	switch(event)
 	{
 		case GAP_EVT_SMP_PAIRING_BEGIN:
@@ -470,7 +483,7 @@ int app_host_event_callback (u32 h, u8 *para, int n)
 		default:
 		break;
 	}
-
+    printf("event: %x",event);
 	return 0;
 }
 
@@ -491,6 +504,7 @@ int app_gatt_data_handler (u16 connHandle, u8 *pkt)
 {
 	if( dev_char_get_conn_role_by_connhandle(connHandle) == LL_ROLE_MASTER )   //GATT data for Master
 	{
+	   printf("mas\n");
 		#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
 			if(master_sdp_pending == connHandle ){  //ATT service discovery is ongoing on this conn_handle
 				//when service discovery function is running, all the ATT data from slave
@@ -511,6 +525,7 @@ int app_gatt_data_handler (u16 connHandle, u8 *pkt)
 
 			if(pAtt->opcode == ATT_OP_HANDLE_VALUE_NOTI)  //slave handle notify
 			{
+			    printf("4\n");
 					//---------------	consumer key --------------------------
 				#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
 					if(attHandle == dev_info->char_handle[3])  // Consume Report In (Media Key)
@@ -537,13 +552,19 @@ int app_gatt_data_handler (u16 connHandle, u8 *pkt)
 					{
 
 					}
-					else if(attHandle == 0x30)     // slave Notify
+					else if(attHandle == SPP_SERVER_TO_CLIENT_DP_H)     // slave Notify
 					{
+						u8 data[20];
+
 						u8 len=(pAtt->l2capLen)-3; //data len
+						memcpy(data,pAtt->dat,len);
+						for(u8 i=0;i<len;i++){
+							printf("%c",data[i]);
+						}
 					}
 					else
 					{
-
+						printf("3\n");
 					}
 			}
 			else if (pAtt->opcode == ATT_OP_HANDLE_VALUE_IND)
@@ -580,7 +601,7 @@ int app_gatt_data_handler (u16 connHandle, u8 *pkt)
 	}
 	else{   //GATT data for Slave
 
-
+			printf("notify2\n");
 	}
 
 
@@ -826,7 +847,8 @@ _attribute_ram_code_ void user_init_deepRetn(void)
 void app_process_power_management(void)
 {
 #if (BLE_APP_PM_ENABLE)
-	blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
+	if(!con_stare){
+		blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
 
 	int user_task_flg = ota_is_working;
 	#if UI_KEYBOARD_ENABLE
@@ -837,9 +859,13 @@ void app_process_power_management(void)
 	#endif
 
 
-	if(user_task_flg){
+		if(user_task_flg){
+			blc_pm_setSleepMask(PM_SLEEP_DISABLE);
+		}
+	}else{
 		blc_pm_setSleepMask(PM_SLEEP_DISABLE);
 	}
+
 #endif
 }
 
@@ -867,11 +893,11 @@ int main_idle_loop (void)
 #endif
 
 	////////////////////////////////////// UI entry /////////////////////////////////
-	#if (UI_KEYBOARD_ENABLE)
+	//#if (UI_KEYBOARD_ENABLE)
 		proc_keyboard (0,0, 0);
 
 		proc_master_role_unpair();
-	#endif
+	//#endif
 	mesure_proc();
 
 
@@ -880,8 +906,19 @@ int main_idle_loop (void)
 
 	return 0; //must return 0 due to SDP flow
 }
+u32 t_count=0;
+void send_test()
+{
+	if(con_stare&&clock_time_exceed(t_count, 1000*1000))
+	{
+
+		blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H, "123",3);
+		t_count= clock_time();
+	}
 
 
+
+}
 
 /**
  * @brief     BLE main loop
@@ -891,8 +928,7 @@ int main_idle_loop (void)
 _attribute_no_inline_ void main_loop (void)
 {
 	main_idle_loop ();
-		//clock_time();
-
+	send_test();
 	#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
 		simple_sdp_loop ();
 	#endif

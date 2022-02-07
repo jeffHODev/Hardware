@@ -59,18 +59,18 @@ _attribute_ram_code_ void irq_handler(void)
 {
     DBG_CHN15_HIGH;
 
-	blc_sdk_irq_handler ();	
-		if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN){
-			reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
-			if(gpio_read(ECHO)== 1){ // press key with low level to flash light
-				sleep_ms(10);
-				if(gpio_read(ECHO)== 0){
-					gpio_toggle(GPIO_LED_RED);
-				}
-			}
-		}
+    blc_sdk_irq_handler ();
+    if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
+    {
+        reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
+        if(gpio_read(ECHO)== 1)  // press key with low level to flash light
+        {
+                gpio_toggle(GPIO_LED_RED);
+				measure_start();
+        }
+    }
 
-	DBG_CHN15_LOW;
+    DBG_CHN15_LOW;
 }
 
 /**
@@ -80,46 +80,67 @@ _attribute_ram_code_ void irq_handler(void)
  */
 _attribute_ram_code_ int main(void)
 {
-	#if (BLE_APP_PM_ENABLE)
-		blc_pm_select_internal_32k_crystal();
-	#endif
+#if (BLE_APP_PM_ENABLE)
+    blc_pm_select_internal_32k_crystal();
+#endif
 
-	#if(MCU_CORE_TYPE == MCU_CORE_825x)
-		cpu_wakeup_init();
-	#elif(MCU_CORE_TYPE == MCU_CORE_827x)
-		cpu_wakeup_init(DCDC_MODE, EXTERNAL_XTAL_24M);
-	#endif
+#if(MCU_CORE_TYPE == MCU_CORE_825x)
+    cpu_wakeup_init();
+#elif(MCU_CORE_TYPE == MCU_CORE_827x)
+    cpu_wakeup_init(DCDC_MODE, EXTERNAL_XTAL_24M);
+#endif
 
-	/* detect if MCU is wake_up from deep retention mode */
-	int deepRetWakeUp = pm_is_MCU_deepRetentionWakeup();  //MCU deep retention wakeUp
-
-	
-	clock_init(SYS_CLK_TYPE);
-
-	rf_drv_init(RF_MODE_BLE_1M);
-
-	gpio_init(!deepRetWakeUp);
+    /* detect if MCU is wake_up from deep retention mode */
+    int deepRetWakeUp = pm_is_MCU_deepRetentionWakeup();  //MCU deep retention wakeUp
 
 
-	if( deepRetWakeUp ){ //MCU wake_up from deepSleep retention mode
-		user_init_deepRetn ();
-	}
-	else{ //MCU power_on or wake_up from deepSleep mode
-		user_init_normal ();
-	}
+    clock_init(SYS_CLK_TYPE);
 
-	/* load customized freq_offset cap value.
-	 */
-	blc_app_loadCustomizedParameters();
+    rf_drv_init(RF_MODE_BLE_1M);
+
+    gpio_init(!deepRetWakeUp);
+    //	gpio_set_func(GPIO_PB4 ,AS_GPIO);                      //设置GPIO功能
+	//gpio_set_output_en(GPIO_PB4, 1); 		//输出使能
+	//gpio_set_input_en(GPIO_PB4 ,0);			//输入失能
+	gpio_set_func(GPIO_LED_RED ,AS_GPIO);					   //设置GPIO功能
+gpio_set_output_en(GPIO_LED_RED, 1);		//输出使能
+gpio_set_input_en(GPIO_LED_RED ,0); 		//输入失能
+
+    if( deepRetWakeUp )  //MCU wake_up from deepSleep retention mode
+    {
+        user_init_deepRetn ();
+    }
+    else  //MCU power_on or wake_up from deepSleep mode
+    {
+        user_init_normal ();
+    }
+
+    /* load customized freq_offset cap value.
+     */
+    blc_app_loadCustomizedParameters();
 
 
-	irq_enable();
+    irq_enable();
+    u32 tick_tmp;
+    while(1)
+    {
+    	printf("init sdk\n");
+		if( (clock_time()tick_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
+			{
+        gpio_toggle(GPIO_LED_RED);
+		tick_tmp = clock_time();
 
-	while(1)
-	{
-		main_loop ();
-	}
-	return 0;
+		}
+
+        //gpio_write(GPIO_PB4, 0);
+       // sleep_ms(1000);
+        gpio_write(GPIO_LED_RED, 1);
+        //gpio_write(GPIO_PB4, 1);
+       // sleep_ms(1000);
+        main_loop ();
+
+    }
+    return 0;
 }
 
 

@@ -64,6 +64,11 @@ extern	int user_manual_pairing;
 
 #define AUTO_PAIR    1
 
+#define TIMEOUT_PERIOD 40
+#define M_ON_PERIOD 500
+#define M_OFF_PERIOD 490
+
+#define MEASURE_PERIOD 1000
 typedef struct
 {
 	u8 start;
@@ -77,6 +82,11 @@ typedef struct
 	u8 key_update;
 	u8 key_down_flag;
 }measure_stru;
+typedef struct
+{
+	u8 connection;
+	u8 disconnection;
+}ble_stru;
 
 /**
  * @brief      keyboard task handler
@@ -116,6 +126,8 @@ void proc_master_role_unpair(void);
 void user_gpio_init(void);
 void measure_start(void);
 void mesure_proc(void);
+void ble_status(u8 flag);
+ble_stru *GetBle_status(void);
 
 
 

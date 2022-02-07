@@ -390,14 +390,21 @@ static const u8 my_OtaCharVal[19] = {
 	U16_LO(OTA_CMD_OUT_DP_H), U16_HI(OTA_CMD_OUT_DP_H),
 	TELINK_SPP_DATA_OTA,
 };
-
+extern u16 handle_s;
 
 int spp_onReceiveData(u16 connHandle, ble_rf_packet_att_write_t *p)
 {
 	u8 len = p->l2capLen - 3;
+	u8 data[20];
 	if(len > 0)
 	{
-
+		memcpy(data,&p->value,len);
+		if(memcmp(data,"123",3)==0){
+			blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, "456",3);
+			for(u8 i=0;i<len;i++){
+				printf("%c",data[i]);
+			}
+		}
 	}
 
 	return 0;

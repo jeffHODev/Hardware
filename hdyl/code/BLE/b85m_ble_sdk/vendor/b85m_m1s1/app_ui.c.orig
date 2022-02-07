@@ -200,57 +200,54 @@ void key_change_proc(void)
     {
         measure_usr.key_update  = 0;
 
-            key_type = PAIR_UNPAIR_KEY;
+        key_type = PAIR_UNPAIR_KEY;
 
-            if(measure_usr.key == KEY_PAIR)   //Manual pair triggered by Key Press
+        if(measure_usr.key == KEY_PAIR)   //Manual pair triggered by Key Press
+        {
+            master_pairing_enable = 1;
+            my_dump_str_data(APP_DUMP_EN, "UI PAIR begin", 0, 0);
+        }
+        else if(measure_usr.key == KEY_UNPAIR) //Manual un_pair triggered by Key Press
+        {
+            if(conn_master_num)  //at least 1 master connection exist
             {
-                master_pairing_enable = 1;
-                my_dump_str_data(APP_DUMP_EN, "UI PAIR begin", 0, 0);
-            }
-            else if(measure_usr.key == KEY_UNPAIR) //Manual un_pair triggered by Key Press
-            {
-                if(conn_master_num)  //at least 1 master connection exist
+
+                if(!master_disconnect_connhandle)   //if one master un_pair disconnection flow not finish, here new un_pair not accepted
                 {
 
-                    if(!master_disconnect_connhandle)   //if one master un_pair disconnection flow not finish, here new un_pair not accepted
+
+                    for(int i=0; i < MASTER_MAX_NUM; i++)  //slave index is from 0 to "MASTER_MAX_NUM - 1"
                     {
-
-
-                        for(int i=0; i < MASTER_MAX_NUM; i++)  //slave index is from 0 to "MASTER_MAX_NUM - 1"
+                        if(conn_dev_list[i].conn_state)
                         {
-                            if(conn_dev_list[i].conn_state)
-                            {
-                                master_unpair_enable = conn_dev_list[i].conn_handle;  //mark connHandle on master_unpair_enable
-                                my_dump_str_data(APP_DUMP_EN, "UI UNPAIR", &master_unpair_enable, 2);
-                                break;
-                            }
+                            master_unpair_enable = conn_dev_list[i].conn_handle;  //mark connHandle on master_unpair_enable
+                            my_dump_str_data(APP_DUMP_EN, "UI UNPAIR", &master_unpair_enable, 2);
+                            break;
                         }
-
                     }
+
                 }
             }
-			    else if(measure_usr.key == KEY_START_DOWN)
-    {
-        key_not_released = 0;
-        if(key_type == PAIR_UNPAIR_KEY)
+        }
+        else if(measure_usr.key == KEY_START_DOWN)
         {
-            if(master_pairing_enable)
+            key_not_released = 0;
+            if(key_type == PAIR_UNPAIR_KEY)
             {
-                master_pairing_enable = 0;
-                my_dump_str_data(APP_DUMP_EN, "UI PAIR end", 0, 0);
-            }
+                if(master_pairing_enable)
+                {
+                    master_pairing_enable = 0;
+                    my_dump_str_data(APP_DUMP_EN, "UI PAIR end", 0, 0);
+                }
 
-            if(master_unpair_enable)
-            {
-                master_unpair_enable = 0;
+                if(master_unpair_enable)
+                {
+                    master_unpair_enable = 0;
+                }
             }
         }
-    }
 
     }
-
-
-
 
 }
 
@@ -306,6 +303,67 @@ void proc_keyboard (u8 e, u8 *p, int n)
     if(clock_time_exceed(keyScanTick, 10 * 1000))
     {
         key_delay_tick = clock_time();
+	// START按键按下
+		if(gpio_read(KB)==1)											  // SET按键按下
+		{
+		   printf("key\n");
+			if(key_time_start++>BUTTON_FILTER_TIME) 	 // 按键通过滤波检测
+			{
+	
+	
+				measure_usr.key_down_flag = 1;
+			}
+	
+			if(key_time_start++>BUTTON_LONG_TIME)		  // 按键通过滤波检测
+			{
+				if(measure_usr.key_down_flag == 1)
+				{
+					measure_usr.key_update=1;
+					key_time_start = 0;
+					measure_usr.key_down_flag = 2;
+					measure_usr.key = KEY_START_HOLD;
+				}
+	
+			}
+		}
+	
+		else
+		{
+			if( measure_usr.key_down_flag == 1)
+			{
+				if( measure_usr.key != KEY_PAIR)
+				{
+					measure_usr.key_update=1;
+					measure_usr.key_down_flag = 0;
+					measure_usr.key = KEY_PAIR;
+	
+				}
+				else if(measure_usr.key != KEY_UNPAIR)
+				{
+					measure_usr.key_update=1;
+					measure_usr.key_down_flag = 0;
+					measure_usr.key = KEY_UNPAIR;
+	
+				}
+				else if(measure_usr.key != KEY_START_DOWN)
+				{
+					measure_usr.key_update=1;
+					measure_usr.key_down_flag = 0;
+					measure_usr.key = KEY_START_DOWN;
+	
+				}
+	
+	
+			}
+			else if( measure_usr.key_down_flag == 0)
+			{
+				measure_usr.key = 0;
+	
+	
+			}
+			measure_usr.key_down_flag = 0;
+			key_time_start = 0;
+		}
 
     }
     else
@@ -313,67 +371,7 @@ void proc_keyboard (u8 e, u8 *p, int n)
 
 
 
-    // START按键按下
-    if(gpio_read(KB)==1)											  // SET按键按下
-    {
-
-        if(key_time_start++>BUTTON_FILTER_TIME)		 // 按键通过滤波检测
-        {
-
-
-            measure_usr.key_down_flag = 1;
-        }
-
-        if(key_time_start++>BUTTON_LONG_TIME) 		  // 按键通过滤波检测
-        {
-            if(measure_usr.key_down_flag == 1)
-            {
-                measure_usr.key_update=1;
-                key_time_start = 0;
-                measure_usr.key_down_flag = 2;
-                measure_usr.key = KEY_START_HOLD;
-            }
-
-        }
-    }
-
-    else
-    {
-        if( measure_usr.key_down_flag == 1)
-        {
-            if( measure_usr.key != KEY_PAIR)
-            {
-                measure_usr.key_update=1;
-                measure_usr.key_down_flag = 0;
-                measure_usr.key = KEY_PAIR;
-
-            }
-            else if(measure_usr.key != KEY_UNPAIR)
-            {
-                measure_usr.key_update=1;
-                measure_usr.key_down_flag = 0;
-                measure_usr.key = KEY_UNPAIR;
-
-            }
-			else if(measure_usr.key != KEY_START_DOWN)
-			{
-				measure_usr.key_update=1;
-				measure_usr.key_down_flag = 0;
-				measure_usr.key = KEY_START_DOWN;
-			
-			}
-
-
-        }
-        else if( measure_usr.key_down_flag == 0)
-        {
-            measure_usr.key = 0;
-
-
-        }
-        measure_usr.key_down_flag = 0;
-        key_time_start = 0;
-    }
+    
 
 #endif
 }
@@ -485,6 +483,15 @@ void proc_master_role_unpair(void)
 void user_gpio_init()
 {
     sleep_ms(2000);
+
+    //	gpio_set_func(GPIO_PB4 ,AS_GPIO);                      //设置GPIO功能
+    //gpio_set_output_en(GPIO_PB4, 1); 		//输出使能
+    //gpio_set_input_en(GPIO_PB4 ,0);			//输入失能
+ //   gpio_set_func(GPIO_LED_RED,AS_GPIO);					    //设置GPIO功能
+  //  gpio_set_output_en(GPIO_LED_RED, 1);		//输出使能
+   // gpio_set_input_en(GPIO_LED_RED,0); 		//输入失能
+
+	
     //1.init the LED pin,for indication
     gpio_set_func(GPIO_LED_RED,AS_GPIO);                       //设置GPIO功能
     gpio_set_output_en(GPIO_LED_RED, 1); 		//输出使能
@@ -587,9 +594,9 @@ void mesure_proc()
     tick_tmp = clock_time()-measure_usr.tick;
     if(measure_usr.start == 1)
     {
-        if(tick_tmp>=40*CLOCK_16M_SYS_TIMER_CLK_1MS)
+        if(tick_tmp>=TIMEOUT_PERIOD*CLOCK_16M_SYS_TIMER_CLK_1MS)
         {
-
+            printf("m1\n");
             measure_usr.dis = MAX_DIS+1;
             measure_usr.start = 0;
             measure_usr.sum  = 0;
@@ -597,8 +604,10 @@ void mesure_proc()
         }
         else
         {
+            printf("m2\n");
             if(gpio_read(ECHO)== 0)
             {
+                printf("m3\n");
                 measure_usr.time = tick_tmp/CLOCK_16M_SYS_TIMER_CLK_1MS;
 
                 measure_usr.dis = measure_usr.time*17;
@@ -606,11 +615,13 @@ void mesure_proc()
                     measure_usr.dis = MAX_DIS + 2;
                 if(measure_usr.dis<=MIN_DIS)
                 {
+                    printf("m4\n");
                     measure_usr.sum  = measure_usr.sum + 1;
                     measure_usr.dis = MAX_DIS + 3;
                 }
                 else
                 {
+                    printf("m5\n");
                     measure_usr.sum  = 0;
                     measure_usr.dis = MAX_DIS + 4;
 
@@ -623,19 +634,20 @@ void mesure_proc()
     }
     else
     {
+        printf("m6\n");
         measure_stop();
     }
     if(measure_usr.sum>=10)//超过10次报警，震动
     {
-
-        if((clock_time()-measure_usr.motor_tick)>=500*CLOCK_16M_SYS_TIMER_CLK_1MS)
+        printf("m7\n");
+        if((clock_time()-measure_usr.motor_tick)>=M_ON_PERIOD*CLOCK_16M_SYS_TIMER_CLK_1MS)
         {
             measure_usr.motor_tick = clock_time();
             gpio_set_input_en(M_EN,0); 		//输入失能
         }
         else
         {
-            if((clock_time()-measure_usr.motor_tick)>=490*CLOCK_16M_SYS_TIMER_CLK_1MS)
+            if((clock_time()-measure_usr.motor_tick)>=M_OFF_PERIOD*CLOCK_16M_SYS_TIMER_CLK_1MS)
                 gpio_set_input_en(M_EN,0); 		//输入失能
             else
                 gpio_set_input_en(M_EN,1); 		//输入失能
@@ -649,19 +661,38 @@ void mesure_proc()
 
     }
 #else//for salve
-    tick_tmp = clock_time()-measure_usr.tick;
-    if(tick_tmp>=100*CLOCK_16M_SYS_TIMER_CLK_1MS)
+    if(GetBle_status()->connection == 1)
     {
-        measure_start();
+        tick_tmp = clock_time()-measure_usr.tick;
+        if(tick_tmp>=MEASURE_PERIOD*CLOCK_16M_SYS_TIMER_CLK_1MS)
+        {
+            measure_start();
+            printf("m8\n");
+        }
     }
     else
     {
+        // printf("m9\n");
         measure_stop();
     }
 #endif
 }
+ble_stru ble_usr;
 
+void ble_status(u8 flag)
+{
+    if(flag == 0)
+    {
+        ble_usr.connection = 0;
+    }
+    else
+        ble_usr.connection = 1;
+}
 
+ble_stru *GetBle_status()
+{
+    return &ble_usr;
+}
 
 
 
