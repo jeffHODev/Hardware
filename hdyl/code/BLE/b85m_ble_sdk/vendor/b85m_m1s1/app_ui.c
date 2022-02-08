@@ -510,7 +510,7 @@ void user_gpio_init()
     gpio_set_output_en(KB, 0); 			//enable output
     gpio_set_input_en(KB,1);				//disable input
     gpio_setup_up_down_resistor(KB, PM_PIN_UP_DOWN_FLOAT);
-    gpio_set_interrupt_risc0(KB, POL_RISING);
+    gpio_set_interrupt(KB, POL_RISING);
 
 
 
@@ -518,7 +518,7 @@ void user_gpio_init()
     gpio_set_output_en(ECHO, 0); 			//enable output
     gpio_set_input_en(ECHO,1);				//disable input
     gpio_setup_up_down_resistor(ECHO, PM_PIN_PULLDOWN_100K);
-    gpio_set_interrupt_risc0(ECHO, POL_RISING);
+    gpio_set_interrupt(ECHO, POL_RISING);
 
     gpio_set_func(M_EN,AS_GPIO);                       //设置GPIO功能
     gpio_set_output_en(M_EN, 0); 		//输出使能
@@ -643,7 +643,7 @@ void mesure_proc()
     }
     else
     {
-        printf("m6\n");
+        //printf("m6\n");
         measure_stop();
     }
     if(measure_usr.sum>=10)//超过10次报警，震动

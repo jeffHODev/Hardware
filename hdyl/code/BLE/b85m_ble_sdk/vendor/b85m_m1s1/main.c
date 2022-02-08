@@ -59,17 +59,18 @@ _attribute_ram_code_ void irq_handler(void)
 {
     DBG_CHN15_HIGH;
 
+
     blc_sdk_irq_handler ();
     if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
     {
         reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
-        if(gpio_read(ECHO)== 1)  // press key with low level to flash light
+        if(gpio_read(ECHO))  // press key with low level to flash light
         {
             gpio_toggle(GPIO_LED_RED);
             measure_start();
             printf("I1\n");
         }
-        if(gpio_read(KB)== 1)  // press key with low level to flash light
+        if(gpio_read(KB))// press key with low level to flash light
         {
             gpio_toggle(GPIO_LED_RED);
             //measure_start();
