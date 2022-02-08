@@ -1,0 +1,45 @@
+---- user_manual_pairing Matches (6 in 3 files) ----
+app_le_adv_report_event_handle in app.c (D:\work\git\Hardware\hdyl\code\BLE\b85m_ble_sdk\vendor\b85m_m1s1) : 
+	master_auto_connect = 0;
+	user_manual_pairing = 0;
+	#if AUTO_PAIR
+    u8 advdata[31];
+	memcpy(advdata,pa->data,pa->len);
+app_le_adv_report_event_handle in app.c (D:\work\git\Hardware\hdyl\code\BLE\b85m_ble_sdk\vendor\b85m_m1s1) : 
+	if(memcmp(pa->mac,&mac,6)==0){
+		user_manual_pairing=1;
+	}
+	//if(memcmp(&advdata[2],name,9)==0)
+	//{
+	//	user_manual_pairing = 1;gpio_toggle(GPIO_LED_RED);
+	//}
+	#else
+	//manual pairing methods 1: key press triggers
+	user_manual_pairing = master_pairing_enable && (rssi > -56);  //button trigger pairing(RSSI threshold, short distance)
+    #endif
+	#if (BLE_MASTER_SMP_ENABLE)
+		master_auto_connect = blc_smp_searchBondingSlaveDevice_by_PeerMacAddress(pa->adr_type, pa->mac);
+app_le_adv_report_event_handle in app.c (D:\work\git\Hardware\hdyl\code\BLE\b85m_ble_sdk\vendor\b85m_m1s1) : 
+
+	if(master_auto_connect || user_manual_pairing){
+
+		/* send create connection command to Controller, trigger it switch to initiating state. After this command, Controller
+		 * will scan all the ADV packets it received but not report to host, to find the specified device(mac_adr_type & mac_adr),
+app_le_adv_report_event_handle in app.c (D:\work\git\Hardware\hdyl\code\BLE\b85m_ble_sdk\vendor\b85m_m1s1) : 
+			    // for Telink referenced pair&bonding,
+				if(user_manual_pairing && !master_auto_connect){  //manual pair but not auto connect
+					blm_manPair.manual_pair = 1;
+					blm_manPair.mac_type = pa->adr_type;
+					memcpy(blm_manPair.mac, pa->mac, 6);
+app_ui.c (D:\work\git\Hardware\hdyl\code\BLE\b85m_ble_sdk\vendor\b85m_m1s1) line 68 : 
+int master_auto_connect = 0;
+int user_manual_pairing = 0;
+
+
+
+app_ui.h (D:\work\git\Hardware\hdyl\code\BLE\b85m_ble_sdk\vendor\b85m_m1s1) line 56 : 
+extern	int master_auto_connect;
+extern	int user_manual_pairing;
+#define BUTTON_LONG_TIME   300
+#define BUTTON_FILTER_TIME  5
+#define KEY_START_HOLD   1

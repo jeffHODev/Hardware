@@ -555,12 +555,28 @@ int app_gatt_data_handler (u16 connHandle, u8 *pkt)
 					else if(attHandle == SPP_SERVER_TO_CLIENT_DP_H)     // slave Notify
 					{
 						u8 data[20];
+						u16 calCRC,resCRC;
 						gpio_toggle(GPIO_LED_RED);
 						u8 len=(pAtt->l2capLen)-3; //data len
 						memcpy(data,pAtt->dat,len);
 						for(u8 i=0;i<len;i++){
 							printf("%c",data[i]);
 						}
+                        if(data[0]!=PKT_HEAD)
+							return ;
+						if(len<data[2]+2)
+							return ;
+					   calCRC=CRC_Compute(&data[1],data[2]+2);
+					   resCRC=data[4];
+					   resCRC=(resCRC<<8)&0xFF;
+					   resCRC=resCRC+(data[5])&0xFF;
+						if(calCRC==resCRC)
+						{
+							parase(data[3]);
+							data[3] = 0;
+						}
+
+						
 					}
 					else
 					{

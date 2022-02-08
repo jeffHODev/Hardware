@@ -64,12 +64,14 @@ _attribute_ram_code_ void irq_handler(void)
     if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
     {
         reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
-        if(gpio_read(ECHO))  // press key with low level to flash light
+        #if ROLE == MASTER
+        if(gpio_read(ECHO)==0)  // press key with low level to flash light
         {
             gpio_toggle(GPIO_LED_RED);
-            measure_start();
+            measure_stop();
             printf("I1\n");
         }
+		#endif
         if(gpio_read(KB))// press key with low level to flash light
         {
             gpio_toggle(GPIO_LED_RED);

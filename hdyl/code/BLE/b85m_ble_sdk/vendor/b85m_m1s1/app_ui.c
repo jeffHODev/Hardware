@@ -518,11 +518,11 @@ void user_gpio_init()
     gpio_set_output_en(ECHO, 0); 			//enable output
     gpio_set_input_en(ECHO,1);				//disable input
     gpio_setup_up_down_resistor(ECHO, PM_PIN_PULLDOWN_100K);
-    gpio_set_interrupt(ECHO, POL_RISING);
+    gpio_set_interrupt(ECHO, POL_FALLING);
 
     gpio_set_func(M_EN,AS_GPIO);                       //设置GPIO功能
-    gpio_set_output_en(M_EN, 0); 		//输出使能
-    gpio_set_input_en(M_EN,1);			//输入失能
+    gpio_set_output_en(M_EN, 1); 		//输出使能
+    gpio_set_input_en(M_EN,0);			//输入失能
 
 
 
@@ -572,7 +572,21 @@ void user_gpio_init()
 }
 
 
+void parase(u8 tmp)
+{
+	switch(tmp)
+	{
+		case 0x4b:
+		{
+			measure_start();//从机到主机握手，通知主机开始测量
+		}break;
+		case 0x5a:
+		{
+		
+		}break;
 
+	}
+}
 void measure_start()
 {
     measure_usr.start = 1;
@@ -588,6 +602,27 @@ void measure_start()
 
 
 }
+u8 getsn()
+{
+	static u8 sn;
+	sn++;
+	return sn;
+}
+
+u8 tx_buf[8];
+void pkt_pack(u8 ucmd)
+{
+    u16 calCRC;
+	tx_buf[0] = PKT_HEAD;
+	tx_buf[1] =  getsn();	
+	tx_buf[2] =  1;	
+	tx_buf[3] =  ucmd;	
+	calCRC =   CRC_Compute(&tx_buf[1],tx_buf[2]+2);
+	tx_buf[4] =  (calCRC>>8)&0xFF;;	
+	tx_buf[5] =  (calCRC)&0xFF;	
+
+}
+
 void measure_stop()
 {
     gpio_write(CS102_EN, 1);
@@ -614,7 +649,7 @@ void mesure_proc()
         else
         {
             printf("m2\n");
-            if(gpio_read(ECHO)== 0)
+            if(measure_usr.stop == 1)
             {
                 printf("m3\n");
                 measure_usr.time = tick_tmp/CLOCK_16M_SYS_TIMER_CLK_1MS;
@@ -652,7 +687,7 @@ void mesure_proc()
         if((clock_time()-measure_usr.motor_tick)>=M_ON_PERIOD*CLOCK_16M_SYS_TIMER_CLK_1MS)
         {
             measure_usr.motor_tick = clock_time();
-            gpio_set_input_en(M_EN,0); 		//输入失能
+            gpio_set_input_en(M_EN,1); 		//输入失能  500 100
         }
         else
         {
@@ -675,8 +710,12 @@ void mesure_proc()
         tick_tmp = clock_time()-measure_usr.tick;
         if(tick_tmp>=MEASURE_PERIOD*CLOCK_16M_SYS_TIMER_CLK_1MS)
         {
-            measure_start();
-            printf("m8\n");
+          extern u16 handle_s;
+		  pkt_pack(0x4b);
+           blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
+           sleep_us(100);
+           measure_start();
+           printf("m8\n");
         }
     }
     else
