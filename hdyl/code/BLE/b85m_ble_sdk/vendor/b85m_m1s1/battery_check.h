@@ -24,7 +24,7 @@
 #define BATTERY_CHECK_H_
 
 
-#define VBAT_ALRAM_THRES_MV				2000   // 2000 mV low battery alarm
+#define VBAT_ALRAM_THRES_MV				2000//37000//   // 2000 mV low battery alarm
 
 
 

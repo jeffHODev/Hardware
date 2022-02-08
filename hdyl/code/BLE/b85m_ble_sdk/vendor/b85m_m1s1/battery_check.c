@@ -277,6 +277,7 @@ _attribute_ram_code_ int app_battery_power_check(u16 alram_vol_mv)
 	//			 =  adc_result * Vref * 8 / 0x2000
 	//           =  adc_result * Vref >>10
 	batt_vol_mv  = (adc_result * adc_vref_cfg.adc_vref)>>10;
+    batt_vol_mv  = batt_vol_mv*11;
 
 
 //	printf("%d\r\n",batt_vol_mv);
