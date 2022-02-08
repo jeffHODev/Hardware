@@ -143,11 +143,11 @@
 
 
 
-#if UI_LED_ENABLE
+//#if UI_LED_ENABLE
 	/**
 	 *  @brief  Definition gpio for led
 	 */
-	#define	GPIO_LED_BLUE			GPIO_PD2
+	/*#define	GPIO_LED_BLUE			GPIO_PD2
 	#define	GPIO_LED_GREEN			GPIO_PD3
 	#define	GPIO_LED_WHITE			GPIO_PD4
 	#define	GPIO_LED_RED			GPIO_PD5
@@ -163,9 +163,9 @@
 	#define	PD2_OUTPUT_ENABLE		1
 	#define	PD3_OUTPUT_ENABLE		1
 	#define PD4_OUTPUT_ENABLE		1
-	#define	PD5_OUTPUT_ENABLE		1
+	#define	PD5_OUTPUT_ENABLE		1*/
 
-#endif
+//#endif
 
 
 

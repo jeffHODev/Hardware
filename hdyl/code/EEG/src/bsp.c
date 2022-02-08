@@ -3,7 +3,7 @@
 #include "ble_set.h"
 bsp_sru bsp_usr;
 spi_sru spi_usr;
-void  light_red(void)
+void  light_Ired(void)
 {
     /* OUT1_0;
      OUT2_1;
@@ -15,7 +15,7 @@ void  light_red(void)
     gpio_bit_write(OUT4_GPIO_Port, OUT4_Pin, RESET);
 }
 //打开红外光
-void  light_Ired(void)
+void  light_red(void)
 {
     /* OUT1_1;
      OUT2_0;

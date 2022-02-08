@@ -6,7 +6,7 @@
 #include "nibp_if.h"
 #include "bsp.h"
 #include "ADS129x.h"
-
+#include "main.h"
 //extern UART_HandleTypeDef huart1;
 extern struct __kfifo ecgfifo;
  dma_counter_stru dma_counter_usr;
@@ -384,8 +384,10 @@ void protocol_process(void)
 {
     protocol_recv_process();
     protocol_parse_process();
+	#if BLE_DEBUG == 0
     protocol_send_process();
     protocol_wave_send_process();
+#endif
 }
 
 

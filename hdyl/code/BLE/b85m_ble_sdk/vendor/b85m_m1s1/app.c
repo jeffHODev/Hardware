@@ -54,7 +54,7 @@
 #include "application/keyboard/keyboard.h"
 #include "battery_check.h"
 #include "app_config.h"
-
+#include "config_usr.h"
 
 _attribute_ble_data_retention_	int	master_smp_pending = 0; 		// SMP: security & encryption;
 _attribute_ble_data_retention_	u8 ota_is_working = 0;
@@ -97,9 +97,9 @@ int app_le_adv_report_event_handle(u8 *p)
 {
 	event_adv_report_t *pa = (event_adv_report_t *)p;
 	s8 rssi = pa->data[pa->len];
-//	u8 adv[31];
-//	memcpy(adv,&pa->data,pa->len);
-//	u8 mac[6]={0x89,0xEE,0xBD,0x38,0xc1,0xa4};
+	u8 adv[31];
+	memcpy(adv,&pa->data,pa->len);
+	u8 mac[6]={0x60,0xb3,0x4d,0x38,0xc1,0xa4};
 
 	#if 0  //debug, print ADV report number every 5 seconds
 		AA_dbg_adv_rpt ++;
@@ -131,14 +131,14 @@ int app_le_adv_report_event_handle(u8 *p)
 	#if AUTO_PAIR
     u8 advdata[31];
 	memcpy(advdata,pa->data,pa->len);
-	u8 name[9] = {'t','e','s','t','t','e','s','t','b'};
-//	if(memcmp(pa->mac,&mac,6)==0){
-	//	user_manual_pairing=1;
-//	}	
-	if(memcmp(&advdata[2],name,9)==0)
-	{
-		user_manual_pairing = 1;
+	u8 name[9] = {'m','1','s','1','_', 'd','e','m','o'};
+	if(memcmp(pa->mac,&mac,6)==0){
+		user_manual_pairing=1;
 	}
+	//if(memcmp(&advdata[2],name,9)==0)
+	//{
+	//	user_manual_pairing = 1;gpio_toggle(GPIO_LED_RED);
+	//}
 	#else
 	//manual pairing methods 1: key press triggers
 	user_manual_pairing = master_pairing_enable && (rssi > -56);  //button trigger pairing(RSSI threshold, short distance)
@@ -555,7 +555,7 @@ int app_gatt_data_handler (u16 connHandle, u8 *pkt)
 					else if(attHandle == SPP_SERVER_TO_CLIENT_DP_H)     // slave Notify
 					{
 						u8 data[20];
-
+						gpio_toggle(GPIO_LED_RED);
 						u8 len=(pAtt->l2capLen)-3; //data len
 						memcpy(data,pAtt->dat,len);
 						for(u8 i=0;i<len;i++){
@@ -664,9 +664,9 @@ _attribute_no_inline_ void user_init_normal(void)
 	blc_ll_initBasicMCU();
 
 	blc_ll_initStandby_module(mac_public);						   //mandatory
-    #if ROLE == SLAVE
+
     blc_ll_initLegacyAdvertising_module(); 	//adv module: 		 mandatory for BLE slave,
-    #endif
+
     blc_ll_initLegacyScanning_module(); 	//scan module: 		 mandatory for BLE master
 
 	blc_ll_initInitiating_module();			//initiate module: 	 mandatory for BLE master
@@ -770,11 +770,19 @@ _attribute_no_inline_ void user_init_normal(void)
 	blc_ll_setAdvData( (u8 *)tbl_advData, sizeof(tbl_advData) );
 	blc_ll_setScanRspData( (u8 *)tbl_scanRsp, sizeof(tbl_scanRsp));
 	blc_ll_setAdvParam(ADV_INTERVAL_500MS, ADV_INTERVAL_500MS, ADV_TYPE_CONNECTABLE_UNDIRECTED, OWN_ADDRESS_PUBLIC, 0, NULL, BLT_ENABLE_ADV_ALL, ADV_FP_NONE);
+
+#if ROLE==SLAVE
 	blc_ll_setAdvEnable(BLC_ADV_ENABLE);  //ADV enable
 	blc_ll_setMaxAdvDelay_for_AdvEvent(MAX_DELAY_0MS);
-
+#else
 	blc_ll_setScanParameter(SCAN_TYPE_PASSIVE, SCAN_INTERVAL_100MS, SCAN_WINDOW_50MS, OWN_ADDRESS_PUBLIC, SCAN_FP_ALLOW_ADV_ANY);
 	blc_ll_setScanEnable (BLC_SCAN_ENABLE, DUP_FILTER_DISABLE);
+#endif
+
+
+
+
+
 
 	user_set_rf_power(0, 0, 0);
 
@@ -911,7 +919,7 @@ void send_test()
 {
 	if(con_stare&&clock_time_exceed(t_count, 1000*1000))
 	{
-
+		gpio_toggle(GPIO_LED_RED);
 		blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H, "123",3);
 		t_count= clock_time();
 	}

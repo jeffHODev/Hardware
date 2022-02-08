@@ -47,11 +47,6 @@
 #ifndef VENDOR_APP_H_
 #define VENDOR_APP_H_
 
-#define SLAVE  0
-#define MASTER 1
-#define ROLE  SLAVE 
-#define MAX_DIS 100
-#define MIN_DIS 10
 
 
 /**

@@ -46,9 +46,9 @@
 #pragma once
 
 #include"config.h"
+//#include"app.h"
 
-
-
+#include "config_usr.h"
 #define	CONN_MAX_NUM_CONFIG							CONN_MAX_NUM_M1_S1
 #define MASTER_MAX_NUM								1
 #define SLAVE_MAX_NUM								1
@@ -173,27 +173,7 @@
 #define	GPIO_LED_BLUE			GPIO_PB6
 #define	GPIO_LED_GREEN			GPIO_PB6
 #define	GPIO_LED_WHITE			GPIO_PB6
-#if ROLE
-#define	GPIO_LED_RED			GPIO_PD7
-#define LED_ON_LEVAL 			0 		//gpio output high voltage to turn on led
-#define ECHO                    GPIO_PC4
 
-#define CS102_EN			 GPIO_PC1
-#define CS102_T				 GPIO_PC0
-#define M_EN 				 GPIO_PD3
-#define KB                   GPIO_PD2
-
-#else
-
-#define	GPIO_LED_RED			GPIO_PB5
-#define LED_ON_LEVAL 			0 		//gpio output high voltage to turn on led
-#define ECHO                    GPIO_PC4
-#define CS102_EN			 GPIO_PC1
-#define CS102_T				 GPIO_PC0
-#define M_EN 				 GPIO_PD3
-#define KB                   GPIO_PD2
-
-#endif
 
 
 /*#define PD2_FUNC				AS_GPIO
@@ -247,10 +227,25 @@ enum
 #if (UART_PRINT_DEBUG_ENABLE)
 //the baud rate should not bigger than 1M(system timer clock is constant 16M)
 #define PRINT_BAUD_RATE             		115200//1M baud rate,should Not bigger than 1Mb/s
+
+#if ROLE==MASTER
+#define DEBUG_INFO_TX_PIN           		GPIO_PA1
+#define PULL_WAKEUP_SRC_PA1         		PM_PIN_PULLUP_1M
+#define PA1_OUTPUT_ENABLE         			1
+#define  PA1_DATA_OUT                     	1 //must
+
+#else
+
 #define DEBUG_INFO_TX_PIN           		GPIO_PB4
 #define PULL_WAKEUP_SRC_PB4         		PM_PIN_PULLUP_1M
 #define PB4_OUTPUT_ENABLE         			1
 #define PB4_DATA_OUT                     	1 //must
+
+#endif
+
+
+
+
 #include "application/print/u_printf.h"
 #endif
 

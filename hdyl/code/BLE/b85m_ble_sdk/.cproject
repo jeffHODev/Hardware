@@ -2967,6 +2967,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/vendor/common}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/drivers/8258}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;/${ProjName}\vendor\b85m_m1s1&quot;"/>
 								</option>
 								<option id="com.telink.tc32eclipse.compiler.option.def.1417976470" name="Define Syms (-D)" superClass="com.telink.tc32eclipse.compiler.option.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__PROJECT_825x_M1S1__=1"/>

@@ -25,7 +25,7 @@
 #include "stack/ble/ble.h"
 
 #include "battery_check.h"
-
+#include "app.h"
 
 #if (BATT_CHECK_ENABLE)
 

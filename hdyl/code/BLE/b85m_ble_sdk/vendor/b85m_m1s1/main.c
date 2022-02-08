@@ -47,7 +47,7 @@
 #include "drivers.h"
 #include "stack/ble/ble.h"
 #include "app.h"
-
+#include "config_usr.h"
 
 
 /**
@@ -67,14 +67,14 @@ _attribute_ram_code_ void irq_handler(void)
         {
             gpio_toggle(GPIO_LED_RED);
             measure_start();
-			printf("I1\n");
+            printf("I1\n");
         }
-	if(gpio_read(KB)== 1)  // press key with low level to flash light
-	{
-		gpio_toggle(GPIO_LED_RED);
-		//measure_start();
-		printf("key\n");
-	}
+        if(gpio_read(KB)== 1)  // press key with low level to flash light
+        {
+            gpio_toggle(GPIO_LED_RED);
+            //measure_start();
+            printf("key\n");
+        }
 
     }
 
