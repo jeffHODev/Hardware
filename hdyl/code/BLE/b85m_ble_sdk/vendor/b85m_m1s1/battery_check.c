@@ -297,10 +297,11 @@ _attribute_ram_code_ int app_battery_power_check(u16 alram_vol_mv)
 		analog_write(USED_DEEP_ANA_REG,  analog_read(USED_DEEP_ANA_REG) | LOW_BATT_FLG);  //mark
 
 		u32 pin[] = KB_DRIVE_PINS;
-		for (int i=0; i<(sizeof (pin)/sizeof(*pin)); i++)
-		{
-			cpu_set_gpio_wakeup (pin[i], Level_High, 1);  //drive pin pad high wakeup deepsleep
-		}
+		#if ROLE==MASTER
+			cpu_set_gpio_wakeup (ECHO, Level_High, 1);
+		#endif
+
+			cpu_set_gpio_wakeup (KB, Level_High, 1);  //drive pin pad high wakeup deepsleep
         #if ROLE == MASTER
 		cpu_sleep_wakeup(DEEPSLEEP_MODE, PM_WAKEUP_PAD, 0);  //deepsleep
 		#else
