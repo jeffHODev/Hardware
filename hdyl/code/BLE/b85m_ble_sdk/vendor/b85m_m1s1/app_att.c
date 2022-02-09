@@ -54,6 +54,8 @@
 #include "application/usbstd/usbkeycode.h"
 #include "application/keyboard/keyboard.h"
 #include "application/rf_frame.h"
+#include "crc.h"
+
 
 
 

@@ -149,8 +149,8 @@ void  deal_spo2(void)
     cal_IRLED();      //计算采集数据中的最大最小值
     cal_F_IRLED();    //计算频率
     R=((float)F_RLED_err/(float)F_RLED)/((float)F_IRLED_err/(float)F_IRLED);
-    //SPO2=110-15*R;
-    if(R<=30)
+    //SPO2=110-15*R;    if(R<=30)
+			if(R<=5)
         //SPO2=110-R*3.6;
         SPO2=101-R*2.0;
     else

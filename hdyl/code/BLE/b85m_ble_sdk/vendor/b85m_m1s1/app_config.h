@@ -77,7 +77,7 @@
 #define BLE_MASTER_SIMPLE_SDP_ENABLE				1   //simple service discovery for BLE master
 #define BLE_OTA_SERVER_ENABLE						1
 
-#define BLE_APP_PM_ENABLE							1
+#define BLE_APP_PM_ENABLE							0
 #define PM_DEEPSLEEP_RETENTION_ENABLE				1
 
 

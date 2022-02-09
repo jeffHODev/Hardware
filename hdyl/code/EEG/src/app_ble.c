@@ -204,7 +204,7 @@ void app(void)
     {
         if(BleConSeting(CONNECT_STA)==0)//蓝牙已经连接
         {
-            *getstate()=SEND_BULE;
+            //*getstate()=SEND_BULE;
             if((HAL_GetTick()-powerSleepTick)>=30000)
             {
                 if(*getstate()!=SEND_BULE)

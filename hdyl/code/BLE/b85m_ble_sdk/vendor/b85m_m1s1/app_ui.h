@@ -65,13 +65,14 @@ extern	int user_manual_pairing;
 #define AUTO_PAIR    1
 
 #define TIMEOUT_PERIOD 40
-#define M_ON_PERIOD 500
-#define M_OFF_PERIOD 490
-
+#define M_ON_PERIOD 600
+#define M_OFF_PERIOD 100
+#define PKT_HEAD  0xfe
 #define MEASURE_PERIOD 1000
 typedef struct
 {
 	u8 start;
+	u8 Mstart;
 	u8 stop;
 	u16 dis;
 	u32 time;
@@ -128,6 +129,8 @@ void measure_start(void);
 void mesure_proc(void);
 void ble_status(u8 flag);
 ble_stru *GetBle_status(void);
+void parase(u8 tmp);
+u8 getsn(void);
 
 
 

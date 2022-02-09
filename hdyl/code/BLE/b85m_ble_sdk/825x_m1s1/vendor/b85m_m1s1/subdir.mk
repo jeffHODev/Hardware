@@ -9,6 +9,7 @@ C_SRCS += \
 ../vendor/b85m_m1s1/app_buffer.c \
 ../vendor/b85m_m1s1/app_ui.c \
 ../vendor/b85m_m1s1/battery_check.c \
+../vendor/b85m_m1s1/crc.c \
 ../vendor/b85m_m1s1/main.c 
 
 OBJS += \
@@ -17,6 +18,7 @@ OBJS += \
 ./vendor/b85m_m1s1/app_buffer.o \
 ./vendor/b85m_m1s1/app_ui.o \
 ./vendor/b85m_m1s1/battery_check.o \
+./vendor/b85m_m1s1/crc.o \
 ./vendor/b85m_m1s1/main.o 
 
 

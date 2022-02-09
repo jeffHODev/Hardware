@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+<libraryInfo home="C:\TelinkSDK" version="1.8.0_45">
+<bootpath>
+<entry path="C:\TelinkSDK\jre\lib\resources.jar"/>
+<entry path="C:\TelinkSDK\jre\lib\rt.jar"/>
+<entry path="C:\TelinkSDK\jre\lib\sunrsasign.jar"/>
+<entry path="C:\TelinkSDK\jre\lib\jsse.jar"/>
+<entry path="C:\TelinkSDK\jre\lib\jce.jar"/>
+<entry path="C:\TelinkSDK\jre\lib\charsets.jar"/>
+<entry path="C:\TelinkSDK\jre\lib\jfr.jar"/>
+<entry path="C:\TelinkSDK\jre\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="C:\TelinkSDK\jre\lib\ext"/>
+<entry path="C:\Windows\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="C:\TelinkSDK\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+<libraryInfo home="C:\TelinkSDK\jre" version="1.8.0_45">
+<bootpath>
+<entry path="C:\TelinkSDK\jre\lib\resources.jar"/>
+<entry path="C:\TelinkSDK\jre\lib\rt.jar"/>
+<entry path="C:\TelinkSDK\jre\lib\sunrsasign.jar"/>
+<entry path="C:\TelinkSDK\jre\lib\jsse.jar"/>
+<entry path="C:\TelinkSDK\jre\lib\jce.jar"/>
+<entry path="C:\TelinkSDK\jre\lib\charsets.jar"/>
+<entry path="C:\TelinkSDK\jre\lib\jfr.jar"/>
+<entry path="C:\TelinkSDK\jre\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="C:\TelinkSDK\jre\lib\ext"/>
+<entry path="C:\Windows\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="C:\TelinkSDK\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+</libraryInfos>
