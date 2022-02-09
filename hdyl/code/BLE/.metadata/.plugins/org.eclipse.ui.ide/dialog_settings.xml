@@ -9,4 +9,8 @@
 		<item value="144" key="DIALOG_Y_ORIGIN"/>
 		<item value="true" key="BUILD_NOW"/>
 	</section>
+	<section name="ExternalProjectImportWizard">
+		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
+	</section>
 </section>
