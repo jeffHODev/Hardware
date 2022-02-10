@@ -1056,7 +1056,7 @@ unsigned char flow_proc()
             else
                 GetSensor()->status[FLOW_INDEX] = 0;//流量异常
 #endif
-            if(GetSensor()->flow==0&&GetSensor()->status[TDS2_INDEX] ==0)
+            if(GetSensor()->flow==0&&GetSensor()->status[TDS2_INDEX] ==0&&GetSensor()->status[WATER_LEVEL_INDEX]==0)
                 GetSensor()->status[NOWATER_INDEX] = NOWATER_INDEX;//缺水
             result = 1;
         }
