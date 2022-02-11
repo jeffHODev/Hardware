@@ -99,7 +99,7 @@ int app_le_adv_report_event_handle(u8 *p)
 	s8 rssi = pa->data[pa->len];
 	u8 adv[31];
 	memcpy(adv,&pa->data,pa->len);
-	u8 mac[6]={0x60,0xb3,0x4d,0x38,0xc1,0xa4};
+	u8 mac[6]={0x54,0x58,0x9c,0x38,0xc1,0xa4};
 
 	#if 0  //debug, print ADV report number every 5 seconds
 		AA_dbg_adv_rpt ++;
