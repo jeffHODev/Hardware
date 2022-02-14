@@ -523,7 +523,9 @@ void user_gpio_init()
     gpio_set_func(M_EN,AS_GPIO);                       //设置GPIO功能
     gpio_set_output_en(M_EN, 1); 		//输出使能
     gpio_set_input_en(M_EN,0);			//输入失能
+
     gpio_write(M_EN,1);			//输入失能
+
 
 
     gpio_set_func(CS102_EN,AS_GPIO);                       //设置GPIO功能
@@ -701,21 +703,21 @@ void mesure_proc()
         if((clock_time()-measure_usr.motor_tick)>=M_ON_PERIOD*CLOCK_16M_SYS_TIMER_CLK_1MS)
         {
             measure_usr.motor_tick = clock_time();
-            gpio_set_input_en(M_EN,1); 		//输入失能  500 100
+            gpio_write(M_EN,1); 		//输入失能  500 100
         }
         else
         {
             if((clock_time()-measure_usr.motor_tick)>=M_OFF_PERIOD*CLOCK_16M_SYS_TIMER_CLK_1MS)
-                gpio_set_input_en(M_EN,0); 		//输入失能
+            	gpio_write(M_EN,0); 		//输入失能
             else
-                gpio_set_input_en(M_EN,1); 		//输入失能
+            	gpio_write(M_EN,1); 		//输入失能
 
         }
 
     }
     else
     {
-        gpio_set_input_en(M_EN,1); 		//输入失能
+        gpio_write(M_EN,1); 		//输入失能
 
     }
 #else//for salve
@@ -736,6 +738,7 @@ void mesure_proc()
           blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
           sleep_us(100);
           measure_start();
+
            printf("m8\n");
         }
     }
