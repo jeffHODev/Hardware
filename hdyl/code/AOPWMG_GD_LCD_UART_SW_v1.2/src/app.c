@@ -103,7 +103,7 @@ unsigned char TickTimeoutNor(unsigned char TickNum,unsigned char BitOper,uint32_
 unsigned char abnormalDec()
 {
     static unsigned char status;
-
+  static unsigned char tick_conv_tmp=0;
     if(work_params.init_flag == 0)//上电初始化，电解水从废水通道排出
         registerTick(StART_TICK_NO, INIT_WASH_TIME_SETTING,1, 0);
     if( GetTickResult(StART_TICK_NO)==1)
@@ -142,36 +142,66 @@ unsigned char abnormalDec()
         status = status & TickTimeoutNor(TDS1_TICK_NO,0xbf,2000);
     }
 
-    if(dstTds<150)
-        dstTds = 150;
-    if((GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=dstTds-150))&&
+    if(dstTds<400)
+        dstTds = 400;
+  
+    if((GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=dstTds-200))&&
             GetSensor()->status[TDS2_INDEX]==0)//tds异常
     {
+
         //GetSensor()->tds2 >= MAX_TDS_VALUE||
-        if(GetSensor()->water_status = 1)
+        if(GetSensor()->water_status = 1)//盐箱注水中
+        {
+
+            if(tick_conv_tmp == 2)
+            {
+                registerTick(TDS_TICK_NO, 0, 0,1);//定时器复位
+
+            }
             status = status | TickTimeoutAb(TDS_TICK_NO,0x02,2*MAX_TICK);
+            tick_conv_tmp = 1;
+
+        }
         else
+        {
+            if(tick_conv_tmp == 1)
+            {
+                registerTick(TDS_TICK_NO, 0, 0,1);//定时器复位
+
+
+            }
+            tick_conv_tmp = 2;
             status = status | TickTimeoutAb(TDS_TICK_NO,0x02,2*MAX_TICK);
+
+
+        }
+
         if(status &0x02)
         {
+            tick_conv_tmp = 0;
+			registerTick(TDS_TICK_NO, 0, 0,1);//定时器复位
             GetSensor()->err_flag =GetSensor()->err_flag |0x01;//超时计时
 
         }
-        if(GetSensor()->err_flag &0x01==1)//3分钟稳定认定为参数不合格
-        {
-            if((HAL_GetTick()-GetSensor()->delay_timeout )>=WASH_TIME)
-            {
-                GetSensor()->err_flag = GetSensor()->err_flag & 0xfe;
-                GetSensor()->err_flag = GetSensor()->err_flag | 0x10;//超时
-            }
-        }
+        /*  if(GetSensor()->err_flag &0x01==1)//3分钟稳定认定为参数不合格
+          {
+              if((HAL_GetTick()-GetSensor()->delay_timeout )>=WASH_TIME)
+              {
+                  GetSensor()->err_flag = GetSensor()->err_flag & 0xfe;
+                  GetSensor()->err_flag = GetSensor()->err_flag | 0x10;//超时
+              }
+          }*/
     }
     else
     {
+        if(tick_conv_tmp>0)
+        {
+            registerTick(TDS_TICK_NO, 0, 0,1);//定时器复位
+            tick_conv_tmp = 0;
+
+        }
         GetSensor()->err_flag = 0 ;
         status = status & TickTimeoutNor(TDS_TICK_NO,0xfd,MAX_SHORT_TICK);
-        if((status & 0x02) == 0)
-            GetSensor()->delay_timeout = HAL_GetTick();
     }
     //********************************************************************************
 
@@ -939,6 +969,9 @@ void dev_normal_ctrl()
 void dev_wash_ctrl()
 {
     GetSensor()->wash_time =3;//GetSensor()->wash_time +1 ;//大于3次停机
+	GetSensor()->status[TDS2_INDEX] = TDS2_INDEX;//tds2异常
+	GetSensor()->status[SHUNT_INDEX] = SHUNT_INDEX;//停机
+
     GetSensor()->err_flag = 0;
     // GetSensor()->status[TDS2_INDEX] = 0;//tds2异常
     //GetSensor()->status[ORP_INDEX] = 0;//orp异常
@@ -1088,28 +1121,29 @@ void tds_proc()
     else
     {
         GetSensor()->status[TDS1_INDEX] = 0;//tds1异常
-        if(GetSensor()->err_flag&0x10)//tds报警
-        {
-            dev_wash_ctrl();
 
-        }//tds报警,自动清洗
-        else
-        {
-            GetSensor()->status[TDS2_INDEX] = 0;//tds2异常
-            EleSwCtrl(WATER_SW,ON);//原水进水阀开
-            if(GetSensor()->flow >0.5)
-                EleSwCtrl(WASTE_SW,ON);//废水出水阀开
-            EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
-            EleSwCtrl(HCILO_SW,ON);//消毒水出水阀关
-        }
 
     }//tds2异常
+	if(GetSensor()->err_flag&0x10)//tds报警
+	{
+		dev_wash_ctrl();
+	
+	}//tds报警,自动清洗
+	else
+	{
+		GetSensor()->status[TDS2_INDEX] = 0;//tds2异常
+		EleSwCtrl(WATER_SW,ON);//原水进水阀开
+		if(GetSensor()->flow >0.5)
+			EleSwCtrl(WASTE_SW,ON);//废水出水阀开
+		EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
+		EleSwCtrl(HCILO_SW,ON);//消毒水出水阀关
+	}
 
 }
 void hsw_proc()
 {
     // EleSwCtrl(6,OFF);//关所有阀
-     if(abnormalDec()&0x20)//水位异常
+    if(abnormalDec()&0x20)//水位异常
     {
         // EleSwCtrl(WATER_SW,OFF);//原水进水阀开
         //EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
@@ -1126,7 +1160,7 @@ void hsw_proc()
         GetSensor()->status[TDS2_INDEX] = 0;//缺水
         GetSensor()->status[TDS1_INDEX] = 0;//缺水
 
-       if(GetSensor()->water_level == WATER_L)//||GetSensor()->water_level == WATER_M
+        if(GetSensor()->water_level == WATER_L)//||GetSensor()->water_level == WATER_M
         {
 
             water_levelAbnormal_proc();
@@ -1513,8 +1547,7 @@ void ele_dev_proc()
 
                   else if(GetSensor()->tds2 <=dstTds-150||GetSensor()->tds2 <=MIN_TDS_VALUE)*/
                 {
-                    GetSensor()->status[TDS2_INDEX] = TDS2_INDEX;//tds2异常
-                    GetSensor()->status[SHUNT_INDEX] = SHUNT_INDEX;//停机
+
 
 
                 }
