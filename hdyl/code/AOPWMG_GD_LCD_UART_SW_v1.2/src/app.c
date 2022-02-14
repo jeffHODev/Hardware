@@ -99,11 +99,11 @@ unsigned char TickTimeoutNor(unsigned char TickNum,unsigned char BitOper,uint32_
     return 0xff;
 
 }
-
+static unsigned char tick_conv_tmp=0;
 unsigned char abnormalDec()
 {
     static unsigned char status;
-  static unsigned char tick_conv_tmp=0;
+  
     if(work_params.init_flag == 0)//上电初始化，电解水从废水通道排出
         registerTick(StART_TICK_NO, INIT_WASH_TIME_SETTING,1, 0);
     if( GetTickResult(StART_TICK_NO)==1)
@@ -145,61 +145,21 @@ unsigned char abnormalDec()
     if(dstTds<400)
         dstTds = 400;
   
-    if((GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=dstTds-200))&&
-            GetSensor()->status[TDS2_INDEX]==0)//tds异常
+    if(GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=(dstTds-200)&&
+            GetSensor()->status[TDS2_INDEX]==0))//tds异常
     {
 
-        //GetSensor()->tds2 >= MAX_TDS_VALUE||
-        if(GetSensor()->water_status = 1)//盐箱注水中
-        {
-
-            if(tick_conv_tmp == 2)
-            {
-                registerTick(TDS_TICK_NO, 0, 0,1);//定时器复位
-
-            }
             status = status | TickTimeoutAb(TDS_TICK_NO,0x02,2*MAX_TICK);
-            tick_conv_tmp = 1;
-
-        }
-        else
-        {
-            if(tick_conv_tmp == 1)
-            {
-                registerTick(TDS_TICK_NO, 0, 0,1);//定时器复位
-
-
-            }
-            tick_conv_tmp = 2;
-            status = status | TickTimeoutAb(TDS_TICK_NO,0x02,2*MAX_TICK);
-
-
-        }
-
         if(status &0x02)
         {
-            tick_conv_tmp = 0;
-			registerTick(TDS_TICK_NO, 0, 0,1);//定时器复位
+            registerTick(TDS_TICK_NO, 0, 0,1);//定时器复位
             GetSensor()->err_flag =GetSensor()->err_flag |0x01;//超时计时
 
         }
-        /*  if(GetSensor()->err_flag &0x01==1)//3分钟稳定认定为参数不合格
-          {
-              if((HAL_GetTick()-GetSensor()->delay_timeout )>=WASH_TIME)
-              {
-                  GetSensor()->err_flag = GetSensor()->err_flag & 0xfe;
-                  GetSensor()->err_flag = GetSensor()->err_flag | 0x10;//超时
-              }
-          }*/
     }
     else
     {
-        if(tick_conv_tmp>0)
-        {
-            registerTick(TDS_TICK_NO, 0, 0,1);//定时器复位
-            tick_conv_tmp = 0;
-
-        }
+       
         GetSensor()->err_flag = 0 ;
         status = status & TickTimeoutNor(TDS_TICK_NO,0xfd,MAX_SHORT_TICK);
     }
@@ -232,12 +192,13 @@ unsigned char abnormalDec()
     {
         if(GetSensor()->water_level != WATER_M)
         {
-            status = status | 0x20;//TickTimeoutAb(WATER_TICK_NO,0x20,WATER_LSHORT_TICK);
+           // status = status | 0x20;//
+            status = status |TickTimeoutAb(WATER_TICK_NO,0x20,20*WATER_LSHORT_TICK);
 
         }
-        else
+        //else
         {
-            status = status |TickTimeoutAb(WATER_TICK_NO,0x20,WATER_L_DELAY_TICK);//
+           // status = status |TickTimeoutAb(WATER_TICK_NO,0x20,WATER_L_DELAY_TICK);//
 
         }
 
@@ -1131,7 +1092,7 @@ void tds_proc()
 	}//tds报警,自动清洗
 	else
 	{
-		GetSensor()->status[TDS2_INDEX] = 0;//tds2异常
+		//GetSensor()->status[TDS2_INDEX] = 0;//tds2异常
 		EleSwCtrl(WATER_SW,ON);//原水进水阀开
 		if(GetSensor()->flow >0.5)
 			EleSwCtrl(WASTE_SW,ON);//废水出水阀开
