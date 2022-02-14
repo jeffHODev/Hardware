@@ -99,7 +99,7 @@ int app_le_adv_report_event_handle(u8 *p)
 	s8 rssi = pa->data[pa->len];
 	u8 adv[31];
 	memcpy(adv,&pa->data,pa->len);
-	u8 mac[6]={0x60,0xb3,0x4d,0x38,0xc1,0xa4};
+	u8 mac[6]={0x55,0x46,0xe5,0x38,0xc1,0xa4};
 
 	#if 0  //debug, print ADV report number every 5 seconds
 		AA_dbg_adv_rpt ++;
@@ -783,12 +783,13 @@ _attribute_no_inline_ void user_init_normal(void)
 	blc_ll_setAdvData( (u8 *)tbl_advData, sizeof(tbl_advData) );
 	blc_ll_setScanRspData( (u8 *)tbl_scanRsp, sizeof(tbl_scanRsp));
 	blc_ll_setAdvParam(ADV_INTERVAL_500MS, ADV_INTERVAL_500MS, ADV_TYPE_CONNECTABLE_UNDIRECTED, OWN_ADDRESS_PUBLIC, 0, NULL, BLT_ENABLE_ADV_ALL, ADV_FP_NONE);
+#if ROLE==SALVE
 	blc_ll_setAdvEnable(BLC_ADV_ENABLE);  //ADV enable
 	blc_ll_setMaxAdvDelay_for_AdvEvent(MAX_DELAY_0MS);
-
+#else
 	blc_ll_setScanParameter(SCAN_TYPE_PASSIVE, SCAN_INTERVAL_100MS, SCAN_WINDOW_50MS, OWN_ADDRESS_PUBLIC, SCAN_FP_ALLOW_ADV_ANY);
 	blc_ll_setScanEnable (BLC_SCAN_ENABLE, DUP_FILTER_DISABLE);
-
+#endif
 	user_set_rf_power(0, 0, 0);
 
 
@@ -897,7 +898,7 @@ int main_idle_loop (void)
 
 	////////////////////////////////////// BLE entry /////////////////////////////////
 	blc_sdk_main_loop();
-
+   gpio_write(M_EN,1);
 #if (BATT_CHECK_ENABLE)
 	if(battery_get_detect_enable() && clock_time_exceed(lowBattDet_tick, 500000) ){
 		lowBattDet_tick = clock_time();
@@ -922,7 +923,7 @@ int main_idle_loop (void)
 u32 t_count=0;
 void send_test()
 {
-	if(con_stare&&clock_time_exceed(t_count, 1000*1000))
+	if(con_stare&&clock_time_exceed(t_count, 2000*1000))
 	{
 
 		blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H, "123",3);

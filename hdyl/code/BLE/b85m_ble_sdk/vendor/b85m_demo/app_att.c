@@ -564,10 +564,10 @@ void	att_keyboard_media (u16 conn, u8 *p)
 
 #if (1 && UI_LED_ENABLE)	//Demo effect: when slave send Vol+/Vol- to master, LED GPIO toggle to show the result
 	if(consumer_key == MKEY_VOL_UP){
-		gpio_toggle(GPIO_LED_GREEN);
+		;//gpio_toggle(GPIO_LED_GREEN);
 	}
 	else if(consumer_key == MKEY_VOL_DN){
-		gpio_toggle(GPIO_LED_BLUE);
+		;//gpio_toggle(GPIO_LED_BLUE);
 	}
 #endif
 }

@@ -1109,7 +1109,7 @@ void tds_proc()
 void hsw_proc()
 {
     // EleSwCtrl(6,OFF);//关所有阀
-    /* if(abnormalDec()&0x20)//水位异常
+     if(abnormalDec()&0x20)//水位异常
     {
         // EleSwCtrl(WATER_SW,OFF);//原水进水阀开
         //EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
@@ -1126,7 +1126,7 @@ void hsw_proc()
         GetSensor()->status[TDS2_INDEX] = 0;//缺水
         GetSensor()->status[TDS1_INDEX] = 0;//缺水
 
-       if(GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)
+       if(GetSensor()->water_level == WATER_L)//||GetSensor()->water_level == WATER_M
         {
 
             water_levelAbnormal_proc();
@@ -1139,7 +1139,7 @@ void hsw_proc()
         }
 
     }//end 水位异常
-    else*/
+    else
     {
         EleSwCtrl(WATER_SW,OFF);//原水进水阀开
         EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关

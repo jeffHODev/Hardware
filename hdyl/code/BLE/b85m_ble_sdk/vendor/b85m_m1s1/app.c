@@ -858,7 +858,7 @@ _attribute_ram_code_ void user_init_deepRetn(void)
 	#if (UI_KEYBOARD_ENABLE)
 		/////////// keyboard GPIO wakeup init ////////
 		u32 pin[] = KB_DRIVE_PINS;
-	#if ROLE==MASTER
+	#if ROLE==SLAVE
 	cpu_set_gpio_wakeup (ECHO, Level_High, 1);
 	#endif
 	cpu_set_gpio_wakeup (KB, Level_High, 1);
@@ -941,8 +941,10 @@ void send_test()
 		blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H, "123",3);
 		t_count= clock_time();
 	}
-
-
+#if ROLE==SLAVE
+   ;// gpio_write(CS102_EN, 1);
+   // gpio_write(CS102_T, 0);
+#endif
 
 }
 
