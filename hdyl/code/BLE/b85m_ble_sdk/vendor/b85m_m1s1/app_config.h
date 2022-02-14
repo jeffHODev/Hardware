@@ -230,17 +230,30 @@ enum
 
 
 #if ROLE==MASTER
+/*
 #define DEBUG_INFO_TX_PIN           		GPIO_PA1
 #define PULL_WAKEUP_SRC_PA1         		PM_PIN_PULLUP_1M
 #define PA1_OUTPUT_ENABLE         			1
 #define  PA1_DATA_OUT                     	1 //must
-
-#else
+*/
 
 #define DEBUG_INFO_TX_PIN           		GPIO_PB4
 #define PULL_WAKEUP_SRC_PB4         		PM_PIN_PULLUP_1M
 #define PB4_OUTPUT_ENABLE         			1
 #define PB4_DATA_OUT                     	1 //must
+
+
+#else
+#define DEBUG_INFO_TX_PIN           		GPIO_PA1
+#define PULL_WAKEUP_SRC_PA1         		PM_PIN_PULLUP_1M
+#define PA1_OUTPUT_ENABLE         			1
+#define  PA1_DATA_OUT                     	1 //must
+/*
+#define DEBUG_INFO_TX_PIN           		GPIO_PB4
+#define PULL_WAKEUP_SRC_PB4         		PM_PIN_PULLUP_1M
+#define PB4_OUTPUT_ENABLE         			1
+#define PB4_DATA_OUT                     	1 //must
+*/
 
 #endif
 

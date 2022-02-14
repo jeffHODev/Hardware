@@ -105,7 +105,7 @@ _attribute_ram_code_ int main(void)
 
 
 	irq_enable();
-
+	printf("sdk");
 	while(1)
 	{
 		main_loop ();

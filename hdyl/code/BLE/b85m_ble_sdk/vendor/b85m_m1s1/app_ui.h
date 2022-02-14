@@ -64,6 +64,7 @@ extern	int user_manual_pairing;
 
 #define AUTO_PAIR    1
 
+#define SLEEP_TIME_OUT   1000*60
 #define TIMEOUT_PERIOD 40
 #define M_ON_PERIOD 600
 #define M_OFF_PERIOD 100
@@ -82,6 +83,8 @@ typedef struct
 	u8 key;
 	u8 key_update;
 	u8 key_down_flag;
+	u32 timeout;
+	u8 timeoutFlag;
 }measure_stru;
 typedef struct
 {

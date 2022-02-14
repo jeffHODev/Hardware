@@ -523,7 +523,9 @@ void user_gpio_init()
     gpio_set_func(M_EN,AS_GPIO);                       //设置GPIO功能
     gpio_set_output_en(M_EN, 1); 		//输出使能
     gpio_set_input_en(M_EN,0);			//输入失能
-    gpio_write(M_EN,1);
+
+    gpio_write(M_EN,1);			//输入失能
+
 
 
     gpio_set_func(CS102_EN,AS_GPIO);                       //设置GPIO功能
@@ -587,6 +589,20 @@ void parase(u8 tmp)
 
 	}
 }
+void deviceTimeout(unsigned char time)
+{
+	if(time == 0)
+	{
+	   measure_usr.timeoutFlag = 1;
+	   measure_usr.timeout = clock_time();
+		
+	}
+	else
+	{
+		measure_usr.timeout = clock_time()-measure_usr.timeout;
+	}
+		
+}
 void measure_start()
 {
     measure_usr.start = 1;
@@ -596,7 +612,7 @@ void measure_start()
     gpio_write(CS102_T, 0);
     sleep_us(10);
     gpio_write(CS102_T, 1);
-    sleep_ms(1000);
+    sleep_ms(10);
     gpio_write(CS102_T, 0);
 
 
@@ -634,7 +650,7 @@ void mesure_proc()
 {
     static u32 tick_tmp;
 #if ROLE == MASTER//for master
-
+    
     tick_tmp = clock_time()-measure_usr.tick;
     if(measure_usr.start == 1)
     {
@@ -654,7 +670,7 @@ void mesure_proc()
                 printf("m3\n");
                 measure_usr.time = tick_tmp/CLOCK_16M_SYS_TIMER_CLK_1MS;
 
-                measure_usr.dis = measure_usr.time*17;
+                measure_usr.dis = measure_usr.time*1.7;
                 if(measure_usr.dis>=MAX_DIS)
                     measure_usr.dis = MAX_DIS + 2;
                 if(measure_usr.dis<=MIN_DIS)
@@ -705,16 +721,24 @@ void mesure_proc()
 
     }
 #else//for salve
+	deviceTimeout(1);
+   if(measure_usr.timeout >= SLEEP_TIME_OUT)//震动开关无振动超时判断，大于设置时间进入低功耗休眠
+   	{
+
+   }
+   else
+   	{
     if(GetBle_status()->connection == 1)
     {
         tick_tmp = clock_time()-measure_usr.tick;
         if(tick_tmp>=MEASURE_PERIOD*CLOCK_16M_SYS_TIMER_CLK_1MS)
         {
           extern u16 handle_s;
-		   pkt_pack(0x4b);
-           blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
-           sleep_us(100);
-           measure_start();
+		  pkt_pack(0x4b);
+          blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
+          sleep_us(100);
+          measure_start();
+
            printf("m8\n");
         }
     }
@@ -722,7 +746,10 @@ void mesure_proc()
     {
         // printf("m9\n");
         measure_stop();
-    }
+    }		
+   }
+
+
 #endif
 }
 ble_stru ble_usr;
