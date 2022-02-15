@@ -299,7 +299,7 @@ void proc_keyboard (u8 e, u8 *p, int n)
     }
 #endif
 
-//#if 1
+#if ROLE == MASTER
     static u32 key_delay_tick,key_time_start;
     if(clock_time_exceed(keyScanTick, 10 * 1000))
     {
@@ -307,7 +307,7 @@ void proc_keyboard (u8 e, u8 *p, int n)
 		//
         // START按键按下
         if(gpio_read(KB)==1)											  // SET按键按下
-        {printf("key\n");
+        {   printf("key\n");
            
             if(key_time_start++>BUTTON_FILTER_TIME) 	 // 按键通过滤波检测
             {
@@ -337,33 +337,12 @@ void proc_keyboard (u8 e, u8 *p, int n)
                 {
                     measure_usr.key_update=1;
                     measure_usr.key_down_flag = 0;
-                    measure_usr.key = KEY_PAIR;
-
-                }
-                else if(measure_usr.key != KEY_UNPAIR)
-                {
-                    measure_usr.key_update=1;
-                    measure_usr.key_down_flag = 0;
-                    measure_usr.key = KEY_UNPAIR;
-
-                }
-                else if(measure_usr.key != KEY_START_DOWN)
-                {
-                    measure_usr.key_update=1;
-                    measure_usr.key_down_flag = 0;
                     measure_usr.key = KEY_START_DOWN;
 
                 }
 
-
             }
-            else if( measure_usr.key_down_flag == 0)
-            {
-                measure_usr.key = 0;
-
-
-            }
-            measure_usr.key_down_flag = 0;
+			
             key_time_start = 0;
         }
 
@@ -372,14 +351,53 @@ void proc_keyboard (u8 e, u8 *p, int n)
 	{	//printf("key2\n");
         return ;
     	}
-
-
-
-
-//#endif
+	
+#endif
 }
 
+void key_proc()
+{
+	proc_keyboard (0,0,0);
+	if(measure_usr.key_update)
+	{
+		if(measure_usr.key == KEY_START_HOLD)
+		{
+			measure_usr.key_down_cnt = 0;
+			//power sleep
+			
+		}
+		else if(measure_usr.key == KEY_START_DOWN)
+		{
+			if(measure_usr.key_down_cnt <= 3)
+				{
+				measure_usr.key_down_cnt ++;
+				
+			}
+			else
+			{
+			if(master_pairing_enable == 0)
+			{
+			master_pairing_enable = 1;
+			master_unpair_enable = 0;
 
+			}
+
+			else
+			{
+				 master_pairing_enable = 0;
+			     master_unpair_enable = 1;
+
+			}
+
+			measure_usr.key_down_cnt = 0;
+
+			}
+		}
+		measure_usr.key = 0;
+		measure_usr.key_update = 0;
+	}
+	
+}
 
 
 /**
@@ -572,20 +590,62 @@ void user_gpio_init()
 
     #endif*/
 }
+static u8 ack_sig=0;
 
+void ack_res(u8 ack)
+{
+   
+   ack_sig = ack;
+}
+void ack_proc()
+{
+	static u32 ack_timeout=0;
+	 if(ack_sig==0)
+		 {
+		 
+	 if(clock_time_exceed(ack_timeout, ACK_TIME_OUT)){
+		 ack_timeout = clock_time();
+		 #if ROLE == MASTER
+		 if( master_conect_status() == 1)//主机断开从机
+		 {
+			//ack = 0;
+			 blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN);
+			 // if(blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN) == BLE_SUCCESS)
+		 }
+		 else
+		 if( GetBle_status()->connection == 1)//从机断开主机
+		 {
+			//ack = 0;
+			 blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN);
+			 // if(blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN) == BLE_SUCCESS)
+		 }		 	
+		 #endif
+	 }
+	 }
+	 else
+	 {
+		 //ack = 1;
+		 ack_timeout = clock_time();
+	 }
+
+}
 
 void parase(u8 tmp)
 {
 	switch(tmp)
 	{
-		case 0x4b:
+		case 0x4b://通知主机开始测量
 		{
-			measure_start();//从机到主机握手，通知主机开始测量
+			measure_start();
 		}break;
-		case 0x5a:
+		case 0x5a://主从机到主机握手
 		{
-		
+			ack_res(0);
 		}break;
+	case 0x5b://配对指示灯
+	{
+		;
+	}break;
 
 	}
 }
@@ -644,17 +704,18 @@ void measure_stop()
     gpio_write(CS102_EN, 1);
     gpio_write(CS102_T, 0);
 
-    measure_usr.stop = 1;
+   // measure_usr.stop = 1;
 }
 void mesure_proc()
 {
     static u32 tick_tmp;
+	ack_proc();
 #if ROLE == MASTER//for master
     
     tick_tmp = clock_time()-measure_usr.tick;
     if(measure_usr.start == 1)
     {
-        if(tick_tmp>=TIMEOUT_PERIOD*CLOCK_16M_SYS_TIMER_CLK_1MS)
+        if(tick_tmp>=TIMEOUT_PERIOD)//测量超时
         {
             printf("m1\n");
             measure_usr.dis = MAX_DIS+1;
@@ -668,9 +729,8 @@ void mesure_proc()
             if(measure_usr.stop == 1)
             {
                 printf("m3\n");
-                measure_usr.time = tick_tmp/CLOCK_16M_SYS_TIMER_CLK_1MS;
-
-                measure_usr.dis = measure_usr.time*1.7;
+                measure_usr.time = tick_tmp/1000;
+                measure_usr.dis = measure_usr.time*17;
                 if(measure_usr.dis>=MAX_DIS)
                     measure_usr.dis = MAX_DIS + 2;
                 if(measure_usr.dis<=MIN_DIS)
@@ -700,14 +760,14 @@ void mesure_proc()
     if(measure_usr.sum>=10)//超过10次报警，震动
     {
         printf("m7\n");
-        if((clock_time()-measure_usr.motor_tick)>=M_ON_PERIOD*CLOCK_16M_SYS_TIMER_CLK_1MS)
+        if((clock_time()-measure_usr.motor_tick)>=M_ON_PERIOD)
         {
             measure_usr.motor_tick = clock_time();
             gpio_write(M_EN,1); 		//输入失能  500 100
         }
         else
         {
-            if((clock_time()-measure_usr.motor_tick)>=M_OFF_PERIOD*CLOCK_16M_SYS_TIMER_CLK_1MS)
+            if((clock_time()-measure_usr.motor_tick)>=M_OFF_PERIOD)
             	gpio_write(M_EN,0); 		//输入失能
             else
             	gpio_write(M_EN,1); 		//输入失能
@@ -721,10 +781,10 @@ void mesure_proc()
 
     }
 #else//for salve
-	deviceTimeout(1);
+	deviceTimeout(1);//休眠倒计时
    if(measure_usr.timeout >= SLEEP_TIME_OUT)//震动开关无振动超时判断，大于设置时间进入低功耗休眠
    	{
-
+		
    }
    else
    	{

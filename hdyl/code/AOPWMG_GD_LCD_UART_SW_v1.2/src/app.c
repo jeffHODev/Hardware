@@ -190,10 +190,10 @@ unsigned char abnormalDec()
     if(GetSensor()->water_level == WATER_F	||GetSensor()->water_level == WATER_L
             ||GetSensor()->water_level == WATER_M)//水位异常
     {
-        if(GetSensor()->water_level != WATER_M)
+        if(GetSensor()->water_level != WATER_H)
         {
            // status = status | 0x20;//
-            status = status |TickTimeoutAb(WATER_TICK_NO,0x20,20*WATER_LSHORT_TICK);
+            status = status |TickTimeoutAb(WATER_TICK_NO,0x20,20000);
 
         }
         //else
@@ -372,6 +372,7 @@ void Flow_Init()
 
 
     dstTds = flow_switch;
+	//dstTds = 2000;
     pid_init_flow(dstTds);
 
 }
@@ -918,7 +919,7 @@ void dev_normal_ctrl()
 #if WATER_L_IGNORE == 0
     EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
 #endif
-    if(GetSensor()->flow >0.5)
+    if(GetSensor()->flow >0)
         EleSwCtrl(WASTE_SW,ON);//废水出水阀开
     EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
     EleSwCtrl(HCILO_SW,ON);//消毒水出水阀
@@ -1085,7 +1086,7 @@ void tds_proc()
 
 
     }//tds2异常
-	if(GetSensor()->err_flag&0x10)//tds报警
+	if(GetSensor()->err_flag&0x01)//tds报警
 	{
 		dev_wash_ctrl();
 	
@@ -1121,7 +1122,7 @@ void hsw_proc()
         GetSensor()->status[TDS2_INDEX] = 0;//缺水
         GetSensor()->status[TDS1_INDEX] = 0;//缺水
 
-        if(GetSensor()->water_level == WATER_L)//||GetSensor()->water_level == WATER_M
+        if(GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)
         {
 
             water_levelAbnormal_proc();
