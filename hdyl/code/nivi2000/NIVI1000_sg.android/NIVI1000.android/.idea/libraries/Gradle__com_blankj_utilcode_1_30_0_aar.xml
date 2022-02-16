@@ -1,0 +1,24 @@
+<component name="libraryTable">
+  <library name="Gradle: com.blankj:utilcode:1.30.0@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/transforms-2/files-2.1/e7117602bf9b7b35904eda0380cd25ac/utilcode-1.30.0/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e7117602bf9b7b35904eda0380cd25ac/utilcode-1.30.0/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/transforms-2/files-2.1/e7117602bf9b7b35904eda0380cd25ac/utilcode-1.30.0/res" />
+      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/transforms-2/files-2.1/e7117602bf9b7b35904eda0380cd25ac/utilcode-1.30.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/transforms-2/files-2.1/e7117602bf9b7b35904eda0380cd25ac/utilcode-1.30.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e7117602bf9b7b35904eda0380cd25ac/utilcode-1.30.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e7117602bf9b7b35904eda0380cd25ac/utilcode-1.30.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e7117602bf9b7b35904eda0380cd25ac/utilcode-1.30.0/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/modules-2/files-2.1/com.blankj/utilcode/1.30.0/e2a58f66ef80d364ab55dec14b90c9dde6b983b8/utilcode-1.30.0-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.blankj/utilcode/1.30.0/e2a58f66ef80d364ab55dec14b90c9dde6b983b8/utilcode-1.30.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/modules-2/files-2.1/com.blankj/utilcode/1.30.0/bd7bf4d439a9ab3910c23e03f09bc45deb7c7d9d/utilcode-1.30.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.blankj/utilcode/1.30.0/bd7bf4d439a9ab3910c23e03f09bc45deb7c7d9d/utilcode-1.30.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

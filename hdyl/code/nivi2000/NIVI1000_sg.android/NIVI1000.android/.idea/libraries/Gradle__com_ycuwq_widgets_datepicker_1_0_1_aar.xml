@@ -1,0 +1,20 @@
+<component name="libraryTable">
+  <library name="Gradle: com.ycuwq.widgets:datepicker:1.0.1@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/transforms-2/files-2.1/43460cc49192165b5e10c74ce30a8982/datepicker-1.0.1/res" />
+      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/transforms-2/files-2.1/43460cc49192165b5e10c74ce30a8982/datepicker-1.0.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/transforms-2/files-2.1/43460cc49192165b5e10c74ce30a8982/datepicker-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/43460cc49192165b5e10c74ce30a8982/datepicker-1.0.1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/43460cc49192165b5e10c74ce30a8982/datepicker-1.0.1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/43460cc49192165b5e10c74ce30a8982/datepicker-1.0.1/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/modules-2/files-2.1/com.ycuwq.widgets/datepicker/1.0.1/bb820c732daf6e25edade9d7b1abc9c9b1fc9854/datepicker-1.0.1-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ycuwq.widgets/datepicker/1.0.1/bb820c732daf6e25edade9d7b1abc9c9b1fc9854/datepicker-1.0.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/modules-2/files-2.1/com.ycuwq.widgets/datepicker/1.0.1/b8cca253fb5a6a2d024270726f5d6acdc71857f0/datepicker-1.0.1-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ycuwq.widgets/datepicker/1.0.1/b8cca253fb5a6a2d024270726f5d6acdc71857f0/datepicker-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
