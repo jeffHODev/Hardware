@@ -303,9 +303,10 @@ _attribute_ram_code_ int app_battery_power_check(u16 alram_vol_mv)
 
 			cpu_set_gpio_wakeup (KB, Level_High, 1);  //drive pin pad high wakeup deepsleep
         #if ROLE == MASTER
-		cpu_sleep_wakeup(DEEPSLEEP_MODE, PM_WAKEUP_PAD, 0);  //deepsleep
+		cpu_set_gpio_wakeup (KB, Level_High, 1);
+		cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
 		#else
-		cpu_sleep_wakeup(DEEPSLEEP_MODE, PM_WAKEUP_TIMER, 60000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep		
+		cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
 		#endif
 	}
 

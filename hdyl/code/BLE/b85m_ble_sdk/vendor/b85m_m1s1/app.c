@@ -925,7 +925,7 @@ int main_idle_loop (void)
 
 		
 	//#endif
-	 key_proc();
+	
 	proc_master_role_unpair();
 
   ui_proc();

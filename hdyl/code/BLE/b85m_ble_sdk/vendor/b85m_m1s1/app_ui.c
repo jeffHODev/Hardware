@@ -521,7 +521,9 @@ void user_gpio_init()
     gpio_set_func(GPIO_LED_RED,AS_GPIO);                       //设置GPIO功能
     gpio_set_output_en(GPIO_LED_RED, 1); 		//输出使能
     gpio_set_input_en(GPIO_LED_RED,0);			//输入失能
-    gpio_write(GPIO_LED_RED, 0);              	//LED On
+	gpio_setup_up_down_resistor(GPIO_LED_RED, PM_PIN_PULLUP_10K);
+
+	gpio_write(GPIO_LED_RED, 0);              	//LED On
 
 //   gpio_set_func(KB,AS_GPIO);                       //设置GPIO功能
 //   gpio_set_output_en(KB, 0); 		//输出使能
@@ -545,7 +547,7 @@ void user_gpio_init()
     gpio_set_func(M_EN,AS_GPIO);                       //设置GPIO功能
     gpio_set_output_en(M_EN, 1); 		//输出使能
     gpio_set_input_en(M_EN,0);			//输入失能
-
+    gpio_setup_up_down_resistor(M_EN, PM_PIN_PULLUP_10K);
     gpio_write(M_EN,1);			//输入失能
 
 
@@ -553,7 +555,9 @@ void user_gpio_init()
     gpio_set_func(CS102_EN,AS_GPIO);                       //设置GPIO功能
     gpio_set_output_en(CS102_EN, 1); 		//输出使能
     gpio_set_input_en(CS102_EN,0);			//输入失能
-    gpio_write(CS102_EN, 1);
+	gpio_setup_up_down_resistor(CS102_EN, PM_PIN_PULLUP_10K);
+
+	gpio_write(CS102_EN, 1);
 
     gpio_set_func(CS102_T,AS_GPIO);                       //设置GPIO功能
     gpio_set_output_en(CS102_T, 1); 		//输出使能
@@ -624,7 +628,8 @@ void ack_proc()
                 blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN);
                 // if(blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN) == BLE_SUCCESS)
             }
-            else if( GetBle_status()->connection == 1) //从机断开主机
+			#else 
+             if( GetBle_status()->connection == 1) //从机断开主机
             {
                 //ack = 0;
                 blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN);
@@ -776,7 +781,7 @@ void sensor_power(u8 flag)
 void mesure_proc()
 {
     static u32 tick_tmp;
-    ack_proc();
+    //ack_proc();
 #if ROLE == MASTER//for master
 
     tick_tmp = clock_time()-measure_usr.tick;
@@ -853,6 +858,12 @@ void mesure_proc()
     deviceTimeout(1);//休眠倒计时
     if(measure_usr.timeout >= SLEEP_TIME_OUT)//震动开关无振动超时判断，大于设置时间进入低功耗休眠
     {
+#if ROLE == MASTER
+			cpu_set_gpio_wakeup (KB, Level_High, 1);
+			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+#else
+			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 10000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
+#endif
 
     }
     else
@@ -903,6 +914,7 @@ ble_stru *GetBle_status()
 
 void ui_proc()
 {
+    key_proc();
 	ack_proc();
 	led_ctrl();
 	mesure_proc();

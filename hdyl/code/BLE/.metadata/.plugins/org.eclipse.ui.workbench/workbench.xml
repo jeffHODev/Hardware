@@ -46,6 +46,7 @@
 <part id="12"/>
 <part id="13"/>
 <part id="14"/>
+<part id="15"/>
 </presentation>
 </folder>
 </info>
@@ -98,23 +99,31 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/b85m_ble_sdk/config.h"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="1188"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="app_ui.c" partName="app_ui.c" path="D:/work/git/Hardware/hdyl/code/BLE/b85m_ble_sdk/vendor/b85m_m1s1/app_ui.c" title="app_ui.c" tooltip="b85m_ble_sdk/vendor/b85m_m1s1/app_ui.c" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="app_ui.c" partName="app_ui.c" path="D:/work/git/Hardware/hdyl/code/BLE/b85m_ble_sdk/vendor/b85m_m1s1/app_ui.c" title="app_ui.c" tooltip="b85m_ble_sdk/vendor/b85m_m1s1/app_ui.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/b85m_ble_sdk/vendor/b85m_m1s1/app_ui.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="8" selectionOffset="18543" selectionTopPixel="13915"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="24369" selectionTopPixel="19757"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="app.c" partName="app.c" path="D:/work/git/Hardware/hdyl/code/BLE/b85m_ble_sdk/vendor/b85m_m1s1/app.c" title="app.c" tooltip="b85m_ble_sdk/vendor/b85m_m1s1/app.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/b85m_ble_sdk/vendor/b85m_m1s1/app.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="29347" selectionTopPixel="21126"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7774" selectionTopPixel="4347"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="blt_common.h" partName="blt_common.h" path="D:/work/git/Hardware/hdyl/code/BLE/b85m_ble_sdk/vendor/common/blt_common.h" title="blt_common.h" tooltip="b85m_ble_sdk/vendor/common/blt_common.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/b85m_ble_sdk/vendor/common/blt_common.h"/>
 <editorState selectionHorizontalPixel="72" selectionLength="94" selectionOffset="11691" selectionTopPixel="7429"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="battery_check.c" partName="battery_check.c" path="D:/work/git/Hardware/hdyl/code/BLE/b85m_ble_sdk/vendor/b85m_m1s1/battery_check.c" title="battery_check.c" tooltip="b85m_ble_sdk/vendor/b85m_m1s1/battery_check.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/b85m_ble_sdk/vendor/b85m_m1s1/battery_check.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8802" selectionTopPixel="6969"/>
 </editor>
 </editors>
 <views>
 <view id="org.eclipse.ui.views.PropertySheet" partName="Properties"/>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
+<expanded>
+<category IMemento.internal.id="Errors"/>
+<category IMemento.internal.id="Warnings (1 item)"/>
+</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="94" org.eclipse.ui.ide.markerType="139" org.eclipse.ui.ide.pathField="184" org.eclipse.ui.ide.resourceField="348" org.eclipse.ui.ide.severityAndDescriptionField="994"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -260,9 +269,6 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/b85m_ble_sdk/application/print/putchar.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/b85m_ble_sdk/vendor/b85m_m1s1/app.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/b85m_ble_sdk/vendor/b85m_m1s1/app_att.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/b85m_ble_sdk/vendor/b85m_m1s1/app.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/b85m_ble_sdk/vendor/b85m_m1s1/app_ui.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/b85m_ble_sdk/vendor/common/blt_led.c"/>
@@ -281,152 +287,154 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/b85m_ble_sdk/vendor/common/blt_common.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/b85m_ble_sdk/vendor/b85m_m1s1/config_usr.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/b85m_ble_sdk/vendor/b85m_m1s1/app_ui.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/b85m_ble_sdk/vendor/b85m_m1s1/app.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/b85m_ble_sdk/vendor/b85m_m1s1/battery_check.c"/>
 </editors>
-<item historyLabel="putchar.c" index="0">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="app.c" index="1">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="app.c" index="1">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="app_att.c" index="2">
-<position info="not_deleted" x="17142" y="0"/>
-</item>
-<item historyLabel="app.c" index="3">
+<item historyLabel="app.c" index="0">
 <position info="not_deleted" x="30208" y="0"/>
 </item>
-<item historyLabel="app.c" index="3">
+<item historyLabel="app.c" index="0">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="app_ui.c" index="4">
+<item historyLabel="app_ui.c" index="1">
 <position info="not_deleted" x="4" y="0"/>
 </item>
-<item historyLabel="app.c" index="3">
+<item historyLabel="app.c" index="0">
 <position info="not_deleted" x="29327" y="0"/>
 </item>
-<item historyLabel="blt_led.c" index="5">
+<item historyLabel="blt_led.c" index="2">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="drivers.h" index="6">
+<item historyLabel="drivers.h" index="3">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="div_mod.S" index="7">
+<item historyLabel="div_mod.S" index="4">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="drivers.h" index="6">
+<item historyLabel="drivers.h" index="3">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="config.h" index="8">
+<item historyLabel="config.h" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="app_ui.c" index="4">
+<item historyLabel="app_ui.c" index="1">
 <position info="not_deleted" x="4" y="0"/>
 </item>
-<item historyLabel="app.c" index="3">
+<item historyLabel="app.c" index="0">
 <position info="not_deleted" x="29365" y="0"/>
 </item>
-<item historyLabel="app_ui.c" index="4">
+<item historyLabel="app_ui.c" index="1">
 <position info="not_deleted" x="13462" y="23"/>
 </item>
-<item historyLabel="app.c" index="3">
+<item historyLabel="app.c" index="0">
 <position info="not_deleted" x="29365" y="0"/>
 </item>
-<item historyLabel="app.c" index="3">
+<item historyLabel="app.c" index="0">
 <position info="not_deleted" x="29503" y="0"/>
 </item>
-<item historyLabel="app.c" index="3">
+<item historyLabel="app.c" index="0">
 <position info="not_deleted" x="27980" y="28"/>
 </item>
-<item historyLabel="timer.h" index="9"/>
-<item historyLabel="app.c" index="10">
+<item historyLabel="timer.h" index="6"/>
+<item historyLabel="app.c" index="7">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="blt_soft_timer.c" index="11">
+<item historyLabel="blt_soft_timer.c" index="8">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="common_dbg.c" index="12">
+<item historyLabel="common_dbg.c" index="9">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="app.c" index="10">
+<item historyLabel="app.c" index="7">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="timer.h" index="9"/>
-<item historyLabel="common_dbg.c" index="13">
+<item historyLabel="timer.h" index="6"/>
+<item historyLabel="common_dbg.c" index="10">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="app_ui.c" index="14">
+<item historyLabel="app_ui.c" index="11">
 <position info="not_deleted" x="10390" y="0"/>
 </item>
-<item historyLabel="app_config.h" index="15">
+<item historyLabel="app_config.h" index="12">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="24875" y="0"/>
 </item>
-<item historyLabel="app.c" index="17">
+<item historyLabel="app.c" index="14">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="app.c" index="17">
+<item historyLabel="app.c" index="14">
 <position info="not_deleted" x="29387" y="0"/>
 </item>
-<item historyLabel="app.c" index="17">
+<item historyLabel="app.c" index="14">
 <position info="not_deleted" x="18631" y="39"/>
 </item>
-<item historyLabel="blt_common.h" index="18">
+<item historyLabel="blt_common.h" index="15">
 <position info="not_deleted" x="11691" y="94"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="7893" y="31"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="3802" y="0"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="18555" y="1"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="18614" y="0"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="21368" y="1"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="24818" y="1"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="24864" y="0"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="17251" y="1158"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="3587" y="0"/>
 </item>
-<item historyLabel="app.c" index="17">
+<item historyLabel="app.c" index="14">
 <position info="not_deleted" x="29347" y="0"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="11266" y="8"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="11294" y="0"/>
 </item>
-<item historyLabel="app_ui.c" index="16">
+<item historyLabel="app_ui.c" index="13">
 <position info="not_deleted" x="9238" y="13"/>
 </item>
-<item historyLabel="config_usr.h" index="19">
+<item historyLabel="config_usr.h" index="16">
 <position info="not_deleted" x="503" y="0"/>
 </item>
-<item historyLabel="app_ui.c" index="20">
+<item historyLabel="app_ui.c" index="17">
 <position info="not_deleted" x="9238" y="13"/>
 </item>
-<item historyLabel="app_ui.c" index="20">
+<item historyLabel="app_ui.c" index="17">
 <position info="not_deleted" x="24825" y="0"/>
 </item>
-<item active="true" historyLabel="app_ui.c" index="20">
+<item historyLabel="app_ui.c" index="17">
 <position info="not_deleted" x="18543" y="8"/>
+</item>
+<item historyLabel="app.c" index="18">
+<position info="not_deleted" x="29347" y="0"/>
+</item>
+<item historyLabel="app.c" index="18">
+<position info="not_deleted" x="7774" y="0"/>
+</item>
+<item historyLabel="app_ui.c" index="17">
+<position info="not_deleted" x="24369" y="0"/>
+</item>
+<item active="true" historyLabel="battery_check.c" index="19">
+<position info="not_deleted" x="8671" y="113"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -445,6 +453,9 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="battery_check.c" tooltip="b85m_ble_sdk/vendor/b85m_m1s1/battery_check.c">
+<persistable path="/b85m_ble_sdk/vendor/b85m_m1s1/battery_check.c"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="blt_common.h" tooltip="b85m_ble_sdk/vendor/common/blt_common.h">
 <persistable path="/b85m_ble_sdk/vendor/common/blt_common.h"/>
 </file>
@@ -486,9 +497,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" tooltip="b85m_ble_sdk/vendor/b85m_m1s1/main.c">
 <persistable path="/b85m_ble_sdk/vendor/b85m_m1s1/main.c"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="config_usr.h" tooltip="b85m_ble_sdk/vendor/b85m_m1s1/config_usr.h">
-<persistable path="/b85m_ble_sdk/vendor/b85m_m1s1/config_usr.h"/>
 </file>
 </mruList>
 </workbench>
