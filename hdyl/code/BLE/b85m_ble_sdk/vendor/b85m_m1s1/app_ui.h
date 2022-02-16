@@ -64,6 +64,11 @@ extern	int user_manual_pairing;
 
 #define AUTO_PAIR    1
 
+#define LED_PAIR   0
+#define LED_UNPAIR 1
+#define LED_NORMAL 2
+#define ON  0
+#define OFF 1
 
 #define ACK_TIME_OUT     5*1000*1000
 #define SLEEP_TIME_OUT   1000*60*1000
@@ -71,7 +76,7 @@ extern	int user_manual_pairing;
 #define M_ON_PERIOD 600*1000
 #define M_OFF_PERIOD 100*1000
 #define PKT_HEAD  0xfe
-#define MEASURE_PERIOD 1000
+#define MEASURE_PERIOD 100*1000
 typedef struct
 {
 	u8 start;
@@ -89,6 +94,12 @@ typedef struct
 	u32 timeout;
 	u8 timeoutFlag;
 }measure_stru;
+typedef struct
+{
+	u8 status;
+	u32 tick;
+}led_stru;
+
 typedef struct
 {
 	u8 connection;
@@ -139,6 +150,9 @@ void parase(u8 tmp);
 u8 getsn(void);
 u8 master_conect_status(void);
 void key_proc(void);
+void sensor_power(u8 flag);
+void led_ctrl(void);
+void ui_proc(void);
 
 
 

@@ -67,7 +67,7 @@ _attribute_ram_code_ void irq_handler(void)
         #if ROLE == MASTER
         if(gpio_read(ECHO)==0)  // press key with low level to flash light
         {
-            gpio_toggle(GPIO_LED_RED);
+           // gpio_toggle(GPIO_LED_RED);
             measure_stop();
             printf("I1\n");
         }

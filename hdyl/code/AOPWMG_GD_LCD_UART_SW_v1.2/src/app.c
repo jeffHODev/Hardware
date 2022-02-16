@@ -149,7 +149,7 @@ unsigned char abnormalDec()
                                             GetSensor()->status[TDS2_INDEX]==0))//tds异常
     {
 
-
+       
         status = status | TickTimeoutAb(TDS_TICK_NO,0x02,2*MAX_TICK);
         if(status &0x02)
         {
@@ -196,7 +196,7 @@ unsigned char abnormalDec()
         {
 
             // status = status | 0x20;//
-            status = status |TickTimeoutAb(WATER_TICK_NO,0x20,20000);
+            status = status |TickTimeoutAb(WATER_TICK_NO,0x20,10000);
 
         }
         //else
@@ -1034,6 +1034,28 @@ void pump_ctrl(unsigned char mode)
     }
 
 }
+void pump_auto(unsigned char flag)
+{
+	static unsigned char pum_flag=0;
+	if(flag == 1)
+		pum_flag=0;
+	else
+	{
+	//自吸模式
+	if(GetSensor()->flow > 0&&pum_flag == 1)
+	{
+		pump_ctrl(0);
+	}
+	else
+	{
+		pum_flag = 1;
+		pump_ctrl(1);//没水泵工作30s
+	}
+
+	}
+
+
+}
 //uint32_t time_out_sw=0;
 //static unsigned char module_flag=0;
 static uint32_t flow_low_cnt;
@@ -1108,12 +1130,17 @@ void tds_proc()
 void pump_hw()
 {
 	registerTick(HW_TICK, 2000, 1,0);//
-	DcMotorCtrl(3,30000);
+	
 	if(GetTickResult(HW_TICK)==1)//增压泵工作，驱动高压开关
 	{
 		DcMotorCtrl(3,0);
 		 registerTick(HW_TICK, 0, 0,1);//
 	
+	}
+	else
+		{
+		DcMotorCtrl(3,30000);
+
 	}
 
 }
@@ -1141,7 +1168,7 @@ void hsw_proc()
         {
 
             water_levelAbnormal_proc();
-
+            
 
         }
         else //水位开关异常
@@ -1166,6 +1193,11 @@ void hsw_proc()
             // registerTick(HW_TICK, 0, 0,1);//
 
         }
+		else
+		{
+				DcMotorCtrl(3,30000);
+
+		}
 
     }
 
@@ -1224,9 +1256,10 @@ void hsw_proc()
 void normal_proc()
 {
     //float flow_tmp;
-
+	
     if( hsw_flag == 1)
     {
+        pump_auto(1);
         flow_low_cnt = 0;
         hsw_flag = 0;
         registerTick(TDS_TICK_NO, 0,0,1);//
@@ -1285,16 +1318,9 @@ void normal_proc()
         else//水位正常，其他参数检测才有意义
 #endif
         {
+            //自吸模式
+			pump_auto(0);
 
-            if(GetSensor()->flow > 0)
-            {
-               ;// pump_ctrl(0);
-            }
-            else
-            {
-                ;//pump_ctrl(1);
-
-            }
 
 
 #if WATER_L_IGNORE == 0
