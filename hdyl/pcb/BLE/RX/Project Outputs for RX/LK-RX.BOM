@@ -1,0 +1,53 @@
+Bill of Material for LK-RX.PCBDOC
+On 2022/2/15 at 13:35:37
+
+ Comment             Pattern     Quantity  Components
+------------------------------------------------------------------------------
+ 0.1uF/10V           0402             3    C11, C25, C29                Capacitor            
+ 0.1uF               0402             1    C23                          Capacitor            
+ 0                   0402             1    R7                           Resistor             
+ 0R                  0402             2    R20, R21                     Resistor             
+ 1.2pF/10V           0402             1    C2                           Capacitor            
+ 1.3nH               0402             1    L2                           Inductor             
+ 1.8nH               0402             1    L1                           Inductor             
+ 1.8pF/10V           0402             2    C3, C31                      Capacitor            
+ 100nF               0402             1    C7                           Capacitor            
+ 100pF               0402             2    C16, C22                     Capacitor            
+ 10K                 0402             3    R1, R8, R10                  Resistor             
+ 10nF                0402             2    C19, C20                     Capacitor            
+ 12pF                0402             2    C9, C10                      Capacitor            
+ 15pF                0402             2    C17, C21                     Capacitor            
+ 18pF/10V            0402             1    C8                           Capacitor            
+ 1K                  0402             2    R2, R3                       Resistor             
+ 1nF                 0402             1    C18                          Capacitor            
+ 1uF/10V             0402             6    C13, C24, C26, C27, C28, C30 Capacitor            
+ 1uF                 0402             2    C1, C5                       Capacitor            
+ 2.2uF/10V           0402             1    C12                          Capacitor            
+ 2.7MR               0402             1    R15                          Resistor             
+ 200K                0402             1    R6                           Resistor             
+ 220pF/10V           0402             1    C4                           Capacitor            
+ 22uF                0603             1    C6                           Capacitor            
+ 24M                 XTAL4TN_3225     1    Y1                           Crystal Oscillator   
+ 2K                  0402             1    R5                           Resistor             
+ 2M                  0402             1    R4                           Resistor             
+ 32.768K             S3215            1    Y3                           Crystal Oscillator   
+ 43K                 0402             6    R11, R12, R13, R14, R16, R17 Resistor             
+ 47uH                0603             1    L3                           Inductor             
+ 6pF                 0402             2    C14, C15                     Capacitor            
+ 8M                  5032             1    Y2                           Crystal Oscillator   
+ AO3401A             AO3401           1    Q1                           MOS(场效应管)        
+ AO3401A             SOT23            1    Q2                           MOS(场效应管)        
+ Battery             BT               1    BT1                          Multicell Battery    
+ CS102               TSSOP24          1    U3                                                
+ Header 6            SIP6-1.27        1    P2                           Header, 6-Pin        
+ IN4148              LED0603          1    D3                           Default Diode        
+ LEDG                LED0603          1    D1                           Typical INFRARED GaAs LED 
+ LEDR                LED0603          1    D2                           Typical INFRARED GaAs LED 
+ LMV321              MF05A_N          1    U4                           General Purpose, Low Voltage, Rail-to-Rail Output Operational Amplifiers 
+ MCP33               SOT23            1    VR1                          Voltage Regulator    
+ microUSB            MICROUSB         1    P1                           Header, 5-Pin        
+ Motor               MOTO-40*44*114 - 3D    1    B1                           Motor, General Kind  
+ RX-40K              US-10MM          1    RTa1                                              
+ TLSR8258F512ET32    QFN-32           1    U2                                                
+ TP4054              TP4054           1    U1                                                
+ 开关                SW3x6x5          1    S1                           Single-Pole, Single-Throw Switch 

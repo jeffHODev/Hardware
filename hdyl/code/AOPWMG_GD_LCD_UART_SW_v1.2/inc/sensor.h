@@ -79,7 +79,7 @@
 #define FIR_NUM_FLOW     5  //filter 1
 #define FIR_NUM_MAX      100 // filter 2
 
-#define MAX_FLOW  7 //
+#define MAX_FLOW  1000 //
 #define MIN_FLOW  0
 
 #define MAX_PH    5
