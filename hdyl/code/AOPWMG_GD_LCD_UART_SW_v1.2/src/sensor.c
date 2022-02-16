@@ -576,7 +576,7 @@ loop:
             //       GetInOut()->key_cali_mode==0)//高压开关和水位正常时启动电解且不在校准模式
             if(GetSensor()->wash_time<=MAX_WASH_TIME)
             {
-                if(((GetSensor()->status[NORMAL_INDEX]==20||GetSensor()->status[WATER_LEVEL_INDEX]==WATER_LEVEL_INDEX)&&GetSensor()->flow>0.5)&&
+                if(((GetSensor()->status[NORMAL_INDEX]==20||GetSensor()->status[WATER_LEVEL_INDEX]==WATER_LEVEL_INDEX)&&GetSensor()->flow>0)&&
                         GetInOut()->key_cali_mode==0&&GetSensor()->status[TDS2_INDEX]==0)//高压开关和水位正常且不在校准模式时启动电解
 
                 {

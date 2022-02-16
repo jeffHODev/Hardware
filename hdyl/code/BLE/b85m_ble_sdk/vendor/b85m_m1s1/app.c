@@ -554,6 +554,7 @@ int app_gatt_data_handler (u16 connHandle, u8 *pkt)
 					}
 					else if(attHandle == SPP_SERVER_TO_CLIENT_DP_H)     // slave Notify
 					{
+					//收到从机数据进行解析
 						u8 data[20];
 						u16 calCRC,resCRC;
 						gpio_toggle(GPIO_LED_RED);
@@ -920,10 +921,13 @@ int main_idle_loop (void)
 
 	////////////////////////////////////// UI entry /////////////////////////////////
 	//#if (UI_KEYBOARD_ENABLE)
-		proc_keyboard (0,0, 0);
+		//proc_keyboard (0,0, 0);
 
-		proc_master_role_unpair();
+		
 	//#endif
+	 key_proc();
+	proc_master_role_unpair();
+
 	mesure_proc();
 
 
@@ -931,6 +935,10 @@ int main_idle_loop (void)
 	app_process_power_management();
 
 	return 0; //must return 0 due to SDP flow
+}
+u8 master_conect_status()
+{
+	return con_stare;
 }
 u32 t_count=0;
 void send_test()
