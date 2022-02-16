@@ -577,7 +577,7 @@ loop:
             if(GetSensor()->wash_time<=MAX_WASH_TIME)
             {
                 if(((GetSensor()->status[NORMAL_INDEX]==20||GetSensor()->status[WATER_LEVEL_INDEX]==WATER_LEVEL_INDEX)&&GetSensor()->flow>0)&&
-                        GetInOut()->key_cali_mode==0&&GetSensor()->status[TDS2_INDEX]==0)//高压开关和水位正常且不在校准模式时启动电解
+                        GetInOut()->key_cali_mode==0&&GetSensor()->status[TDS2_INDEX]==0&&GetSensor()->status[NOWATER_INDEX]==0)//高压开关和水位正常且不在校准模式时启动电解
 
                 {
                     // current_setting = 1.78*sensor.flow;

@@ -250,7 +250,7 @@ void analysis_process()
         }
         if(GetModbusPack()->startaddr  != 0x0045&&GetModbusPack()->startaddr  != 0x0040)
         {
-            registerTick(ABNORMAL_TICK,8000,1,0);
+            registerTick(ABNORMAL_TICK,10000,1,0);
             if(GetTickResult(ABNORMAL_TICK))//与主控板超时自我保护，超时时间10s
             {
                 sensor.ele_status =0;

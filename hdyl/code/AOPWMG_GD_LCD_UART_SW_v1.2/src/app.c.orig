@@ -103,7 +103,7 @@ static unsigned char tick_conv_tmp=0;
 unsigned char abnormalDec()
 {
     static unsigned char status;
-  
+
     if(work_params.init_flag == 0)//上电初始化，电解水从废水通道排出
         registerTick(StART_TICK_NO, INIT_WASH_TIME_SETTING,1, 0);
     if( GetTickResult(StART_TICK_NO)==1)
@@ -144,13 +144,13 @@ unsigned char abnormalDec()
 
     if(dstTds<400)
         dstTds = 400;
-  
+
     if(GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=(dstTds-200)&&
-            GetSensor()->status[TDS2_INDEX]==0))//tds异常
+                                            GetSensor()->status[TDS2_INDEX]==0))//tds异常
     {
 
 
-            status = status | TickTimeoutAb(TDS_TICK_NO,0x02,2*MAX_TICK);
+        status = status | TickTimeoutAb(TDS_TICK_NO,0x02,2*MAX_TICK);
         if(status &0x02)
         {
             registerTick(TDS_TICK_NO, 0, 0,1);//定时器复位
@@ -195,13 +195,13 @@ unsigned char abnormalDec()
         if(GetSensor()->water_level != WATER_H)
         {
 
-           // status = status | 0x20;//
-            status = status |TickTimeoutAb(WATER_TICK_NO,0x20,20000);
+            // status = status | 0x20;//
+            status = status |TickTimeoutAb(WATER_TICK_NO,0x20,10000);
 
         }
         //else
         {
-           // status = status |TickTimeoutAb(WATER_TICK_NO,0x20,WATER_L_DELAY_TICK);//
+            // status = status |TickTimeoutAb(WATER_TICK_NO,0x20,WATER_L_DELAY_TICK);//
 
         }
 
@@ -375,7 +375,7 @@ void Flow_Init()
 
 
     dstTds = flow_switch;
-	//dstTds = 2000;
+    //dstTds = 2000;
     pid_init_flow(dstTds);
 
 }
@@ -561,16 +561,16 @@ polling_status:
     switch(status_tmp)// 0:正常  1：tds1 2:tds2 3：流量 4：orp
         //  5:高压开关6：水位开关 7:电解中
     {
-    /*	str = "正常          ";
-    	str = "原水TDS异常	 ";
-    	str = "缺盐		 	 ";
-    	str = "流量异常 	 ";
-    	str = "盐水箱注水中";
-    	str = "清洗中		 ";
-    	str = "缺水			 ";
-    	str = "系统故障 	 ";
-    	str = "正常			 ";
-    	str = "正常			 ";*/
+        /*	str = "正常          ";
+        	str = "原水TDS异常	 ";
+        	str = "缺盐		 	 ";
+        	str = "流量异常 	 ";
+        	str = "盐水箱注水中";
+        	str = "清洗中		 ";
+        	str = "缺水			 ";
+        	str = "系统故障 	 ";
+        	str = "正常			 ";
+        	str = "正常			 ";*/
 
 
 
@@ -934,8 +934,8 @@ void dev_normal_ctrl()
 void dev_wash_ctrl()
 {
     GetSensor()->wash_time =3;//GetSensor()->wash_time +1 ;//大于3次停机
-	GetSensor()->status[TDS2_INDEX] = TDS2_INDEX;//tds2异常
-	GetSensor()->status[SHUNT_INDEX] = SHUNT_INDEX;//停机
+    GetSensor()->status[TDS2_INDEX] = TDS2_INDEX;//tds2异常
+    GetSensor()->status[SHUNT_INDEX] = SHUNT_INDEX;//停机
 
     GetSensor()->err_flag = 0;
     // GetSensor()->status[TDS2_INDEX] = 0;//tds2异常
@@ -974,64 +974,94 @@ void power_off()
 
 }
 float motor_pwm;
-
-void pump_ctrl(unsigned char mode)
+ unsigned char pump_result = 0;
+unsigned char *getpumpstatus()
+{
+	return &pump_result;
+}
+unsigned char  pump_ctrl(unsigned char mode)
 {
     static unsigned char pump_flag=0,init_flag;
     static uint32_t delay_cnt = 0;
-    if(delay_cnt++<=10000)
-        ;
+	
 
-    if(mode == 0)
-    {
-        pump_flag = 0;
-        init_flag = 0;
 
-        registerTick(PUMP_TICK_NO, 0,0, 1);
-    }
-    if(mode == 1)
-    {
-        if(init_flag == 0)
+        registerTick(PUMP_TICK_NO, 15000,1, 0);
+        if( GetTickResult(PUMP_TICK_NO)==1)
         {
-            delay_cnt = 0;
-            init_flag = 1;
-            pump_flag = 0;
-            registerTick(PUMP_TICK_NO, 0,0, 1);
+            if(GetSensor()->flow == 0)
+            { 
+            	DcMotorCtrl(3,0);
+
+				pump_result = 1;//自吸没水
+            }
+			else
+				pump_result = 2; //自吸有水
+				registerTick(PUMP_TICK_NO, 0,0, 1);
 
         }
-
-    }
-
-    registerTick(PUMP_TICK_NO, 30000,1, 0);
-    if( GetTickResult(PUMP_TICK_NO)==1)
-    {
-        if(GetSensor()->flow == 0)//&&mode==1
+        else
         {
-            if(pump_flag==0)
-                pump_flag =1;
-            //else
-            //	pump_flag = 0;
-            // DcMotorCtrl(3,0);
+            if(GetSensor()->status[NOWATER_INDEX]==0)
+            {
+                DcMotorCtrl(3,pid_proc_pump(GetSensor()->flow));
+				pump_result = 0;
+            }
+
+            else
+            {
+				DcMotorCtrl(3,0);
+				pump_result = 0;
+
+			}
         }
-        registerTick(PUMP_TICK_NO, 0,0, 1);
+return pump_result;
     }
+
+
+
+void pump_auto(unsigned char flag)
+{
+    static unsigned char pum_flag=0;
+    static unsigned int delay_cnt=0;
+    if(flag == 1)
+    {
+        delay_cnt = 0;
+        pum_flag=0;
+    }
+
     else
     {
-        if(pump_flag==0&&GetSensor()->status[NOWATER_INDEX]==0&&delay_cnt>=10000)
+        //自吸模式
+        if(GetSensor()->flow > 0)
         {
+            delay_cnt  = 0;
+            if(pum_flag == 1)
+                pump_ctrl(0);
+        }
+        else
+        {
+            if(delay_cnt <10000)
+                delay_cnt ++;
+            if(delay_cnt>=10000)
+            {
+               
+				if(*getpumpstatus()==0)
+                pump_ctrl(1);//没水泵工作30s
+                else if(*getpumpstatus()==2)
+					pum_flag = 1;
+				
+            }
 
-            //	motor_pwm = GetSensor()->flow*(-13883.75)+65535;
-            ////	if(motor_pwm <10000)
-            //	motor_pwm = 10000;
-
-
-            DcMotorCtrl(3,pid_proc_pump(GetSensor()->flow));
+        }
+        if(GetSensor()->status[NOWATER_INDEX]==NOWATER_INDEX)
+        {
+            pum_flag = 0;
         }
 
-        else
-            DcMotorCtrl(3,0);
 
     }
+
 
 }
 //uint32_t time_out_sw=0;
@@ -1041,8 +1071,11 @@ static unsigned char hsw_flag=0;
 unsigned char flow_proc()
 {
     static unsigned char result;
+	unsigned char tmp=0 ;
     result = 0;
-    if(abnormalDec()&0x10==0&&GetSensor()->temperature>=5)//高压阀异常,低温不工作
+	
+	tmp = abnormalDec()&0x10;
+    if(tmp==0&&GetSensor()->temperature>=5)//高压阀异常,低温不工作
     {
 
         if(GetSensor()->flow<FLOW_VALUE)	//水流量不足
@@ -1063,6 +1096,11 @@ unsigned char flow_proc()
                 result = 1;
             }
         }
+		else if(*getpumpstatus()==1)
+			{
+			GetSensor()->status[NOWATER_INDEX]=NOWATER_INDEX;
+
+		}
         else
         {
             result = 0;
@@ -1089,20 +1127,55 @@ void tds_proc()
 
 
     }//tds2异常
-	if(GetSensor()->err_flag&0x01)//tds报警
-	{
-		dev_wash_ctrl();
-	
-	}//tds报警,自动清洗
-	else
-	{
-		//GetSensor()->status[TDS2_INDEX] = 0;//tds2异常
-		EleSwCtrl(WATER_SW,ON);//原水进水阀开
-		if(GetSensor()->flow >0.5)
-			EleSwCtrl(WASTE_SW,ON);//废水出水阀开
-		EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
-		EleSwCtrl(HCILO_SW,ON);//消毒水出水阀关
-	}
+    if(GetSensor()->err_flag&0x01)//tds报警
+    {
+        dev_wash_ctrl();
+
+    }//tds报警,自动清洗
+    else
+    {
+        //GetSensor()->status[TDS2_INDEX] = 0;//tds2异常
+        EleSwCtrl(WATER_SW,ON);//原水进水阀开
+        if(GetSensor()->flow >0.5)
+            EleSwCtrl(WASTE_SW,ON);//废水出水阀开
+        EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
+        EleSwCtrl(HCILO_SW,ON);//消毒水出水阀关
+    }
+
+}
+void pump_hw(unsigned char flag)
+{
+    static unsigned int delay_cnt=0;
+
+    if(flag == 0)
+    {
+        registerTick(HW_TICK, 2000, 1,0);//
+        if(delay_cnt<10)
+            delay_cnt++;
+        else
+            delay_cnt = 0;
+        if(GetTickResult(HW_TICK)==1)//增压泵工作，驱动高压开关
+        {
+            DcMotorCtrl(3,0);
+            registerTick(HW_TICK, 0, 0,1);//
+
+        }
+        else
+        {
+            if(delay_cnt>10)
+                DcMotorCtrl(3,30000);
+
+        }
+
+    }
+    else
+    {
+        registerTick(HW_TICK, 0, 0,1);//
+        delay_cnt = 0;
+
+    }
+
+
 
 }
 void hsw_proc()
@@ -1141,19 +1214,28 @@ void hsw_proc()
     else
     {
         EleSwCtrl(WATER_SW,OFF);//原水进水阀开
-        EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
+
+        // EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
         EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
         EleSwCtrl(HCILO_SW,OFF);//消毒水出水阀关
         EleSwCtrl(WASTE_SW,OFF);//废水出水阀关
         DcMotorCtrl(2,0);
+        DcMotorCtrl(3,0);
+        registerTick(HW_TICK, 0, 0,1);
 
-        registerTick(HW_TICK, 500, 1,0);//
+        /*registerTick(HW_TICK, 500, 1,0);//
         if(GetTickResult(HW_TICK)==1)
         {
             DcMotorCtrl(3,0);
+
             // registerTick(HW_TICK, 0, 0,1);//
 
         }
+        else
+        {
+            DcMotorCtrl(3,30000);
+
+        }*/
 
     }
 
@@ -1215,12 +1297,21 @@ void normal_proc()
 
     if( hsw_flag == 1)
     {
-        flow_low_cnt = 0;
+		*getpumpstatus()=0;
+		registerTick(PUMP_TICK_NO, 0,0, 1);
+
+        //pump_hw(1);
+     //   flow_low_cnt = 0;
         hsw_flag = 0;
         registerTick(TDS_TICK_NO, 0,0,1);//
         registerTick(FLOW_TICK_NO, 0, 0,1);//超时计时开始
     }
-    registerTick(HW_TICK, 0, 0,1);//
+    if(GetSensor()->flow > 0)
+    {
+
+        registerTick(HW_TICK, 0, 0,1);//
+    }
+
 
     registerTick(FLOW_TICK_NO2, 0,0,1);
     if(abnormalDec()&0x10==0)//高压开关异常
@@ -1228,6 +1319,11 @@ void normal_proc()
 
     if(GetSensor()->status[SHUNT_INDEX] == 0)//非停机模式
     {
+        //if(if(GetSensor()->flow <=0))
+        //自吸模式
+        pump_auto(0);
+        //else
+
         if(abnormalDec()&0x20&&GetSensor()->status[TDS2_INDEX]==0)//水位异常
         {
 
@@ -1270,15 +1366,7 @@ void normal_proc()
 #endif
         {
 
-            if(GetSensor()->flow > 0)
-            {
-                pump_ctrl(0);
-            }
-            else
-            {
-                pump_ctrl(1);
 
-            }
 
 
 #if WATER_L_IGNORE == 0
@@ -1292,7 +1380,7 @@ void normal_proc()
             if(work_params.init_flag == 0)//上电开机
             {
                 dev_init_ctrl();
-                if(GetSensor()->flow > 0.5)
+                if(GetSensor()->flow > 0.1)
                 {
                     EleSwCtrl(WASTE_SW,ON);//废水出水阀开
                 }
@@ -1305,11 +1393,13 @@ void normal_proc()
                     if(GetSensor()->flow == 0)//&&hsw_flag == 1
                     {
                         dev_flow_Abnormal_ctrl();
+                        pump_hw(0);
                         pid_init2(dstTds);
                     }
                 }
                 else
                 {
+                    pump_hw(1);
                     if(GetSensor()->flow != 0)//流量异常
                         FlowCtrl();
                     else
@@ -1329,13 +1419,7 @@ void normal_proc()
                 if(GetSensor()->flow == 0)//&&hsw_flag == 1
                 {
                     dev_flow_Abnormal_ctrl();
-					        registerTick(HW_TICK, 500, 1,0);//
-        if(GetTickResult(HW_TICK)==1)
-        {
-            DcMotorCtrl(3,0);
-            // registerTick(HW_TICK, 0, 0,1);//
-
-        }
+                    // pump_hw(0);
                     pid_init2(dstTds);
                 }
                 else
@@ -1346,6 +1430,7 @@ void normal_proc()
             }
             else  //流量正常
             {
+                // pump_hw(1);
                 if(GetSensor()->flow != 0)//流量异常
                     FlowCtrl();
                 else
@@ -1636,7 +1721,8 @@ void ele_process()
         if( GetSensor()->status[SYSTEM_INDEX]!=SYSTEM_INDEX&& GetSensor()->status[TDS2_INDEX]!=TDS2_INDEX&&
                 GetSensor()->status[SHUNT_INDEX]!=SHUNT_INDEX)
         {
-            pump_ctrl(0);
+            //pump_ctrl(0);
+            pump_auto(0);
             if(abnormalDec()&0x20&&GetSensor()->status[TDS2_INDEX]==0)//水位异常
             {
 
@@ -1700,7 +1786,8 @@ void ele_process()
                 registerTick(WASH_TICK, WASH_TIME_SETTING,1, 0);
                 if( GetTickResult(WASH_TICK)==1)
                 {
-
+                    *getpumpstatus()=0;
+		            registerTick(PUMP_TICK_NO, 0,0, 1);
                     GetInOut()->key_wash_mode = 0;
                     registerTick(WASH_TICK, 0,0,1);
                     GetSensor()->status[WASH_INDEX] = 0;//washing
