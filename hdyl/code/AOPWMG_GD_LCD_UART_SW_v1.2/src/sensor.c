@@ -50,7 +50,7 @@ extern ADC_HandleTypeDef hadc1;
 #endif
 sensor_stru sensor;
 uint16_t adc1_val_buf[6];
-unsigned char current_setting;
+extern unsigned char current_setting;
 uint16_t *get_adc_buf()
 {
     return adc1_val_buf;
@@ -584,7 +584,7 @@ loop:
                     //   if(current_setting>=8)
                     //   current_setting= 8;
                     tx_buf[0] = 0;
-                    tx_buf[1] = 1;//||current_setting<<8;
+                    tx_buf[1] = 1|current_setting<<8;
                     if(addr_tmp<=M4_ADDR&&((addr_tmp-3))<FLOW_SIZE)
                     {
                         flag = 1;

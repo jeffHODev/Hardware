@@ -209,7 +209,7 @@ void analysis_process()
             if( GetModbusPack()->startaddr  == 0x0040 )
             {
                 sensor.ele_status = GetModbusPayLoad()->RS485_RX_BUFF[5];
-                //  setCurrent(sensor.ele_status>>4);
+                 setCurrent(sensor.ele_status>>4);
                 sensor.ele_status = sensor.ele_status &0x0f;
                 sensor.inverEle = 0;
                 //sensor.online = 0;
