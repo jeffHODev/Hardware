@@ -20,6 +20,10 @@
 #define TDS_LEVEL5   1100-100 //1000
 #define TDS_LEVEL6   1200-50
 */
+#define MIN_CURRENT   3
+
+#define MAX_CURRENT   9
+#define RATIO (MAX_CURRENT-FLOW_SIZE)/MIN_CURRENT
 #if FLOW_SIZE == 4
 #define TDS_LEVEL1   400
 #define TDS_LEVEL2   650-120-20  // 650-150
@@ -187,5 +191,6 @@ uint16_t *get_adc_buf(void);
 void GetModbusSens(unsigned char addr,unsigned char func,unsigned int reg,unsigned int regCount,unsigned char *buf,unsigned char datcount);
 void setState(unsigned char setvealue, unsigned char addr);
 void GetFlow(void);
+void current_proc(void);
 
 #endif

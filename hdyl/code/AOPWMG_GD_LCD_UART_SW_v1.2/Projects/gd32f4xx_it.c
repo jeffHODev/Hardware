@@ -150,6 +150,7 @@ void SysTick_Handler(void)
 	if(sys_tick%FLOW_PERIOD==0)
 	{
 	  GetFlow();	
+	  current_proc();
 	}
 
 	  if(sys_tick%200==0)

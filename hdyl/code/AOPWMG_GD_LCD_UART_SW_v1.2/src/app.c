@@ -381,22 +381,8 @@ void Flow_Init()
 }
 static int32_t pwm2;
 unsigned char pid_cnt;
-unsigned char current_setting;
 extern unsigned char tds_flag;
- void current_proc()
- {
-       unsigned int curr_tmp;
-	  if(GetSensor()->flow<=4)
-	  	{
-	  	curr_tmp =2.25 * GetSensor()->flow;//  0-4     0-9
-        if(curr_tmp<3)
-			curr_tmp = 3;
-	  }
 
-	  else
-	  curr_tmp =9;//  0-4     0-9	 
-	  current_setting = (unsigned char)curr_tmp;
- }
 void FlowCtrl()
 {
     static double tds_out=1200;

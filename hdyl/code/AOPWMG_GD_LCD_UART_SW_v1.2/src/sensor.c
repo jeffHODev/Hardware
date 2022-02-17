@@ -321,8 +321,24 @@ void GetTds_EleCurr()
 
     }
 
-}
-//uint32_t flow_cnt_last;
+	}
+float curr_tmp;
+unsigned char current_setting;
+ void current_proc()
+ {
+       
+	  if(GetSensor()->flow<=4)
+	  	{
+	  	curr_tmp =RATIO * GetSensor()->flow+MIN_CURRENT;//  0-4     3-8
+        if(curr_tmp==MIN_CURRENT)
+			curr_tmp = 0;
+		else if(curr_tmp>=MAX_CURRENT)
+			curr_tmp = MAX_CURRENT;
+	  }
+	  else
+	  curr_tmp =MAX_CURRENT;//  0-4     0-9	 
+	  current_setting = (unsigned char)(curr_tmp+0.5);
+ }//uint32_t flow_cnt_last;
 //float flow_sum,flow_aver;
 uint32_t flow_cnt;
 #define FLOW_CAL		0
@@ -511,7 +527,7 @@ unsigned char GetPH_ORP()
 
     unsigned char tx_buf[2],i;
     static unsigned char flag=0,tx_cnt;
-    registerTick(SENSOR_TICK_NO,200,1,0);
+    registerTick(SENSOR_TICK_NO,100,1,0);
     if(GetTickResult(SENSOR_TICK_NO)==1)
     {
         //	flag = 1;
@@ -584,7 +600,7 @@ loop:
                     //   if(current_setting>=8)
                     //   current_setting= 8;
                     tx_buf[0] = 0;
-                    tx_buf[1] = 1|current_setting<<8;
+                    tx_buf[1] = 1|current_setting<<4;
                     if(addr_tmp<=M4_ADDR&&((addr_tmp-3))<FLOW_SIZE)
                     {
                         flag = 1;
@@ -616,7 +632,7 @@ loop:
                     //     GetSensor()->status[ORP_INDEX]||GetSensor()->status[PH_INDEX]||GetSensor()->status[WASH_INDEX])&&GetSensor()->flow>0)//wash invert ele
                 {
                     tx_buf[0] = 0;
-                    tx_buf[1] = 1;
+                    tx_buf[1] = 1|current_setting<<4;
                     if(addr_tmp<=M4_ADDR&&((addr_tmp-3))<FLOW_SIZE)
                     {
                         flag = 1;

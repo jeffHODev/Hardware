@@ -62,6 +62,7 @@ void adcInit()
 
 }
 extern PID sPID; // PID Control Structure
+float tmp_curr;
 void setCurrent(unsigned char curr)
 {
 
@@ -69,7 +70,9 @@ void setCurrent(unsigned char curr)
         sPID.SetPoint = DES_CURR_VALUE;
     else
         sPID.SetPoint = curr*1000;
-
+    if(curr >DES_CURR_VALUE)
+        sPID.SetPoint = DES_CURR_VALUE;	
+//tmp_curr =curr*1000;
 }
 uint32_t *get_adc_buf()
 {
@@ -209,7 +212,7 @@ void analysis_process()
             if( GetModbusPack()->startaddr  == 0x0040 )
             {
                 sensor.ele_status = GetModbusPayLoad()->RS485_RX_BUFF[5];
-               //  setCurrent(sensor.ele_status>>4);
+                 setCurrent(sensor.ele_status>>4);
                 sensor.ele_status = sensor.ele_status &0x0f;
                 sensor.inverEle = 0;
                 //sensor.online = 0;
