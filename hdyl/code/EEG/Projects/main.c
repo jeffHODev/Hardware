@@ -79,7 +79,7 @@ int main(void)
     dma_config();  
 	 adc_config();
     timer_config(TIMER3, 1);
-	delay_ms(500);
+	  delay_ms(2000);
    //ADS129x_ReInit(0);
 	 app_init();
     protocol_init();

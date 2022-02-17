@@ -1,7 +1,7 @@
 #include "spo.h"
 #include "bsp.h"
 #include "config.h"
-#define  cishu   8       //滤波的次数  8
+#define  cishu   16      //滤波的次数  8
 #define  Snum    200     //存储的次数  200
 #define  rogncuo 25      //容错的次数 
 unsigned char d_up=0;
@@ -12,16 +12,36 @@ unsigned char d_dn=0;
 函数功能:数据处理
 入口参数:dat
 出口参数:无
-************************************************************/	
+************************************************************/
 void  data_proc(unsigned int temp)
 {
- unsigned int x;	
- x=temp;
- qw=bw=sw=gw=0;
- if(x>=1000)do{qw++;x=x-1000;}while(x>999);
- if(x>=100)do{bw++;x=x-100;}while(x>99);
- if(x>=10)do{sw++;x=x-10;}while(x>9);
- if(x>=1)do{gw++;x=x-1;}while(x>0);	
+    unsigned int x;
+    x=temp;
+    qw=bw=sw=gw=0;
+    if(x>=1000)do
+        {
+            qw++;
+            x=x-1000;
+        }
+        while(x>999);
+    if(x>=100)do
+        {
+            bw++;
+            x=x-100;
+        }
+        while(x>99);
+    if(x>=10)do
+        {
+            sw++;
+            x=x-10;
+        }
+        while(x>9);
+    if(x>=1)do
+        {
+            gw++;
+            x=x-1;
+        }
+        while(x>0);
 }
 
 //对200个已知样本进行测试
@@ -116,7 +136,7 @@ void  cal_F_IRLED(void)
     changdu=store_buf[time2]-store_buf[0];
     changdu1=store_buf[time3]-store_buf[time1];
     changdu=(changdu+changdu1)>>1;             //计算脉搏周期
-    Freq=6000/(unsigned int)changdu;          //计算1min钟的脉搏数
+    Freq=7200/(unsigned int)changdu;          //计算1min钟的脉搏数
 }
 //=========================================
 //血氧处理
@@ -129,8 +149,8 @@ void  deal_spo2(void)
     cal_IRLED();      //计算采集数据中的最大最小值
     cal_F_IRLED();    //计算频率
     R=((float)F_RLED_err/(float)F_RLED)/((float)F_IRLED_err/(float)F_IRLED);
-    //SPO2=110-15*R;
-    if(R<=30)
+    //SPO2=110-15*R;    if(R<=30)
+			if(R<=5)
         //SPO2=110-R*3.6;
         SPO2=101-R*2.0;
     else
@@ -145,7 +165,7 @@ void  canshu_init(void)
 {
     unsigned char j=0;
     for(j=0; j<cishu; j++)
-        filter_buf[j]=75;
+        filter_buf[j]=70;
 }
 //参数初始化
 void  canshu_init2(void)
@@ -154,6 +174,13 @@ void  canshu_init2(void)
     for(j=0; j<cishu; j++)
         filter_SPO2[j]=99;
 }
+void  canshu_init3(void)
+{
+ unsigned char j=0;
+ for(j=0;j<cishu;j++)
+ filter_buf[j]=0;
+}
+
 //滑动平均滤波
 //滑动去极值求平均
 void  Slide_filter(void)
@@ -186,9 +213,9 @@ void  Slide_filter(void)
     sum=sum-MB_max;
     sum=sum-MB_min;
     //以上完成去极值作用
-    MB=sum/6;
-    if(MB>160)                          //对脉搏进行限制
-        MB=160;
+    XYMB[1]=sum/14;
+    if(XYMB[1]>160)                          //对脉搏进行限制
+        XYMB[1]=160;
 }
 //滑动平均滤波
 void  Slide_filter_spo2(void)
@@ -205,7 +232,7 @@ void  Slide_filter_spo2(void)
     {
         sum+=filter_SPO2[j];
     }
-    XY=sum>>3;
+    XYMB[0]=sum>>4;
 }
 
 //数据采集处理
@@ -215,77 +242,103 @@ void  samp_deal(void)
     //采集数据
     static uint32_t systick_10ms;
     if((HAL_GetTick()-systick_10ms)>=10)
-    	{
-    	systick_10ms = HAL_GetTick()；
-	if(step==0)
-		{
-			light_red();		 //开红光
-			//Pulse_count=ADC10_samp(0x02); //通道2，脉搏电压采集
-			Pulse_count=getAdcBuf()->adc_value[3]; //通道ADC12_10，脉搏电压采集
-			Pulse_count=Pulse_count/4;
-			UART_R_buf[RS232_cnt]=Pulse_count;
-		}
-		else
-		{
-			light_Ired();		 //开红外光
-			//Pulse_count=ADC10_samp(0x02); //通道2，脉搏电压采集
-			Pulse_count=getAdcBuf()->adc_value[3]; //通道ADC12_10，脉搏电压采集
-			Pulse_count=Pulse_count/4;
-			UART_IR_buf[RS232_cnt]=Pulse_count;
-		}
-		if(diuqi>0)
-		{
-			diuqi--;
-			RS232_cnt=0;
-		}
-		else
-			RS232_cnt++;		  //完成一次采集,如果采集间隔超过10ms，认为超时。
-		if(RS232_cnt>=Snum)
-		{
-			onetimes_flag=1;
-			RS232_cnt=0;
-		}
+    {
+        systick_10ms = HAL_GetTick();
+        if(step==0)
+        {
+            light_red();		 //开红光
+            //Pulse_count=ADC10_samp(0x02); //通道2，脉搏电压采集
+            Pulse_count=getAdcBuf()->adc_value[3]; //通道ADC12_10，脉搏电压采集
+            Pulse_count=Pulse_count/4;
+            UART_R_buf[RS232_cnt]=Pulse_count;
+        }
+        else
+        {
+            light_Ired();		 //开红外光
+            //Pulse_count=ADC10_samp(0x02); //通道2，脉搏电压采集
+            Pulse_count=getAdcBuf()->adc_value[3]; //通道ADC12_10，脉搏电压采集
+            Pulse_count=Pulse_count/4;
+            UART_IR_buf[RS232_cnt]=Pulse_count;
+        }
+        if(diuqi>0)
+        {
+            diuqi--;
+            RS232_cnt=0;
+        }
+        else
+            RS232_cnt++;		  //完成一次采集,如果采集间隔超过10ms，认为超时。
+        if(RS232_cnt>=Snum)
+        {
+            onetimes_flag=1;
+            RS232_cnt=0;
+        }
 
-	}
-    
+    }
+
 }
+void  no_finger_check(void)
+{
+ 	if(F_IRLED_max<F_IRLED_min+50)
+	{
+	 finger_flg=0;	
+	 canshu_init3();	
+   nofinger_cnt=1;		
+	}
+  else	
+	{
+	 finger_flg=1;	
+	 if(nofinger_cnt==1)
+   {
+		 canshu_init();            //参数初始化
+     canshu_init2();           //参数初始化	
+		 nofinger_cnt=0; 
+	 }		 
+	}	
+}
+
 void spo_proc()
 {
-	 samp_deal();   //分时任务
-		 //keypro();	   //			 
-		 if(onetimes_flag==1) 
-		 {	
-		  step++;
-		  if(step==1)
-		  {
-		   light_Ired();		//开红外光 
-		  }
-		  if(step>=2)	
-		  {
-		   light_stop();		  //停止
-			 deal_spo2();			  //血氧处理
-		   Slide_filter();		  //滑动滤波
-		   Slide_filter_spo2();   //滤除血氧
-		   data_proc(XY);		  //血氧饱和度
-		   SPO2_buf[1]=sw;
-		   SPO2_buf[0]=gw;
-		   data_proc(MB);		  //脉搏
-		   MB_buf[2]=bw;
-		   MB_buf[1]=sw;
-		   MB_buf[0]=gw;   
-	
-			//Send_char1(0x68);	  //串口发送字头
-			//  Send_char1(XY);		//串口发送血氧
-			//  Send_char1(MB);		//串口发送脉搏
-			 // Send_char1(0x16); 	  //串口发送字尾 20:14:04:04:24:59   未连接，闪。连接，灯常亮。		
-	   
-			 light_red();			  //开红光
-			 step=0;
-		  }
-		  diuqi=80;    
-		  RS232_cnt=0;
-		  onetimes_flag=0;		  //一次完成
-		 }
+    samp_deal();   //分时任务
+    //keypro();	   //
+    if(onetimes_flag==1)
+    {
+        step++;
+        if(step==1)
+        {
+            light_Ired();		//开红外光
+        }
+        if(step>=2)
+        {
+            light_stop();		  //停止
+            deal_spo2();			  //血氧处理
+            Slide_filter();		  //滑动滤波
+            Slide_filter_spo2();   //滤除血氧
+            no_finger_check();     //无手指检测
+            data_proc(XYMB[0]);		  //血氧饱和度
+            SPO2_buf[1]=sw;
+            SPO2_buf[0]=gw;
+            data_proc(XYMB[1]);		  //脉搏
+            MB_buf[2]=bw;
+            MB_buf[1]=sw;
+            MB_buf[0]=gw;
+
+            //Send_char1(0x68);	  //串口发送字头
+            //  Send_char1(XY);		//串口发送血氧
+            //  Send_char1(MB);		//串口发送脉搏
+            // Send_char1(0x16); 	  //串口发送字尾 20:14:04:04:24:59   未连接，闪。连接，灯常亮。
+
+            light_red();			  //开红光
+            step=0;
+        }
+        diuqi=80;
+        RS232_cnt=0;
+        onetimes_flag=0;		  //一次完成
+    }
 
 }
+uint8_t *getSpo(void)
+{
+   return XYMB;
+}
+
 

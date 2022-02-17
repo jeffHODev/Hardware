@@ -18,13 +18,15 @@ void temperature_proc()
 {
     float temp;
 	uint16_t res_index;
-	if(getAdcBuf()->adc_value[1]>=getAdcBuf()->adc_value[0])
+	if(getAdcBuf()->adc_value[0]>=getAdcBuf()->adc_value[1])
 	{
 	
 		sensors_usr.ta =getAdcBuf()->adc_value[0]*3.3/4095;
 		sensors_usr.tb =getAdcBuf()->adc_value[1]*3.3/4095;
-		sensors_usr.vol=sensors_usr.tb-sensors_usr.ta;
-	    sensors_usr.res_cal =(sensors_usr.vol)*560;//sensors_usr.ta/1000 ;
+		sensors_usr.vol=sensors_usr.ta-sensors_usr.tb;
+		temp = sensors_usr.tb/300;
+		
+	    sensors_usr.res_cal =(sensors_usr.vol)/temp;//sensors_usr.ta/1000 ;
      // temp = getAdcBuf()->adc_value[1]*300/getAdcBuf()->adc_value[0];
 	  sensors_usr.res = sensors_usr.res +sensors_usr.res_cal/FIR_NUM-sensors_usr.res/FIR_NUM;
 	  res_index = find_from_ntc_table(sensors_usr.res );

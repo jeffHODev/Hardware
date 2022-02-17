@@ -1,7 +1,7 @@
 #include "spo.h"
 #include "bsp.h"
 #include "config.h"
-#define  cishu   8       //滤波的次数  8
+#define  cishu   16      //滤波的次数  8
 #define  Snum    200     //存储的次数  200
 #define  rogncuo 25      //容错的次数 
 unsigned char d_up=0;
@@ -136,7 +136,7 @@ void  cal_F_IRLED(void)
     changdu=store_buf[time2]-store_buf[0];
     changdu1=store_buf[time3]-store_buf[time1];
     changdu=(changdu+changdu1)>>1;             //计算脉搏周期
-    Freq=6000/(unsigned int)changdu;          //计算1min钟的脉搏数
+    Freq=7200/(unsigned int)changdu;          //计算1min钟的脉搏数
 }
 //=========================================
 //血氧处理
@@ -150,7 +150,7 @@ void  deal_spo2(void)
     cal_F_IRLED();    //计算频率
     R=((float)F_RLED_err/(float)F_RLED)/((float)F_IRLED_err/(float)F_IRLED);
     //SPO2=110-15*R;    if(R<=30)
-			if(R<=5)
+    if(R<=5)
         //SPO2=110-R*3.6;
         SPO2=101-R*2.0;
     else
@@ -165,7 +165,7 @@ void  canshu_init(void)
 {
     unsigned char j=0;
     for(j=0; j<cishu; j++)
-        filter_buf[j]=75;
+        filter_buf[j]=70;
 }
 //参数初始化
 void  canshu_init2(void)
@@ -174,6 +174,13 @@ void  canshu_init2(void)
     for(j=0; j<cishu; j++)
         filter_SPO2[j]=99;
 }
+void  canshu_init3(void)
+{
+    unsigned char j=0;
+    for(j=0; j<cishu; j++)
+        filter_buf[j]=0;
+}
+
 //滑动平均滤波
 //滑动去极值求平均
 void  Slide_filter(void)
@@ -206,7 +213,7 @@ void  Slide_filter(void)
     sum=sum-MB_max;
     sum=sum-MB_min;
     //以上完成去极值作用
-    XYMB[1]=sum/6;
+    XYMB[1]=sum/14;
     if(XYMB[1]>160)                          //对脉搏进行限制
         XYMB[1]=160;
 }
@@ -225,7 +232,7 @@ void  Slide_filter_spo2(void)
     {
         sum+=filter_SPO2[j];
     }
-    XYMB[0]=sum>>3;
+    XYMB[0]=sum>>4;
 }
 
 //数据采集处理
@@ -269,6 +276,26 @@ void  samp_deal(void)
     }
 
 }
+void  no_finger_check(void)
+{
+    if(F_IRLED_max<F_IRLED_min+50)
+    {
+        finger_flg=0;
+        canshu_init3();
+        nofinger_cnt=1;
+    }
+    else
+    {
+        finger_flg=1;
+        if(nofinger_cnt==1)
+        {
+            canshu_init();            //参数初始化
+            canshu_init2();           //参数初始化
+            nofinger_cnt=0;
+        }
+    }
+}
+
 void spo_proc()
 {
     samp_deal();   //分时任务
@@ -286,6 +313,7 @@ void spo_proc()
             deal_spo2();			  //血氧处理
             Slide_filter();		  //滑动滤波
             Slide_filter_spo2();   //滤除血氧
+            no_finger_check();     //无手指检测
             data_proc(XYMB[0]);		  //血氧饱和度
             SPO2_buf[1]=sw;
             SPO2_buf[0]=gw;
@@ -310,7 +338,7 @@ void spo_proc()
 }
 uint8_t *getSpo(void)
 {
-   return XYMB;
+    return XYMB;
 }
 
 

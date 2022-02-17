@@ -68,8 +68,8 @@ unsigned  char     MB_buf[3];       //变化频率
 unsigned  char     SPO2_buf[2];     //变化频率 
 unsigned  char     store_buf[100];  //最大容量为100
 unsigned  char     T_buf[3];        //最大容量为100
-unsigned int      filter_buf[8]; 
-unsigned int      filter_SPO2[8]; 
+unsigned int      filter_buf[16]; 
+unsigned int      filter_SPO2[16]; 
 unsigned int      UART_R_buf[200];   //存储200个串口数据
 unsigned int      UART_IR_buf[200];  //存储200个串口数据 
 float   R=0;                         //计算得到的R值	  
@@ -106,7 +106,7 @@ char               shift=0;        //移位
 char               add_dec=0;      //加减  	
 unsigned  char     fengming_flg=0; //蜂鸣标志
 unsigned  char     fengming_cnt=0; //蜂鸣计数	   
-unsigned  char     nofinger_flg=0; //无手指标志
+unsigned  char     finger_flg=0; //无手指标志
 unsigned  char     nofinger_cnt=0; //蜂鸣计数	
 unsigned  char     shanshuo_cnt=0; //蜂鸣计数	
 ///===STM32后增加========
