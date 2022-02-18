@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_transfer_files_via_bt"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+
+    <include
+        android:id="@+id/title_layout"
+        layout="@layout/app_title_new" />
+
+    <LinearLayout
+        android:layout_below="@id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--第一条-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="vertical">
+
+
+
+            <com.hekangyuan.nivi1000.view.graphViewForLive.PathGraphView
+                android:id="@+id/path_view0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@mipmap/ecg" />
+
+                <TextView
+                    android:id="@+id/tv_ecg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="心电波"
+                    android:textColor="@color/lawngreen"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                style="@style/draws_text_style"
+                android:text="1s"
+                />
+            <TextView
+                style="@style/draws_text_style"
+                android:text="2s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="3s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="4s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="5s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="6s"/>
+        </LinearLayout>
+        <!--第二条-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="1dp"
+            android:orientation="vertical">
+
+
+
+            <com.hekangyuan.nivi1000.view.graphViewForLive.PathGraphView
+                android:id="@+id/path_view1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@mipmap/sounds" />
+
+                <TextView
+                    android:id="@+id/tv_heart_sounds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="心音波"
+                    android:textColor="@color/titleback"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                style="@style/draws_text_style"
+                android:text="1s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="2s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="3s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="4s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="5s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="6s"/>
+        </LinearLayout>
+        <!--第三条-->
+        <RelativeLayout
+            android:id="@+id/third_view_layout"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="1dp"
+            android:orientation="vertical">
+
+            <com.hekangyuan.nivi1000.view.graphViewForLive.PathGraphView
+                android:id="@+id/path_view2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@mipmap/pulse" />
+
+                <TextView
+                    android:id="@+id/tv_pulse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="超收缩压脉搏波"
+                    android:textColor="@color/yellow"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                style="@style/draws_text_style"
+                android:text="1s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="2s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="3s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="4s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="5s"/>
+            <TextView
+                style="@style/draws_text_style"
+                android:text="6s"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:orientation="horizontal"
+
+        >
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            style="@style/savepaint_linearlay_style">
+            <Button
+                android:id="@+id/bt_previous_step"
+                android:layout_height="40dp"
+                style="@style/savepaint_button_style"
+                android:background="@mipmap/up"
+                android:textColor="@color/white"
+                android:text="上一步" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="3dp"
+            style="@style/savepaint_linearlay_style">
+            <Button
+                android:id="@+id/bt_suspend"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                style="@style/savepaint_button_style"
+                android:background="@mipmap/center"
+                android:textColor="@color/white"
+                android:text="开始"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            style="@style/savepaint_linearlay_style">
+
+            <Button
+
+                android:id="@+id/bt_next"
+                android:layout_height="40dp"
+                style="@style/savepaint_button_style"
+                android:background="@mipmap/down"
+                android:textColor="@color/white"
+                android:text="下一步"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:orientation="horizontal"-->
+<!--        style="@style/savepaint_linearlay_style">-->
+<!--        <LinearLayout-->
+<!--            style="@style/savepaint_linearlay_style">-->
+<!--                <TextView-->
+<!--                    style="@style/measureblood_textview_style"-->
+<!--                    android:text="手动设置yadj的值"/>-->
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            style="@style/savepaint_linearlay_style">-->
+<!--            <TextView-->
+<!--                style="@style/measureblood_textview_style"-->
+<!--                android:text="第一行："/>-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/et_first"-->
+<!--                style="@style/savepaint_textview_style"-->
+<!--                android:gravity="left"-->
+<!--                android:inputType="number"-->
+<!--                android:hint="输入yadj"/>-->
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            style="@style/savepaint_linearlay_style">-->
+<!--            <TextView-->
+<!--                style="@style/measureblood_textview_style"-->
+<!--                android:text="第二行："/>-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/et_second"-->
+<!--                style="@style/savepaint_textview_style"-->
+<!--                android:gravity="left"-->
+<!--                android:inputType="number"-->
+<!--                android:hint="输入yadj"/>-->
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            style="@style/savepaint_linearlay_style">-->
+<!--            <TextView-->
+<!--                style="@style/measureblood_textview_style"-->
+<!--                android:text="第三行："/>-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/et_third"-->
+<!--                style="@style/savepaint_textview_style"-->
+<!--                android:gravity="left"-->
+<!--                android:inputType="number"-->
+<!--                android:hint="输入yadj"/>-->
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            style="@style/savepaint_linearlay_style">-->
+<!--            <Button-->
+<!--                android:id="@+id/bt_yadj"-->
+<!--                android:layout_width="40dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                style="@style/savepaint_button_style"-->
+<!--                android:background="@drawable/ripple_bg"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:text="确定" />-->
+<!--        </LinearLayout>-->
+<!--    </LinearLayout>-->
+
+
+
+</RelativeLayout>

@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
+    <include layout="@layout/app_title_new" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/resthrtitle"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tx_oindex"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="指标"
+                android:textColor="@color/titleback"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tx_range"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:drawablePadding="5dp"
+                    android:text="正常范围"
+                    android:textColor="@color/titleback"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tx_horn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:drawablePadding="5dp"
+                    android:text="结果"
+                    android:textColor="@color/titleback"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="135dp">
+
+        <TableRow>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultthree_text_style"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text="肱动脉收缩压         SYSTOLIC  PRESSURE" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultthree_text_style"
+                    android:text="@string/threezhi" />
+
+                <TextView
+                    android:id="@+id/tx_hl_pressure"
+                    style="@style/resultthree_text_style"
+                    android:text="90"
+                    android:textColor="@color/blue"/>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultthree_text_style"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text="肱动脉舒张压         DIASTOLIC PRESSURE" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultthree_text_style"
+                    android:text="@string/threezhi2" />
+
+                <TextView
+                    android:id="@+id/tx_pulse_output"
+                    style="@style/resultthree_text_style"
+                    android:text="85"
+                    android:textColor="@color/blue"
+                    />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultthree_text_style"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text="肱动脉平均压         MEAN BLOOD PRESSURE" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView style="@style/resultthree_text_style" />
+
+                <TextView
+                    android:id="@+id/blood_flow"
+                    style="@style/resultthree_text_style"
+                    android:textColor="@color/blue"
+                    />
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="245dp"
+        android:background="@mipmap/threeback">
+
+        <TableRow>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tx_light"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="血  压  类  型  评  价"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/resultthree_text_style"
+                android:text="血压"
+                android:textColor="@color/white" />
+
+            <TextView
+                style="@style/resultthree_text_style"
+                android:text="搏出量 &#038; 血阻正常"
+                android:textColor="@color/white" />
+
+            <TextView
+                style="@style/resultthree_text_style"
+                android:text="搏出量 &#038; 血阻过渡"
+                android:textColor="@color/white" />
+
+            <TextView
+                style="@style/resultthree_text_style"
+                android:text="高搏出"
+                android:textColor="@color/white" />
+
+            <TextView
+                style="@style/resultthree_text_style"
+                android:text="高血阻"
+                android:textColor="@color/white" />
+
+            <TextView
+                style="@style/resultthree_text_style"
+                android:text="高血阻 &#038; 高搏出"
+                android:textColor="@color/white" />
+
+            <TextView
+                style="@style/resultthree_text_style"
+                android:text="血阻偏高 &#038; 高搏出"
+                android:textColor="@color/white" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/resultthree_text_style"
+                android:text="正常"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/bp_pressure_1"
+                style="@style/resultthree_text_style_1"
+                />
+
+            <TextView
+                android:id="@+id/bp_pressure_2"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_3"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_4"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_5"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_6"
+                style="@style/resultthree_text_style_1" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/resultthree_text_style"
+                android:text="低血压"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/bp_pressure_7"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_8"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_9"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_10"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_11"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_12"
+                style="@style/resultthree_text_style_1" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/resultthree_text_style"
+                android:text="高血压"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/bp_pressure_13"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_14"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_15"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_16"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_17"
+                style="@style/resultthree_text_style_1" />
+
+            <TextView
+                android:id="@+id/bp_pressure_18"
+                style="@style/resultthree_text_style_1" />
+        </TableRow>
+    </TableLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="40dp">
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            style="@style/savepaint_linearlay_style"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            >
+
+
+            <Button
+                android:id="@+id/bt_previous"
+                android:layout_height="40dp"
+                style="@style/savepaint_button_style"
+                android:background="@mipmap/up"
+                android:textColor="@color/white"
+                android:text="上一步"
+                 />
+        </LinearLayout>
+        <LinearLayout
+            style="@style/savepaint_linearlay_style">>
+            <Button
+                android:id="@+id/bt_newtext"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                style="@style/savepaint_button_style"
+                android:background="@mipmap/center"
+                android:textColor="@color/white"
+                android:text="新建"/>
+        </LinearLayout>
+        <LinearLayout
+            style="@style/savepaint_linearlay_style"
+            android:layout_marginTop="7dp">
+            <Button
+                android:id="@+id/bt_next"
+                android:layout_height="40dp"
+                style="@style/savepaint_button_style"
+                android:background="@mipmap/down"
+                android:textColor="@color/white"
+                android:text="下一步"/>
+        </LinearLayout>
+    </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
