@@ -118,7 +118,7 @@ void Send_UART3(void)
                 // nvic_irq_disable(EXTI1_IRQn);
                 // nvic_irq_disable(EXTI10_15_IRQn);
                 //从队列中取出数据并处理
-                for(i=0; i<8; i++) //处理8个通道的数据
+                for(i=0; i<8; i++) //处理8个通道的数据  27   24
                 {
                     cannle[i] = *(*(UART_Queue->databuf + UART_Queue->front)+0+i*3)<<16
                                 | *(*(UART_Queue->databuf + UART_Queue->front)+1+i*3)<<8

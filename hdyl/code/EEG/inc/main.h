@@ -35,6 +35,8 @@ extern "C" {
 typedef unsigned int u16;
 typedef unsigned char u8;
 typedef uint32_t u32;
+#define ADS_CHANNEL 8
+
 #include "string.h"
 /* USER CODE END Includes */
 #define BLE_DEBUG  0

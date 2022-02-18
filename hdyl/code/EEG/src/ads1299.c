@@ -28,7 +28,7 @@ u8 work_state;		//工作状态
 //芯片用
 u32 cannle[8];	//存储8个通道的数据g
 int32_t	p_Temp[8];	//数据发送缓存
-__align(4) u8 data_to_send[50];//串口发送缓存
+__align(4) u8 data_to_send[76];//串口发送缓存
 volatile u8 ads129x_Cache[27];		//129x	数据缓冲区
 volatile u8 ads129x_read_flag=0;	//DRDY读取完成标志
 volatile u8 lead_off_flag; //导联脱落标志
