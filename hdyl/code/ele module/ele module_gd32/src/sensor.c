@@ -267,7 +267,7 @@ void analysis_process()
     }
     else
     {
-        registerTick(ABNORMAL_TICK,8000,1,0);
+        registerTick(ABNORMAL_TICK,10000,1,0);
         if(GetTickResult(ABNORMAL_TICK))//与主控板超时自我保护，超时时间10s
         {
             sensor.ele_status =0;
@@ -460,16 +460,8 @@ void work_process()
             // ele_ctrl(OFF);
             GetEle_EleCurr();
             timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
-        //if(update_falg == 0)
-        {
-         //  update_falg = 1;
-            registerTick(ELE_TICK,0,0,1);
-            registerTick(ELE_TICK,3000,1,0);
-        }
             pid_init(DES_CURR_VALUE);
-           // delay_ms(1000);
             cnt++;
-            //sensor.ele_status =0;
         }
         else
         {
