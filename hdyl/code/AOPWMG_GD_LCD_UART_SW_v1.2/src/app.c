@@ -1042,9 +1042,9 @@ void pump_auto(unsigned char flag)
         }
         else
         {
-            if(delay_cnt <10000)
+            if(delay_cnt <5000)
                 delay_cnt ++;
-            if(delay_cnt>=10000)
+            if(delay_cnt>=5000)
             {
 
                 if(*getpumpstatus()==0)
