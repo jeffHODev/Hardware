@@ -74,7 +74,7 @@ _attribute_ram_code_ void irq_handler(void)
 		#endif
         if(gpio_read(KB))// press key with low level to flash light
         {
-            gpio_toggle(GPIO_LED_RED);
+            //gpio_toggle(GPIO_LED_RED);
 			deviceTimeout(0);
             //measure_start();
             printf("key\n");
@@ -128,23 +128,29 @@ _attribute_ram_code_ int main(void)
 
 
     irq_enable();
+	init_measure();
     printf("init sdk\n");
     u32 tick_tmp;
+	gpio_write(GPIO_LED_RED,0);
     while(1)
     {
 
-        if( (clock_time()-tick_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
+    #if ROLE == MASTER
+    key_proc();
+	#endif
+        /*if( (clock_time()-tick_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
         {
             gpio_toggle(GPIO_LED_RED);
             tick_tmp = clock_time();
 
-        }
+        }*/
 
         //gpio_write(GPIO_PB4, 0);
         // sleep_ms(1000);
         //gpio_write(GPIO_LED_RED, 1);
         //gpio_write(GPIO_PB4, 1);
         // sleep_ms(1000);
+        
         main_loop ();
 
     }

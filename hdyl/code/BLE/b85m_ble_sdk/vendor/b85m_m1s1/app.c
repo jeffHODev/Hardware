@@ -557,7 +557,7 @@ int app_gatt_data_handler (u16 connHandle, u8 *pkt)
 					//收到从机数据进行解析
 						u8 data[20];
 						u16 calCRC,resCRC;
-						gpio_toggle(GPIO_LED_RED);
+						//gpio_toggle(GPIO_LED_RED);
 						u8 len=(pAtt->l2capLen)-3; //data len
 						memcpy(data,pAtt->dat,len);
 						for(u8 i=0;i<len;i++){
@@ -884,8 +884,12 @@ void app_process_power_management(void)
 	#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
 		user_task_flg = user_task_flg || master_sdp_pending;
 	#endif
-
-
+	#if ROLE== MASTER
+       if(getmeasrue()->key_down_cnt>=3)
+       	{
+			user_task_flg =1;
+	   }
+    #endif
 		if(user_task_flg){
 			blc_pm_setSleepMask(PM_SLEEP_DISABLE);
 		}
@@ -925,10 +929,31 @@ int main_idle_loop (void)
 
 		
 	//#endif
-	
-	proc_master_role_unpair();
+	#if DEBUG_BLE == 0
+	if(getmeasrue()->power_status == ON)
+	#endif
+	{
+		proc_master_role_unpair();
+	    ui_proc();
+       send_test();
+	}
+	#if DEBUG_BLE == 0
+	else
+	{
 
-  ui_proc();
+		#if ROLE == MASTER
+	       cpu_set_gpio_wakeup (KB, Level_High, 1);
+		   cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);	//deepsleep
+		#else
+		  cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
+		#endif
+
+	     blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
+
+	}
+	#endif
+
+
 
 
 	////////////////////////////////////// PM entry /////////////////////////////////
@@ -941,12 +966,27 @@ u8 master_conect_status()
 	return con_stare;
 }
 u32 t_count=0;
+extern u8 tx_buf[8];
 void send_test()
 {
-	if(con_stare&&clock_time_exceed(t_count, 1000*1000))
+	if(con_stare&&clock_time_exceed(t_count, 100*1000))
 	{
-		gpio_toggle(GPIO_LED_RED);
+#if DEBUG_BLE == 0
+		if(master_pairing_enable==1)
+		{
+		    //gpio_toggle(GPIO_LED_RED);
+			pkt_pack(0x5b);
+			//blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+		}
+		else if(master_unpair_enable==1)
+		{
+		   // gpio_toggle(GPIO_LED_RED);
+			pkt_pack(0x5c);
+			//blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+		}
+#else
 		blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H, "123",3);
+#endif
 		t_count= clock_time();
 	}
 #if ROLE==SLAVE
@@ -964,7 +1004,7 @@ void send_test()
 _attribute_no_inline_ void main_loop (void)
 {
 	main_idle_loop ();
-	send_test();
+	
 	#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
 		simple_sdp_loop ();
 	#endif

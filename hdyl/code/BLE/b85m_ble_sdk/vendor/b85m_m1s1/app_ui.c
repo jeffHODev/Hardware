@@ -57,7 +57,7 @@
 #include "config_usr.h"
 
 measure_stru measure_usr;
-
+u8 tx_buf[8];
 int	master_pairing_enable = 0;
 int master_unpair_enable = 0;
 
@@ -303,19 +303,19 @@ void proc_keyboard (u8 e, u8 *p, int n)
 
 #if ROLE == MASTER
     static u32 key_delay_tick,key_time_start;
-    if(clock_time_exceed(keyScanTick, 10 * 1000))
+    if(clock_time_exceed(keyScanTick, 10 * 1000))//10ms扫描一次
     {
         key_delay_tick = clock_time();
         //
         // START按键按下
         if(gpio_read(KB)==1)											  // SET按键按下
         {
-            printf("key\n");
+            
 
             if(key_time_start++>BUTTON_FILTER_TIME) 	 // 按键通过滤波检测
             {
 
-
+               printf("key\n");
                 measure_usr.key_down_flag = 1;
             }
 
@@ -323,6 +323,7 @@ void proc_keyboard (u8 e, u8 *p, int n)
             {
                 if(measure_usr.key_down_flag == 1)
                 {
+                    printf("key hold\n");
                     measure_usr.key_update=1;
                     key_time_start = 0;
                     measure_usr.key_down_flag = 2;
@@ -336,11 +337,12 @@ void proc_keyboard (u8 e, u8 *p, int n)
         {
             if( measure_usr.key_down_flag == 1)
             {
-                if( measure_usr.key != KEY_PAIR)
+                //if( measure_usr.key != KEY_PAIR)
                 {
                     measure_usr.key_update=1;
                     measure_usr.key_down_flag = 0;
                     measure_usr.key = KEY_START_DOWN;
+					printf("key down\n");
 
                 }
 
@@ -367,7 +369,22 @@ void key_proc()
         if(measure_usr.key == KEY_START_HOLD)
         {
             measure_usr.key_down_cnt = 0;
-            //power sleep
+			if(measure_usr.power_status == ON)
+			{
+			   measure_usr.power_status =OFF;
+				//power sleep
+				blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
+#if ROLE == MASTER
+					cpu_set_gpio_wakeup (KB, Level_High, 1);
+					cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+#endif
+			}
+			else
+			{
+			   measure_usr.power_status =ON;
+			   //power on
+			}
+            
 
         }
         else if(measure_usr.key == KEY_START_DOWN)
@@ -383,13 +400,14 @@ void key_proc()
                 {
                     master_pairing_enable = 1;
                     master_unpair_enable = 0;
+					led_mode_set(LED_PAIR);
 
                 }
-
                 else
                 {
                     master_pairing_enable = 0;
                     master_unpair_enable = 1;
+					led_mode_set(LED_UNPAIR);
 
                 }
 
@@ -624,19 +642,31 @@ void ack_proc()
 #if ROLE == MASTER
             if( master_conect_status() == 1)//主机断开从机
             {
-                //ack = 0;
                 blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN);
                 // if(blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN) == BLE_SUCCESS)
             }
 			#else 
              if( GetBle_status()->connection == 1) //从机断开主机
             {
-                //ack = 0;
                 blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN);
                 // if(blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN) == BLE_SUCCESS)
             }
 #endif
         }
+		else
+		{   //主机在超时时间内发送握手信号
+            #if ROLE == MASTER
+			  static u32  send_acktime;
+			 if(clock_time_exceed(ack_timeout,  1*1000*1000))
+        	{
+           	 send_acktime = clock_time();
+			 pkt_pack(0x5a);
+			 blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+
+			 }
+
+           #endif
+		}
     }
     else
     {
@@ -687,19 +717,27 @@ void led_ctrl()
 
 	}
 }
+extern u16 handle_s;
+
 void parase(u8 tmp)
 {
     switch(tmp)
     {
     case 0x4b://通知主机开始测量
     {
+        deviceTimeout(0);
         measure_start();
+		measure_usr.stop = 0;
         sensor_power(1);
     }
     break;
     case 0x5a://主从机到主机握手
     {
         ack_res(1);
+		#if ROLE == SLAVE
+		pkt_pack(0x5a);
+		blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
+		#endif
     }
     break;
     case 0x5b://配对指示灯
@@ -742,7 +780,7 @@ u8 getsn()
     return sn;
 }
 
-u8 tx_buf[8];
+
 void pkt_pack(u8 ucmd)
 {
     u16 calCRC;
@@ -789,7 +827,7 @@ void mesure_proc()
     {
         if(tick_tmp>=TIMEOUT_PERIOD)//测量超时
         {
-            printf("m1\n");
+            printf("timeout\n");
             measure_usr.dis = MAX_DIS+1;
             measure_usr.start = 0;
             measure_usr.sum  = 0;
@@ -798,23 +836,24 @@ void mesure_proc()
         }
         else
         {
-            printf("m2\n");
+            printf("notimeout\n");
             if(measure_usr.stop == 1)
             {
                 printf("m3\n");
                 measure_usr.time = tick_tmp/1000;
                 measure_usr.dis = measure_usr.time*17;
+				  printf("dis = %d\n",measure_usr.dis);
                 if(measure_usr.dis>=MAX_DIS)
                     measure_usr.dis = MAX_DIS + 2;
                 if(measure_usr.dis<=MIN_DIS)
                 {
-                    printf("m4\n");
+                    printf("warn\n");
                     measure_usr.sum  = measure_usr.sum + 1;
                     measure_usr.dis = MAX_DIS + 3;
                 }
                 else
                 {
-                    printf("m5\n");
+                    printf("normal\n");
                     measure_usr.sum  = 0;
                     measure_usr.dis = MAX_DIS + 4;
 
@@ -862,7 +901,7 @@ void mesure_proc()
 			cpu_set_gpio_wakeup (KB, Level_High, 1);
 			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
 #else
-			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 10000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
+			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
 #endif
 
     }
@@ -879,13 +918,13 @@ void mesure_proc()
                 sleep_us(100);
                 measure_start();
                 sensor_power(1);
-
                 printf("m8\n");
             }
         }
         else
         {
             // printf("m9\n");
+            //power off
             sensor_power(0);
             measure_stop();
         }
@@ -911,10 +950,20 @@ ble_stru *GetBle_status()
     return &ble_usr;
 }
 
+measure_stru *getmeasrue()
+{
+	return &measure_usr;
 
+}
+void init_measure()
+{
+    #if ROLE == MASTER
+	measure_usr.power_status = OFF;
+	#endif
+}
 void ui_proc()
 {
-    key_proc();
+
 	ack_proc();
 	led_ctrl();
 	mesure_proc();

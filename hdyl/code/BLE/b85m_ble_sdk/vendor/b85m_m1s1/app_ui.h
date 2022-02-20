@@ -69,7 +69,7 @@ extern	int user_manual_pairing;
 #define LED_NORMAL 2
 #define ON  0
 #define OFF 1
-
+#define DEBUG_BLE 1
 #define ACK_TIME_OUT     5*1000*1000
 #define SLEEP_TIME_OUT   1000*60*1000
 #define TIMEOUT_PERIOD 40*1000
@@ -93,6 +93,7 @@ typedef struct
 	u8 key_down_cnt;
 	u32 timeout;
 	u8 timeoutFlag;
+	u8  power_status;
 }measure_stru;
 typedef struct
 {
@@ -153,6 +154,8 @@ void key_proc(void);
 void sensor_power(u8 flag);
 void led_ctrl(void);
 void ui_proc(void);
+measure_stru *getmeasrue(void);
+void init_measure(void);
 
 
 

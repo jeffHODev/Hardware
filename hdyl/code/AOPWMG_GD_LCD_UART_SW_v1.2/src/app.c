@@ -331,11 +331,7 @@ void Flow_Init()
                     flow_switch = (GetSensor()->flow-3)*100+TDS_LEVEL3;
                     if(flow_switch>=900)//1120
                         flow_switch = 900;
-
-
                 }
-
-
                 break;
 
             }
