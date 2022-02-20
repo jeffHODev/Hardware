@@ -75,6 +75,7 @@ void vbat_proc()
 	  temp =temp*3.3/4095;
 	  temp = temp*10/3; 
 	  sensors_usr.vbat = sensors_usr.vbat +temp/FIR_NUM-sensors_usr.vbat/FIR_NUM;
+	   sensors_usr.vbat = sensors_usr.vbat*10;
 }
 sensors_stru *getSensor(void)
 {

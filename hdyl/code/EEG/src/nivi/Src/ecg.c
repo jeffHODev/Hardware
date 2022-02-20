@@ -163,29 +163,27 @@ void HAL_TIM_PeriodElapsedCallback()
     else
         err_cnt = err_cnt+1;
     buffer = get_ads();
-    for(i=0; i<8; i++)
+    for(i=0; i<ADS_CHANNEL; i++)
     {
-        miscdata.data[i+1] = data_to_send[4+i*4];
-        miscdata.data[i+2] = data_to_send[5+i*4];
-        miscdata.data[i+3] = data_to_send[6+i*4];
-        miscdata.data[i+4] = data_to_send[7+i*4];
-
+        miscdata.data[i*4+0] = data_to_send[4+i*4];
+        miscdata.data[i*4+1] = data_to_send[5+i*4];
+        miscdata.data[i*4+2] = data_to_send[6+i*4];
+        miscdata.data[i*4+3] = data_to_send[7+i*4];
     }
-
     i=32;
     //data = (buffer[0] << 16) | (buffer[1] << 8) | buffer[2];
     //data = (data - 0xB964F0 / 2) * 4 * 240000 / 0xB964F0 / 7;//0.01mV; 0.11287477uV / LSB
-    miscdata.data[i++] = (uint8_t)(buffer[0]>>16);//ecg
-    miscdata.data[i++] =(uint8_t)(buffer[0]>>8);
-    miscdata.data[i++] = (uint8_t)(buffer[0]);
+//    miscdata.data[i++] = (uint8_t)(buffer[0]>>16);//ecg
+//    miscdata.data[i++] =(uint8_t)(buffer[0]>>8);
+//    miscdata.data[i++] = (uint8_t)(buffer[0]);
 
-    miscdata.data[i++] = (uint8_t)(buffer[1]>>16);//eeg
-    miscdata.data[i++] =(uint8_t)(buffer[1]>>8);
-    miscdata.data[i++] = (uint8_t)(buffer[1]);
+//    miscdata.data[i++] = (uint8_t)(buffer[1]>>16);//eeg
+//    miscdata.data[i++] =(uint8_t)(buffer[1]>>8);
+//    miscdata.data[i++] = (uint8_t)(buffer[1]);
 
-    miscdata.data[i++] = (uint8_t)(buffer[2]>>16);//emg
-    miscdata.data[i++] =(uint8_t)(buffer[2]>>8);
-    miscdata.data[i++] = (uint8_t)(buffer[2]);
+//    miscdata.data[i++] = (uint8_t)(buffer[2]>>16);//emg
+//    miscdata.data[i++] =(uint8_t)(buffer[2]>>8);
+//    miscdata.data[i++] = (uint8_t)(buffer[2]);
 
 
     /* miscdata.data[9] = (uint8_t)getSensor(getAdcBuf()->adc_value[5]>>8);//hea
@@ -215,8 +213,8 @@ void HAL_TIM_PeriodElapsedCallback()
 
     miscdata.data[i++] = (uint8_t)(getSensor()->br>>8);//br;
     miscdata.data[i++] = (uint8_t)(getSensor()->br);//br;
-
-    __kfifo_in(&ecgfifo, &miscdata, 1);
+    miscdata.data[i++] = (uint8_t)(getSensor()->vbat);//br;
+    __kfifo_in(&ecgfifo, &miscdata, 1);//
     adc_start();
     //HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcbuf, 3);
 }

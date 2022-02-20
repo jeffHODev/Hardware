@@ -1,0 +1,499 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : segoe ui;
+			color : black;
+			background-color : #EDE7D9;
+			padding: 0.3em;
+		}
+
+		h1 {
+			font-size: 1.2em;
+		}		
+
+		h2 {
+			font-size: 1.2em;
+		}
+
+		body {
+			font-family : segoe ui;
+		}
+
+		td, th {
+			padding: 0.5em;
+			text-align : left;
+			width: 10em;
+		}
+		th {
+			background-color : #EEEEEE;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+			font-size: 0.9em;
+		}
+
+		.DRC_summary_header {
+			padding-bottom : 0.1em;
+			border : 0px solid black;
+			width: 100%;
+			align: left;
+		}
+
+		.DRC_summary_header_col1,
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3 {
+			color : black;
+			font-size:100%;
+			padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2em;
+			border : 0px solid black;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.DRC_summary_header_col1 {
+			font-weight: bold;
+			width: 8em;
+		}
+
+		.DRC_summary_header_col2 {
+			width: 0.1em;
+		
+		}
+
+		.DRC_summary_header_col3 {
+			width : auto;
+		}
+
+		.header_holder {
+		    Width = 100%;
+		    border = 0px solid green;
+		    padding = 0;
+		}
+
+
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+		{
+			left : 0;
+			top : 0;
+			padding: 0em;
+			padding-top : 0.1em;
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.front_matter_column1 {
+			width : 8em;
+			font-weight: bold;
+		}
+
+		.front_matter_column2 {
+			width: 0.1em;
+		}
+
+		.front_matter_column3 {
+			width : auto;
+		}
+
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : left;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #white;
+		}
+		tr.onmouseout_even { 
+			background-color : #FAFAFA;
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : #EEEEEE;
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #21489e;
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\Users\Public\Documents\Altium\AD16\Templates\AD_logo.png
+		"><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td class="column1">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">2021/10/15</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">14:32:59</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">00:00:04</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3"><a href="file:///D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc" class="file"><acronym title="D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc">D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td class="column2">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3" style="color : red">57</td></tr>
+</table>
+</td>
+</table><a name="IDL10BUZZG1BP5LFZO2YWQO2FW1OC4GDPVSOYEA1MHDKQEP4CWO1WJ"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDAFU3YDX3LGPWO1ELLOGZPNIOACNBLZGW1B1NEWBFN5LMTEKAGDZ">Clearance Constraint (Gap=20mil) (InNet('NetC32_2')),(All)</a></td>
+<td class="column2">2</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID114VSFY4VG3JCSYZINFYUHA43FSGQZNZMIH14FKKG52L2PASRN2O">Net Antennae (Tolerance=200mil) (All)</a></td>
+<td class="column2">55</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDKYBGMOUH3JH0FC3LWG5K5WZSCI0323TS0OG1JJ0A0S1SBVUVEEJ">Differential Pairs Uncoupled Length using the Gap Constraints (Min=10mil) (Max=10mil) (Prefered=10mil)  and Width Constraints (Min=15mil) (Max=15mil) (Prefered=15mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDJ1QEJIHJOPTCD2O5HCJAZFU3RJYRHAQN3HVY4KEWVZDJ3F1PFGLF">Height Constraint (Min=0mil) (Max=1000mil) (Prefered=500mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDJ05HIEEQSOLHEGHJMKNCSNZNZK241YXMG4YZT3IC31TLGHZF3APG">Routing Via (MinHoleWidth=8mil) (MaxHoleWidth=200mil) (PreferredHoleWidth=12mil) (MinWidth=8mil) (MaxWidth=200mil) (PreferedWidth=24mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDG4NU2XW1TCJYMAZ3EB0OBIGH2M1EOIKFWXJO3HEBFI02HWVWQNHK">Routing Layers(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDPAFBRX235OQ3DTKYMTDKM5CLPMSYADA0QVPU33JQUUE1F3SWXYCM">Width Constraint (Min=10mil) (Max=360mil) (Preferred=10mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDOHE5AGO3XDZRC2EDFDB5W4DITPPZCUSXSJRF4ABICHGD1NVBLOZB">Power Plane Connect Rule(Relief Connect )(Expansion=20mil) (Conductor Width=10mil) (Air Gap=10mil) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDQFBPLOH5JVAMIYIBEMANVQZ0ZCDIC3QU4UGZCGPF5C5F5PYEJGDL">Clearance Constraint (Gap=6mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID5BE2XNMNFUPXMK1IUZYKOWNRHG2242Y4WP1NW4HTSDSSBJY12ESI">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDLQODBFWK3IS4NBHSYVJQ0LVCOWWYEFEN3BJFSKXFMUDDP03QL5K">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDRU40BXEKAIH3OWFBZPOVHY50KIAVMXJYBN0BTDE25GY4ZWY0OZEG">Clearance Constraint (Gap=15mil) (InPolygon),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">57</td>
+</tr>
+</table><br><a name="IDAFU3YDX3LGPWO1ELLOGZPNIOACNBLZGW1B1NEWBFN5LMTEKAGDZ"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Clearance Constraint (Gap=20mil) (InNet('NetC32_2')),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8202.635mil|Location2.X=8234.838mil|Location1.Y=2333.833mil|Location2.Y=2348.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8202.635mil|Location2.X=8234.838mil|Location1.Y=2333.833mil|Location2.Y=2348.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 20mil) Between Area Fill (5673mil,51mil) (5854mil,655mil) on Top Layer And Arc (5765.795mil,138.795mil) on Keep-Out Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8202.635mil|Location2.X=8234.838mil|Location1.Y=2333.833mil|Location2.Y=2348.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8202.635mil|Location2.X=8234.838mil|Location1.Y=2333.833mil|Location2.Y=2348.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 20mil) Between Arc (5765.795mil,138.795mil) on Keep-Out Layer And Area Fill (5673mil,51mil) (5854mil,655mil) on Top Layer </acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="ID114VSFY4VG3JCSYZINFYUHA43FSGQZNZMIH14FKKG52L2PASRN2O"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Net Antennae (Tolerance=200mil) (All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4836.5mil|Location2.X=4892.743mil|Location1.Y=5951.5mil|Location2.Y=6040.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4836.5mil|Location2.X=4892.743mil|Location1.Y=5951.5mil|Location2.Y=6040.364mil|Absolute=True">Net Antennae: Via (2495mil,3685mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4836.5mil|Location2.X=4892.743mil|Location1.Y=5871.5mil|Location2.Y=5960.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4836.5mil|Location2.X=4892.743mil|Location1.Y=5871.5mil|Location2.Y=5960.364mil|Absolute=True">Net Antennae: Via (2495mil,3605mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4746.5mil|Location2.X=4802.743mil|Location1.Y=5876.5mil|Location2.Y=5965.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4746.5mil|Location2.X=4802.743mil|Location1.Y=5876.5mil|Location2.Y=5965.364mil|Absolute=True">Net Antennae: Via (2405mil,3610mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4751.5mil|Location2.X=4807.743mil|Location1.Y=5786.5mil|Location2.Y=5875.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4751.5mil|Location2.X=4807.743mil|Location1.Y=5786.5mil|Location2.Y=5875.364mil|Absolute=True">Net Antennae: Via (2410mil,3520mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4531.5mil|Location2.X=4587.743mil|Location1.Y=5891.5mil|Location2.Y=5980.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4531.5mil|Location2.X=4587.743mil|Location1.Y=5891.5mil|Location2.Y=5980.364mil|Absolute=True">Net Antennae: Via (2190mil,3625mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4531.5mil|Location2.X=4587.743mil|Location1.Y=5796.5mil|Location2.Y=5885.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4531.5mil|Location2.X=4587.743mil|Location1.Y=5796.5mil|Location2.Y=5885.364mil|Absolute=True">Net Antennae: Via (2190mil,3530mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3261.5mil|Location2.X=3317.743mil|Location1.Y=4826.5mil|Location2.Y=4915.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3261.5mil|Location2.X=3317.743mil|Location1.Y=4826.5mil|Location2.Y=4915.364mil|Absolute=True">Net Antennae: Via (920mil,2560mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3261.5mil|Location2.X=3317.743mil|Location1.Y=4721.5mil|Location2.Y=4810.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3261.5mil|Location2.X=3317.743mil|Location1.Y=4721.5mil|Location2.Y=4810.364mil|Absolute=True">Net Antennae: Via (920mil,2455mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3261.5mil|Location2.X=3317.743mil|Location1.Y=4626.5mil|Location2.Y=4715.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3261.5mil|Location2.X=3317.743mil|Location1.Y=4626.5mil|Location2.Y=4715.364mil|Absolute=True">Net Antennae: Via (920mil,2360mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3386.5mil|Location2.X=3442.743mil|Location1.Y=4826.5mil|Location2.Y=4915.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3386.5mil|Location2.X=3442.743mil|Location1.Y=4826.5mil|Location2.Y=4915.364mil|Absolute=True">Net Antennae: Via (1045mil,2560mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3386.5mil|Location2.X=3442.743mil|Location1.Y=4726.5mil|Location2.Y=4815.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3386.5mil|Location2.X=3442.743mil|Location1.Y=4726.5mil|Location2.Y=4815.364mil|Absolute=True">Net Antennae: Via (1045mil,2460mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3391.5mil|Location2.X=3447.743mil|Location1.Y=4636.5mil|Location2.Y=4725.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3391.5mil|Location2.X=3447.743mil|Location1.Y=4636.5mil|Location2.Y=4725.364mil|Absolute=True">Net Antennae: Via (1050mil,2370mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3526.5mil|Location2.X=3582.743mil|Location1.Y=4826.5mil|Location2.Y=4915.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3526.5mil|Location2.X=3582.743mil|Location1.Y=4826.5mil|Location2.Y=4915.364mil|Absolute=True">Net Antennae: Via (1185mil,2560mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3536.5mil|Location2.X=3592.743mil|Location1.Y=4731.5mil|Location2.Y=4820.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3536.5mil|Location2.X=3592.743mil|Location1.Y=4731.5mil|Location2.Y=4820.364mil|Absolute=True">Net Antennae: Via (1195mil,2465mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3536.5mil|Location2.X=3592.743mil|Location1.Y=4636.5mil|Location2.Y=4725.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3536.5mil|Location2.X=3592.743mil|Location1.Y=4636.5mil|Location2.Y=4725.364mil|Absolute=True">Net Antennae: Via (1195mil,2370mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3691.5mil|Location2.X=3747.743mil|Location1.Y=4821.5mil|Location2.Y=4910.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3691.5mil|Location2.X=3747.743mil|Location1.Y=4821.5mil|Location2.Y=4910.364mil|Absolute=True">Net Antennae: Via (1350mil,2555mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3701.5mil|Location2.X=3757.743mil|Location1.Y=4706.5mil|Location2.Y=4795.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3701.5mil|Location2.X=3757.743mil|Location1.Y=4706.5mil|Location2.Y=4795.364mil|Absolute=True">Net Antennae: Via (1360mil,2440mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3696.5mil|Location2.X=3752.743mil|Location1.Y=4631.5mil|Location2.Y=4720.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3696.5mil|Location2.X=3752.743mil|Location1.Y=4631.5mil|Location2.Y=4720.364mil|Absolute=True">Net Antennae: Via (1355mil,2365mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3856.5mil|Location2.X=3912.743mil|Location1.Y=4641.5mil|Location2.Y=4730.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3856.5mil|Location2.X=3912.743mil|Location1.Y=4641.5mil|Location2.Y=4730.364mil|Absolute=True">Net Antennae: Via (1515mil,2375mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4146.5mil|Location2.X=4202.743mil|Location1.Y=4971.5mil|Location2.Y=5060.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4146.5mil|Location2.X=4202.743mil|Location1.Y=4971.5mil|Location2.Y=5060.364mil|Absolute=True">Net Antennae: Via (1805mil,2705mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4156.5mil|Location2.X=4212.743mil|Location1.Y=4836.5mil|Location2.Y=4925.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4156.5mil|Location2.X=4212.743mil|Location1.Y=4836.5mil|Location2.Y=4925.364mil|Absolute=True">Net Antennae: Via (1815mil,2570mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4161.5mil|Location2.X=4217.743mil|Location1.Y=4696.5mil|Location2.Y=4785.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4161.5mil|Location2.X=4217.743mil|Location1.Y=4696.5mil|Location2.Y=4785.364mil|Absolute=True">Net Antennae: Via (1820mil,2430mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4301.5mil|Location2.X=4357.743mil|Location1.Y=5001.5mil|Location2.Y=5090.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4301.5mil|Location2.X=4357.743mil|Location1.Y=5001.5mil|Location2.Y=5090.364mil|Absolute=True">Net Antennae: Via (1960mil,2735mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4296.5mil|Location2.X=4352.743mil|Location1.Y=4856.5mil|Location2.Y=4945.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4296.5mil|Location2.X=4352.743mil|Location1.Y=4856.5mil|Location2.Y=4945.364mil|Absolute=True">Net Antennae: Via (1955mil,2590mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4316.5mil|Location2.X=4372.743mil|Location1.Y=4741.5mil|Location2.Y=4830.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4316.5mil|Location2.X=4372.743mil|Location1.Y=4741.5mil|Location2.Y=4830.364mil|Absolute=True">Net Antennae: Via (1975mil,2475mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4271.5mil|Location2.X=4327.743mil|Location1.Y=4636.5mil|Location2.Y=4725.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4271.5mil|Location2.X=4327.743mil|Location1.Y=4636.5mil|Location2.Y=4725.364mil|Absolute=True">Net Antennae: Via (1930mil,2370mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5216.5mil|Location2.X=5272.743mil|Location1.Y=5301.5mil|Location2.Y=5390.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5216.5mil|Location2.X=5272.743mil|Location1.Y=5301.5mil|Location2.Y=5390.364mil|Absolute=True">Net Antennae: Via (2875mil,3035mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5309mil|Location2.X=5365.243mil|Location1.Y=5301.5mil|Location2.Y=5390.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5309mil|Location2.X=5365.243mil|Location1.Y=5301.5mil|Location2.Y=5390.364mil|Absolute=True">Net Antennae: Via (2967.5mil,3035mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5401.5mil|Location2.X=5457.743mil|Location1.Y=5301.5mil|Location2.Y=5390.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5401.5mil|Location2.X=5457.743mil|Location1.Y=5301.5mil|Location2.Y=5390.364mil|Absolute=True">Net Antennae: Via (3060mil,3035mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5131.5mil|Location2.X=5187.743mil|Location1.Y=5206.5mil|Location2.Y=5295.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5131.5mil|Location2.X=5187.743mil|Location1.Y=5206.5mil|Location2.Y=5295.364mil|Absolute=True">Net Antennae: Via (2790mil,2940mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5221.5mil|Location2.X=5277.743mil|Location1.Y=5206.5mil|Location2.Y=5295.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5221.5mil|Location2.X=5277.743mil|Location1.Y=5206.5mil|Location2.Y=5295.364mil|Absolute=True">Net Antennae: Via (2880mil,2940mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5311.5mil|Location2.X=5367.743mil|Location1.Y=5206.5mil|Location2.Y=5295.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5311.5mil|Location2.X=5367.743mil|Location1.Y=5206.5mil|Location2.Y=5295.364mil|Absolute=True">Net Antennae: Via (2970mil,2940mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5401.5mil|Location2.X=5457.743mil|Location1.Y=5206.5mil|Location2.Y=5295.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5401.5mil|Location2.X=5457.743mil|Location1.Y=5206.5mil|Location2.Y=5295.364mil|Absolute=True">Net Antennae: Via (3060mil,2940mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5401.5mil|Location2.X=5457.743mil|Location1.Y=5031.5mil|Location2.Y=5120.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5401.5mil|Location2.X=5457.743mil|Location1.Y=5031.5mil|Location2.Y=5120.364mil|Absolute=True">Net Antennae: Via (3060mil,2765mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5311.5mil|Location2.X=5367.743mil|Location1.Y=5031.5mil|Location2.Y=5120.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5311.5mil|Location2.X=5367.743mil|Location1.Y=5031.5mil|Location2.Y=5120.364mil|Absolute=True">Net Antennae: Via (2970mil,2765mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5221.5mil|Location2.X=5277.743mil|Location1.Y=5031.5mil|Location2.Y=5120.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5221.5mil|Location2.X=5277.743mil|Location1.Y=5031.5mil|Location2.Y=5120.364mil|Absolute=True">Net Antennae: Via (2880mil,2765mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5131.5mil|Location2.X=5187.743mil|Location1.Y=5031.5mil|Location2.Y=5120.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5131.5mil|Location2.X=5187.743mil|Location1.Y=5031.5mil|Location2.Y=5120.364mil|Absolute=True">Net Antennae: Via (2790mil,2765mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5401.5mil|Location2.X=5457.743mil|Location1.Y=5126.5mil|Location2.Y=5215.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5401.5mil|Location2.X=5457.743mil|Location1.Y=5126.5mil|Location2.Y=5215.364mil|Absolute=True">Net Antennae: Via (3060mil,2860mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5309mil|Location2.X=5365.243mil|Location1.Y=5126.5mil|Location2.Y=5215.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5309mil|Location2.X=5365.243mil|Location1.Y=5126.5mil|Location2.Y=5215.364mil|Absolute=True">Net Antennae: Via (2967.5mil,2860mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5216.5mil|Location2.X=5272.743mil|Location1.Y=5126.5mil|Location2.Y=5215.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5216.5mil|Location2.X=5272.743mil|Location1.Y=5126.5mil|Location2.Y=5215.364mil|Absolute=True">Net Antennae: Via (2875mil,2860mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5396.5mil|Location2.X=5452.743mil|Location1.Y=5396.5mil|Location2.Y=5485.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5396.5mil|Location2.X=5452.743mil|Location1.Y=5396.5mil|Location2.Y=5485.364mil|Absolute=True">Net Antennae: Via (3055mil,3130mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5306.5mil|Location2.X=5362.743mil|Location1.Y=5396.5mil|Location2.Y=5485.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5306.5mil|Location2.X=5362.743mil|Location1.Y=5396.5mil|Location2.Y=5485.364mil|Absolute=True">Net Antennae: Via (2965mil,3130mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5216.5mil|Location2.X=5272.743mil|Location1.Y=5396.5mil|Location2.Y=5485.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5216.5mil|Location2.X=5272.743mil|Location1.Y=5396.5mil|Location2.Y=5485.364mil|Absolute=True">Net Antennae: Via (2875mil,3130mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5126.5mil|Location2.X=5182.743mil|Location1.Y=5396.5mil|Location2.Y=5485.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5126.5mil|Location2.X=5182.743mil|Location1.Y=5396.5mil|Location2.Y=5485.364mil|Absolute=True">Net Antennae: Via (2785mil,3130mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5396.5mil|Location2.X=5452.743mil|Location1.Y=5491.5mil|Location2.Y=5580.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5396.5mil|Location2.X=5452.743mil|Location1.Y=5491.5mil|Location2.Y=5580.364mil|Absolute=True">Net Antennae: Via (3055mil,3225mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5304mil|Location2.X=5360.243mil|Location1.Y=5491.5mil|Location2.Y=5580.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5304mil|Location2.X=5360.243mil|Location1.Y=5491.5mil|Location2.Y=5580.364mil|Absolute=True">Net Antennae: Via (2962.5mil,3225mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5211.5mil|Location2.X=5267.743mil|Location1.Y=5491.5mil|Location2.Y=5580.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5211.5mil|Location2.X=5267.743mil|Location1.Y=5491.5mil|Location2.Y=5580.364mil|Absolute=True">Net Antennae: Via (2870mil,3225mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5416.5mil|Location2.X=5472.743mil|Location1.Y=5726.5mil|Location2.Y=5815.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5416.5mil|Location2.X=5472.743mil|Location1.Y=5726.5mil|Location2.Y=5815.364mil|Absolute=True">Net Antennae: Via (3075mil,3460mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5326.5mil|Location2.X=5382.743mil|Location1.Y=5726.5mil|Location2.Y=5815.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5326.5mil|Location2.X=5382.743mil|Location1.Y=5726.5mil|Location2.Y=5815.364mil|Absolute=True">Net Antennae: Via (2985mil,3460mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5236.5mil|Location2.X=5292.743mil|Location1.Y=5726.5mil|Location2.Y=5815.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5236.5mil|Location2.X=5292.743mil|Location1.Y=5726.5mil|Location2.Y=5815.364mil|Absolute=True">Net Antennae: Via (2895mil,3460mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5146.5mil|Location2.X=5202.743mil|Location1.Y=5726.5mil|Location2.Y=5815.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5146.5mil|Location2.X=5202.743mil|Location1.Y=5726.5mil|Location2.Y=5815.364mil|Absolute=True">Net Antennae: Via (2805mil,3460mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5416.5mil|Location2.X=5472.743mil|Location1.Y=5821.5mil|Location2.Y=5910.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5416.5mil|Location2.X=5472.743mil|Location1.Y=5821.5mil|Location2.Y=5910.364mil|Absolute=True">Net Antennae: Via (3075mil,3555mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5324mil|Location2.X=5380.243mil|Location1.Y=5821.5mil|Location2.Y=5910.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5324mil|Location2.X=5380.243mil|Location1.Y=5821.5mil|Location2.Y=5910.364mil|Absolute=True">Net Antennae: Via (2982.5mil,3555mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5231.5mil|Location2.X=5287.743mil|Location1.Y=5821.5mil|Location2.Y=5910.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5231.5mil|Location2.X=5287.743mil|Location1.Y=5821.5mil|Location2.Y=5910.364mil|Absolute=True">Net Antennae: Via (2890mil,3555mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\work\design\%E7%94%B5%E8%A7%A3\V2.2\Controller\%E7%94%B5%E8%A7%A3%E6%A8%A1%E5%9D%97%E4%B8%BB%E6%8E%A7%E6%9D%BF_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3851.5mil|Location2.X=3907.743mil|Location1.Y=4771.5mil|Location2.Y=4860.364mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\work\design\电解\V2.2\Controller\电解模块主控板_V1.1_ZM_20211015.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3851.5mil|Location2.X=3907.743mil|Location1.Y=4771.5mil|Location2.Y=4860.364mil|Absolute=True">Net Antennae: Via (1510mil,2505mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br></body>
+</html>
