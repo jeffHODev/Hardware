@@ -1,5 +1,5 @@
 /********************************************************************************************************
- * @file	main.c
+ * @file	blt_common.c
  *
  * @brief	This is the source file for BLE SDK
  *
@@ -45,118 +45,95 @@
  *******************************************************************************************************/
 #include "tl_common.h"
 #include "drivers.h"
+#include "blt_common.h"
 #include "stack/ble/ble.h"
-#include "app.h"
-#include "config_usr.h"
 
 
-/**
- * @brief   IRQ handler
- * @param   none.
- * @return  none.
+const  u8 vendor_OtaUUID[16]	= WRAPPING_BRACES(TELINK_SPP_DATA_OTA);
+
+#if (MCU_CORE_TYPE == MCU_CORE_9518)
+	/* default flash is 1M
+	 * for 1M Flash, flash_sector_mac_address equals to 0xFF000
+	 * for 2M Flash, flash_sector_mac_address equals to 0x1FF000 */
+	_attribute_ble_data_retention_	u32 flash_sector_mac_address = CFG_ADR_MAC;
+	_attribute_ble_data_retention_	u32 flash_sector_calibration = CFG_ADR_CALIBRATION;
+#else
+	/* default flash is 512K
+	 * for 512K Flash, flash_sector_mac_address equals to 0x76000
+	 * for 1M Flash, flash_sector_mac_address equals to 0xFF000
+	 * for 2M Flash, flash_sector_mac_address equals to 0x1FF000 */
+	_attribute_ble_data_retention_	u32 flash_sector_mac_address = CFG_ADR_MAC;
+	_attribute_ble_data_retention_	u32 flash_sector_calibration = CFG_ADR_CALIBRATION;
+#endif
+
+
+
+
+
+/*
+ *Kite: 	VVWWXX38C1A4YYZZ
+ *Vulture:  VVWWXXD119C4YYZZ
+ *Eagle:  	VVWWXX
+ * public_mac:
+ * 				Kite 	: VVWWXX 38C1A4
+ * 				Vulture : VVWWXX D119C4
+ * 				Eagle	: VVWWXX
+ * random_static_mac: VVWWXXYYZZ C0
  */
-_attribute_ram_code_ void irq_handler(void)
-{
-    DBG_CHN15_HIGH;
-
-
-    blc_sdk_irq_handler ();
-    if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
-    {
-        reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
-        #if ROLE == MASTER
-        if(gpio_read(ECHO)==0)  // press key with low level to flash light
-        {
-           // gpio_toggle(GPIO_LED_RED);
-            measure_stop();
-            printf("I1\n");
-        }
-		#endif
-        if(gpio_read(KB))// press key with low level to flash light
-        {
-        	printf("key\n");
-            //gpio_toggle(GPIO_LED_RED);
-			deviceTimeout(0);
-            //measure_start();
-
-        }
-
-    }
-
-    DBG_CHN15_LOW;
-}
-
 /**
- * @brief		This is main function
- * @param[in]	none
+ * @brief		This function is used to initialize the MAC address
+ * @param[in]	flash_addr - flash address for MAC address
+ * @param[in]	mac_public - public address
+ * @param[in]	mac_random_static - random static MAC address
  * @return      none
  */
-_attribute_ram_code_ int main(void)
+_attribute_no_inline_
+void blc_initMacAddress(int flash_addr, u8 *mac_public, u8 *mac_random_static)
 {
-#if (BLE_APP_PM_ENABLE)
-    blc_pm_select_internal_32k_crystal();
-#endif
-
-#if(MCU_CORE_TYPE == MCU_CORE_825x)
-    cpu_wakeup_init();
-#elif(MCU_CORE_TYPE == MCU_CORE_827x)
-    cpu_wakeup_init(DCDC_MODE, EXTERNAL_XTAL_24M);
-#endif
-
-    /* detect if MCU is wake_up from deep retention mode */
-    int deepRetWakeUp = pm_is_MCU_deepRetentionWakeup();  //MCU deep retention wakeUp
+	if(flash_sector_mac_address == 0){
+		return;
+	}
 
 
-    clock_init(SYS_CLK_TYPE);
+	u8 mac_read[8];
+	flash_read_page(flash_addr, 8, mac_read);
 
-    rf_drv_init(RF_MODE_BLE_1M);
+	u8 value_rand[5];
+	generateRandomNum(5, value_rand);
 
-    gpio_init(!deepRetWakeUp);
+	u8 ff_six_byte[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+	if ( memcmp(mac_read, ff_six_byte, 6) ) {
+		memcpy(mac_public, mac_read, 6);  //copy public address from flash
+	}
+	else{  //no public address on flash
+		mac_public[0] = value_rand[0];
+		mac_public[1] = value_rand[1];
+		mac_public[2] = value_rand[2];
+		mac_public[3] = 0x38;             //company id: 0xA4C138
+		mac_public[4] = 0xC1;
+		mac_public[5] = 0xA4;
+
+		flash_write_page (flash_addr, 6, mac_public);
+	}
 
 
-    if( deepRetWakeUp )  //MCU wake_up from deepSleep retention mode
-    {
-        user_init_deepRetn ();
-    }
-    else  //MCU power_on or wake_up from deepSleep mode
-    {
-    	printf("gpio\n");
-        user_init_normal ();
-    }
-
-    /* load customized freq_offset cap value.
-     */
-    blc_app_loadCustomizedParameters();
 
 
-    irq_enable();
-	init_measure();
-	printf("init sdk\n");
-    u32 tick_tmp;
-	gpio_write(GPIO_LED_RED,0);
-    while(1)
-    {
 
-    #if ROLE == MASTER
-    key_proc();
-	#endif
-        /*if( (clock_time()-tick_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
-        {
-            gpio_toggle(GPIO_LED_RED);
-            tick_tmp = clock_time();
+	mac_random_static[0] = mac_public[0];
+	mac_random_static[1] = mac_public[1];
+	mac_random_static[2] = mac_public[2];
+	mac_random_static[5] = 0xC0; 			//for random static
 
-        }*/
+	u16 high_2_byte = (mac_read[6] | mac_read[7]<<8);
+	if(high_2_byte != 0xFFFF){
+		memcpy( (u8 *)(mac_random_static + 3), (u8 *)(mac_read + 6), 2);
+	}
+	else{
+		mac_random_static[3] = value_rand[3];
+		mac_random_static[4] = value_rand[4];
 
-        //gpio_write(GPIO_PB4, 0);
-        // sleep_ms(1000);
-        //gpio_write(GPIO_LED_RED, 1);
-        //gpio_write(GPIO_PB4, 1);
-        // sleep_ms(1000);
-        
-        main_loop ();
-
-    }
-    return 0;
+		flash_write_page (flash_addr + 6, 2, (u8 *)(mac_random_static + 3) );
+	}
 }
-
 

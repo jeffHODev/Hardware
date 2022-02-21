@@ -1,7 +1,7 @@
 /********************************************************************************************************
- * @file	main.c
+ * @file	blt_led.h
  *
- * @brief	This is the source file for BLE SDK
+ * @brief	This is the header file for BLE SDK
  *
  * @author	BLE GROUP
  * @date	2020.06
@@ -43,120 +43,88 @@
  *          SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *******************************************************************************************************/
+#ifndef BLT_LED_H_
+#define BLT_LED_H_
+
 #include "tl_common.h"
-#include "drivers.h"
-#include "stack/ble/ble.h"
-#include "app.h"
-#include "config_usr.h"
+
+
+
+#ifndef BLT_APP_LED_ENABLE
+#define BLT_APP_LED_ENABLE				0
+#endif
 
 
 /**
- * @brief   IRQ handler
- * @param   none.
- * @return  none.
+ * @brief	Configure the parameters for led event
  */
-_attribute_ram_code_ void irq_handler(void)
-{
-    DBG_CHN15_HIGH;
+typedef struct{
+	unsigned short onTime_ms;
+	unsigned short offTime_ms;
 
-
-    blc_sdk_irq_handler ();
-    if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
-    {
-        reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
-        #if ROLE == MASTER
-        if(gpio_read(ECHO)==0)  // press key with low level to flash light
-        {
-           // gpio_toggle(GPIO_LED_RED);
-            measure_stop();
-            printf("I1\n");
-        }
-		#endif
-        if(gpio_read(KB))// press key with low level to flash light
-        {
-        	printf("key\n");
-            //gpio_toggle(GPIO_LED_RED);
-			deviceTimeout(0);
-            //measure_start();
-
-        }
-
-    }
-
-    DBG_CHN15_LOW;
-}
+	unsigned char  repeatCount;  //0xff special for long on(offTime_ms=0)/long off(onTime_ms=0)
+	unsigned char  priority;     //0x00 < 0x01 < 0x02 < 0x04 < 0x08 < 0x10 < 0x20 < 0x40 < 0x80
+} led_cfg_t;
 
 /**
- * @brief		This is main function
+ * @brief	the status of led event
+ */
+typedef struct {
+	unsigned char  isOn;
+	unsigned char  polar;
+	unsigned char  repeatCount;
+	unsigned char  priority;
+
+
+	unsigned short onTime_ms;
+	unsigned short offTime_ms;
+
+	unsigned int gpio_led;
+	unsigned int startTick;
+}device_led_t;
+
+extern device_led_t device_led;
+
+#define  DEVICE_LED_BUSY	(device_led.repeatCount)
+
+/**
+ * @brief		This function is used to manage led tasks
  * @param[in]	none
  * @return      none
  */
-_attribute_ram_code_ int main(void)
+extern void led_proc(void);
+
+/**
+ * @brief		This function is used to initialize device led setting
+ * @param[in]	gpio - the GPIO corresponding to device led
+ * @param[in]	polarity - 1 for high led on, 0 for low led on
+ * @return      none
+ */
+extern void device_led_init(u32 gpio,u8 polarity);
+
+/**
+ * @brief		This function is used to create new led task
+ * @param[in]	led_cfg - Configure the parameters for led event
+ * @return      0 - new led event priority not higher than the not ongoing one
+ * 				1 - new led event created successfully
+ */
+int device_led_setup(led_cfg_t led_cfg);
+
+/**
+ * @brief		This function is used to manage led tasks
+ * @param[in]	none
+ * @return      none
+ */
+static inline void device_led_process(void)
 {
-#if (BLE_APP_PM_ENABLE)
-    blc_pm_select_internal_32k_crystal();
+#if (BLT_APP_LED_ENABLE)
+	if(DEVICE_LED_BUSY){
+		led_proc();
+	}
 #endif
-
-#if(MCU_CORE_TYPE == MCU_CORE_825x)
-    cpu_wakeup_init();
-#elif(MCU_CORE_TYPE == MCU_CORE_827x)
-    cpu_wakeup_init(DCDC_MODE, EXTERNAL_XTAL_24M);
-#endif
-
-    /* detect if MCU is wake_up from deep retention mode */
-    int deepRetWakeUp = pm_is_MCU_deepRetentionWakeup();  //MCU deep retention wakeUp
-
-
-    clock_init(SYS_CLK_TYPE);
-
-    rf_drv_init(RF_MODE_BLE_1M);
-
-    gpio_init(!deepRetWakeUp);
-
-
-    if( deepRetWakeUp )  //MCU wake_up from deepSleep retention mode
-    {
-        user_init_deepRetn ();
-    }
-    else  //MCU power_on or wake_up from deepSleep mode
-    {
-    	printf("gpio\n");
-        user_init_normal ();
-    }
-
-    /* load customized freq_offset cap value.
-     */
-    blc_app_loadCustomizedParameters();
-
-
-    irq_enable();
-	init_measure();
-	printf("init sdk\n");
-    u32 tick_tmp;
-	gpio_write(GPIO_LED_RED,0);
-    while(1)
-    {
-
-    #if ROLE == MASTER
-    key_proc();
-	#endif
-        /*if( (clock_time()-tick_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
-        {
-            gpio_toggle(GPIO_LED_RED);
-            tick_tmp = clock_time();
-
-        }*/
-
-        //gpio_write(GPIO_PB4, 0);
-        // sleep_ms(1000);
-        //gpio_write(GPIO_LED_RED, 1);
-        //gpio_write(GPIO_PB4, 1);
-        // sleep_ms(1000);
-        
-        main_loop ();
-
-    }
-    return 0;
 }
 
 
+
+
+#endif /* BLT_LED_H_ */

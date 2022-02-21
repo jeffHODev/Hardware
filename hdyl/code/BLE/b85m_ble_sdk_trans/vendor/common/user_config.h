@@ -1,7 +1,7 @@
 /********************************************************************************************************
- * @file	main.c
+ * @file	user_config.h
  *
- * @brief	This is the source file for BLE SDK
+ * @brief	This is the header file for BLE SDK
  *
  * @author	BLE GROUP
  * @date	2020.06
@@ -43,120 +43,45 @@
  *          SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *******************************************************************************************************/
-#include "tl_common.h"
-#include "drivers.h"
-#include "stack/ble/ble.h"
-#include "app.h"
-#include "config_usr.h"
+#pragma once
 
-
-/**
- * @brief   IRQ handler
- * @param   none.
- * @return  none.
- */
-_attribute_ram_code_ void irq_handler(void)
-{
-    DBG_CHN15_HIGH;
-
-
-    blc_sdk_irq_handler ();
-    if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
-    {
-        reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
-        #if ROLE == MASTER
-        if(gpio_read(ECHO)==0)  // press key with low level to flash light
-        {
-           // gpio_toggle(GPIO_LED_RED);
-            measure_stop();
-            printf("I1\n");
-        }
-		#endif
-        if(gpio_read(KB))// press key with low level to flash light
-        {
-        	printf("key\n");
-            //gpio_toggle(GPIO_LED_RED);
-			deviceTimeout(0);
-            //measure_start();
-
-        }
-
-    }
-
-    DBG_CHN15_LOW;
-}
-
-/**
- * @brief		This is main function
- * @param[in]	none
- * @return      none
- */
-_attribute_ram_code_ int main(void)
-{
-#if (BLE_APP_PM_ENABLE)
-    blc_pm_select_internal_32k_crystal();
+#if(__PROJECT_827x_SLAVE__ )
+	#include "vendor/b85m_slave/app_config.h"
+#elif(__PROJECT_825x_SLAVE__ )
+	#include "vendor/b85m_slave/app_config.h"
+#elif(__PROJECT_827x_M1S1__ )
+	#include "vendor/b85m_m1s1/app_config.h"
+#elif(__PROJECT_825x_M1S1__ )
+	#include "vendor/b85m_m1s1/app_config.h"
+#elif(__PROJECT_8258_CONTROLLER__ )
+	#include "vendor/b85m_controller/app_config.h"
+#elif(__PROJECT_8278_CONTROLLER__)
+	#include "vendor/b85m_controller/app_config.h"
+#elif(__PROJECT_8258_HIGHER_TESTER__ )
+	#include "vendor/8258_higher_tester/app_config.h"
+#elif(__PROJECT_8258_LOWER_TESTER__ )
+	#include "vendor/8258_lower_tester/app_config.h"
+#elif(__PROJECT_8258_CIS_MASTER__ )
+	#include "vendor/8258_cis_master/app_config.h"
+#elif(__PROJECT_8258_CIS_SLAVE__ )
+	#include "vendor/8258_cis_slave/app_config.h"
+#elif(__PROJECT_8258_INTERNAL_TEST__ )
+	#include "vendor/b85m_internal_test/app_config.h"
+#elif(__PROJECT_8278_INTERNAL_TEST__ )
+	#include "vendor/b85m_internal_test/app_config.h"
+#elif(__PROJECT_8258_DEMO__ )
+	#include "vendor/b85m_demo/app_config.h"
+#elif(__PROJECT_8278_DEMO__ )
+	#include "vendor/b85m_demo/app_config.h"
+#elif(__PROJECT_8278_FEATURE_TEST__ )
+	#include "vendor/b85m_feature/app_config.h"
+#elif(__PROJECT_8258_FEATURE_TEST__ )
+	#include "vendor/b85m_feature/app_config.h"
+#elif(__PROJECT_8258_MASTER_DONGLE__)
+	#include "vendor/b85m_master_dongle/app_config.h"
+#elif(__PROJECT_8278_MASTER_DONGLE__)
+	#include "vendor/b85m_master_dongle/app_config.h"
+#else
+	#include "vendor/common/default_config.h"
 #endif
-
-#if(MCU_CORE_TYPE == MCU_CORE_825x)
-    cpu_wakeup_init();
-#elif(MCU_CORE_TYPE == MCU_CORE_827x)
-    cpu_wakeup_init(DCDC_MODE, EXTERNAL_XTAL_24M);
-#endif
-
-    /* detect if MCU is wake_up from deep retention mode */
-    int deepRetWakeUp = pm_is_MCU_deepRetentionWakeup();  //MCU deep retention wakeUp
-
-
-    clock_init(SYS_CLK_TYPE);
-
-    rf_drv_init(RF_MODE_BLE_1M);
-
-    gpio_init(!deepRetWakeUp);
-
-
-    if( deepRetWakeUp )  //MCU wake_up from deepSleep retention mode
-    {
-        user_init_deepRetn ();
-    }
-    else  //MCU power_on or wake_up from deepSleep mode
-    {
-    	printf("gpio\n");
-        user_init_normal ();
-    }
-
-    /* load customized freq_offset cap value.
-     */
-    blc_app_loadCustomizedParameters();
-
-
-    irq_enable();
-	init_measure();
-	printf("init sdk\n");
-    u32 tick_tmp;
-	gpio_write(GPIO_LED_RED,0);
-    while(1)
-    {
-
-    #if ROLE == MASTER
-    key_proc();
-	#endif
-        /*if( (clock_time()-tick_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
-        {
-            gpio_toggle(GPIO_LED_RED);
-            tick_tmp = clock_time();
-
-        }*/
-
-        //gpio_write(GPIO_PB4, 0);
-        // sleep_ms(1000);
-        //gpio_write(GPIO_LED_RED, 1);
-        //gpio_write(GPIO_PB4, 1);
-        // sleep_ms(1000);
-        
-        main_loop ();
-
-    }
-    return 0;
-}
-
 

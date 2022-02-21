@@ -1,7 +1,7 @@
 /********************************************************************************************************
- * @file	main.c
+ * @file	custom_pair.h
  *
- * @brief	This is the source file for BLE SDK
+ * @brief	This is the header file for BLE SDK
  *
  * @author	BLE GROUP
  * @date	2020.06
@@ -43,120 +43,70 @@
  *          SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *******************************************************************************************************/
-#include "tl_common.h"
-#include "drivers.h"
-#include "stack/ble/ble.h"
-#include "app.h"
-#include "config_usr.h"
+#ifndef BLM_PAIR_H_
+#define BLM_PAIR_H_
 
+#include "vendor/common/user_config.h"
+
+
+
+/*!  Pair parameter manager type */
+typedef struct{
+	u8 manual_pair;
+	u8 mac_type;  //address type
+	u8 mac[6];
+	u32 pair_tick;
+}man_pair_t;
+
+extern man_pair_t blm_manPair;
 
 /**
- * @brief   IRQ handler
+ * @brief   Pair management initialization for master.
  * @param   none.
  * @return  none.
  */
-_attribute_ram_code_ void irq_handler(void)
-{
-    DBG_CHN15_HIGH;
-
-
-    blc_sdk_irq_handler ();
-    if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
-    {
-        reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
-        #if ROLE == MASTER
-        if(gpio_read(ECHO)==0)  // press key with low level to flash light
-        {
-           // gpio_toggle(GPIO_LED_RED);
-            measure_stop();
-            printf("I1\n");
-        }
-		#endif
-        if(gpio_read(KB))// press key with low level to flash light
-        {
-        	printf("key\n");
-            //gpio_toggle(GPIO_LED_RED);
-			deviceTimeout(0);
-            //measure_start();
-
-        }
-
-    }
-
-    DBG_CHN15_LOW;
-}
+void user_master_host_pairing_management_init(void);
 
 /**
- * @brief		This is main function
- * @param[in]	none
- * @return      none
+ * @brief     search mac address in the bond slave mac table:
+ *            when slave paired with dongle, add this addr to table
+ *            re_poweron slave, dongle will search if this AdvA in slave adv pkt is in this table
+ *            if in, it will connect slave directly
+ *             this function must in ramcode
+ * @param[in]  adr_type   address type
+ * @param[in]  adr        Pointer point to address buffer.
+ * @return     0:      invalid index
+ *             others valid index
  */
-_attribute_ram_code_ int main(void)
-{
-#if (BLE_APP_PM_ENABLE)
-    blc_pm_select_internal_32k_crystal();
-#endif
+int user_tbl_slave_mac_search(u8 adr_type, u8 * adr);
 
-#if(MCU_CORE_TYPE == MCU_CORE_825x)
-    cpu_wakeup_init();
-#elif(MCU_CORE_TYPE == MCU_CORE_827x)
-    cpu_wakeup_init(DCDC_MODE, EXTERNAL_XTAL_24M);
-#endif
-
-    /* detect if MCU is wake_up from deep retention mode */
-    int deepRetWakeUp = pm_is_MCU_deepRetentionWakeup();  //MCU deep retention wakeUp
+/**
+ * @brief     Store bonding info to flash.
+ * @param[in] adr_type   address type
+ * @param[in] adr        Pointer point to address buffer.
+ * @return    none.
+ */
+int user_tbl_slave_mac_add(u8 adr_type, u8 *adr);
 
 
-    clock_init(SYS_CLK_TYPE);
+/**
+ * @brief      Delete bonding info.
+ * @param[in]  adr_type   address type
+ * @param[in]  adr        Pointer point to address buffer.
+ * @return     1: delete ok
+ *             0: no find
+ */
+int user_tbl_slave_mac_delete_by_adr(u8 adr_type, u8 *adr);
 
-    rf_drv_init(RF_MODE_BLE_1M);
-
-    gpio_init(!deepRetWakeUp);
-
-
-    if( deepRetWakeUp )  //MCU wake_up from deepSleep retention mode
-    {
-        user_init_deepRetn ();
-    }
-    else  //MCU power_on or wake_up from deepSleep mode
-    {
-    	printf("gpio\n");
-        user_init_normal ();
-    }
-
-    /* load customized freq_offset cap value.
-     */
-    blc_app_loadCustomizedParameters();
+/**
+ * @brief      Delete all device bonding info.
+ * @param      none.
+ * @return     none.
+ */
+void user_tbl_slave_mac_delete_all(void);
 
 
-    irq_enable();
-	init_measure();
-	printf("init sdk\n");
-    u32 tick_tmp;
-	gpio_write(GPIO_LED_RED,0);
-    while(1)
-    {
-
-    #if ROLE == MASTER
-    key_proc();
-	#endif
-        /*if( (clock_time()-tick_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
-        {
-            gpio_toggle(GPIO_LED_RED);
-            tick_tmp = clock_time();
-
-        }*/
-
-        //gpio_write(GPIO_PB4, 0);
-        // sleep_ms(1000);
-        //gpio_write(GPIO_LED_RED, 1);
-        //gpio_write(GPIO_PB4, 1);
-        // sleep_ms(1000);
-        
-        main_loop ();
-
-    }
-    return 0;
-}
 
 
+
+#endif /* APP_PAIR_H_ */

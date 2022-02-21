@@ -661,7 +661,7 @@ void ack_proc()
         	{
            	 send_acktime = clock_time();
 			 pkt_pack(0x5a);
-			 blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+			 //blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
 
 			 }
 

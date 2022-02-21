@@ -1,5 +1,5 @@
 /********************************************************************************************************
- * @file	main.c
+ * @file	blt_fw_sign.c
  *
  * @brief	This is the source file for BLE SDK
  *
@@ -45,118 +45,29 @@
  *******************************************************************************************************/
 #include "tl_common.h"
 #include "drivers.h"
-#include "stack/ble/ble.h"
-#include "app.h"
-#include "config_usr.h"
-
-
-/**
- * @brief   IRQ handler
- * @param   none.
- * @return  none.
- */
-_attribute_ram_code_ void irq_handler(void)
-{
-    DBG_CHN15_HIGH;
-
-
-    blc_sdk_irq_handler ();
-    if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
-    {
-        reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
-        #if ROLE == MASTER
-        if(gpio_read(ECHO)==0)  // press key with low level to flash light
-        {
-           // gpio_toggle(GPIO_LED_RED);
-            measure_stop();
-            printf("I1\n");
-        }
-		#endif
-        if(gpio_read(KB))// press key with low level to flash light
-        {
-        	printf("key\n");
-            //gpio_toggle(GPIO_LED_RED);
-			deviceTimeout(0);
-            //measure_start();
-
-        }
-
-    }
-
-    DBG_CHN15_LOW;
-}
+#include "blt_fw_sign.h"
+#include "blt_common.h"
+#include "proj_lib/firmware_encrypt.h"
 
 /**
- * @brief		This is main function
+ * @brief		This function is used to check digital signature of firmware
  * @param[in]	none
  * @return      none
  */
-_attribute_ram_code_ int main(void)
+void blt_firmware_signature_check(void)
 {
-#if (BLE_APP_PM_ENABLE)
-    blc_pm_select_internal_32k_crystal();
-#endif
+		unsigned int flash_mid;
+		unsigned char flash_uid[16];
+		unsigned char signature_enc_key[16];
+		int flag = flash_read_mid_uid_with_check(&flash_mid, flash_uid);
 
-#if(MCU_CORE_TYPE == MCU_CORE_825x)
-    cpu_wakeup_init();
-#elif(MCU_CORE_TYPE == MCU_CORE_827x)
-    cpu_wakeup_init(DCDC_MODE, EXTERNAL_XTAL_24M);
-#endif
+		if(flag==0){  //reading flash UID error
+			while(1);
+		}
 
-    /* detect if MCU is wake_up from deep retention mode */
-    int deepRetWakeUp = pm_is_MCU_deepRetentionWakeup();  //MCU deep retention wakeUp
+		firmware_encrypt_based_on_uid (flash_uid, signature_enc_key);
 
-
-    clock_init(SYS_CLK_TYPE);
-
-    rf_drv_init(RF_MODE_BLE_1M);
-
-    gpio_init(!deepRetWakeUp);
-
-
-    if( deepRetWakeUp )  //MCU wake_up from deepSleep retention mode
-    {
-        user_init_deepRetn ();
-    }
-    else  //MCU power_on or wake_up from deepSleep mode
-    {
-    	printf("gpio\n");
-        user_init_normal ();
-    }
-
-    /* load customized freq_offset cap value.
-     */
-    blc_app_loadCustomizedParameters();
-
-
-    irq_enable();
-	init_measure();
-	printf("init sdk\n");
-    u32 tick_tmp;
-	gpio_write(GPIO_LED_RED,0);
-    while(1)
-    {
-
-    #if ROLE == MASTER
-    key_proc();
-	#endif
-        /*if( (clock_time()-tick_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
-        {
-            gpio_toggle(GPIO_LED_RED);
-            tick_tmp = clock_time();
-
-        }*/
-
-        //gpio_write(GPIO_PB4, 0);
-        // sleep_ms(1000);
-        //gpio_write(GPIO_LED_RED, 1);
-        //gpio_write(GPIO_PB4, 1);
-        // sleep_ms(1000);
-        
-        main_loop ();
-
-    }
-    return 0;
+		if(memcmp(signature_enc_key, (u8*)(flash_sector_calibration + CALIB_OFFSET_FIRMWARE_SIGNKEY), 16)){  //signature not match
+			while(1);   //user can change the code here to stop firmware running
+		}
 }
-
-

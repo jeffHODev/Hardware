@@ -504,7 +504,7 @@ int app_gatt_data_handler (u16 connHandle, u8 *pkt)
 {
 	if( dev_char_get_conn_role_by_connhandle(connHandle) == LL_ROLE_MASTER )   //GATT data for Master
 	{
-	   printf("mas\n");
+	   //printf("mas\n");
 		#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
 			if(master_sdp_pending == connHandle ){  //ATT service discovery is ongoing on this conn_handle
 				//when service discovery function is running, all the ATT data from slave
@@ -934,7 +934,7 @@ int main_idle_loop (void)
 	#endif
 	{
 		proc_master_role_unpair();
-	    ui_proc();
+	   // ui_proc();
        send_test();
 	}
 	#if DEBUG_BLE == 0

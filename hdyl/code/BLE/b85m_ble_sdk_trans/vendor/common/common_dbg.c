@@ -1,5 +1,5 @@
 /********************************************************************************************************
- * @file	main.c
+ * @file	common_dbg.c
  *
  * @brief	This is the source file for BLE SDK
  *
@@ -44,119 +44,43 @@
  *
  *******************************************************************************************************/
 #include "tl_common.h"
-#include "drivers.h"
-#include "stack/ble/ble.h"
-#include "app.h"
-#include "config_usr.h"
+#include "common_dbg.h"
 
 
-/**
- * @brief   IRQ handler
- * @param   none.
- * @return  none.
- */
-_attribute_ram_code_ void irq_handler(void)
-{
-    DBG_CHN15_HIGH;
 
 
-    blc_sdk_irq_handler ();
-    if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
-    {
-        reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
-        #if ROLE == MASTER
-        if(gpio_read(ECHO)==0)  // press key with low level to flash light
-        {
-           // gpio_toggle(GPIO_LED_RED);
-            measure_stop();
-            printf("I1\n");
-        }
-		#endif
-        if(gpio_read(KB))// press key with low level to flash light
-        {
-        	printf("key\n");
-            //gpio_toggle(GPIO_LED_RED);
-			deviceTimeout(0);
-            //measure_start();
+#if (UART_LOW_POWER_DEBUG_EN)
+	#if (MCU_CORE_TYPE == MCU_CORE_9518)
+		#define UART0_DMA_CHANNEL_TX            DMA4
+		#define UART0_BAUDRATE                  1000000  //115200
 
-        }
+		int lp_uart_init = 0;  //attention: can not be retention data !!!
+		void low_power_uart_debug_init(void)
+		{
+			uart0_init(UART0_BAUDRATE);
+			uart_set_tx_dma_config(UART0, UART0_DMA_CHANNEL_TX);
+			uart_clr_tx_done(UART0);
+			dma_clr_irq_mask(UART0_DMA_CHANNEL_TX,TC_MASK|ABT_MASK|ERR_MASK);
 
-    }
+			lp_uart_init = 1;
+		}
+	#elif (MCU_CORE_TYPE == MCU_CORE_825x || MCU_CORE_TYPE == MCU_CORE_827x)
+		#define UART_BAUDRATE					1000000
+		#define UART_TRANS_BUFF_LEN				32
 
-    DBG_CHN15_LOW;
-}
+		__attribute__((aligned(4))) unsigned char uart_trans_buff[UART_TRANS_BUFF_LEN] = {0x0c,0x00,0x00,0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88,0x99,0xaa,0xbb,0xcc};
 
-/**
- * @brief		This is main function
- * @param[in]	none
- * @return      none
- */
-_attribute_ram_code_ int main(void)
-{
-#if (BLE_APP_PM_ENABLE)
-    blc_pm_select_internal_32k_crystal();
-#endif
+		int lp_uart_init = 0;  //attention: can not be retention data !!!
+		void low_power_uart_debug_init(void)
+		{
+			reg_dma_uart_tx_size = UART_TRANS_BUFF_LEN >> 4;//set DMA TX buffer size.
+			uart_gpio_set(UART_TX_PB1, UART_RX_PB7);// uart tx/rx pin set
+			uart_reset();  //uart module power-on again.
+			uart_init_baudrate(UART_BAUDRATE, CLOCK_SYS_CLOCK_HZ, PARITY_NONE, STOP_BIT_ONE);
+			uart_dma_enable(0, 1); 	//uart data in hardware buffer moved by dma, so we need enable them first
+			dma_chn_irq_enable(FLD_DMA_CHN_UART_TX, 1);   	//uart Tx dma irq enable
 
-#if(MCU_CORE_TYPE == MCU_CORE_825x)
-    cpu_wakeup_init();
-#elif(MCU_CORE_TYPE == MCU_CORE_827x)
-    cpu_wakeup_init(DCDC_MODE, EXTERNAL_XTAL_24M);
-#endif
-
-    /* detect if MCU is wake_up from deep retention mode */
-    int deepRetWakeUp = pm_is_MCU_deepRetentionWakeup();  //MCU deep retention wakeUp
-
-
-    clock_init(SYS_CLK_TYPE);
-
-    rf_drv_init(RF_MODE_BLE_1M);
-
-    gpio_init(!deepRetWakeUp);
-
-
-    if( deepRetWakeUp )  //MCU wake_up from deepSleep retention mode
-    {
-        user_init_deepRetn ();
-    }
-    else  //MCU power_on or wake_up from deepSleep mode
-    {
-    	printf("gpio\n");
-        user_init_normal ();
-    }
-
-    /* load customized freq_offset cap value.
-     */
-    blc_app_loadCustomizedParameters();
-
-
-    irq_enable();
-	init_measure();
-	printf("init sdk\n");
-    u32 tick_tmp;
-	gpio_write(GPIO_LED_RED,0);
-    while(1)
-    {
-
-    #if ROLE == MASTER
-    key_proc();
+			lp_uart_init = 1;
+		}
 	#endif
-        /*if( (clock_time()-tick_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
-        {
-            gpio_toggle(GPIO_LED_RED);
-            tick_tmp = clock_time();
-
-        }*/
-
-        //gpio_write(GPIO_PB4, 0);
-        // sleep_ms(1000);
-        //gpio_write(GPIO_LED_RED, 1);
-        //gpio_write(GPIO_PB4, 1);
-        // sleep_ms(1000);
-        
-        main_loop ();
-
-    }
-    return 0;
-}
-
-
+#endif

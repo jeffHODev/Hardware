@@ -416,12 +416,13 @@ extern u16 handle_s;
 int spp_onReceiveData(u16 connHandle, ble_rf_packet_att_write_t *p)
 {
     u8 len = p->l2capLen - 3;
+
     u8 data[20];
     if(len > 0)
     {
         memcpy(data,&p->value,len);
-		            u8 data[20];
-            u16 calCRC,resCRC;
+
+        /*    u16 calCRC,resCRC;
            // gpio_toggle(GPIO_LED_RED);
             if(data[0]!=PKT_HEAD)
                 return ;
@@ -435,7 +436,7 @@ int spp_onReceiveData(u16 connHandle, ble_rf_packet_att_write_t *p)
             {
                 parase(data[3]);
                 data[3] = 0;
-            }
+            }*/
         if(memcmp(data,"123",3)==0)
         {
             blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, "456",3);

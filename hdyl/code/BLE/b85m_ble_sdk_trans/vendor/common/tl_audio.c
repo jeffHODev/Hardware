@@ -1,5 +1,5 @@
 /********************************************************************************************************
- * @file	main.c
+ * @file	app.c
  *
  * @brief	This is the source file for BLE SDK
  *
@@ -43,120 +43,105 @@
  *          SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *******************************************************************************************************/
-#include "tl_common.h"
 #include "drivers.h"
-#include "stack/ble/ble.h"
-#include "app.h"
-#include "config_usr.h"
+#include "tl_audio.h"
+#include <stack/ble/trace.h>
+#if (UI_AUDIO_ENABLE)
+
+#define		NUM_OF_ORIG_SAMPLE				2
 
 
-/**
- * @brief   IRQ handler
- * @param   none.
- * @return  none.
- */
-_attribute_ram_code_ void irq_handler(void)
-{
-    DBG_CHN15_HIGH;
+static const signed char idxtbl[] = { -1, -1, -1, -1, 2, 4, 6, 8, -1, -1, -1, -1, 2, 4, 6, 8};
+static const unsigned short steptbl[] = {
+ 7,  8,  9,  10,  11,  12,  13,  14,  16,  17,
+ 19,  21,  23,  25,  28,  31,  34,  37,  41,  45,
+ 50,  55,  60,  66,  73,  80,  88,  97,  107, 118,
+ 130, 143, 157, 173, 190, 209, 230, 253, 279, 307,
+ 337, 371, 408, 449, 494, 544, 598, 658, 724, 796,
+ 876, 963, 1060, 1166, 1282, 1411, 1552, 1707, 1878, 2066,
+ 2272, 2499, 2749, 3024, 3327, 3660, 4026, 4428, 4871, 5358,
+ 5894, 6484, 7132, 7845, 8630, 9493, 10442, 11487, 12635, 13899,
+ 15289, 16818, 18500, 20350, 22385, 24623, 27086, 29794, 32767   };
 
 
-    blc_sdk_irq_handler ();
-    if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
-    {
-        reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
-        #if ROLE == MASTER
-        if(gpio_read(ECHO)==0)  // press key with low level to flash light
-        {
-           // gpio_toggle(GPIO_LED_RED);
-            measure_stop();
-            printf("I1\n");
-        }
-		#endif
-        if(gpio_read(KB))// press key with low level to flash light
-        {
-        	printf("key\n");
-            //gpio_toggle(GPIO_LED_RED);
-			deviceTimeout(0);
-            //measure_start();
+/*  name ADPCM to pcm
+    signed short *ps -> pointer to the adpcm source buffer
+    signed short *pd -> pointer to the pcm destination buffer
+    int len          -> decorded size
+*/
+_attribute_ram_code_ void adpcm_to_pcm (signed short *ps, signed short *pd, int len){
+	int i;
 
-        }
+	//byte2,byte1: predict;  byte3: predict_idx; byte4:adpcm data len
+	int predict = ps[0];
+	int predict_idx = ps[1] & 0xff;
+//	int adpcm_len = (ps[1]>>8) & 0xff;
 
-    }
+	unsigned char *pcode = (unsigned char *) (ps + NUM_OF_ORIG_SAMPLE);
 
-    DBG_CHN15_LOW;
+	unsigned char code;
+	code = *pcode ++;
+
+	//byte5- byte128: 124 byte(62 sample) adpcm data
+	for (i=0; i<len; i++) {
+
+		if (1) {
+			int step = steptbl[predict_idx];
+
+			int diffq = step >> 3;
+
+			if (code & 4) {
+				diffq = diffq + step;
+			}
+			step = step >> 1;
+			if (code & 2) {
+				diffq = diffq + step;
+			}
+			step = step >> 1;
+			if (code & 1) {
+				diffq = diffq + step;
+			}
+
+			if (code & 8) {
+				predict = predict - diffq;
+			}
+			else {
+				predict = predict + diffq;
+			}
+
+			if (predict > 32767) {
+				predict = 32767;
+			}
+			else if (predict < -32767) {
+				predict = -32767;
+			}
+
+			predict_idx = predict_idx + idxtbl[code & 15];
+
+			if(predict_idx < 0) {
+				predict_idx = 0;
+			}
+			else if(predict_idx > 88) {
+				predict_idx = 88;
+			}
+
+			if (i&1) {
+				code = *pcode ++;
+			}
+			else {
+				code = code >> 4;
+			}
+		}
+
+		if (0 && i < NUM_OF_ORIG_SAMPLE) {
+			*pd++ = ps[i];
+		}
+		else {
+			*pd++ = predict;
+		}
+	}
 }
-
-/**
- * @brief		This is main function
- * @param[in]	none
- * @return      none
- */
-_attribute_ram_code_ int main(void)
-{
-#if (BLE_APP_PM_ENABLE)
-    blc_pm_select_internal_32k_crystal();
 #endif
 
-#if(MCU_CORE_TYPE == MCU_CORE_825x)
-    cpu_wakeup_init();
-#elif(MCU_CORE_TYPE == MCU_CORE_827x)
-    cpu_wakeup_init(DCDC_MODE, EXTERNAL_XTAL_24M);
-#endif
-
-    /* detect if MCU is wake_up from deep retention mode */
-    int deepRetWakeUp = pm_is_MCU_deepRetentionWakeup();  //MCU deep retention wakeUp
-
-
-    clock_init(SYS_CLK_TYPE);
-
-    rf_drv_init(RF_MODE_BLE_1M);
-
-    gpio_init(!deepRetWakeUp);
-
-
-    if( deepRetWakeUp )  //MCU wake_up from deepSleep retention mode
-    {
-        user_init_deepRetn ();
-    }
-    else  //MCU power_on or wake_up from deepSleep mode
-    {
-    	printf("gpio\n");
-        user_init_normal ();
-    }
-
-    /* load customized freq_offset cap value.
-     */
-    blc_app_loadCustomizedParameters();
-
-
-    irq_enable();
-	init_measure();
-	printf("init sdk\n");
-    u32 tick_tmp;
-	gpio_write(GPIO_LED_RED,0);
-    while(1)
-    {
-
-    #if ROLE == MASTER
-    key_proc();
-	#endif
-        /*if( (clock_time()-tick_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
-        {
-            gpio_toggle(GPIO_LED_RED);
-            tick_tmp = clock_time();
-
-        }*/
-
-        //gpio_write(GPIO_PB4, 0);
-        // sleep_ms(1000);
-        //gpio_write(GPIO_LED_RED, 1);
-        //gpio_write(GPIO_PB4, 1);
-        // sleep_ms(1000);
-        
-        main_loop ();
-
-    }
-    return 0;
-}
 
 
