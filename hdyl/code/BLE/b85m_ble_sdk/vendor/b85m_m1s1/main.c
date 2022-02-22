@@ -48,39 +48,48 @@
 #include "stack/ble/ble.h"
 #include "app.h"
 #include "config_usr.h"
-
+#include "app_ui.h"
 
 /**
  * @brief   IRQ handler
  * @param   none.
  * @return  none.
  */
+
 _attribute_ram_code_ void irq_handler(void)
 {
     DBG_CHN15_HIGH;
 
 
     blc_sdk_irq_handler ();
-    if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
+    if((reg_irq_src & FLD_IRQ_GPIO_RISC0_EN)==FLD_IRQ_GPIO_RISC0_EN)
     {
-        reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
+        reg_irq_src |= FLD_IRQ_GPIO_RISC0_EN; // clear the relevant irq
         #if ROLE == MASTER
+        cal_rx_time();
         if(gpio_read(ECHO)==0)  // press key with low level to flash light
         {
-           // gpio_toggle(GPIO_LED_RED);
+
+
+            gpio_toggle(GPIO_LED_RED);
             measure_stop();
-            printf("I1\n");
+
         }
 		#endif
+    }
+
+   if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
+    {
+    	 reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
         if(gpio_read(KB))// press key with low level to flash light
         {
-        	printf("key\n");
-            //gpio_toggle(GPIO_LED_RED);
+
+            gpio_toggle(GPIO_LED_RED);
 			deviceTimeout(0);
             //measure_start();
 
         }
-
+         printf("key\n");
     }
 
     DBG_CHN15_LOW;
@@ -102,7 +111,7 @@ _attribute_ram_code_ int main(void)
 #elif(MCU_CORE_TYPE == MCU_CORE_827x)
     cpu_wakeup_init(DCDC_MODE, EXTERNAL_XTAL_24M);
 #endif
-
+    //printf("wake2\n");
     /* detect if MCU is wake_up from deep retention mode */
     int deepRetWakeUp = pm_is_MCU_deepRetentionWakeup();  //MCU deep retention wakeUp
 
@@ -110,20 +119,28 @@ _attribute_ram_code_ int main(void)
     clock_init(SYS_CLK_TYPE);
 
     rf_drv_init(RF_MODE_BLE_1M);
-
+   // printf("%c\n",deepRetWakeUp);
     gpio_init(!deepRetWakeUp);
 
 
-    if( deepRetWakeUp )  //MCU wake_up from deepSleep retention mode
+
+    if( deepRetWakeUp )  //MCU wake_up from deepSleep retention modehdyl
+
     {
+    	printf("wake\n");
+
         user_init_deepRetn ();
-    }
+        }
     else  //MCU power_on or wake_up from deepSleep mode
+
     {
     	printf("gpio\n");
         user_init_normal ();
     }
-
+#if ROLE == MASTER
+    reset_timer();
+#endif
+    user_gpio_init();
     /* load customized freq_offset cap value.
      */
     blc_app_loadCustomizedParameters();
@@ -131,9 +148,11 @@ _attribute_ram_code_ int main(void)
 
     irq_enable();
 	init_measure();
-	printf("init sdk\n");
+
     u32 tick_tmp;
 	gpio_write(GPIO_LED_RED,0);
+	led_mode_set(LED_NORMAL);
+	printf("init sdk\n");
     while(1)
     {
 
@@ -152,7 +171,7 @@ _attribute_ram_code_ int main(void)
         //gpio_write(GPIO_LED_RED, 1);
         //gpio_write(GPIO_PB4, 1);
         // sleep_ms(1000);
-        
+
         main_loop ();
 
     }

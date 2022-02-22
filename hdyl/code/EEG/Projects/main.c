@@ -57,7 +57,7 @@ void uart3_config(void);
 
 
 extern  uint8_t buffer_rx2[16];
-
+uint32_t test = 0;
 /* USER CODE END 0 */
 
 /**
@@ -67,30 +67,32 @@ extern  uint8_t buffer_rx2[16];
 int main(void)
 {
     /* USER CODE BEGIN 1 */
-    rcu_config();
-    systick_config();
-    gpio_config();
+    rcu_config();test = 1;
+    systick_config();test = 2;
+    gpio_config();test = 3;
 	
    
-    spi_config();
-	uart0_config();
-	uart1_config();
-	uart3_config();	
-    dma_config();  
-	 adc_config();
-    timer_config(TIMER3, 1);
+    spi_config();test = 4;
+	uart0_config();test = 5;
+	uart1_config();test = 6;
+	uart3_config();	test = 7;
+    dma_config();  test = 8;
+	 adc_config();test = 9;
+    timer_config(TIMER3, 1);test = 10;
 	  delay_ms(2000);
    //ADS129x_ReInit(0);
+	test = 11;
 	 app_init();
     protocol_init();
     ecg_init();
+	test = 12;
 //	MMR901MX_Init();
     nibp_if_init();
     while (1)
     {
-
+     test = 12;
      app();
-
+     test = 13;
         //usart_data_transmit(USART2, 0x5a);
     }
     /* USER CODE END 3 */

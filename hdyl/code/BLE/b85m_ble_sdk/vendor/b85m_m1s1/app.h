@@ -109,6 +109,6 @@ int app_host_event_callback (u32 h, u8 *para, int n);
  */
 int app_gatt_data_handler (u16 connHandle, u8 *pkt);
 
-
+void reset_timer(void);
 
 #endif /* VENDOR_APP_H_ */

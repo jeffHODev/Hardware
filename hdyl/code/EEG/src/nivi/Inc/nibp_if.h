@@ -1,7 +1,7 @@
 #ifndef __NIBP_IF_H__
 #define __NIBP_IF_H__
 
-#include "main.h"
+#include "main2.h"
 
 void nibp_if_init(void);
 void nibp_if_start(void);

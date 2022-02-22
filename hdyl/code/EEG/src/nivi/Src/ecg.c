@@ -2,7 +2,7 @@
 #include "string.h"
 #include "bsp.h"
 #include "kfifo.h"
-#include "ADS129x.h"
+#include "ADS1292x.h"
 #include "sensor.h"
 #include "spo.h"
 
@@ -148,12 +148,12 @@ uint8_t error_flag;
 uint32_t err_cnt;
 
 
-extern data_to_send[50];
-
+extern __align(4) u8 data_to_send[76];
+ 
 void HAL_TIM_PeriodElapsedCallback()
 {
     static uint16_t adcbuf[3];
-    uint8_t i=0;
+    uint8_t i=0,j;
     MISCDATA miscdata;
     uint32_t *buffer;
 // uint8_t buffer[3];
@@ -164,13 +164,16 @@ void HAL_TIM_PeriodElapsedCallback()
         err_cnt = err_cnt+1;
     buffer = get_ads();
     for(i=0; i<ADS_CHANNEL; i++)
-    {
+    { 
+			  j = data_to_send[6+i*4];
         miscdata.data[i*4+0] = data_to_send[4+i*4];
         miscdata.data[i*4+1] = data_to_send[5+i*4];
         miscdata.data[i*4+2] = data_to_send[6+i*4];
         miscdata.data[i*4+3] = data_to_send[7+i*4];
+			
+
     }
-    i=32;
+    i=64;
     //data = (buffer[0] << 16) | (buffer[1] << 8) | buffer[2];
     //data = (data - 0xB964F0 / 2) * 4 * 240000 / 0xB964F0 / 7;//0.01mV; 0.11287477uV / LSB
 //    miscdata.data[i++] = (uint8_t)(buffer[0]>>16);//ecg
@@ -205,6 +208,9 @@ void HAL_TIM_PeriodElapsedCallback()
 
     miscdata.data[i++] = (uint8_t)(getAdcBuf()->adc_value[5]>>8);//hea
     miscdata.data[i++] =(uint8_t)( getAdcBuf()->adc_value[5]);
+    miscdata.data[i++] = (uint8_t)(getSensor()->tst>>8);//spo;
+    miscdata.data[i++] = (uint8_t)(getSensor()->tst);//p;
+
 
     miscdata.data[i++] = (uint8_t)(*getSpo());//spo;
     miscdata.data[i++] = (uint8_t)(*(getSpo()+1));//p;

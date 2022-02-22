@@ -99,7 +99,7 @@ int app_le_adv_report_event_handle(u8 *p)
 	s8 rssi = pa->data[pa->len];
 	u8 adv[31];
 	memcpy(adv,&pa->data,pa->len);
-	u8 mac[6]={0x54,0x58,0x9c,0x38,0xc1,0xa4};
+	u8 mac[6]={0x0e,0xdb,0x8a,0x38,0xc1,0xa4};
 
 	#if 0  //debug, print ADV report number every 5 seconds
 		AA_dbg_adv_rpt ++;
@@ -563,6 +563,7 @@ int app_gatt_data_handler (u16 connHandle, u8 *pkt)
 						for(u8 i=0;i<len;i++){
 							printf("%c",data[i]);
 						}
+						//led_ctrl();
                         if(data[0]!=PKT_HEAD)
 							return ;
 						if(len<data[2]+2)
@@ -658,7 +659,7 @@ _attribute_no_inline_ void user_init_normal(void)
 	/* random number generator must be initiated here( in the beginning of user_init_nromal).
 	 * When deepSleep retention wakeUp, no need initialize again */
 	random_generator_init();
-	user_gpio_init();
+
 //////////////////////////// BLE stack Initialization  Begin //////////////////////////////////
 #if (BATT_CHECK_ENABLE)  //battery check must do before OTA relative operation
 	if(analog_read(USED_DEEP_ANA_REG) & LOW_BATT_FLG){
@@ -869,13 +870,30 @@ _attribute_ram_code_ void user_init_deepRetn(void)
 }
 
 
+static u32 s_count;
+void reset_timer()
+{
+	s_count = clock_time();
+}
 
 
 void app_process_power_management(void)
 {
 #if (BLE_APP_PM_ENABLE)
-	if(!con_stare){
+#if ROLE == MASTER
+	if(!con_stare&&ROLE){
+
+      //  printf("deep slee p\n");
+
+		//cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
 		blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
+		if(clock_time_exceed(s_count, 10*1000*1000))
+			{   printf("sleep\n");
+			s_count = clock_time();
+				cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+
+			}
+
 
 	int user_task_flg = ota_is_working;
 	#if UI_KEYBOARD_ENABLE
@@ -890,13 +908,15 @@ void app_process_power_management(void)
 			user_task_flg =1;
 	   }
     #endif
-		if(user_task_flg){
+		if(user_task_flg){printf("deep1\n");
 			blc_pm_setSleepMask(PM_SLEEP_DISABLE);
 		}
-	}else{
+	}else{printf("deep2\n");
+	s_count = clock_time();
 		blc_pm_setSleepMask(PM_SLEEP_DISABLE);
 	}
 
+#endif
 #endif
 }
 
@@ -933,11 +953,29 @@ int main_idle_loop (void)
 	if(getmeasrue()->power_status == ON)
 	#endif
 	{
-		proc_master_role_unpair();
+		//proc_master_role_unpair();
 	   // ui_proc();
-       send_test();
+		#if ROLE == MASTER
+		send_test();
+		#endif
+/*
+#if ROLE == MASTER
+		static u32 tick;
+		if(clock_time_exceed(tick, 1000*1000))
+			{
+			  tick = clock_time();
+			  sensor_power(1);
+
+			}
+
+
+#else
+		sensor_power(1);
+#endif
+*/
+       //send_test();
 	}
-	#if DEBUG_BLE == 0
+	/*#if DEBUG_BLE == 0
 	else
 	{
 
@@ -951,11 +989,11 @@ int main_idle_loop (void)
 	     blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
 
 	}
-	#endif
+	#endif*/
 
 
 
-
+	// gpio_write(KB,0);
 	////////////////////////////////////// PM entry /////////////////////////////////
 	app_process_power_management();
 
@@ -972,19 +1010,22 @@ void send_test()
 	if(con_stare&&clock_time_exceed(t_count, 100*1000))
 	{
 #if DEBUG_BLE == 0
-		if(master_pairing_enable==1)
+		/*if(master_pairing_enable==1)
 		{
 		    //gpio_toggle(GPIO_LED_RED);
+			printf("tx_ack\n");
 			pkt_pack(0x5b);
-			//blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+			blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
 		}
 		else if(master_unpair_enable==1)
 		{
 		   // gpio_toggle(GPIO_LED_RED);
+			printf("tx_ack2\n");
 			pkt_pack(0x5c);
-			//blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+			blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
 		}
-#else
+#else*/
+		printf("test\n");
 		blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H, "123",3);
 #endif
 		t_count= clock_time();

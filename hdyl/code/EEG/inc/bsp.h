@@ -1,6 +1,6 @@
 #ifndef BSP_H
 #define BSP_H
-#include "main.h"
+#include "main2.h"
 #define ADC_SIZE 6
 #define ADC_SIZE 6
 #define SPI_TX_SIZE 16

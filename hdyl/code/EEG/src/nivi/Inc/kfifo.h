@@ -50,7 +50,7 @@
  * to lock the reader.
  */
 
-#include "main.h"
+#include "main2.h"
 #pragma anon_unions
 #define EINVAL	1
 

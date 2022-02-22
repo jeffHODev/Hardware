@@ -432,7 +432,7 @@ void key_proc()
 _attribute_ram_code_ void  app_set_kb_wakeup (u8 e, u8 *p, int n)
 {
 #if (BLE_APP_PM_ENABLE)
-     suspend time > 50ms.add GPIO wake_up
+
     if(((u32)(blc_pm_getWakeupSystemTick() - clock_time())) > 100 * SYSTEM_TIMER_TICK_1MS)
     {
         blc_pm_setWakeupSource(PM_WAKEUP_PAD);  //GPIO PAD wake_up
@@ -541,7 +541,7 @@ void user_gpio_init()
     gpio_set_input_en(GPIO_LED_RED,0);			//输入失能
 	gpio_setup_up_down_resistor(GPIO_LED_RED, PM_PIN_PULLUP_10K);
 
-	gpio_write(GPIO_LED_RED, 0);              	//LED On
+	gpio_write(GPIO_LED_RED, 1);              	//LED On
 
 //   gpio_set_func(KB,AS_GPIO);                       //设置GPIO功能
 //   gpio_set_output_en(KB, 0); 		//输出使能
@@ -553,14 +553,14 @@ void user_gpio_init()
     gpio_set_input_en(KB,1);				//disable input
     gpio_setup_up_down_resistor(KB, PM_PIN_UP_DOWN_FLOAT);
     gpio_set_interrupt(KB, POL_RISING);
-
-
+   // gpio_write(KB,1);			//输入失能
+    cpu_set_gpio_wakeup (KB, Level_High, 1);
 
     gpio_set_func(ECHO,AS_GPIO);
     gpio_set_output_en(ECHO, 0); 			//enable output
     gpio_set_input_en(ECHO,1);				//disable input
     gpio_setup_up_down_resistor(ECHO, PM_PIN_PULLDOWN_100K);
-    gpio_set_interrupt(ECHO, POL_FALLING);
+    gpio_set_interrupt_risc0(ECHO, POL_FALLING);
 
     gpio_set_func(M_EN,AS_GPIO);                       //设置GPIO功能
     gpio_set_output_en(M_EN, 1); 		//输出使能
@@ -638,20 +638,22 @@ void ack_proc()
 
         if(clock_time_exceed(ack_timeout, ACK_TIME_OUT))
         {
-            ack_timeout = clock_time();
+            ack_timeout = clock_time();/*
 #if ROLE == MASTER
             if( master_conect_status() == 1)//主机断开从机
             {
                 blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN);
+                printf("master dis\n");
                 // if(blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN) == BLE_SUCCESS)
             }
 			#else 
              if( GetBle_status()->connection == 1) //从机断开主机
             {
                 blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN);
+                printf("slave dis\n");
                 // if(blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN) == BLE_SUCCESS)
             }
-#endif
+#endif*/
         }
 		else
 		{   //主机在超时时间内发送握手信号
@@ -661,6 +663,7 @@ void ack_proc()
         	{
            	 send_acktime = clock_time();
 			 pkt_pack(0x5a);
+			 printf("tack\n");
 			 //blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
 
 			 }
@@ -702,7 +705,7 @@ void led_mode_set(u8 status)
 void led_ctrl()
 {
     static u32 led_tick;
-    if(led_usr.status == 1)
+    if(led_usr.status == ON)
     {
         if(clock_time_exceed(led_tick, led_usr.tick))
         {
@@ -798,6 +801,13 @@ void measure_stop()
 {
     measure_usr.stop = 1;
 }
+u32 rx_tick;
+cal_rx_time()
+{
+	measure_usr.rx_time = clock_time()-rx_tick;
+	measure_usr.rx_time = measure_usr.rx_time /1000;
+	printf("rx:%d\n",measure_usr.rx_time);
+}
 void sensor_power(u8 flag)
 {
     if(flag == 0)//
@@ -809,10 +819,12 @@ void sensor_power(u8 flag)
     {
         gpio_write(CS102_EN, 0);
         gpio_write(CS102_T, 0);
-        sleep_us(10);
+        sleep_us(20);
         gpio_write(CS102_T, 1);
-        sleep_ms(10);
+        sleep_us(20);
         gpio_write(CS102_T, 0);
+        rx_tick = clock_time();
+       // printf("rx\n");
 
     }
 }
@@ -901,7 +913,7 @@ void mesure_proc()
 			cpu_set_gpio_wakeup (KB, Level_High, 1);
 			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
 #else
-			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
+			;;//cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
 #endif
 
     }
@@ -910,16 +922,24 @@ void mesure_proc()
         if(GetBle_status()->connection == 1)
         {
             tick_tmp = clock_time()-measure_usr.tick;
-            if(tick_tmp>=MEASURE_PERIOD)
-            {
-                extern u16 handle_s;
-                pkt_pack(0x4b);
-                blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
-                sleep_us(100);
-                measure_start();
-                sensor_power(1);
-                printf("m8\n");
-            }
+
+		   if(clock_time_exceed(measure_usr.tick, MEASURE_PERIOD))
+		   {
+			// printf("tick:%d\n",tick_tmp);
+			// if(tick_tmp>=MEASURE_PERIOD)
+			 {
+				 extern u16 handle_s;
+				 pkt_pack(0x4b);
+				 blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
+				 sleep_us(100);
+				 measure_start();
+				 sensor_power(1);
+				// printf("m8\n");
+				 tick_tmp = 0;
+				 measure_usr.tick = clock_time();
+			 }
+
+		   	}
         }
         else
         {
@@ -963,7 +983,7 @@ void init_measure()
 }
 void ui_proc()
 {
-
+    //printf("ui\n");
 	ack_proc();
 	led_ctrl();
 	mesure_proc();

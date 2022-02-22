@@ -1,6 +1,6 @@
 #ifndef SYS_H
 #define SYS_H
-#include "main.h"
+#include "main2.h"
 #define TICK_SIZE  25
 #define FLOW_TICK_NO  	0
 #define TDS_TICK_NO  	1

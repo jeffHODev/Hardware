@@ -1,11 +1,12 @@
-#include "ADS129x.h"
-#include "main.h"
+#include "ADS1292x.h"
+#include "main2.h"
 #include "sys.h"
 
 //#include "sd_card.h"
 #include "myQueue.h"
 #include "usart.h"
 
+#include "sensor.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 //±¾³ÌĞòÖ»¹©Ñ§Ï°Ê¹ÓÃ£¬Î´¾­×÷ÕßĞí¿É£¬²»µÃÓÃÓÚÆäËüÈÎºÎÓÃÍ¾
@@ -26,10 +27,15 @@ extern QueueInfo *UART_Queue;//¶ÓÁĞ»º³åÇøÖ¸Õë
 //ÏµÍ³¹¤×÷×´Ì¬
 u8 work_state;		//¹¤×÷×´Ì¬
 //Ğ¾Æ¬ÓÃ
-u32 cannle[8];	//´æ´¢8¸öÍ¨µÀµÄÊı¾İg
-int32_t	p_Temp[8];	//Êı¾İ·¢ËÍ»º´æ
+u32 cannle[16];	//´æ´¢8¸öÍ¨µÀµÄÊı¾İg
+int32_t	p_Temp[16];	//Êı¾İ·¢ËÍ»º´æ
 __align(4) u8 data_to_send[76];//´®¿Ú·¢ËÍ»º´æ
+#if ADS_CHANNEL <= 8
 volatile u8 ads129x_Cache[27];		//129x	Êı¾İ»º³åÇø
+#else
+ u8 ads129x_Cache[54];		//129x	Êı¾İ»º³åÇø
+#endif
+
 volatile u8 ads129x_read_flag=0;	//DRDY¶ÁÈ¡Íê³É±êÖ¾
 volatile u8 lead_off_flag; //µ¼ÁªÍÑÂä±êÖ¾
 unsigned char ads_num=1;//ads1299Æ¬Ñ¡£¬1£ºĞ¾Æ¬1£»2£ºĞ¾Æ¬2
@@ -125,7 +131,10 @@ void ads1299NoSet(unsigned char num)
 {
     ads_num = num;
 }
-
+unsigned char get_ads_num()
+{
+    return ads_num;
+}
 
 //ADS129xµÄIO¿Ú³õÊ¼»¯
 void ADS129x_IO_Init(void)
@@ -183,17 +192,27 @@ void ADS129x_IO_Init(void)
 //		ADS129X_CS=1;
 }
 
+void pushdata(unsigned char flag)
+{
+    if(flag == 2)
+	queue_data_push(UART_Queue,ads129x_Cache+27,ADS129x_info.Ads129x_Data_Move,ADS129x_info.Ads129x_Write_Num);
+	else
+	queue_data_push(UART_Queue,ads129x_Cache+3,ADS129x_info.Ads129x_Data_Move,ADS129x_info.Ads129x_Write_Num);
 
+}
 void EXTI10_15_IRQHandler(void)
 {
 
 
     if(  exti_interrupt_flag_get(EXTI_15)==1)//Êı¾İ½ÓÊÕÖĞ¶Ï
     {
-        if(ads_num == 2)
+        //if(ads_num == 2)
         {
-            ads1299NoSet(1);
+				//#if ADS_CHANNEL <=8
+		            ads1299NoSet(2);
+				//#endif
 
+            getSensor()->chip_num =2;
 
             //__disable_irq();
             //////////////////////////////////////////////////////////////////
@@ -203,11 +222,16 @@ void EXTI10_15_IRQHandler(void)
             if(work_state == SEND_UART || work_state == SEND_BULE)//À¶ÑÀ/´®¿Ú·¢ËÍ
             {
                 //°áÔËÊı¾İÖÁ¶ÓÁĞ»º³åÇø
-                if(queue_data_push(UART_Queue,ads129x_Cache+3,ADS129x_info.Ads129x_Data_Move,ADS129x_info.Ads129x_Write_Num))
+                if(queue_data_push(UART_Queue,ads129x_Cache+27,ADS129x_info.Ads129x_Data_Move,ADS129x_info.Ads129x_Write_Num))
                 {
 
                 }
             }
+		//	#if ADS_CHANNEL >8
+			//ads1299NoSet(1);
+			//nvic_irq_enable(EXTI1_IRQn, 2U, 0U);
+          //  nvic_irq_disable(EXTI10_15_IRQn);
+		//	#endif
             //			   else if(work_state == SEND_WIFI )
             //			   {
             //					   if(queue_data_push(WIFI_Info->WIFI_Queue ,ads129x_Cache+3 ,ADS129x_info.Ads129x_Data_Move,ADS129x_info.Ads129x_Write_Num))
@@ -242,7 +266,10 @@ void EXTI1_IRQHandler(void)
     {
        // if(ads_num == 2)
         {
+             getSensor()->chip_num =1;
+           // #if ADS_CHANNEL <=8
             ads1299NoSet(1);
+			//#endif
             ADS129x_Read_Data();//¶ÁÈ¡Êı¾İ
             ///////////////////////////////////////////////////////////////////
             if(work_state == SEND_UART || work_state == SEND_BULE)//À¶ÑÀ/´®¿Ú·¢ËÍ
@@ -251,12 +278,17 @@ void EXTI1_IRQHandler(void)
 							 if(ADS129x_info.Ads129x_Data_Move!=24||ADS129x_info.Ads129x_Write_Num!=1)
 								 ADS129x_info.Ads129x_Write_Num = 24;
                 //°áÔËÊı¾İÖÁ¶ÓÁĞ»º³åÇø
-               // if(queue_data_push(UART_Queue,ads129x_Cache+3,24,1))
-									if(queue_data_push(UART_Queue,ads129x_Cache+3,ADS129x_info.Ads129x_Data_Move,ADS129x_info.Ads129x_Write_Num))
+                if(queue_data_push(UART_Queue,ads129x_Cache+3,ADS129x_info.Ads129x_Data_Move,1))
+								////	if(queue_data_push(UART_Queue,ads129x_Cache+3,ADS129x_info.Ads129x_Data_Move,ADS129x_info.Ads129x_Write_Num))
                 {
                    
                 }
             }
+		//	#if ADS_CHANNEL >8
+		//	ads1299NoSet(2);
+          //  nvic_irq_disable(EXTI1_IRQn);
+		//	nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
+		//	#endif
 
         }
         exti_interrupt_flag_clear(EXTI_1); //Çå³ıLINEÉÏµÄÖĞ¶Ï±êÖ¾Î»
@@ -273,7 +305,10 @@ __INLINE void ADS129x_Read_Data()//72MÊ±ÖÓÏÂº¯ÊıºÄÊ±´óÔ¼10us  8MÊ±ÖÓÏÂ º¯ÊıºÄÊ±´
     
     for(i=0; i<ADS129X_DATANUM; i++)
     {
+			   if(ads_num == 1)
         ads129x_Cache[i]=ADS129x_SPI_ReadWriteByte(0X00);
+			else
+	        ads129x_Cache[27+i]=ADS129x_SPI_ReadWriteByte(0X00);		
 
     }
 
@@ -452,7 +487,11 @@ void ADS129x_ReInit(u8 cmd)
     delay_ms(500);
 ///////////////////////////////////////////////////////////////////////////
     ADS129x_info.Ads129x_Use_Cannle = ADS129X_USE_CANNLE*ADS129X_CASCADE_NUM; //Í¨µÀ*¼¶Áª
+
     ADS129x_info.Ads129x_Data_Move = 	ADS129x_info.Ads129x_Use_Cannle*3; //Ò»´Î²ÉÑù°áÔËN×Ö½ÚÓĞĞ§Êı¾İ 3*Í¨µÀÊı
+
+
+	
 
 //		if(cmd==0)//´®¿Ú/À¶ÑÀ
 //		{

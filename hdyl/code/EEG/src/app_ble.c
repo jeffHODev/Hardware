@@ -2,7 +2,7 @@
 #include "ble.h"
 #include "myQueue.h"
 #include "usart.h"
-#include "ADS129x.h"
+#include "ADS1292x.h"
 #include "bsp.h"
 #include "ecg.h"
 #include "protocol.h"
@@ -11,7 +11,7 @@
 #include "ecg.h"
 #include "sensor.h"
 #include "ble_set.h"
-
+#include "main2.h"
 QueueInfo *UART_Queue;//队列缓冲区指针
 extern u8 UART3_DMA_Finish;
 extern	u8 data_to_send[50];//串口发送缓存
@@ -43,6 +43,44 @@ void app_init(void)
 {
     dev_init();
 
+}
+void chip_conver_timeout(void)
+{
+    static unsigned char chip_num_tmp=1;
+    static uint32_t timeout;
+    if(getSensor()->chip_num == chip_num_tmp)
+    {
+        if((HAL_GetTick()-timeout)>=1500)
+        {
+            timeout = HAL_GetTick();
+					
+            if(getSensor()->chip_num == 1)
+            {
+              //  ads1299NoSet(2);
+                getSensor()->chip_num = 2;
+				       // pushdata(1);
+				//queue_data_push(UART_Queue,ads129x_Cache+3,ADS129x_info.Ads129x_Data_Move,ADS129x_info.Ads129x_Write_Num)
+              //  nvic_irq_disable(EXTI1_IRQn);
+               // nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
+
+            }
+            else
+            {
+                ads1299NoSet(1);
+				       // pushdata(2);
+				//queue_data_push(UART_Queue,ads129x_Cache+27,ADS129x_info.Ads129x_Data_Move,ADS129x_info.Ads129x_Write_Num)
+                getSensor()->chip_num = 1;
+                nvic_irq_enable(EXTI1_IRQn, 2U, 0U);
+                nvic_irq_disable(EXTI10_15_IRQn);
+
+            }
+        }
+    }
+    else
+    {
+        chip_num_tmp = getSensor()->chip_num;
+        timeout = HAL_GetTick();
+    }
 }
 //主串口发送
 void Send_UART3(void)
@@ -99,10 +137,19 @@ void Send_UART3(void)
         //		KEY_TYPE=0;
         //TIM_Cmd(TIM4, ENABLE);
         //EXTI->IMR |= ADS129X_DRDY_LINE;//开DRDY中断
-        nvic_irq_enable(EXTI1_IRQn, 2U, 0U);
+
+//#if ADS_CHANNEL <= 8
+nvic_irq_enable(EXTI1_IRQn, 2U, 0U);
+//#endif
+
+      getSensor()->chip_num = 1;
         nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
+     
 
     }
+ //#if ADS_CHANNEL>8
+    //    chip_conver_timeout();
+//#endif 
 
 /////////////////////////////////////////////////////////////////
     if(work_state==SEND_BULE)
@@ -118,7 +165,7 @@ void Send_UART3(void)
                 // nvic_irq_disable(EXTI1_IRQn);
                 // nvic_irq_disable(EXTI10_15_IRQn);
                 //从队列中取出数据并处理
-                for(i=0; i<8; i++) //处理8个通道的数据  27   24
+                for(i=0; i<ADS_CHANNEL; i++) //处理8个通道的数据  27   24
                 {
                     cannle[i] = *(*(UART_Queue->databuf + UART_Queue->front)+0+i*3)<<16
                                 | *(*(UART_Queue->databuf + UART_Queue->front)+1+i*3)<<8
@@ -132,11 +179,11 @@ void Send_UART3(void)
                 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //递增测试信号
-                data_to_send[ (ADS129X_USE_CANNLE+1)*4 ]=res++;//0-255
+                data_to_send[ (ADS_CHANNEL+1)*4 ]=res++;//0-255
                 sum=0;
-                for(i=0; i< (ADS129X_USE_CANNLE+1)*4 +1 ; i++)
+                for(i=0; i< (ADS_CHANNEL+1)*4 +1 ; i++)
                     sum += data_to_send[i];
-                data_to_send[(ADS129X_USE_CANNLE+1)*4 +1] = sum;	//校验和
+                data_to_send[(ADS_CHANNEL+1)*4 +1] = sum;	//校验和
                 /*dma_interrupt_enable(DMA0, DMA_CH3, DMA_CHXCTL_FTFIE);
 
                 dma_transfer_number_config(DMA0, DMA_CH3, (ADS129X_USE_CANNLE+1)*4 +2);
@@ -183,10 +230,10 @@ void Send_UART3(void)
     //queue_Deinit(UART_Queue);//循环队列注销
     //Main_printf("内存当前占用 %d\r\n",mem_perused());
 }
- uint32_t powerSleepTick;
+uint32_t powerSleepTick;
 void app(void)
 {
-    
+
     static unsigned char init_flag;
     if(getSensor()->key_status)
     {
@@ -212,8 +259,8 @@ void app(void)
                     BleConSeting(DIS_CONNECT);
                     power_sleep();
                 }
-								else
-									 powerSleepTick = HAL_GetTick();
+                else
+                    powerSleepTick = HAL_GetTick();
             }
             if(*getstate()==SEND_BULE)
             {
@@ -243,7 +290,7 @@ void app(void)
             // nvic_irq_disable(EXTI1_IRQn);
             // nvic_irq_disable(EXTI10_15_IRQn);
             powerSleepTick = HAL_GetTick();
-            	power_sleep();
+            power_sleep();
 
         }
 

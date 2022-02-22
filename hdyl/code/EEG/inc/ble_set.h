@@ -1,6 +1,6 @@
 #ifndef BLE_SET_H
 #define BLE_SET_H
-#include "main.h"
+#include "main2.h"
 
 #define Success 0
 #define Failure 1

@@ -31,7 +31,7 @@
 #ifndef __CRC16_H__
 #define __CRC16_H__
      
-#include "main.h"
+#include "main2.h"
 
 u16 CRC16( u8 * pucFrame, u16 usLen );
 

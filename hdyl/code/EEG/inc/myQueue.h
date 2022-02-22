@@ -1,6 +1,6 @@
 #ifndef __myQueue_H
 #define __myQueue_H	 
-#include "main.h"
+#include "main2.h"
 
 
 

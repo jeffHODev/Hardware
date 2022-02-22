@@ -69,14 +69,14 @@ extern	int user_manual_pairing;
 #define LED_NORMAL 2
 #define ON  0
 #define OFF 1
-#define DEBUG_BLE 1
+#define DEBUG_BLE 0
 #define ACK_TIME_OUT     5*1000*1000
-#define SLEEP_TIME_OUT   1000*60*1000
+#define SLEEP_TIME_OUT   1000*600*1000
 #define TIMEOUT_PERIOD 40*1000
 #define M_ON_PERIOD 600*1000
 #define M_OFF_PERIOD 100*1000
 #define PKT_HEAD  0xfe
-#define MEASURE_PERIOD 100*1000
+#define MEASURE_PERIOD 1000*1000
 typedef struct
 {
 	u8 start;
@@ -94,6 +94,7 @@ typedef struct
 	u32 timeout;
 	u8 timeoutFlag;
 	u8  power_status;
+	u32 rx_time;
 }measure_stru;
 typedef struct
 {
