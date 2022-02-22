@@ -157,6 +157,7 @@ void led_ctrl(void);
 void ui_proc(void);
 measure_stru *getmeasrue(void);
 void init_measure(void);
+void cal_rx_time(void);
 
 
 
