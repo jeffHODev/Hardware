@@ -622,7 +622,7 @@ void user_gpio_init()
 */
 }
 static u8 ack_sig=0;
-
+extern u16 handle_m;
 void ack_res(u8 ack)
 {
 
@@ -658,24 +658,39 @@ void ack_proc()
         }
 		else
 		{   //主机在超时时间内发送握手信号
-            #if ROLE == MASTER
-			  static u32  send_acktime;
-			 if(clock_time_exceed(ack_timeout,  1*1000*1000))
-        	{
-           	 send_acktime = clock_time();
-			 pkt_pack(0x5a);
-			 //blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+	 #if ROLE == MASTER
+		   static u32  send_acktime;
+		  if(clock_time_exceed(ack_timeout,  1*1000*1000)&& master_conect_status()==1)
+		 {
+		  ack_timeout = clock_time();
+		  pkt_pack(0x5a);
+		  gpio_toggle(GPIO_LED_RED);
+		  blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+		  //printf("ack t\n");
+		  }
+		
+#endif
 
-			 }
-
-           #endif
 		}
     }
     else
     {
         //ack = 1;
-        ack_timeout = clock_time();
+        //ack_timeout = clock_time();
     }
+
+	 #if ROLE == MASTER
+			   static u32  send_acktime;
+			  if(clock_time_exceed(ack_timeout,  1*1000*1000)&& master_conect_status()==1)
+			 {
+			  ack_timeout = clock_time();
+			  pkt_pack(0x5a);
+			  gpio_toggle(GPIO_LED_RED);
+			  blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+			  //printf("ack t\n");
+			  }
+			
+#endif
 
 }
 void led_mode_set(u8 status)
@@ -737,7 +752,9 @@ void parase(u8 tmp)
     case 0x5a://主从机到主机握手
     {
         ack_res(1);
+		//printf("sack\n");
 		#if ROLE == SLAVE
+		
 		pkt_pack(0x5a);
 		blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
 		#endif
@@ -823,6 +840,7 @@ void mesure_proc()
 {
     static u32 tick_tmp;
     //ack_proc();
+/*
 #if ROLE == MASTER//for master
 
     tick_tmp = clock_time()-measure_usr.tick;
@@ -897,32 +915,37 @@ void mesure_proc()
 
     }
 #else//for salve
+*/
     deviceTimeout(1);//休眠倒计时
     if(measure_usr.timeout >= SLEEP_TIME_OUT)//震动开关无振动超时判断，大于设置时间进入低功耗休眠
     {
-#if ROLE == MASTER
+			#if ROLE == MASTER
 			cpu_set_gpio_wakeup (KB, Level_High, 1);
 			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
-#else
+			#else
 			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
-#endif
+			#endif
 
     }
     else
-    {
+    { 
+       #if ROLE == SLAVE
         if(GetBle_status()->connection == 1)
         {
-            tick_tmp = clock_time()-measure_usr.tick;
-            if(tick_tmp>=MEASURE_PERIOD)
-            {
-                extern u16 handle_s;
-                pkt_pack(0x4b);
-                blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
-                sleep_us(100);
-                measure_start();
-                sensor_power(1);
-                printf("m8\n");
-            }
+          
+			if(clock_time_exceed( measure_usr.tick, MEASURE_PERIOD))
+			{
+			extern u16 handle_s;
+			pkt_pack(0x4b);
+			blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
+			sleep_us(100);
+			measure_start();
+			sensor_power(1);
+			printf("m8\n");
+			tick_tmp = 0;
+
+			}
+
         }
         else
         {
@@ -931,10 +954,11 @@ void mesure_proc()
             sensor_power(0);
             measure_stop();
         }
+		#endif
     }
 
 
-#endif
+//#endif
 }
 ble_stru ble_usr;
 
@@ -968,8 +992,9 @@ void ui_proc()
 {
 
 	ack_proc();
-	led_ctrl();
-	mesure_proc();
+	//led_ctrl();
+	//if(ack_sig==1)
+	//mesure_proc();
 }
 
 

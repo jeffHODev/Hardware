@@ -39,42 +39,42 @@ sizedummy \
 
 
 # All Target
-all: b85m_ble_sdk.elf secondary-outputs
+all: b85m_ble_sdk0222.elf secondary-outputs
 
 # Tool invocations
-b85m_ble_sdk.elf: $(OBJS) $(USER_OBJS)
+b85m_ble_sdk0222.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: TC32 C Linker'
-	tc32-elf-ld --gc-sections -L"C:\Users\86152\Desktop\b85m_ble_sdk0222\proj_lib" -T ../boot.link -o"b85m_ble_sdk.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	tc32-elf-ld --gc-sections -L"D:\work\git\Hardware\hdyl\code\BLE\b85m_ble_sdk0222\proj_lib" -T ../boot.link -o"b85m_ble_sdk0222.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build
 
-825x_m1s1.lst: b85m_ble_sdk.elf
+825x_m1s1.lst: b85m_ble_sdk0222.elf
 	@echo 'Invoking: TC32 Create Extended Listing'
-	tc32-elf-objdump -x -D -l -S b85m_ble_sdk.elf  >"825x_m1s1.lst"
+	tc32-elf-objdump -x -D -l -S b85m_ble_sdk0222.elf  >"825x_m1s1.lst"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-: b85m_ble_sdk.elf
+: b85m_ble_sdk0222.elf
 	@echo 'Create Flash image (binary format)'
-	tc32-elf-objcopy b85m_ble_sdk.elf
+	tc32-elf-objcopy b85m_ble_sdk0222.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 
-sizedummy: b85m_ble_sdk.elf
+sizedummy: b85m_ble_sdk0222.elf
 	@echo 'Invoking: Print Size'
-	tc32-elf-size -t b85m_ble_sdk.elf
+	tc32-elf-size -t b85m_ble_sdk0222.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(LST)$(SIZEDUMMY) b85m_ble_sdk.elf
+	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(LST)$(SIZEDUMMY) b85m_ble_sdk0222.elf
 	-@echo ' '
 
 post-build:
-	-"C:\Users\86152\Desktop\b85m_ble_sdk0222/tl_check_fw.sh"   825x_m1s1   b85m_ble_sdk
+	-"D:\work\git\Hardware\hdyl\code\BLE\b85m_ble_sdk0222/tl_check_fw.sh"   825x_m1s1   b85m_ble_sdk0222
 	-@echo ' '
 
 secondary-outputs: $(LST) $(FLASH_IMAGE) $(SIZEDUMMY)

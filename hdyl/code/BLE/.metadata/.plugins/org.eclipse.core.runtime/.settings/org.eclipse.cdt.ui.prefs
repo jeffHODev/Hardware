@@ -1,6 +1,8 @@
-#Tue Feb 08 21:49:22 CST 2022
+#Tue Feb 22 19:08:09 CST 2022
 spelling_locale_initialized=true
 useAnnotationsPrefPage=true
+org.eclipse.cdt.ui.text.templates.custom=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
 content_assist_disabled_computers=org.eclipse.cdt.ui.textProposalCategory\u0000org.eclipse.cdt.ui.parserProposalCategory\u0000
 eclipse.preferences.version=1
+sourceHoverBackgroundColor=255,255,225
 useQuickDiffPrefPage=true

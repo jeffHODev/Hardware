@@ -134,14 +134,14 @@ _attribute_ram_code_ int main(void)
     	printf("gpio\n");
         user_init_normal ();
     }
-
+    user_gpio_init();
     /* load customized freq_offset cap value.
      */
     blc_app_loadCustomizedParameters();
-
+   
 
     irq_enable();
-	init_measure();
+	//init_measure();
 	printf("init sdk\n");
     u32 tick_tmp;
 	gpio_write(GPIO_LED_RED,0);
@@ -149,7 +149,7 @@ _attribute_ram_code_ int main(void)
     {
 
     #if ROLE == MASTER
-    key_proc();
+    //key_proc();
 	#endif
         /*if( (clock_time()-tick_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
         {
