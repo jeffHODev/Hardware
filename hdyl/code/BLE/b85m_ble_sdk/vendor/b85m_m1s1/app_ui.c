@@ -985,8 +985,8 @@ void ui_proc()
 {
     //printf("ui\n");
 	ack_proc();
-	led_ctrl();
-	mesure_proc();
+	//led_ctrl();
+	//mesure_proc();
 }
 
 

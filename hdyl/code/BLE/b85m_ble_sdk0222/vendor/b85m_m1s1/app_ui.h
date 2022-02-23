@@ -94,6 +94,7 @@ typedef struct
 	u32 timeout;
 	u8 timeoutFlag;
 	u8  power_status;
+	u32 rx_time;
 }measure_stru;
 typedef struct
 {
@@ -156,6 +157,7 @@ void led_ctrl(void);
 void ui_proc(void);
 measure_stru *getmeasrue(void);
 void init_measure(void);
+void cal_rx_time(void);
 
 
 

@@ -421,10 +421,10 @@ int spp_onReceiveData(u16 connHandle, ble_rf_packet_att_write_t *p)
     if(len > 0)
     {
         memcpy(data,&p->value,len);
-		gpio_toggle(GPIO_LED_RED);
+
 
             u16 calCRC,resCRC;
-           
+           // printf("rx\n");
             if(data[0]!=PKT_HEAD)
                 return ;
             if(len<(data[2]+2))
@@ -433,7 +433,7 @@ int spp_onReceiveData(u16 connHandle, ble_rf_packet_att_write_t *p)
 			resCRC=(u16)data[4];
             resCRC=(resCRC<<8);
             resCRC=resCRC|(data[5])&0xFF;
-			
+			gpio_toggle(GPIO_LED_RED);
             if(calCRC==resCRC)
             {
             //printf("%x\n",resCRC);

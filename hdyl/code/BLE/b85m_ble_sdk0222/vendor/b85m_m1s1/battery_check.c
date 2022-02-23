@@ -284,12 +284,12 @@ _attribute_ram_code_ int app_battery_power_check(u16 alram_vol_mv)
 	if(batt_vol_mv < alram_vol_mv){
 
 		#if (1 && UI_LED_ENABLE)  //led indicate
-			gpio_set_output_en(GPIO_LED_RED, 1);  //output enable
+			//gpio_set_output_en(GPIO_LED_RED, 1);  //output enable
 			for(int k=0;k<3;k++){
-				gpio_write(GPIO_LED_RED, LED_ON_LEVAL);
-				sleep_us(200000);
-				gpio_write(GPIO_LED_RED, !LED_ON_LEVAL);
-				sleep_us(200000);
+				//gpio_write(GPIO_LED_RED, LED_ON_LEVAL);
+				//sleep_us(200000);
+				//gpio_write(GPIO_LED_RED, !LED_ON_LEVAL);
+				//sleep_us(200000);
 			}
 		#endif
 
@@ -306,6 +306,7 @@ _attribute_ram_code_ int app_battery_power_check(u16 alram_vol_mv)
 		cpu_set_gpio_wakeup (KB, Level_High, 1);
 		cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
 		#else
+		blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE);
 		cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
 		#endif
 	}

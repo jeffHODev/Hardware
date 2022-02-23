@@ -1209,6 +1209,7 @@ void hsw_proc()
         }
         else //水位开关异常
         {
+            GetSensor()->status[WATER_LEVEL_INDEX] = 0;//高压开关异常
             EleSwCtrl(SALT_SW,OFF);//关阀2
         }
 
@@ -1241,7 +1242,7 @@ void hsw_proc()
 
     }
 
-    GetSensor()->status[WATER_LEVEL_INDEX] = 0;//高压开关异常
+    
 
     GetSensor()->status[HSW_INDEX] = 5;//高压开关异常
     registerTick(FLOW_TICK_NO2, 20000,1,0);//

@@ -61,39 +61,36 @@ _attribute_ram_code_ void irq_handler(void)
 
 
     blc_sdk_irq_handler ();
-//    if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
-//    {
-//        reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
-////        #if ROLE == MASTER
-////        if(gpio_read(ECHO)==0)  // press key with low level to flash light
-////        {
-////           // gpio_toggle(GPIO_LED_RED);
-////            measure_stop();
-////            printf("I1\n");
-////        }
-////		#endif
-////        if(gpio_read(KB))// press key with low level to flash light
-////        {
-////
-////            //gpio_toggle(GPIO_LED_RED);
-////			deviceTimeout(0);
-////            //measure_start();
-////
-////
-////        }
-//        printf("key\n");
-//
-//    }
-	if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN){
-		reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
-		printf("key\n");
-	}
-	if((reg_irq_src & FLD_IRQ_GPIO_RISC0_EN)==FLD_IRQ_GPIO_RISC0_EN){
-		reg_irq_src |= FLD_IRQ_GPIO_RISC0_EN; // clear the relevant irq
+    if((reg_irq_src & FLD_IRQ_GPIO_RISC0_EN)==FLD_IRQ_GPIO_RISC0_EN)
+    {
+        reg_irq_src |= FLD_IRQ_GPIO_RISC0_EN; // clear the relevant irq
+        #if ROLE == MASTER
+        cal_rx_time();
+        if(gpio_read(ECHO)==0)  // press key with low level to flash light
+        {
 
-		printf("key1\n");
 
-	}
+            gpio_toggle(GPIO_LED_RED);
+            measure_stop();
+
+        }
+		#endif
+    }
+
+   if((reg_irq_src & FLD_IRQ_GPIO_EN)==FLD_IRQ_GPIO_EN)
+    {
+    	 reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
+        if(gpio_read(KB))// press key with low level to flash light
+        {
+
+            gpio_toggle(GPIO_LED_RED);
+			deviceTimeout(0);
+            //measure_start();
+
+        }
+         printf("key\n");
+    }
+
     DBG_CHN15_LOW;
 }
 
@@ -151,7 +148,7 @@ _attribute_ram_code_ int main(void)
     #if ROLE == MASTER
     //key_proc();
 	#endif
-        /*if( (clock_time()-tick_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
+        /*if( (clock_time()-tic k_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
         {
             gpio_toggle(GPIO_LED_RED);
             tick_tmp = clock_time();

@@ -99,7 +99,7 @@ int app_le_adv_report_event_handle(u8 *p)
 	s8 rssi = pa->data[pa->len];
 	u8 adv[31];
 	memcpy(adv,&pa->data,pa->len);
-	u8 mac[6]={0x74,0xad,0x00,0x38,0xc1,0xa4};
+	u8 mac[6]={0x0e,0xdb,0x8a,0x38,0xc1,0xa4};
 
 	#if 0  //debug, print ADV report number every 5 seconds
 		AA_dbg_adv_rpt ++;
@@ -133,8 +133,10 @@ int app_le_adv_report_event_handle(u8 *p)
 	memcpy(advdata,pa->data,pa->len);
 	u8 name[9] = {'m','1','s','1','_', 'd','e','m','o'};
 	if(memcmp(pa->mac,&mac,6)==0){
+		//printf("mac2\n");
 		user_manual_pairing=1;
 	}
+	//printf("mac1\n");
 	//if(memcmp(&advdata[2],name,9)==0)
 	//{
 	//	user_manual_pairing = 1;gpio_toggle(GPIO_LED_RED);
@@ -203,6 +205,8 @@ int app_le_connection_complete_event_handle(u8 *p)
 //			bls_l2cap_requestConnParamUpdate (pConnEvt->connHandle, CONN_INTERVAL_10MS, CONN_INTERVAL_10MS, 199, CONN_TIMEOUT_6S);	// 2 second
 //			bls_l2cap_requestConnParamUpdate (pConnEvt->connHandle, CONN_INTERVAL_10MS, CONN_INTERVAL_10MS, 299, CONN_TIMEOUT_8S);	// 3 second
 			handle_s=pConnEvt->connHandle;
+		      printf("conn\n");
+	      ble_status(1);
 		}
 		else if(pConnEvt->role == LL_ROLE_MASTER){ // master role, process SMP and SDP if necessary
 			#if (BLE_MASTER_SMP_ENABLE)
@@ -217,6 +221,7 @@ int app_le_connection_complete_event_handle(u8 *p)
 
 				handle_m=pConnEvt->connHandle;
 				con_stare=1;
+				printf("conn\n");
 
 			#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
 				memset(&cur_sdp_device, 0, sizeof(dev_char_info_t));
@@ -318,8 +323,7 @@ int app_le_connection_update_complete_event_handle(u8 *p)
 	hci_le_connectionUpdateCompleteEvt_t *pUpt = (hci_le_connectionUpdateCompleteEvt_t *)p;
 
 	if(pUpt->status == BLE_SUCCESS){
-      printf("conn\n");
-	  ble_status(1);
+
 	}
 
 	return 0;
@@ -789,7 +793,7 @@ _attribute_no_inline_ void user_init_normal(void)
 //////////////////////////// User Configuration for BLE application ////////////////////////////
 	blc_ll_setAdvData( (u8 *)tbl_advData, sizeof(tbl_advData) );
 	blc_ll_setScanRspData( (u8 *)tbl_scanRsp, sizeof(tbl_scanRsp));
-	blc_ll_setAdvParam(ADV_INTERVAL_500MS, ADV_INTERVAL_500MS, ADV_TYPE_CONNECTABLE_UNDIRECTED, OWN_ADDRESS_PUBLIC, 0, NULL, BLT_ENABLE_ADV_ALL, ADV_FP_NONE);
+	blc_ll_setAdvParam(ADV_INTERVAL_200MS, ADV_INTERVAL_200MS, ADV_TYPE_CONNECTABLE_UNDIRECTED, OWN_ADDRESS_PUBLIC, 0, NULL, BLT_ENABLE_ADV_ALL, ADV_FP_NONE);
 
 #if ROLE==SLAVE
 	blc_ll_setAdvEnable(BLC_ADV_ENABLE);  //ADV enable
@@ -932,14 +936,17 @@ int main_idle_loop (void)
 
 		
 	//#endif
+/*
 	#if DEBUG_BLE == 0
 	if(getmeasrue()->power_status == ON)
 	#endif
+*/
 	{
 		proc_master_role_unpair();
 	    ui_proc();
        //send_test();
 	}
+/*
 	#if DEBUG_BLE == 0
 	else
 	{
@@ -955,6 +962,7 @@ int main_idle_loop (void)
 
 	}
 	#endif
+*/
 
 
 
