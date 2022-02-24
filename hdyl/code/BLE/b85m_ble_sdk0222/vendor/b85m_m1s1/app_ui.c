@@ -65,6 +65,7 @@ _attribute_ble_data_retention_ int master_disconnect_connhandle;   //mark the ma
 
 
 
+u32 rx_tick;
 
 int master_auto_connect = 0;
 int user_manual_pairing = 0;
@@ -667,12 +668,27 @@ void ack_proc()
 		  pkt_pack(0x5a);
 		  //gpio_toggle(GPIO_LED_RED);
 		  blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
-		  //printf("ack t\n");
+		  //printf("ack t\n");measure_usr.start == 1
 		  }
 		
 		#endif
 
 		}
+				   static u32  send_acktime;
+		  if(clock_time_exceed(send_acktime,  1*1000*1000))
+		 {
+		// printf("sig2\n");
+		  send_acktime = clock_time();
+		  pkt_pack(0x5a);
+		  //gpio_toggle(GPIO_LED_RED);
+		  blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+		  //printf("ack t\n");
+		          measure_start();
+		measure_usr.stop = 0;
+        sensor_power(1);
+		rx_tick = clock_time();
+		  measure_start();
+		  }
     }
     else
     {
@@ -680,7 +696,22 @@ void ack_proc()
         ack_timeout = clock_time();
     }
 #if ROLE==SLAVE
-	
+					static u32	send_acktime;
+	   if(clock_time_exceed(send_acktime,  1*1000*1000))
+	  {
+	 // printf("sig2\n");
+	   send_acktime = clock_time();
+	  // pkt_pack(0x5a);
+	   gpio_toggle(GPIO_LED_RED);
+	   //blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+	   //printf("ack t\n");
+			   measure_start();
+	 measure_usr.stop = 0;
+	 sensor_power(1);
+	 rx_tick = clock_time();
+	   measure_start();
+	   }
+
 	 if( GetBle_status()->connection ==0)
 		 {
 
@@ -856,7 +887,7 @@ void measure_stop()
 {
     measure_usr.stop = 1;
 }
-u32 rx_tick;
+
 cal_rx_time()
 {
 	measure_usr.rx_time = clock_time()-rx_tick;
@@ -948,7 +979,7 @@ void mesure_proc()
         else
         {
             if((clock_time()-measure_usr.motor_tick)>=M_OFF_PERIOD)
-                gpio_write(M_EN,0); 		//输入失能
+                gpio_write(M_EN,1); 		//输入失能
             else
                 gpio_write(M_EN,1); 		//输入失能
 

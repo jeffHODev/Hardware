@@ -1,4 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Delete resource &apos;b85m_ble_sdk&apos;" deleteContents="false" description="Delete resource &apos;b85m_ble_sdk&apos;" element1="/b85m_ble_sdk" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1645527937120"/>
+<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;b85m_ble_sdk&apos;" deleteContents="false" description="Delete resource &apos;b85m_ble_sdk&apos;" element1="/b85m_ble_sdk" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1645527937120"/>&#x0A;<refactoring comment="Delete resource &apos;b85m_ble_sdk0222&apos;" deleteContents="false" description="Delete resource &apos;b85m_ble_sdk0222&apos;" element1="/b85m_ble_sdk0222" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1645612999871"/>
 </session>
