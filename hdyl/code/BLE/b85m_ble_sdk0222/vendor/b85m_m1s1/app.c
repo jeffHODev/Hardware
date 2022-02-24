@@ -939,6 +939,7 @@ void app_process_power_management(void)
 		   power_tick = clock_time();
 		   if(GetBle_status()==0)
 		   blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
+
 		}
 
 		if(GetBle_status()==1)
