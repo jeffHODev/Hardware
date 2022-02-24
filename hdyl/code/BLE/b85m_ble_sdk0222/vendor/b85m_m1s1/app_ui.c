@@ -562,7 +562,7 @@ void user_gpio_init()
     gpio_set_input_en(ECHO,1);				//disable input
     gpio_setup_up_down_resistor(ECHO, PM_PIN_PULLUP_10K);
    // gpio_set_interrupt(ECHO, POL_FALLING);
-    gpio_set_interrupt_risc0(ECHO, POL_FALLING);
+    7(ECHO, POL_FALLING);
 
 
     gpio_set_func(M_EN,AS_GPIO);                       //…Ë÷√GPIOπ¶ƒ‹
