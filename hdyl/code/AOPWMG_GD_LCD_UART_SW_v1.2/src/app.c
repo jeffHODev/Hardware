@@ -1106,12 +1106,17 @@ unsigned char flow_proc()
 
 
         }
-        if(*getpumpstatus()==1)
+        if(*getpumpstatus()==1&&GetSensor()->flow==0)
         {
             if(GetSensor()->flow<=0)
                 GetSensor()->status[NOWATER_INDEX]=NOWATER_INDEX;
 
         }
+				else if(GetSensor()->flow>0)
+				{
+					if(*getpumpstatus()==1)
+							*getpumpstatus() = 0;
+				}
     }
 
 
@@ -1645,6 +1650,7 @@ void ele_dev_proc()
 			   else
 			   	{
 					EleSwCtrl(WATER_SW,ON);//原水进水阀开
+					EleSwCtrl(SALT_SW,OFF);//关阀2
 			   }
 
             }

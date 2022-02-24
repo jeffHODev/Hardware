@@ -63,7 +63,7 @@
 #define PUMP_VALUE    65535
 
 #if FLOW_SIZE >=3
-#define FLOW_VALUE 2
+#define FLOW_VALUE 0.5
 
 #else
 #define FLOW_VALUE 0.5
