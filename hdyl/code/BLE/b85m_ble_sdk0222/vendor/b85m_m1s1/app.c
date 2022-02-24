@@ -980,8 +980,9 @@ void ui_process()
 			cpu_set_gpio_wakeup (KB, Level_High, 1);
 			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
 		#else
+		   cpu_set_gpio_wakeup (KB, Level_High, 1);
 			blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE);
-			//cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
+			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD|PM_WAKEUP_TIMER, clock_time()+1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
 		#endif
 
 	}
@@ -1012,7 +1013,7 @@ int main_idle_loop (void)
 	////////////////////////////////////// UI entry /////////////////////////////////
 
      #if ROLE== MASTER
-	 key_proc();
+	 key_proc();//Ö÷»ú°´¼üÉ¨Ãè
 	 #else
 	 getmeasrue()->power_status = ON;
 	 #endif

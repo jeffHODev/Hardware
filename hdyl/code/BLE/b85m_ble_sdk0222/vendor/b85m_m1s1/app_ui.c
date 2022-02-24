@@ -376,10 +376,10 @@ void key_proc()
 				gpio_write(GPIO_LED_RED,1);
                 //power sleep
                 blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
-#if ROLE == MASTER
+				#if ROLE == MASTER
                 cpu_set_gpio_wakeup (KB, Level_High, 1);
                 cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
-#endif
+				#endif
             }
             else
             {
@@ -1036,7 +1036,7 @@ void ui_proc()
 {
 
     ack_proc();
-    //led_ctrl();
+    led_ctrl();
     //if(ack_sig==1)
     mesure_proc();
 }
