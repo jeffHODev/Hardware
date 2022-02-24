@@ -70,7 +70,7 @@ _attribute_ram_code_ void irq_handler(void)
         {
 
 
-            gpio_toggle(GPIO_LED_RED);
+           // gpio_toggle(GPIO_LED_RED);
             measure_stop();
 
         }
@@ -83,7 +83,7 @@ _attribute_ram_code_ void irq_handler(void)
         if(gpio_read(KB))// press key with low level to flash light
         {
 
-            gpio_toggle(GPIO_LED_RED);
+            //gpio_toggle(GPIO_LED_RED);
 			deviceTimeout(0);
             //measure_start();
 
@@ -141,7 +141,7 @@ _attribute_ram_code_ int main(void)
 	init_measure();
 	printf("init sdk\n");
     u32 tick_tmp;
-	gpio_write(GPIO_LED_RED,0);
+	
     while(1)
     {
 

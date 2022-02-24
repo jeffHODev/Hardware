@@ -43,7 +43,7 @@ void nibp_if_init(void)
 	  dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
 	  dma_single_data_mode_init(DMA0, DMA_CH5, &dma_single_data_parameter);
 	  /* configure DMA mode */
-	  dma_circulation_disable(DMA0, DMA_CH5);
+	  dma_circulation_enable(DMA0, DMA_CH5);
 	  dma_channel_subperipheral_select(DMA0, DMA_CH5, DMA_SUBPERI4);  
 	  usart_dma_receive_config(USART1, USART_DENR_ENABLE);
 	  lastcounter =  dma_transfer_number_get(DMA0, DMA_CH5);

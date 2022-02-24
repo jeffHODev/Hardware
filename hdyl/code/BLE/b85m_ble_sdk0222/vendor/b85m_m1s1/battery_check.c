@@ -296,18 +296,13 @@ _attribute_ram_code_ int app_battery_power_check(u16 alram_vol_mv)
 
 		analog_write(USED_DEEP_ANA_REG,  analog_read(USED_DEEP_ANA_REG) | LOW_BATT_FLG);  //mark
 
-		u32 pin[] = KB_DRIVE_PINS;
-		#if ROLE==MASTER
-			cpu_set_gpio_wakeup (ECHO, Level_High, 1);
-		#endif
-
-			cpu_set_gpio_wakeup (KB, Level_High, 1);  //drive pin pad high wakeup deepsleep
+		cpu_set_gpio_wakeup (KB, Level_High, 1);  //drive pin pad high wakeup deepsleep
+		cpu_set_gpio_wakeup (KB, Level_High, 1);  //drive pin pad high wakeup deepsleep
         #if ROLE == MASTER
-		cpu_set_gpio_wakeup (KB, Level_High, 1);
 		cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
 		#else
 		blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE);
-		cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
+		cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER|PM_WAKEUP_PAD, , clock_time()+1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
 		#endif
 	}
 

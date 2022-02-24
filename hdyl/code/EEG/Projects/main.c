@@ -85,7 +85,7 @@ int main(void)
 	 app_init();
     protocol_init();
     ecg_init();
-	test = 12;
+	  test = 12;
 //	MMR901MX_Init();
     nibp_if_init();
     while (1)

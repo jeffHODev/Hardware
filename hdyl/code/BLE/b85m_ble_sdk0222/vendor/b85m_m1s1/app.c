@@ -937,6 +937,7 @@ void app_process_power_management(void)
 		if(clock_time_exceed(power_tick, CON_TIME_OUT))
 		{
 		   power_tick = clock_time();
+		   if(GetBle_status()==0)
 		   blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
 		}
 
@@ -949,6 +950,8 @@ void app_process_power_management(void)
 				blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN);
 			}
 		}
+		else
+			power_tick = clock_time();
 
     #endif	
 	}
@@ -1010,6 +1013,8 @@ int main_idle_loop (void)
 
      #if ROLE== MASTER
 	 key_proc();
+	 #else
+	 getmeasrue()->power_status = ON;
 	 #endif
      ui_process();
      

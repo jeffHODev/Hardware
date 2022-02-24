@@ -316,7 +316,7 @@ void proc_keyboard (u8 e, u8 *p, int n)
             if(key_time_start++>BUTTON_FILTER_TIME) 	 // °´¼üÍ¨¹ýÂË²¨¼ì²â
             {
 
-                printf("key\n");
+                printf("kd\n");
                 measure_usr.key_down_flag = 1;
             }
 
@@ -324,7 +324,7 @@ void proc_keyboard (u8 e, u8 *p, int n)
             {
                 if(measure_usr.key_down_flag == 1)
                 {
-                    printf("key hold\n");
+                    printf("kh\n");
                     measure_usr.key_update=1;
                     key_time_start = 0;
                     measure_usr.key_down_flag = 2;
@@ -343,7 +343,7 @@ void proc_keyboard (u8 e, u8 *p, int n)
                     measure_usr.key_update=1;
                     measure_usr.key_down_flag = 0;
                     measure_usr.key = KEY_START_DOWN;
-                    printf("key down\n");
+                    printf("kd2\n");
 
                 }
 
@@ -1036,7 +1036,7 @@ void ui_proc()
 {
 
     ack_proc();
-    led_ctrl();
+    //led_ctrl();
     //if(ack_sig==1)
     mesure_proc();
 }

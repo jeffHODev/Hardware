@@ -187,7 +187,7 @@ void HAL_TIM_PeriodElapsedCallback()
 			
 
     }
-    i=48;
+    i=ADS_CHANNEL*3;
     //data = (buffer[0] << 16) | (buffer[1] << 8) | buffer[2];
     //data = (data - 0xB964F0 / 2) * 4 * 240000 / 0xB964F0 / 7;//0.01mV; 0.11287477uV / LSB
 //    miscdata.data[i++] = (uint8_t)(buffer[0]>>16);//ecg
