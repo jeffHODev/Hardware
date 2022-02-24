@@ -167,9 +167,22 @@ nvic_irq_enable(EXTI1_IRQn, 2U, 0U);
                 //从队列中取出数据并处理
                 for(i=0; i<ADS_CHANNEL; i++) //处理8个通道的数据  27   24
                 {
-                    cannle[i] = *(*(UART_Queue->databuf + UART_Queue->front)+0+i*3)<<16
-                                | *(*(UART_Queue->databuf + UART_Queue->front)+1+i*3)<<8
-                                | *(*(UART_Queue->databuf + UART_Queue->front)+2+i*3);//获取原始数据
+                   if(i >= 9)
+                   	{
+				   cannle[i] = *(*(UART_Queue->databuf + UART_Queue->front)+0+i*3+3)<<16
+							   | *(*(UART_Queue->databuf + UART_Queue->front)+1+i*3+3)<<8
+							   | *(*(UART_Queue->databuf + UART_Queue->front)+2+i*3+3);//获取原始数据
+
+				   }
+				   else
+				   	{
+				   cannle[i] = *(*(UART_Queue->databuf + UART_Queue->front)+0+i*3)<<16
+							   | *(*(UART_Queue->databuf + UART_Queue->front)+1+i*3)<<8
+							   | *(*(UART_Queue->databuf + UART_Queue->front)+2+i*3);//获取原始数据
+
+				   }
+				   	
+
                     p_Temp[i] = get_volt(cannle[i]);	//转成32位有符号数
                     cannle[i] = p_Temp[i];//赋值给无符号数，准备逻辑右移
                     data_to_send[4+i*4]=cannle[i]>>24;	//25-32位
@@ -271,6 +284,8 @@ void app(void)
                 {
                     init_flag = 1;
                     ADS129x_ReInit(0);
+					nvic_irq_enable(EXTI1_IRQn, 2U, 0U);
+       				 nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
                 }
                 sensor_proc();
                 Send_UART3();
@@ -289,6 +304,7 @@ void app(void)
         {
             // nvic_irq_disable(EXTI1_IRQn);
             // nvic_irq_disable(EXTI10_15_IRQn);
+					init_flag = 0;
             powerSleepTick = HAL_GetTick();
             power_sleep();
 

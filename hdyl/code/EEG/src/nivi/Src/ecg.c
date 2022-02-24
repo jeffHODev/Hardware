@@ -149,7 +149,11 @@ uint32_t err_cnt;
 
 
 extern __align(4) u8 data_to_send[76];
- 
+#if ADS_CHANNEL <= 8
+ extern volatile u8 ads129x_Cache[27];		//129x	数据缓冲区
+#else
+ extern u8 ads129x_Cache[54];		//129x	数据缓冲区
+#endif
 void HAL_TIM_PeriodElapsedCallback()
 {
     static uint16_t adcbuf[3];
@@ -165,15 +169,25 @@ void HAL_TIM_PeriodElapsedCallback()
     buffer = get_ads();
     for(i=0; i<ADS_CHANNEL; i++)
     { 
-			  j = data_to_send[6+i*4];
-        miscdata.data[i*4+0] = data_to_send[4+i*4];
-        miscdata.data[i*4+1] = data_to_send[5+i*4];
-        miscdata.data[i*4+2] = data_to_send[6+i*4];
-        miscdata.data[i*4+3] = data_to_send[7+i*4];
+			  j = ads129x_Cache[6+i*4];
+			  if(i<8)
+				{
+					miscdata.data[i*3+0] = ads129x_Cache[3+i*3];
+					miscdata.data[i*3+1] = ads129x_Cache[4+i*3];
+					miscdata.data[i*3+2] = ads129x_Cache[5+i*3];
+					//miscdata.data[i*4+3] = ads129x_Cache[6+i*3];				
+				}
+				else
+				{
+					miscdata.data[i*3+0] = ads129x_Cache[ 6+i*3];
+					miscdata.data[i*3+1] = ads129x_Cache[7+i*3];
+					miscdata.data[i*3+2] = ads129x_Cache[8+i*3];				
+				}
+
 			
 
     }
-    i=64;
+    i=48;
     //data = (buffer[0] << 16) | (buffer[1] << 8) | buffer[2];
     //data = (data - 0xB964F0 / 2) * 4 * 240000 / 0xB964F0 / 7;//0.01mV; 0.11287477uV / LSB
 //    miscdata.data[i++] = (uint8_t)(buffer[0]>>16);//ecg

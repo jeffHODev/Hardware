@@ -2,7 +2,7 @@
 #define __ECG_H__
 
 #include "main2.h"
-#define PARAMS_SIZE  75
+#define PARAMS_SIZE  59
 typedef struct{
   uint8_t data[PARAMS_SIZE];
 }MISCDATA;

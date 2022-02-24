@@ -99,6 +99,8 @@ int app_le_adv_report_event_handle(u8 *p)
 	s8 rssi = pa->data[pa->len];
 	u8 adv[31];
 	memcpy(adv,&pa->data,pa->len);
+	memcpy(&getmeasrue()->mac ,&pa->mac,6);
+	
 	u8 mac[6]={0xc2,0xb3,0x1a,0x38,0xc1,0xa4};
 
 	#if 0  //debug, print ADV report number every 5 seconds
@@ -165,6 +167,7 @@ int app_le_adv_report_event_handle(u8 *p)
 
 
 		if(status == BLE_SUCCESS){ //create connection success
+		master_pairing_enable==0;
 			#if (!BLE_MASTER_SMP_ENABLE)
 			    // for Telink referenced pair&bonding,
 				if(user_manual_pairing && !master_auto_connect){  //manual pair but not auto connect
@@ -875,39 +878,112 @@ _attribute_ram_code_ void user_init_deepRetn(void)
 #endif
 }
 
+u32 t_count=0;
+extern u8 tx_buf[8];
+void send_test()
+{
+	if(con_stare&&clock_time_exceed(t_count, 1000*1000))
+	{
+#if DEBUG_BLE == 0
+		if(master_pairing_enable==1)
+		{
+		    //gpio_toggle(GPIO_LED_RED);
+			pkt_pack(0x5b);
+			blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+		}
+		else if(master_unpair_enable==1)
+		{
+		   // gpio_toggle(GPIO_LED_RED);
+			pkt_pack(0x5c);
+			blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+		}
+#else
+         //gpio_toggle(GPIO_LED_RED);
+		blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H, "123",3);
+#endif
+		t_count= clock_time();
+	}
+#if ROLE==SLAVE
+   ;// gpio_write(CS102_EN, 1);
+   // gpio_write(CS102_T, 0);
+#endif
+
+}
 
 
 
 void app_process_power_management(void)
 {
-#if (BLE_APP_PM_ENABLE)
-	if(!con_stare){
-		blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
+	#if (BLE_APP_PM_ENABLE)
+	{
+      static u32 power_tick;
+	#if ROLE == MASTER
+		if(clock_time_exceed(power_tick, CON_TIME_OUT))//master timeout power sleep
+		{
+		   power_tick = clock_time();
+		   	
+			if(!con_stare){
 
-	int user_task_flg = ota_is_working;
-	#if UI_KEYBOARD_ENABLE
-		user_task_flg = user_task_flg || scan_pin_need || key_not_released;
-	#endif
-	#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
-		user_task_flg = user_task_flg || master_sdp_pending;
-	#endif
-	#if ROLE== MASTER
-       if(getmeasrue()->key_down_cnt>=3)
-       	{
-			user_task_flg =1;
-	   }
-    #endif
-		if(user_task_flg){
-			blc_pm_setSleepMask(PM_SLEEP_DISABLE);
+			    if(master_pairing_enable ==0&&master_unpair_enable ==0)
+			    	{
+					cpu_set_gpio_wakeup (KB, Level_High, 1);
+					cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+					//blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
+				}
+			}
 		}
-	}else{
-		blc_pm_setSleepMask(PM_SLEEP_DISABLE);
-	}
 
+	 #else  //slave timeout power sleep
+		if(clock_time_exceed(power_tick, CON_TIME_OUT))
+		{
+		   power_tick = clock_time();
+		   blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
+		}
+
+		if(GetBle_status()==1)
+		{
+			u8 mac[6]={0xc2,0xb3,0x1a,0x38,0xc1,0xa4};
+		    power_tick = clock_time();
+			if(memcmp(&(getmeasrue()->mac[3]),&mac,3)!=0)
+			{
+				blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN);
+			}
+		}
+
+    #endif	
+	}
 #endif
 }
 
+void ui_process()
+{
+   static u32 unpair_tick=0;
+	if(getmeasrue()->power_status == ON)
 
+	{
+	    send_test();
+		if(con_stare&&clock_time_exceed(unpair_tick, 2000*1000))
+		{
+		    unpair_tick = clock_time();
+			proc_master_role_unpair();
+
+		}
+	    ui_proc();
+       //send_test();
+	}
+	else
+	{
+		#if ROLE == MASTER
+			cpu_set_gpio_wakeup (KB, Level_High, 1);
+			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+		#else
+			blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE);
+			//cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
+		#endif
+
+	}
+
+}
 /////////////////////////////////////////////////////////////////////
 // main loop flow
 /////////////////////////////////////////////////////////////////////
@@ -931,42 +1007,12 @@ int main_idle_loop (void)
 #endif
 
 	////////////////////////////////////// UI entry /////////////////////////////////
-	//#if (UI_KEYBOARD_ENABLE)
-		//proc_keyboard (0,0, 0);
 
-		
-	//#endif
-/*
-	#if DEBUG_BLE == 0
-	if(getmeasrue()->power_status == ON)
-	#endif
-*/
-	{
-		proc_master_role_unpair();
-	    ui_proc();
-       //send_test();
-	}
-/*
-	#if DEBUG_BLE == 0
-	else
-	{
-
-		#if ROLE == MASTER
-	       cpu_set_gpio_wakeup (KB, Level_High, 1);
-		   cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);	//deepsleep
-		#else
-		  cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_TIMER, 1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
-		#endif
-
-	     blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
-
-	}
-	#endif
-*/
-
-
-
-	// gpio_write(KB,0);
+     #if ROLE== MASTER
+	 key_proc();
+	 #endif
+     ui_process();
+     
 	////////////////////////////////////// PM entry /////////////////////////////////
 	app_process_power_management();
 
@@ -976,37 +1022,7 @@ u8 master_conect_status()
 {
 	return con_stare;
 }
-u32 t_count=0;
-extern u8 tx_buf[8];
-void send_test()
-{
-	if(con_stare&&clock_time_exceed(t_count, 1000*1000))
-	{
-#if DEBUG_BLE == 0
-		if(master_pairing_enable==1)
-		{
-		    gpio_toggle(GPIO_LED_RED);
-			pkt_pack(0x5b);
-			//blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
-		}
-		else if(master_unpair_enable==1)
-		{
-		    gpio_toggle(GPIO_LED_RED);
-			pkt_pack(0x5c);
-			//blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
-		}
-#else
-         gpio_toggle(GPIO_LED_RED);
-		blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H, "123",3);
-#endif
-		t_count= clock_time();
-	}
-#if ROLE==SLAVE
-   ;// gpio_write(CS102_EN, 1);
-   // gpio_write(CS102_T, 0);
-#endif
 
-}
 u32 t_count1=0;
 void io_test()
 {

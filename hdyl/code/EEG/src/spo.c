@@ -321,7 +321,12 @@ void spo_proc()
             MB_buf[2]=bw;
             MB_buf[1]=sw;
             MB_buf[0]=gw;
+            if(nofinger_cnt == 1)
+            	{
+            	XYMB[0] = 0;
+				XYMB[1] = 0;
 
+			}
             //Send_char1(0x68);	  //串口发送字头
             //  Send_char1(XY);		//串口发送血氧
             //  Send_char1(MB);		//串口发送脉搏

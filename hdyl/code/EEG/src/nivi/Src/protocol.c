@@ -340,7 +340,7 @@ static void protocol_wave_send_process(void)
         return;
     }
     uint32_t len;
-    uint8_t i=0;
+    uint8_t i=0,j;
     static uint8_t buffer[WAVE_PACKET_SIZE * PARAMS_SIZE + 2];
     MISCDATA miscdata;
     uint8_t *pdata = &buffer[0];
@@ -353,28 +353,31 @@ static void protocol_wave_send_process(void)
         {	
 
             __kfifo_out(&ecgfifo, &miscdata, 1);
-		
-            *pdata++ = miscdata.data[0];
-            *pdata++ = miscdata.data[1];
-            *pdata++ = miscdata.data[2];
-            *pdata++ = miscdata.data[3];
-            *pdata++ = miscdata.data[4];
-            *pdata++ = miscdata.data[5];
-            *pdata++ = miscdata.data[6];
-            *pdata++ = miscdata.data[7];
-            *pdata++ = miscdata.data[8];
-            *pdata++ = miscdata.data[9];
-            *pdata++ = miscdata.data[10];
-            *pdata++ = miscdata.data[11];
-            *pdata++ = miscdata.data[12];
-            *pdata++ = miscdata.data[13];
-            *pdata++ = miscdata.data[14];
-            *pdata++ = miscdata.data[15];
-            *pdata++ = miscdata.data[16];
-            *pdata++ = miscdata.data[17];
-            *pdata++ = miscdata.data[18];
-            *pdata++ = miscdata.data[19];
-            *pdata++ = miscdata.data[20];					
+		        for(j=0;j<sizeof(miscdata);j++)
+					{
+					*pdata++ = miscdata.data[j];
+					}
+//            *pdata++ = miscdata.data[0];
+//            *pdata++ = miscdata.data[1];
+//            *pdata++ = miscdata.data[2];
+//            *pdata++ = miscdata.data[3];
+//            *pdata++ = miscdata.data[4];
+//            *pdata++ = miscdata.data[5];
+//            *pdata++ = miscdata.data[6];
+//            *pdata++ = miscdata.data[7];
+//            *pdata++ = miscdata.data[8];
+//            *pdata++ = miscdata.data[9];
+//            *pdata++ = miscdata.data[10];
+//            *pdata++ = miscdata.data[11];
+//            *pdata++ = miscdata.data[12];
+//            *pdata++ = miscdata.data[13];
+//            *pdata++ = miscdata.data[14];
+//            *pdata++ = miscdata.data[15];
+//            *pdata++ = miscdata.data[16];
+//            *pdata++ = miscdata.data[17];
+//            *pdata++ = miscdata.data[18];
+//            *pdata++ = miscdata.data[19];
+//            *pdata++ = miscdata.data[20];					
         }
         protocol_data_send(buffer, pdata - buffer, 2);
     }
