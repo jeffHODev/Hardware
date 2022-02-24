@@ -55,7 +55,7 @@ extern	int master_disconnect_connhandle;
 
 extern	int master_auto_connect;
 extern	int user_manual_pairing;
-#define BUTTON_LONG_TIME   300
+#define BUTTON_LONG_TIME   500
 #define BUTTON_FILTER_TIME  5
 #define KEY_START_HOLD   1
 #define KEY_START_DOWN   2
@@ -160,7 +160,7 @@ void ui_proc(void);
 measure_stru *getmeasrue(void);
 void init_measure(void);
 void cal_rx_time(void);
-
+void led_mode_set(u8 status);
 
 
 

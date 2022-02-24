@@ -964,7 +964,7 @@ void ui_process()
    static u32 unpair_tick=0;
 	if(getmeasrue()->power_status == ON)
 
-	{
+	{ //printf("on2\n");
 	    send_test();
 		if(con_stare&&clock_time_exceed(unpair_tick, 2000*1000))
 		{
@@ -978,8 +978,9 @@ void ui_process()
 	else
 	{
 		#if ROLE == MASTER
-			cpu_set_gpio_wakeup (KB, Level_High, 1);
-			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+		  // printf("off2\n");
+			//cpu_set_gpio_wakeup (KB, Level_High, 1);
+			//cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
 		#else
 		   cpu_set_gpio_wakeup (KB, Level_High, 1);
 			blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE);

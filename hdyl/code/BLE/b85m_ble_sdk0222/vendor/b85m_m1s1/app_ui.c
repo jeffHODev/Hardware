@@ -304,29 +304,31 @@ void proc_keyboard (u8 e, u8 *p, int n)
 
 #if ROLE == MASTER
     static u32 key_delay_tick,key_time_start;
-    if(clock_time_exceed(keyScanTick, 10 * 1000))//10ms扫描一次
+    if(clock_time_exceed(key_delay_tick, 10 * 1000))//10ms扫描一次
     {
         key_delay_tick = clock_time();
         //
         // START按键按下
-        if(gpio_read(KB)==1)											  // SET按键按下
+
+        if(gpio_read(KB))											  // SET按键按下
         {
 
 
-            if(key_time_start++>BUTTON_FILTER_TIME) 	 // 按键通过滤波检测
+            if(key_time_start++>=BUTTON_FILTER_TIME) 	 // 按键通过滤波检测
             {
 
-                printf("kd\n");
+               // printf("kd\n");
+            	if(measure_usr.key_down_flag == 0)
                 measure_usr.key_down_flag = 1;
             }
 
-            if(key_time_start++>BUTTON_LONG_TIME)		  // 按键通过滤波检测
+            if(key_time_start++>=BUTTON_LONG_TIME)		  // 按键通过滤波检测
             {
                 if(measure_usr.key_down_flag == 1)
                 {
-                    printf("kh\n");
+                   // printf("kh\n");
                     measure_usr.key_update=1;
-                    key_time_start = 0;
+                    key_time_start = BUTTON_LONG_TIME;
                     measure_usr.key_down_flag = 2;
                     measure_usr.key = KEY_START_HOLD;
                 }
@@ -350,6 +352,7 @@ void proc_keyboard (u8 e, u8 *p, int n)
             }
 
             key_time_start = 0;
+            measure_usr.key_down_flag = 0;
         }
 
     }
@@ -373,18 +376,21 @@ void key_proc()
             if(measure_usr.power_status == ON)
             {
                 measure_usr.power_status =OFF;
+                printf("off\n");
 				gpio_write(GPIO_LED_RED,1);
                 //power sleep
-                blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
+               // blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
 				#if ROLE == MASTER
                 cpu_set_gpio_wakeup (KB, Level_High, 1);
-                cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+                cpu_sleep_wakeup(DEEPSLEEP_MODE, PM_WAKEUP_PAD, 0);  //deepsleep
 				#endif
             }
             else
             {
+            	printf("on\n");
                 measure_usr.power_status =ON;
-				gpio_write(GPIO_LED_RED,0);
+                led_mode_set(LED_NORMAL);
+				//gpio_write(GPIO_LED_RED,0);
                 //power on
             }
 
@@ -400,14 +406,14 @@ void key_proc()
             else
             {
                 if(master_pairing_enable == 0)
-                {
+                {printf("on33\n");
                     master_pairing_enable = 1;
                     master_unpair_enable = 0;
                     led_mode_set(LED_PAIR);
 
                 }
                 else
-                {
+                {printf("on44\n");
                     master_pairing_enable = 0;
                     master_unpair_enable = 1;
                     led_mode_set(LED_UNPAIR);
@@ -554,7 +560,7 @@ void user_gpio_init()
     gpio_set_func(KB,AS_GPIO);
     gpio_set_output_en(KB, 0); 			//enable output
     gpio_set_input_en(KB,1);				//disable input
-    gpio_setup_up_down_resistor(KB, PM_PIN_UP_DOWN_FLOAT);
+    gpio_setup_up_down_resistor(KB, PM_PIN_PULLDOWN_100K);
     gpio_set_interrupt(KB,POL_RISING);
 
     // gpio_write(KB,1);			//输入失能
@@ -732,13 +738,13 @@ void led_mode_set(u8 status)
     {
     case LED_PAIR:
     {
-        led_usr.tick = 300000;
+        led_usr.tick = 100000;
         led_usr.status = ON;
     }
     break;
     case LED_UNPAIR:
     {
-        led_usr.tick = 2000000;
+        led_usr.tick = 500000;
         led_usr.status = ON;
     }
     break;
@@ -746,6 +752,7 @@ void led_mode_set(u8 status)
     {
         led_usr.tick = 1000000;
         led_usr.status = ON;
+
     }
     break;
     }
@@ -753,16 +760,18 @@ void led_mode_set(u8 status)
 void led_ctrl()
 {
     static u32 led_tick;
-    if(led_usr.status == 1)
+    if(led_usr.status == ON)
     {
         if(clock_time_exceed(led_tick, led_usr.tick))
         {
+        	// printf("lon\n");
             gpio_toggle(GPIO_LED_RED);
             led_tick= clock_time();
         }
     }
     else
     {
+
         gpio_write(GPIO_LED_RED,1);
         led_tick= clock_time();
 
