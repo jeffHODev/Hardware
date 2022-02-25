@@ -67,8 +67,9 @@ uint32_t test = 0;
 int main(void)
 {
     /* USER CODE BEGIN 1 */
-    rcu_config();test = 1;
-    systick_config();test = 2;
+    rcu_config(); 
+	test = 1;
+    systick_config();test = 2;delay_ms(2000);
     gpio_config();test = 3;
 	
    
@@ -79,7 +80,7 @@ int main(void)
     dma_config();  test = 8;
 	 adc_config();test = 9;
     timer_config(TIMER3, 1);test = 10;
-	  delay_ms(2000);
+	 
    //ADS129x_ReInit(0);
 	test = 11;
 	 app_init();

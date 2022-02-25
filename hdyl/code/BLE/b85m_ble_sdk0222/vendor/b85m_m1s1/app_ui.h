@@ -55,7 +55,7 @@ extern	int master_disconnect_connhandle;
 
 extern	int master_auto_connect;
 extern	int user_manual_pairing;
-#define BUTTON_LONG_TIME   500
+#define BUTTON_LONG_TIME   300
 #define BUTTON_FILTER_TIME  5
 #define KEY_START_HOLD   1
 #define KEY_START_DOWN   2
@@ -72,7 +72,7 @@ extern	int user_manual_pairing;
 #define DEBUG_BLE 0
 #define ACK_TIME_OUT     500*1000*1000
 #define SLEEP_TIME_OUT   1000*600*1000
-#define TIMEOUT_PERIOD 40*1000
+#define TIMEOUT_PERIOD 2000*1000
 #define M_ON_PERIOD 300*1000
 #define M_OFF_PERIOD 600*1000
 #define PKT_HEAD  0xfe
@@ -97,6 +97,7 @@ typedef struct
 	u8  power_status;
 	u32 rx_time;
 	u8 mac[6];
+	u8 ack_sig;
 }measure_stru;
 typedef struct
 {

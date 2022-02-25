@@ -134,7 +134,7 @@ int app_le_adv_report_event_handle(u8 *p)
     u8 advdata[31];
 	memcpy(advdata,pa->data,pa->len);
 	u8 name[9] = {'m','1','s','1','_', 'd','e','m','o'};
-	if(memcmp(pa->mac,&mac,6)==0){
+	if(memcmp(&pa->mac[3],&mac[3],3)==0){
 		//printf("mac2\n");
 		user_manual_pairing=1;
 	}
@@ -146,7 +146,9 @@ int app_le_adv_report_event_handle(u8 *p)
 	#else
 	//manual pairing methods 1: key press triggers
 	user_manual_pairing = master_pairing_enable && (rssi > -56);  //button trigger pairing(RSSI threshold, short distance)
-    #endif
+    if(memcmp(&pa->mac[3],&mac[3],3)!=0)
+		user_manual_pairing = 0;
+	#endif
 	#if (BLE_MASTER_SMP_ENABLE)
 		master_auto_connect = blc_smp_searchBondingSlaveDevice_by_PeerMacAddress(pa->adr_type, pa->mac);
 	#else
@@ -883,23 +885,26 @@ extern u8 tx_buf[8];
 void send_test()
 {
 	if(con_stare&&clock_time_exceed(t_count, 1000*1000))
-	{
+	{//printf("tst");
 #if DEBUG_BLE == 0
+
 		if(master_pairing_enable==1)
 		{
+			printf("p2");
 		    //gpio_toggle(GPIO_LED_RED);
 			pkt_pack(0x5b);
 			blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
 		}
 		else if(master_unpair_enable==1)
 		{
+			printf("up");
 		   // gpio_toggle(GPIO_LED_RED);
 			pkt_pack(0x5c);
 			blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
 		}
 #else
          //gpio_toggle(GPIO_LED_RED);
-		blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H, "123",3);
+blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H, "123",3);
 #endif
 		t_count= clock_time();
 	}
@@ -927,7 +932,7 @@ void app_process_power_management(void)
 			    if(master_pairing_enable ==0&&master_unpair_enable ==0)
 			    	{
 					cpu_set_gpio_wakeup (KB, Level_High, 1);
-					cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+					cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
 					//blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
 				}
 			}
@@ -937,8 +942,12 @@ void app_process_power_management(void)
 		if(clock_time_exceed(power_tick, CON_TIME_OUT))
 		{
 		   power_tick = clock_time();
-		   if(GetBle_status()==0)
-		   blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
+		   if(GetBle_status()==0||getmeasrue()->ack_sig==0)
+		   	{
+		      blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
+
+		   }
+		    //blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
 
 		}
 
@@ -946,9 +955,9 @@ void app_process_power_management(void)
 		{
 			u8 mac[6]={0xc2,0xb3,0x1a,0x38,0xc1,0xa4};
 		    power_tick = clock_time();
-			if(memcmp(&(getmeasrue()->mac[3]),&mac,3)!=0)
+			if(memcmp(&(getmeasrue()->mac[3]),&mac[3],3)!=0)
 			{
-				blc_ll_disconnect(master_unpair_enable, HCI_ERR_REMOTE_USER_TERM_CONN);
+				blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
 			}
 		}
 		else
@@ -965,26 +974,37 @@ void ui_process()
 	if(getmeasrue()->power_status == ON)
 
 	{ //printf("on2\n");
-	    send_test();
+	    #if ROLE == MASTER
+		send_test();
+
 		if(con_stare&&clock_time_exceed(unpair_tick, 2000*1000))
 		{
 		    unpair_tick = clock_time();
 			proc_master_role_unpair();
 
 		}
+	#endif
+		//printf("nor");
 	    ui_proc();
        //send_test();
 	}
 	else
 	{
 		#if ROLE == MASTER
-		  // printf("off2\n");
+		  if(gpio_read(KB)==0)
+		  {
+			  getmeasrue()->power_status = ON;
+		   printf("off2\n");
 			//cpu_set_gpio_wakeup (KB, Level_High, 1);
-			//cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+			//cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE, PM_WAKEUP_PAD, 0);  //deepsleep
+		  }
+
+
+
 		#else
-		   cpu_set_gpio_wakeup (KB, Level_High, 1);
-			blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE);
-			cpu_sleep_wakeup(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD|PM_WAKEUP_TIMER, clock_time()+1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
+		   // cpu_set_gpio_wakeup (KB, Level_High, 1);
+			//blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE);
+			//cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE_RET_SRAM_LOW32K, //|PM_WAKEUP_TIMER, clock_time()+1000*CLOCK_16M_SYS_TIMER_CLK_1MS);  //deepsleep
 		#endif
 
 	}
@@ -1016,13 +1036,11 @@ int main_idle_loop (void)
 
      #if ROLE== MASTER
 	 key_proc();//Ö÷»ú°´¼üÉ¨Ãè
-	 #else
-	 getmeasrue()->power_status = ON;
 	 #endif
      ui_process();
      
 	////////////////////////////////////// PM entry /////////////////////////////////
-	app_process_power_management();
+	//app_process_power_management();
 
 	return 0; //must return 0 due to SDP flow
 }
@@ -1056,6 +1074,7 @@ void io_test()
 _attribute_no_inline_ void main_loop (void)
 {
 	main_idle_loop ();
+	
 	//io_test();
 	#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
 		simple_sdp_loop ();

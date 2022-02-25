@@ -424,8 +424,12 @@ int spp_onReceiveData(u16 connHandle, ble_rf_packet_att_write_t *p)
 
 
             u16 calCRC,resCRC;
+
+			//printf("sx");
+
            // printf("rx\n");
            gpio_toggle(GPIO_LED_RED);
+		   //blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, "456",3);
             if(data[0]!=PKT_HEAD)
                 return ;
             if(len<(data[2]+2))
@@ -443,7 +447,7 @@ int spp_onReceiveData(u16 connHandle, ble_rf_packet_att_write_t *p)
             	}
         //if(memcmp(data,"123",3)==0)
    
-            //blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, "456",3);
+
 		//for(u8 i=0; i<len; i++)
 		{
 			;//printf("%x",data[i]);

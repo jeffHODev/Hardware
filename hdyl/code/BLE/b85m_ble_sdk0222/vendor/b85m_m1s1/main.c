@@ -65,10 +65,11 @@ _attribute_ram_code_ void irq_handler(void)
     {
         reg_irq_src |= FLD_IRQ_GPIO_RISC0_EN; // clear the relevant irq
         #if ROLE == MASTER
-        cal_rx_time();
+
         if(gpio_read(ECHO)==0)  // press key with low level to flash light
         {
-
+			cal_rx_time();
+		  // sensor_power(0);
 
            // gpio_toggle(GPIO_LED_RED);
             measure_stop();
@@ -88,7 +89,7 @@ _attribute_ram_code_ void irq_handler(void)
             //measure_start();
 
         }
-         printf("key\n");
+         //printf("key\n");
     }
 
     DBG_CHN15_LOW;
@@ -141,7 +142,7 @@ _attribute_ram_code_ int main(void)
 	init_measure();
 	printf("init sdk\n");
     u32 tick_tmp;
-    gpio_write(GPIO_LED_RED,1);
+    //gpio_write(GPIO_LED_RED,1);
     while(1)
     {
 
