@@ -111,11 +111,11 @@ void Send_UART3(void)
         /////////////////////////////////////////////////////////////////
         //printf("开启串口及DMA中断\r\n");
         //uart1_init(460800);//串口初始化 HC05串口
-        usart_baudrate_set(((UART3)), 460800);
-        dma_periph_address_config(DMA0, DMA_CH3, (uint32_t)USART_DATA(UART3));
-        dma_memory_address_config(DMA0, DMA_CH3, 0, (uint32_t)&data_to_send);
-        dma_transfer_number_config(DMA0, DMA_CH3, 11);
-        dma_channel_disable(DMA0, DMA_CH3);
+      //  usart_baudrate_set(((UART3)), 460800);
+       // dma_periph_address_config(DMA0, DMA_CH3, (uint32_t)USART_DATA(UART3));
+        //dma_memory_address_config(DMA0, DMA_CH3, 0, (uint32_t)&data_to_send);
+       // dma_transfer_number_config(DMA0, DMA_CH3, 11);
+       // dma_channel_disable(DMA0, DMA_CH3);
         usart_dma_transmit_config(UART3, USART_DENT_DISABLE);
         //	DMA_Config(DMA1_Channel4,(u32)&USART1->DR,(u32)data_to_send);
         //UART1_DMA_TX_NVIC_Config(1);//开启串口 DMA中断
@@ -269,8 +269,8 @@ void app(void)
             {
                 if(*getstate()!=SEND_BULE)
                 {
-                    BleConSeting(DIS_CONNECT);
-                    power_sleep();
+                    //BleConSeting(DIS_CONNECT);
+                    //power_sleep();
                 }
                 else
                     powerSleepTick = HAL_GetTick();
@@ -291,6 +291,12 @@ void app(void)
                 Send_UART3();
 
             }
+			else if(*getstate()==SEND_UART)
+				{
+				power_manage(5,ON);
+			sensor_proc();
+
+			}
             else
             {
                 nvic_irq_disable(EXTI1_IRQn);

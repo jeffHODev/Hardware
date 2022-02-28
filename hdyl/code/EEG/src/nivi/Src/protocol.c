@@ -196,26 +196,30 @@ static void protocol_parse_process(void)
         {
         case 0x02://start nibp
             protocol_ack_send(acksn, 0, 0);
-            nibp_if_cmd(0x01);
+            //nibp_if_cmd(0x01);
+            *getstate()=SEND_UART;
+		    nibp_if_speccmd(0x20,&buffer[5],0);
             break;
         case 0x03:
             protocol_ack_send(acksn, 0, 0);
-            nibp_if_stop();//stop nibp
+			nibp_if_speccmd(0x79,&buffer[5],2);
+            //nibp_if_stop();//stop nibp
             break;
         case 0x05:
         {
-            uint8_t buffer[2];
-            buffer[0] = 0x05;
+            uint8_t buffer2[2];
+            buffer2[0] = 0x05;
             //buffer[1] = MMR_get_pressure() / 100;
            // protocol_ack_send(acksn, buffer, 2);
         }
         break;
-        case 0x06:
+        case 0x06://get cuttoff pressure
         {
-            uint8_t buffer[2];
-            buffer[0] = 0x06;
-            buffer[1] = nibp_if_getpressure();
-            protocol_ack_send(acksn, buffer, 2);
+            uint8_t buffer2[2];
+            buffer2[0] = 0x06;
+            buffer2[1] = nibp_if_getpressure();
+			      nibp_if_speccmd(0x79,&buffer[5],2);
+           // protocol_ack_send(acksn, buffer, 2);
         }
         break;
         case 0x07:
@@ -229,22 +233,40 @@ static void protocol_parse_process(void)
             *getstate()=SEND_WIFI;
             ecg_enable(0);
             break;
-        case 0x09:
-           // protocol_ack_send(acksn, 0, 0);
-           // nibp_tst_start(buffer[5]);
+        case 0x09://设置初始压力
+            protocol_ack_send(acksn, 0, 0);
+            //nibp_tst_start(buffer[5]);
+            nibp_if_speccmd(0x17,&buffer[5],2);
             break;
-        case 0x0A:
-           // protocol_ack_send(acksn, 0, 0);
-           // nibp_tst_stop();
+        case 0x0A://停止升压
+            protocol_ack_send(acksn, 0, 0);
+            //nibp_tst_stop();
+            nibp_if_speccmd(0x0c,&buffer[5],3);
             break;
-        case 0x0B:
-          //  protocol_ack_send(acksn, 0, 0);
+        case 0x0B://无
+            //protocol_ack_send(acksn, 0, 0);
            // nibp_tst_valve_set(buffer[5]);
+            protocol_ack_send(acksn, 0, 0);
+            //nibp_tst_stop();
+            nibp_if_speccmd(0x0c,&buffer[5],3);
+
             break;
-        case 0x0C:
+        case 0x0C://无
           //  protocol_ack_send(acksn, 0, 0);
-          //  nibp_tst_motor_set(buffer[5] << 8);
+            //nibp_tst_motor_set(buffer[5] << 8);
+            protocol_ack_send(acksn, 0, 0);
+            //nibp_tst_stop();
+            nibp_if_speccmd(0x0c,&buffer[5],3);
+
             break;
+		case 0x66:
+		  {
+		   
+		  // nibp_if_cmd_SPEC(0x66,&buffer[5]);
+		
+		  }
+
+		
         }
     }
     else//ack
@@ -261,7 +283,7 @@ static void protocol_parse_process(void)
 
 }
 
-#define WAVE_PACKET_SIZE  (100)
+#define WAVE_PACKET_SIZE  (3)
 
 static uint8_t protocol_packet_num(void)
 {
@@ -298,6 +320,9 @@ static void protocol_send_process(void)
 {
     if(packet_ack_len != 0 &&  usart_flag_get(UART3, USART_FLAG_BSY) != SET)
     {
+			  //packet_ack_buf[0] =0x6a;
+//usart_dma_transmit_config(UART3, USART_DENT_DISABLE);
+      //  usart_dma_transmit_config(UART3, USART_DENT_DISABLE);
         uart3_dma_tx(packet_ack_buf, packet_ack_len);
         packet_ack_len = 0;
         return;

@@ -217,10 +217,26 @@ void UART3_IRQHandler(void)
     }
 
 }
-void USART2_IRQHandler(void)
+void DMA0_Channel6_IRQHandler(void)
+{
+   
+	    if(dma_interrupt_flag_get(DMA0, DMA_CH6, DMA_INT_FLAG_FTF))
+    {
+		dma_interrupt_flag_clear(DMA0, DMA_CH6, DMA_INT_FLAG_FTF);
+
+        ;//g_transfer_complete = SET;
+    }
+}
+void USART1_IRQHandler(void)
 {
 
+    if(RESET != usart_interrupt_flag_get(USART1, USART_INT_FLAG_TC)) //空闲中断
+    {
+        usart_interrupt_flag_clear(USART1,USART_INT_FLAG_TC);	/* 清除空闲中断标志位 */
 
+        //HAL_UART_TxCpltCallback();
+        // RS485_RxCpltCallback();						/* 清除接收完成标志位 */
+    }
 
 
 }

@@ -231,16 +231,18 @@ void SendStr(uint8_t *str)
 void uart3_dma_tx(uint32_t *pb,uint32_t len)
 {
     dma_single_data_parameter_struct dma_single_data_parameter;
+  uint8_t *pbuf;
 
-   // rcu_periph_clock_enable(RCU_DMA0);
-   // dma_deinit(DMA0, DMA_CH4);
-   // while(RESET == dma_flag_get(DMA0, DMA_CH4, DMA_FLAG_FTF));
-	
+  
+
+
+   
 	dma_flag_clear(DMA0,DMA_CH4,DMA_INTF_FTFIF);
 	NVIC_EnableIRQ(DMA0_Channel4_IRQn);
+	dma_interrupt_flag_clear(DMA0, DMA_CH4, DMA_INT_FLAG_FTF);
 	dma_channel_disable(DMA0, DMA_CH4);
-	dma_memory_address_config(DMA0, DMA_CH4,DMA_MEMORY_0, (uint32_t *)(pb)); //设置要发送数据的内存地址
-	dma_transfer_number_config(DMA0, DMA_CH4,  len+2);					   //一共发多少个数据
+	dma_memory_address_config(DMA0, DMA_CH4,DMA_MEMORY_0, &pb[0]); //设置要发送数据的内存地址
+	dma_transfer_number_config(DMA0, DMA_CH4,  len);					   //一共发多少个数据
 	//dma_transfer_number_config(DMA0, DMA_CH4,  2);
 	
 	dma_channel_enable(DMA0, DMA_CH4);
@@ -254,27 +256,21 @@ void uart1_dma_tx(uint32_t *pb,uint32_t len)
     dma_single_data_parameter_struct dma_single_data_parameter;
 
     rcu_periph_clock_enable(RCU_DMA0);
-    dma_deinit(DMA0, DMA_CH6);
-    while(RESET == dma_flag_get(DMA0, DMA_CH6, DMA_FLAG_FTF));
-    dma_single_data_parameter.direction = DMA_MEMORY_TO_PERIPH;
-    dma_single_data_parameter.memory0_addr = (uint32_t)pb;
-    dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
-    dma_single_data_parameter.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
-    dma_single_data_parameter.number = len;
-    dma_single_data_parameter.periph_addr = (uint32_t)&USART_DATA(USART1);
-    dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
-    dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
-    dma_single_data_mode_init(DMA0, DMA_CH6, &dma_single_data_parameter);
-    /* configure DMA mode */
-    dma_circulation_disable(DMA0, DMA_CH6);
-    dma_channel_subperipheral_select(DMA0, DMA_CH6, DMA_SUBPERI4);
-    /* enable DMA channel7 */
-    dma_channel_enable(DMA0, DMA_CH6);
 
-    /* USART DMA enable for transmission and reception */
-    usart_dma_transmit_config(USART1, USART_DENT_ENABLE);
     /* wait DMA Channel transfer complete */
     //
+   
+	dma_flag_clear(DMA0,DMA_CH6,DMA_INTF_FTFIF);
+	NVIC_EnableIRQ(DMA0_Channel6_IRQn);
+	dma_interrupt_flag_clear(DMA0, DMA_CH6, DMA_INT_FLAG_FTF);
+	dma_channel_disable(DMA0, DMA_CH6);
+	dma_memory_address_config(DMA0, DMA_CH6,DMA_MEMORY_0, &pb[0]); //设置要发送数据的内存地址
+	dma_transfer_number_config(DMA0, DMA_CH6,  len);					   //一共发多少个数据
+	//dma_transfer_number_config(DMA0, DMA_CH4,  2);
+	
+	dma_channel_enable(DMA0, DMA_CH6);
+	/* USART DMA enable for transmission and reception */
+	usart_dma_transmit_config(USART1, USART_DENT_ENABLE); //使能串口DMA发送
 
 }
 void power_sleep(void)

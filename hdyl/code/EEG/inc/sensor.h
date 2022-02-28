@@ -15,6 +15,7 @@ typedef struct
 	uint16_t vbat;	
 	uint16_t temperature;
 	unsigned char key_status;
+	unsigned char update;
 }sensors_stru;
 sensors_stru *getSensor(void);
 void sensor_proc(void);

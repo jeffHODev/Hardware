@@ -211,6 +211,7 @@ void EXTI10_15_IRQHandler(void)
 				//#if ADS_CHANNEL <=8
 		            ads1299NoSet(2);
 				//#endif
+			getSensor()->update =1;
 
             getSensor()->chip_num =2;
 
@@ -266,7 +267,7 @@ void EXTI1_IRQHandler(void)
     {
        // if(ads_num == 2)
         {
-             getSensor()->chip_num =1;
+             getSensor()->update =1;
            // #if ADS_CHANNEL <=8
             ads1299NoSet(1);
 			//#endif

@@ -160,6 +160,8 @@ void HAL_TIM_PeriodElapsedCallback()
     uint8_t i=0,j;
     MISCDATA miscdata;
     uint32_t *buffer;
+	if( getSensor()->update ==1)
+	{
 // uint8_t buffer[3];
     //error_flag =ecg_read_reg(0x19);
     if(error_flag ==0)
@@ -236,7 +238,9 @@ void HAL_TIM_PeriodElapsedCallback()
     miscdata.data[i++] = (uint8_t)(getSensor()->vbat);//br;
     __kfifo_in(&ecgfifo, &miscdata, 1);//
     adc_start();
-    //HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcbuf, 3);
+    //HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcbuf, 3);	
+	}
+
 }
 
 

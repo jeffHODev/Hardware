@@ -20,11 +20,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "bsp.h"
-#include "myQueue.h"
-#include "usart.h"
+#include "app_ble.h"
 #include "ADS129x.h"
-
-
+#include "sys.h"
+#include "ecg.h"
+#include "protocol.h"
+#include "mmr901mx.h"
+#include "nibp_if.h"
+#include "ecg.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -39,8 +42,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 /* USER CODE END PD */
-QueueInfo *UART_Queue;//队列缓冲区指针
-extern u8 UART3_DMA_Finish;
+
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 void rcu_config(void);
@@ -49,119 +51,13 @@ void nvic_config(void);
 void dma_config(void);
 void adc_config(void);
 void spi_config(void);
+void uart0_config(void);
 void uart1_config(void);
 void uart3_config(void);
 
-//主串口发送
-void Send_UART3(void)
-{
-		u8 i,sum,res;
-		//printf("主串口发送\r\n");
-		//TIM_Cmd(TIM4, DISABLE); 
-/////////////////////////////////////////////////////////////////
-		//初始化129X
-	#if ADS129xDEVICE == ADS1299
-			ADS129x_REG_BUF[1]=0x95; //500采样率
-	#elif ADS129xDEVICE == ADS1298
-			ADS129x_REG_BUF[1]=0x86; //500采样率
-	#endif		
-		ADS129x_ReInit(0);//初始化1299	
-/////////////////////////////////////////////////////////////////
-		//Main_printf("内存当前占用 %d\r\n",mem_perused());
-		UART_Queue=queue_init(UART_QUEUE_SIZE,UART_QUEUE_LENGTH) ;//循环队列初始化大小
-		if(UART_Queue != NULL)
-				;//Main_printf("内存申请成功，当前占用 %d\r\n",mem_perused());
-		else
-				;//Main_printf("内存申请失败\r\n");
-/////////////////////////////////////////////////////////////////			
-		//printf("开启串口及DMA中断\r\n");
-		//uart1_init(460800);//串口初始化 HC05串口	
-		 usart_baudrate_set(((UART3)), 460800);
-		 dma_periph_address_config(DMA0, DMA_CH3, (uint32_t)USART_DATA(UART3));
-		dma_memory_address_config(DMA0, DMA_CH3, 0, (uint32_t)&data_to_send);
-		dma_transfer_number_config(DMA0, DMA_CH3, 11);
-	  dma_channel_disable(DMA0, DMA_CH3);
-	   usart_dma_transmit_config(UART3, USART_DENT_DISABLE);
 
-
-
-
-
-
-
-
-
-
-	   
-	//	DMA_Config(DMA1_Channel4,(u32)&USART1->DR,(u32)data_to_send);		
-		//UART1_DMA_TX_NVIC_Config(1);//开启串口 DMA中断
-	//	USART_DMACmd(USART1,USART_DMAReq_Tx,ENABLE); //DMA
-		UART3_DMA_Finish=1;		
-/////////////////////////////////////////////////////////////////			
-		//printf("开始发送数据\r\n");	
-		data_to_send[0]=0xAA;
-		data_to_send[1]=0xAA;
-		data_to_send[2]=0xF1;	
-		data_to_send[3]=33;	//发送个8通道的数据 + 1字节丢包测试
-//		LED_1=LED_ON;
-//		LED_2=LED_ON;
-//		delay_s(1);
-//		LED_1=LED_OFF;
-//		LED_2=LED_OFF;
-//		KEY_TYPE=0;			
-		//TIM_Cmd(TIM4, ENABLE); 
-		//EXTI->IMR |= ADS129X_DRDY_LINE;//开DRDY中断	
-		nvic_irq_enable(EXTI1_IRQn, 2U, 0U);   
-        nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
-/////////////////////////////////////////////////////////////////
-		while(work_state==SEND_UART)
-		{
-			//	Key_Scan();
-			//	Change_Mode();			
-
-				if(UART3_DMA_Finish==1)
-				{				
-						if(serch_queue_data(UART_Queue))//队列有数据
-						{
-								//从队列中取出数据并处理
-								for(i=0;i<8;i++)//处理8个通道的数据																
-								{
-										cannle[i] = *(*(UART_Queue->databuf + UART_Queue->front)+0+i*3)<<16 
-															| *(*(UART_Queue->databuf + UART_Queue->front)+1+i*3)<<8 
-															| *(*(UART_Queue->databuf + UART_Queue->front)+2+i*3);//获取原始数据
-										p_Temp[i] = get_volt(cannle[i]);	//转成32位有符号数		
-										cannle[i] = p_Temp[i];//赋值给无符号数，准备逻辑右移
-										data_to_send[4+i*4]=cannle[i]>>24;	//25-32位
-										data_to_send[5+i*4]=cannle[i]>>16;  //17-24
-										data_to_send[6+i*4]=cannle[i]>>8;		//9-16
-										data_to_send[7+i*4]=cannle[i];			//1-8												
-								}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-								//递增测试信号
-								data_to_send[ (ADS129X_USE_CANNLE+1)*4 ]=res++;//0-255
-								sum=0;
-								for(i=0;i< (ADS129X_USE_CANNLE+1)*4 +1 ;i++)
-										sum += data_to_send[i];										
-								data_to_send[(ADS129X_USE_CANNLE+1)*4 +1] = sum;	//校验和	
-								
-								dma_transfer_number_config(DMA0, DMA_CH3, (ADS129X_USE_CANNLE+1)*4 +2);
-							    dma_channel_enable(DMA0, DMA_CH3);
-	  							 usart_dma_transmit_config(UART3, USART_DENT_ENABLE);
-								//DMA_Enable(DMA1_Channel4,(ADS129X_USE_CANNLE+1)*4 +2);//开启DMA
-								UART3_DMA_Finish=0;	
-								UART_Queue->front = (UART_Queue->front+1) % UART_Queue->capacity;//取数据，队头自增，存数据，队尾自增
-						}
-				}			
-		}	
-		    nvic_irq_disable(EXTI1_IRQn);   
-        nvic_irq_disable(EXTI10_15_IRQn);
-
-
-		queue_Deinit(UART_Queue);//循环队列注销
-		//Main_printf("内存当前占用 %d\r\n",mem_perused());
-}
-
-
+extern  uint8_t buffer_rx2[16];
+uint32_t test = 0;
 /* USER CODE END 0 */
 
 /**
@@ -171,19 +67,34 @@ void Send_UART3(void)
 int main(void)
 {
     /* USER CODE BEGIN 1 */
-    rcu_config();
-	systick_config();
-	gpio_config();
-	adc_config();
-	spi_config();
-	dma_config();
-	ADS129x_ReInit(0);
-
+    rcu_config(); 
+	test = 1;
+    systick_config();test = 2;
+    gpio_config();delay_ms(2000);test = 3;
+	
+   
+    spi_config();test = 4;
+	uart0_config();test = 5;
+	uart1_config();test = 6;
+	uart3_config();	test = 7;
+	 nibp_if_init();
+    dma_config();  test = 8;
+	 adc_config();test = 9;
+    timer_config(TIMER3, 1);test = 10;
+	 
+   //ADS129x_ReInit(0);
+	test = 11;
+	 app_init();
+    protocol_init();
+    ecg_init();
+	  test = 12;
+//	MMR901MX_Init();
+   
     while (1)
     {
-
-
-
+     test = 12;
+     app();
+     test = 13;
         //usart_data_transmit(USART2, 0x5a);
     }
     /* USER CODE END 3 */
@@ -201,8 +112,10 @@ void rcu_config(void)
     rcu_periph_clock_enable(RCU_ADC0);
     /* enable DMA clock */
     rcu_periph_clock_enable(RCU_DMA1);
+	rcu_periph_clock_enable(RCU_DMA0);
     /* config ADC clock */
     adc_clock_config(ADC_ADCCK_PCLK2_DIV6);
+	  rcu_periph_clock_enable(RCU_SPI1);
 }
 void gpio_config(void)
 {
@@ -210,50 +123,8 @@ void gpio_config(void)
     /* enable the key clock */
     rcu_periph_clock_enable(RCU_SYSCFG);
 
-  //****************************ble wake up pin********************************************
-  gpio_mode_set(ADS129x_DRDY_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN,ADS129x_DRDY_Pin);
-  
-  /* enable and set key EXTI interrupt to the lowest priority */
- // nvic_irq_enable(EXTI1_IRQn, 2U, 0U);
-  
-  /* connect key EXTI line to key GPIO pin */
-  syscfg_exti_line_config(EXTI_SOURCE_GPIOB, EXTI_SOURCE_PIN1);
-  
-  /* configure key EXTI line */
-  exti_init(EXTI_1, EXTI_INTERRUPT, EXTI_TRIG_FALLING);
-  exti_interrupt_flag_clear(EXTI_1);
+   
 
-  gpio_mode_set(ADS129x_DRDY2_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN,ADS129x_DRDY2_Pin);
-  
-  /* enable and set key EXTI interrupt to the lowest priority */
- // nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
-  
-  /* connect key EXTI line to key GPIO pin */
-  syscfg_exti_line_config(EXTI_SOURCE_GPIOE, EXTI_SOURCE_PIN15);
-  
-  /* configure key EXTI line */
-  exti_init(EXTI_15, EXTI_INTERRUPT, EXTI_TRIG_FALLING);
-  exti_interrupt_flag_clear(EXTI_15);
-
-
-
-  //*******************************key pin *************************************
-    /* configure button pin as input */
-    gpio_mode_set(KEY1_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN,KEY1_Pin||KEY2_Pin);
-
-    /* enable and set key EXTI interrupt to the lowest priority */
-    nvic_irq_enable(EXTI5_9_IRQn, 2U, 0U);
-
-    /* connect key EXTI line to key GPIO pin */
-    syscfg_exti_line_config(EXTI_SOURCE_GPIOB, EXTI_SOURCE_PIN7||EXTI_SOURCE_PIN6);
-
-    /* configure key EXTI line */
-    exti_init(EXTI_6, EXTI_INTERRUPT, EXTI_TRIG_RISING);
-    exti_init(EXTI_7, EXTI_INTERRUPT, EXTI_TRIG_RISING);
-    exti_interrupt_flag_clear(EXTI_7);
-    exti_interrupt_flag_clear(EXTI_6);
-
-	
 
 
 
@@ -299,6 +170,9 @@ void gpio_config(void)
     gpio_mode_set(LED2_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,LED2_Pin);
     gpio_output_options_set(LED2_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,LED2_Pin);
 
+    gpio_mode_set(BLE_EN_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,BLE_EN_Pin);
+    gpio_output_options_set(BLE_EN_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,BLE_EN_Pin);
+
 
     gpio_mode_set(OUT1_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,OUT1_Pin);
     gpio_output_options_set(OUT1_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,OUT1_Pin);
@@ -327,6 +201,7 @@ void gpio_config(void)
     gpio_output_options_set(POW_EN_3V3_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,POW_EN_3V3_Pin);
 
 
+	gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, SET);
 
     gpio_bit_write(BDISC_GPIO_Port, BDISC_Pin, RESET);
     gpio_bit_write(BMOD_GPIO_Port, BMOD_Pin, RESET);
@@ -345,6 +220,7 @@ void gpio_config(void)
     gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, RESET);
     gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, RESET);
     gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, RESET);
+    gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, RESET);
 
 
     gpio_mode_set(SPEAK_GPIO_Port, GPIO_MODE_AF, GPIO_PUPD_NONE, SPEAK_Pin);
@@ -357,29 +233,123 @@ void gpio_config(void)
 
 
     gpio_mode_set(GPIOC, GPIO_MODE_ANALOG, GPIO_PUPD_NONE,GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_3|
-		         GPIO_PIN_4|GPIO_PIN_5);
+                  GPIO_PIN_4|GPIO_PIN_5);
     gpio_mode_set(GPIOA, GPIO_MODE_ANALOG, GPIO_PUPD_NONE,GPIO_PIN_4);
 
 
     /* SPI1 GPIO config */
-    gpio_af_set(GPIOB, GPIO_AF_5, GPIO_PIN_13 | GPIO_PIN_14 |GPIO_PIN_15);
-    gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_13 | GPIO_PIN_14 |GPIO_PIN_15);
-    gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,  GPIO_PIN_13 | GPIO_PIN_14 |GPIO_PIN_15);
+
+
+	    gpio_af_set(GPIOB, GPIO_AF_5,  GPIO_PIN_15 | GPIO_PIN_13 |GPIO_PIN_14);
+    gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_NONE,  GPIO_PIN_15 | GPIO_PIN_13 |GPIO_PIN_14);
+    gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_15 | GPIO_PIN_13 |GPIO_PIN_14);
+
+
+ //****************************ble wake up pin********************************************
+    gpio_mode_set(ADS129x_DRDY_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN,ADS129x_DRDY_Pin);
+
+    /* enable and set key EXTI interrupt to the lowest priority */
+// nvic_irq_enable(EXTI1_IRQn, 2U, 0U);
+
+    /* connect key EXTI line to key GPIO pin */
+    syscfg_exti_line_config(EXTI_SOURCE_GPIOB, EXTI_SOURCE_PIN1);
+
+    /* configure key EXTI line */
+    exti_init(EXTI_1, EXTI_INTERRUPT, EXTI_TRIG_FALLING);
+    exti_interrupt_flag_clear(EXTI_1);
+
+    gpio_mode_set(ADS129x_DRDY2_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN,ADS129x_DRDY2_Pin);
+
+    /* enable and set key EXTI interrupt to the lowest priority */
+// nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
+
+    /* connect key EXTI line to key GPIO pin */
+    syscfg_exti_line_config(EXTI_SOURCE_GPIOE, EXTI_SOURCE_PIN15);
+
+    /* configure key EXTI line */
+    exti_init(EXTI_15, EXTI_INTERRUPT, EXTI_TRIG_FALLING);
+    exti_interrupt_flag_clear(EXTI_15);
+
+
+
+    //*******************************key pin *************************************
+    /* configure button pin as input */
+    gpio_mode_set(KEY1_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN,KEY1_Pin||KEY2_Pin);
+
+    /* enable and set key EXTI interrupt to the lowest priority */
+    nvic_irq_enable(EXTI5_9_IRQn, 2U, 0U);
+
+    /* connect key EXTI line to key GPIO pin */
+    syscfg_exti_line_config(EXTI_SOURCE_GPIOB, EXTI_SOURCE_PIN7||EXTI_SOURCE_PIN6);
+
+    /* configure key EXTI line */
+    exti_init(EXTI_6, EXTI_INTERRUPT, EXTI_TRIG_RISING);
+    //exti_init(EXTI_7, EXTI_INTERRUPT, EXTI_TRIG_RISING);
+   // exti_interrupt_flag_clear(EXTI_7);
+    exti_interrupt_flag_clear(EXTI_6);
+
 
 
 }
+
+void timer_config(uint32_t timer_periph, uint32_t time_interval_ms) {
+    timer_parameter_struct timer_initpara;
+
+    switch(timer_periph){
+    case TIMER0:
+    	rcu_periph_clock_enable(RCU_TIMER0);
+    	break;
+    case TIMER1:
+        rcu_periph_clock_enable(RCU_TIMER1);
+        break;
+    case TIMER2:
+        rcu_periph_clock_enable(RCU_TIMER2);
+        break;
+    case TIMER3:
+        rcu_periph_clock_enable(RCU_TIMER3);
+        break;
+    case TIMER4:
+        rcu_periph_clock_enable(RCU_TIMER4);
+        break;
+    case TIMER5:
+        rcu_periph_clock_enable(RCU_TIMER5);
+        break;
+    case TIMER6:
+        rcu_periph_clock_enable(RCU_TIMER6);
+        break;
+    default:
+    	break;
+    }
+
+    timer_deinit(timer_periph);
+    timer_struct_para_init(&timer_initpara);
+    timer_initpara.prescaler         = 11999; //10799;	//108M/10800 = 10K Hz
+    timer_initpara.alignedmode       = TIMER_COUNTER_EDGE;
+    timer_initpara.counterdirection  = TIMER_COUNTER_UP;
+    timer_initpara.period            = (uint32_t)10*time_interval_ms;//(uint32_t)1000000U/time_interval_us;
+    timer_initpara.clockdivision     = TIMER_CKDIV_DIV1;
+    timer_init(timer_periph, &timer_initpara);
+	
+	
+	
+
+    
+   
+}
+
 
 void dma_config()
 {
     /* ADC_DMA_channel configuration */
     dma_single_data_parameter_struct dma_single_data_parameter;
-	   /* enable DMA1 */
-	   rcu_periph_clock_enable(RCU_DMA0);    
+    /* enable DMA1 */
+    rcu_periph_clock_enable(RCU_DMA0);
     /* ADC DMA_channel configuration */
     dma_deinit(DMA1, DMA_CH0);
-    
+	rcu_periph_clock_enable(RCU_DMA1);
+
     /* initialize DMA single data mode */
-    dma_single_data_parameter.periph_addr = (uint32_t)(&ADC_RDATA(ADC0));
+  /*  dma_single_data_parameter.periph_addr = (uint32_t)(&ADC_RDATA(ADC0));
     dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
     dma_single_data_parameter.memory0_addr = (uint32_t)&(getAdcBuf()->adc_value);
     dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
@@ -389,36 +359,80 @@ void dma_config()
     dma_single_data_parameter.priority = DMA_PRIORITY_HIGH;
     dma_single_data_mode_init(DMA1, DMA_CH0, &dma_single_data_parameter);
     dma_channel_subperipheral_select(DMA1, DMA_CH0, DMA_SUBPERI0);
+		dma_channel_enable(DMA1, DMA_CH0);
+
+*/
+
+
+
+		dma_deinit(DMA1, DMA_CH0);
+		
+		/* initialize DMA single data mode */
+		dma_single_data_parameter.periph_addr = (uint32_t)(&ADC_RDATA(ADC0));
+		dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+		dma_single_data_parameter.memory0_addr = (uint32_t)(getAdcBuf()->adc_value);
+		dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+		dma_single_data_parameter.periph_memory_width = DMA_PERIPH_WIDTH_16BIT;
+		dma_single_data_parameter.direction = DMA_PERIPH_TO_MEMORY;
+		dma_single_data_parameter.number = 6;
+		dma_single_data_parameter.priority = DMA_PRIORITY_HIGH;
+		dma_single_data_mode_init(DMA1, DMA_CH0, &dma_single_data_parameter);
+		dma_channel_subperipheral_select(DMA1, DMA_CH0, DMA_SUBPERI0);
+		
+		/* enable DMA circulation mode */
+		dma_circulation_enable(DMA1, DMA_CH0);
+		
+		/* enable DMA channel */
 
 
 
 
 
-	   /* deinitialize DMA channel7(USART0 tx) */
-	   dma_deinit(DMA0, DMA_CH3);
-	   dma_single_data_parameter.direction = DMA_MEMORY_TO_PERIPH;
-	   dma_single_data_parameter.memory0_addr = (uint32_t)data_to_send;
-	   dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
-	   dma_single_data_parameter.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
-	   dma_single_data_parameter.number = 16;
-	   dma_single_data_parameter.periph_addr = (uint32_t)&USART_DATA(USART0);
-	   dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
-	   dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
-	   dma_single_data_mode_init(DMA0, DMA_CH7, &dma_single_data_parameter);
-	   /* configure DMA mode */
-	   dma_circulation_disable(DMA0, DMA_CH3);
-	   dma_channel_subperipheral_select(DMA0, DMA_CH3, DMA_SUBPERI4);
-		 dma_interrupt_enable(DMA0, DMA_CH3, DMA_CHXCTL_FTFIE);
-	   /* enable DMA channel7 */
-	  // dma_channel_enable(DMA0, DMA_CH3);
-	   
-	   /* USART DMA enable for transmission and reception */
-	   //usart_dma_transmit_config(USART0, USART_DENT_ENABLE);
-	   
-	
-		/* wait DMA Channel transfer complete */
-	   while(RESET == dma_flag_get(DMA1, DMA_CH7, DMA_FLAG_FTF));
-		   /* deinitialize DMA channel2 (USART0 rx) */
+		
+		/* deinitialize DMA channel1 */
+		dma_deinit(DMA0,DMA_CH4);
+		dma_single_data_parameter.direction = DMA_MEMORY_TO_PERIPH;
+		dma_single_data_parameter.memory0_addr = NULL;
+		dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+		dma_single_data_parameter.periph_memory_width = DMA_MEMORY_WIDTH_8BIT;
+		dma_single_data_parameter.number = 16;
+		dma_single_data_parameter.periph_addr = (uint32_t)&USART_DATA(UART3);
+		dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+		dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
+		dma_single_data_mode_init(DMA0, DMA_CH4, &dma_single_data_parameter);
+   /* configure DMA mode */
+    dma_circulation_disable(DMA0, DMA_CH4);
+    dma_channel_subperipheral_select(DMA0, DMA_CH4, DMA_SUBPERI4);
+    dma_interrupt_enable(DMA0, DMA_CH4, DMA_CHXCTL_FTFIE);
+
+	 
+	 /* deinitialize DMA1 channel2 (USART0 rx) */
+	 dma_deinit(DMA0, DMA_CH2);
+	 dma_single_data_parameter.direction = DMA_PERIPH_TO_MEMORY;
+	 dma_single_data_parameter.memory0_addr = (uint32_t)buffer_rx2;
+	 dma_single_data_parameter.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+	 dma_single_data_parameter.number = 16;
+	 dma_single_data_parameter.periph_addr = (uint32_t)&USART_DATA(UART3);
+	 dma_single_data_parameter.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+	 dma_single_data_parameter.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
+	 dma_single_data_parameter.priority = DMA_PRIORITY_ULTRA_HIGH;
+	 dma_single_data_mode_init(DMA0, DMA_CH2, &dma_single_data_parameter);
+	 
+	 /* configure DMA mode */
+	 dma_circulation_enable(DMA0, DMA_CH2);
+	 dma_channel_subperipheral_select(DMA0, DMA_CH2, DMA_SUBPERI4);
+	 /* enable DMA1 channel2 transfer complete interrupt */
+	 dma_interrupt_enable(DMA0, DMA_CH2, DMA_CHXCTL_FTFIE);
+	 /* enable DMA1 channel2 */
+	 dma_channel_enable(DMA0, DMA_CH2);
+
+    /* USART DMA enable for transmission and reception */
+    //usart_dma_transmit_config(USART0, USART_DENT_ENABLE);
+
+
+    /* wait DMA Channel transfer complete */
+ //   while(RESET == dma_flag_get(DMA1, DMA_CH7, DMA_FLAG_FTF));
+    /* deinitialize DMA channel2 (USART0 rx) */
 //		   dma_deinit(DMA0, DMA_CH4);
 //		   dma_single_data_parameter.direction = DMA_PERIPH_TO_MEMORY;
 //		   dma_single_data_parameter.memory0_addr = (uint32_t)rxbuffer;
@@ -432,11 +446,74 @@ void dma_config()
 //		   /* configure DMA mode */
 //		   dma_circulation_disable(DMA0, DMA_CH4);
 //		   dma_channel_subperipheral_select(DMA0, DMA_CH4, DMA_SUBPERI4);
-		   /* enable DMA channel2 */
-		  // dma_channel_enable(DMA0, DMA_CH2);
-	      //usart_dma_receive_config(USART0, USART_DENR_ENABLE);
- 
+    /* enable DMA channel2 */
+    // dma_channel_enable(DMA0, DMA_CH2);
+    //usart_dma_receive_config(USART0, USART_DENR_ENABLE);
+
 }
+void uart0_config(void)
+{
+    rcu_periph_clock_enable(RCU_USART0);
+
+    /* configure the USART4 Tx pin and USART0 Rx pin */
+    gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_9);
+    gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_10);
+
+    /* configure USART4 Tx as alternate function push-pull */
+    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_9);
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_9);
+
+    /* configure USART0 Rx as alternate function push-pull */
+    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_10);
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_10);
+
+    /* USART configure */
+    usart_deinit(USART0);
+    usart_baudrate_set(((USART0)), 115200);
+    usart_receive_config(((USART0)), USART_RECEIVE_ENABLE);
+    usart_transmit_config(((USART0)), USART_TRANSMIT_ENABLE);
+    usart_enable(((USART0)));
+    //nvic_irq_enable(USART1_IRQn, 0, 0);
+    // usart_interrupt_enable(USART1, USART_INT_IDLE);
+    // usart_interrupt_enable(USART1, USART_INT_TC);
+    /* USART DMA enable*/
+
+
+}
+
+void uart1_config(void)
+{
+    rcu_periph_clock_enable(RCU_USART1);
+
+    /* configure the USART4 Tx pin and USART0 Rx pin */
+    gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_2);
+    gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_3);
+
+    /* configure USART4 Tx as alternate function push-pull */
+    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_3);
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_3);
+
+    /* configure USART0 Rx as alternate function push-pull */
+    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_2);
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_2);
+
+    /* USART configure */
+    usart_deinit(USART1);
+    usart_baudrate_set(((USART1)), 9600);
+    usart_receive_config(((USART1)), USART_RECEIVE_ENABLE);
+    usart_transmit_config(((USART1)), USART_TRANSMIT_ENABLE);
+    usart_enable(((USART1)));
+    nvic_irq_enable(USART1_IRQn, 0, 0);
+    usart_interrupt_enable(USART1, USART_INT_IDLE);
+    /* USART DMA enable*/
+    usart_dma_receive_config(USART1, USART_DENR_ENABLE);
+    usart_dma_transmit_config(USART1, USART_DENT_ENABLE);
+
+    usart_interrupt_enable(USART1, USART_INT_FLAG_TC);
+
+
+}
+
 void uart3_config(void)
 {
     rcu_periph_clock_enable(RCU_UART3);
@@ -455,7 +532,7 @@ void uart3_config(void)
 
     /* USART configure */
     usart_deinit(UART3);
-    usart_baudrate_set(((UART3)), 9600U);
+    usart_baudrate_set(((UART3)), 460800);
     usart_receive_config(((UART3)), USART_RECEIVE_ENABLE);
     usart_transmit_config(((UART3)), USART_TRANSMIT_ENABLE);
     usart_enable(((UART3)));
@@ -465,6 +542,12 @@ void uart3_config(void)
     usart_dma_receive_config(UART3, USART_DENR_ENABLE);
     usart_dma_transmit_config(UART3, USART_DENT_ENABLE);
 
+    usart_interrupt_enable(UART3, USART_INT_FLAG_TC);
+
+//    nvic_irq_enable(UART3_IRQn, 0, 0);
+//    usart_interrupt_enable(UART3, USART_INT_RBNE);
+
+
 }
 
 void spi_config(void)
@@ -472,7 +555,7 @@ void spi_config(void)
     spi_parameter_struct spi_init_struct;
 
     /* SPI1 parameter config */
-    spi_init_struct.trans_mode           = SPI_TRANSMODE_FULLDUPLEX;
+   /* spi_init_struct.trans_mode           = SPI_TRANSMODE_FULLDUPLEX;
     spi_init_struct.device_mode          = SPI_MASTER;
     spi_init_struct.frame_size           = SPI_FRAMESIZE_8BIT;
     spi_init_struct.clock_polarity_phase = SPI_CK_PL_LOW_PH_2EDGE;
@@ -482,44 +565,76 @@ void spi_config(void)
     spi_init_struct.nss         = SPI_NSS_SOFT;
     spi_init(SPI1, &spi_init_struct);
 
+*/
+
+
+
+    /* SPI1 parameter config */
+    spi_init_struct.trans_mode           = SPI_TRANSMODE_FULLDUPLEX;
+    spi_init_struct.device_mode          = SPI_MASTER;
+    spi_init_struct.frame_size           = SPI_FRAMESIZE_8BIT;
+    spi_init_struct.clock_polarity_phase = SPI_CK_PL_LOW_PH_2EDGE;
+    spi_init_struct.nss                  = SPI_NSS_SOFT;
+    spi_init_struct.prescale             = SPI_PSC_32;
+    spi_init_struct.endian               = SPI_ENDIAN_MSB;
+    spi_init(SPI1, &spi_init_struct);
+
+	spi_enable(SPI1);
+
+
+
+
+
+
 }
 void adc_config(void)
 {
-	/* ADC mode config */
-	  adc_sync_mode_config(ADC_SYNC_MODE_INDEPENDENT);
-	  /* ADC contineous function disable */
-	  adc_special_function_config(ADC0, ADC_CONTINUOUS_MODE, ENABLE);
-	  /* ADC scan mode disable */
-	  adc_special_function_config(ADC0, ADC_SCAN_MODE, ENABLE);
-	  /* ADC data alignment config */
-	  adc_data_alignment_config(ADC0, ADC_DATAALIGN_RIGHT);
-	  
-	  /* ADC channel length config */
-	  adc_channel_length_config(ADC0, ADC_REGULAR_CHANNEL, 6);
-	  /* ADC regular channel config */
-	  adc_regular_channel_config(ADC0, 0, ADC_CHANNEL_10, ADC_SAMPLETIME_15);
-	  adc_regular_channel_config(ADC0, 1, ADC_CHANNEL_11, ADC_SAMPLETIME_15);
-	  adc_regular_channel_config(ADC0, 2, ADC_CHANNEL_13, ADC_SAMPLETIME_15);
-	  adc_regular_channel_config(ADC0, 3, ADC_CHANNEL_14, ADC_SAMPLETIME_15);
-	  adc_regular_channel_config(ADC0, 4, ADC_CHANNEL_15, ADC_SAMPLETIME_15);
-	  adc_regular_channel_config(ADC0, 5, ADC_CHANNEL_4, ADC_SAMPLETIME_15);
 
-	  /* ADC trigger config */
-	  adc_external_trigger_source_config(ADC0, ADC_REGULAR_CHANNEL, ADC_EXTTRIG_REGULAR_T0_CH0); 
-	  adc_external_trigger_config(ADC0, ADC_REGULAR_CHANNEL, EXTERNAL_TRIGGER_DISABLE);
+	adc_deinit();
+
+	/* ADC mode config */
+	   adc_sync_mode_config(ADC_SYNC_MODE_INDEPENDENT);
+	   /* ADC contineous function disable */
+	   adc_special_function_config(ADC0, ADC_CONTINUOUS_MODE, ENABLE);
+	   /* ADC scan mode disable */
+	   adc_special_function_config(ADC0, ADC_SCAN_MODE, ENABLE);
+	   /* ADC data alignment config */
+	   adc_data_alignment_config(ADC0, ADC_DATAALIGN_RIGHT);
+	   
+	   /* ADC channel length config */
+	   //adc_channel_length_config(ADC0, ADC_REGULAR_CHANNEL, 4);
+	   /* ADC regular channel config */
+	   /* ADC channel length config */
+	   adc_channel_length_config(ADC0, ADC_REGULAR_CHANNEL, 6);
+	   /* ADC regular channel config */
+	   adc_regular_channel_config(ADC0, 0, ADC_CHANNEL_10, ADC_SAMPLETIME_56);//ta
+	   adc_regular_channel_config(ADC0, 1, ADC_CHANNEL_11, ADC_SAMPLETIME_56);//tb
+	   adc_regular_channel_config(ADC0, 2, ADC_CHANNEL_13, ADC_SAMPLETIME_56);//vbat
+	   adc_regular_channel_config(ADC0, 3, ADC_CHANNEL_14, ADC_SAMPLETIME_56);//spo
+	   adc_regular_channel_config(ADC0, 4, ADC_CHANNEL_15, ADC_SAMPLETIME_56);//br
+	   adc_regular_channel_config(ADC0, 5, ADC_CHANNEL_4, ADC_SAMPLETIME_56);//hea
+	   /* ADC trigger config */
+	   adc_external_trigger_source_config(ADC0, ADC_REGULAR_CHANNEL, ADC_EXTTRIG_REGULAR_T0_CH0); 
+	   adc_external_trigger_config(ADC0, ADC_REGULAR_CHANNEL, EXTERNAL_TRIGGER_DISABLE);
+	   
+	   /* ADC DMA function enable */
+	   adc_dma_request_after_last_enable(ADC0);
+	   adc_dma_mode_enable(ADC0);
+	   
+	   /* enable ADC interface */
+	   adc_enable(ADC0);
+	   /* wait for ADC stability */
+	   //delay_1ms(1);
+	   /* ADC calibration and reset calibration */
+	   adc_calibration_enable(ADC0);
+	   
+	   /* enable ADC software trigger */
 	  
-	  /* ADC DMA function enable */
-	  adc_dma_request_after_last_enable(ADC0);
-	  adc_dma_mode_enable(ADC0);
-	  
-	  /* enable ADC interface */
-	  adc_enable(ADC0);
-	  /* wait for ADC stability */
-	  /* ADC calibration and reset calibration */
-	  adc_calibration_enable(ADC0);
-	  
-	  /* enable ADC software trigger */
-	  adc_software_trigger_enable(ADC0, ADC_REGULAR_CHANNEL);
+
+
+
+
+
 
 }
 /**
