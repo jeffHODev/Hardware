@@ -1087,12 +1087,12 @@ void init_measure()
 void ui_proc()
 {
 
-   // ack_proc();
-    //led_ctrl();
+    ack_proc();
+    led_ctrl();
     //if(ack_sig==1)
-   // mesure_proc();
+    mesure_proc();
 	  //test();
-	if(GetBle_status()->connection == 1&&measure_usr.ack_sig==1)
+	/*if(GetBle_status()->connection == 1&&measure_usr.ack_sig==1)
 			   {
 	
 				   if(clock_time_exceed( measure_usr.tick, MEASURE_PERIOD))
@@ -1112,8 +1112,10 @@ void ui_proc()
 			   }
 				#if ROLE == MASTER
 	            static u32  send_acktime;
-	            if(clock_time_exceed(send_acktime,  1*1000*1000)&& master_conect_status()==1&&measure_usr.ack_sig==0)
+	            if(clock_time_exceed(send_acktime,  1*3000*1000))//&& master_conect_status()==1&&measure_usr.ack_sig==0
 	            {
+					   measure_start();
+					   sensor_power(1);
 	                printf("sig2\n");
 	                send_acktime = clock_time();
 	                pkt_pack(0x5a);
@@ -1122,7 +1124,7 @@ void ui_proc()
 	                //printf("ack t\n");measure_usr.start == 1
 	            }
 
-			#endif
+			#endif*/
 
 }
 

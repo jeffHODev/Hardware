@@ -9,6 +9,7 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir.mk
+-include vendor/common/subdir.mk
 -include vendor/b85m_m1s1/subdir.mk
 -include drivers/8258/subdir.mk
 -include drivers/8258/flash/subdir.mk

@@ -71,7 +71,7 @@ _attribute_ram_code_ void irq_handler(void)
 			cal_rx_time();
 		  // sensor_power(0);
 
-           // gpio_toggle(GPIO_LED_RED);
+            gpio_toggle(GPIO_LED_RED);
             measure_stop();
 
         }
@@ -138,8 +138,8 @@ _attribute_ram_code_ int main(void)
     blc_app_loadCustomizedParameters();
    
 
-    irq_enable();
-	init_measure();
+    //irq_enable();
+	//init_measure();
 	printf("init sdk\n");
     u32 tick_tmp;
     //gpio_write(GPIO_LED_RED,1);
@@ -149,8 +149,9 @@ _attribute_ram_code_ int main(void)
     #if ROLE == MASTER
     //key_proc();
 	#endif
-        /*if( (clock_time()-tic k_tmp)>=1000*CLOCK_16M_SYS_TIMER_CLK_1MS)
+ /*       if( clock_time_exceed(tick_tmp,1000*1000))
         {
+        	printf("init sdk\n");
             gpio_toggle(GPIO_LED_RED);
             tick_tmp = clock_time();
 
