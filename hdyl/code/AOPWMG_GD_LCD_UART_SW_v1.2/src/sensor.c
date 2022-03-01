@@ -106,7 +106,7 @@ void GetWaterLevel()
     if(gpio_input_bit_get(SensorB_GPIO_Port, SensorB_Pin)==WATER_LEVEL)//水位低于最低值
 #endif
     {
-        result = result & 0x02;
+        result = result & 0xfd;
         result = result | 0x01;
     }
     else
@@ -120,7 +120,7 @@ void GetWaterLevel()
     if(gpio_input_bit_get(SensorA_GPIO_Port, SensorA_Pin)==WATER_LEVEL)//水位大于等于于最高水位
 #endif
     {
-        result = result & 0x01;
+        result = result & 0xfe;
         result = result | 0x02;
     }
     else
@@ -130,7 +130,7 @@ void GetWaterLevel()
 
     if(GetSensor()->water_status == 1)
     {
-        if(result!=2)//水位低于最高水位
+        if((result & 0x02)!=1)//水位低于最高水位
         {
             result = 1;
         }
@@ -142,7 +142,7 @@ void GetWaterLevel()
 
     }
 
-    switch(result)
+    switch(result&0x03)
     {
     case 0:
         sensor.water_level = WATER_M;//水位适中
