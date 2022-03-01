@@ -263,7 +263,14 @@ void app(void)
     else
     {
         if(BleConSeting(CONNECT_STA)==0)//蓝牙已经连接
-        {
+        { 
+       // if(*getstate()&&*getstate()!=SEND_WIFI)
+        	{
+			power_manage(5,ON);
+			sensor_proc();
+
+		}
+
             //*getstate()=SEND_BULE;
             if((HAL_GetTick()-powerSleepTick)>=30000)
             {
@@ -277,7 +284,7 @@ void app(void)
             }
             if(*getstate()==SEND_BULE)
             {
-                power_manage(5,ON);
+                
                 // MMR_process();
 
                 if(init_flag == 0)
@@ -287,16 +294,10 @@ void app(void)
 					nvic_irq_enable(EXTI1_IRQn, 2U, 0U);
        				 nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
                 }
-                sensor_proc();
+
                 Send_UART3();
 
             }
-			else if(*getstate()==SEND_UART)
-				{
-				power_manage(5,ON);
-			sensor_proc();
-
-			}
             else
             {
                 nvic_irq_disable(EXTI1_IRQn);

@@ -47,6 +47,44 @@ void nibp_if_init(void)
     dma_channel_subperipheral_select(DMA0, DMA_CH6, DMA_SUBPERI4);
     dma_interrupt_enable(DMA0, DMA_CH6, DMA_CHXCTL_FTFIE);
 
+   NVIC_EnableIRQ(DMA0_Channel6_IRQn);
+
+   dma_interrupt_flag_clear(DMA0, DMA_CH6, DMA_INT_FLAG_FTF);
+   dma_flag_clear(DMA0,DMA_CH6,DMA_INTF_FTFIF);
+   usart_dma_transmit_config(USART1, USART_DENT_DISABLE); //使能串口DMA发送
+   dma_channel_disable(DMA0, DMA_CH6);
+
+
+
+   
+   // rcu_periph_clock_enable(RCU_DMA0);
+
+    /* wait DMA Channel transfer complete */
+	//
+	//
+	//dma_interrupt_flag_clear(DMA0, DMA_CH6, DMA_INT_FLAG_FTF);
+	//
+	//dma_memory_address_config(DMA0, DMA_CH6,DMA_MEMORY_0, &pb[0]); //设置要发送数据的内存地址
+	//dma_transfer_number_config(DMA0, DMA_CH6,  0);					   //一共发多少个数据
+	//dma_transfer_number_config(DMA0, DMA_CH4,  2);
+	
+	//dma_channel_enable(DMA0, DMA_CH6);
+	/* USART DMA enable for transmission and reception */
+	//usart_dma_transmit_config(USART1, USART_DENT_ENABLE); //使能串口DMA发送
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /* deinitialize DMA1 channel2 (USART0 rx) */
     dma_deinit(DMA0, DMA_CH5);
@@ -67,6 +105,10 @@ void nibp_if_init(void)
     dma_interrupt_enable(DMA0, DMA_CH5, DMA_CHXCTL_FTFIE);
     /* enable DMA1 channel2 */
     dma_channel_enable(DMA0, DMA_CH5);
+		uint8_t pb[1];
+		uart1_dma_tx(pb,1);
+lastcounter = dma_transfer_number_get(DMA0, DMA_CH5);
+	//uart1_dma_tx(0,1);
 
 }
 
@@ -144,7 +186,7 @@ int8_t nibp_if_speccmd(uint8_t cmd,uint8_t *buf,uint8_t len)
     buffer[1] = cmd;
     if(len == 0)
     {
-        buffer[2] = 0xff;
+        buffer[2] = 0;
 
     }
     else
@@ -155,20 +197,9 @@ int8_t nibp_if_speccmd(uint8_t cmd,uint8_t *buf,uint8_t len)
         tmp = tmp+ (unsigned char)buffer[j];
 			
     }
-		if(len == 0)
-		{
-				tmp = tmp+ buffer[2];
-	//	tmp = (unsigned char)tmp;
-		if(tmp>255)
-			tmp = ~tmp;
-		buffer[2] = tmp;	
-		}
-		else
-		{
-			if(tmp>255)
-			tmp = ~tmp+1;	
+
+            tmp = 0x100-tmp;
 			buffer[len+2] = tmp;	
-		}
 
 
 uart1_dma_tx(buffer,len+3);
@@ -232,8 +263,8 @@ uint8_t ifCheckSum(uint8_t *buffer,uint8_t n)
 	uint8_t i,chksum=0;
 	for(i=0;i<n;i++)
 		chksum += buffer[i];
-	
-	if(chksum ==  buffer[i])
+	chksum = 0x100-chksum;
+	if(chksum == 00)
 		return 0xff;
 	else
 		return 0;
@@ -254,7 +285,8 @@ static void nibp_if_sparse_process(void)
         __kfifo_out(&rxfifo, buffer, 1);
         return;
     }
-    len = __kfifo_len(&rxfifo);
+
+		 len = __kfifo_len(&rxfifo);
     if(len >= 5)
     {
         __kfifo_out_peek(&rxfifo, buffer, 5);
@@ -269,6 +301,11 @@ static void nibp_if_sparse_process(void)
             g_pressure = atoi(buf);
 
         }
+        else if(buffer[0] == 0x3e && ifCheckSum(buffer,buffer[1]) == 0xff)//袖带压
+        {
+            __kfifo_out(&rxfifo, buffer, buffer[1]);
+
+        }		
     }
      /*len = __kfifo_len(&rxfifo);
    if(len >= 10)
@@ -305,6 +342,13 @@ static void nibp_if_sparse_process(void)
             }
         }
     }
+		    len = __kfifo_len(&rxfifo);
+    if(len >= 4)
+		{
+			 if(buffer[0] == 0x3e && buffer[1] == 0x04)//系统状态返
+            __kfifo_out(&rxfifo, buffer, len);
+	
+   }
 }
 
 static void nibp_if_parse_process(void)

@@ -258,8 +258,8 @@ void uart1_dma_tx(uint32_t *pb,uint32_t len)
     rcu_periph_clock_enable(RCU_DMA0);
 
     /* wait DMA Channel transfer complete */
-    //
-   
+	usart_dma_transmit_config(USART1, USART_DENT_DISABLE); //使能串口DMA发送
+    dma_interrupt_flag_clear(DMA0, DMA_CH6, DMA_INT_FLAG_FTF);
 	dma_flag_clear(DMA0,DMA_CH6,DMA_INTF_FTFIF);
 	NVIC_EnableIRQ(DMA0_Channel6_IRQn);
 	dma_interrupt_flag_clear(DMA0, DMA_CH6, DMA_INT_FLAG_FTF);

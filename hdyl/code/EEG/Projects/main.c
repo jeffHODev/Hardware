@@ -499,7 +499,7 @@ void uart1_config(void)
     usart_dma_receive_config(USART1, USART_DENR_ENABLE);
     usart_dma_transmit_config(USART1, USART_DENT_ENABLE);
 
-    usart_interrupt_enable(USART1, USART_INT_FLAG_TC);
+    //usart_interrupt_enable(USART1, USART_INT_FLAG_TC);
 
 
 }
