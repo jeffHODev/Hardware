@@ -942,7 +942,7 @@ void app_process_power_management(void)
 		if(clock_time_exceed(power_tick, CON_TIME_OUT))
 		{
 		   power_tick = clock_time();
-		   if(GetBle_status()==0||getmeasrue()->ack_sig==0)
+		   if(getmeasrue()->ack_sig==0)//非法连接，没握手信号
 		   	{
 		      blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
 
@@ -955,7 +955,7 @@ void app_process_power_management(void)
 		{
 			u8 mac[6]={0xc2,0xb3,0x1a,0x38,0xc1,0xa4};
 		    power_tick = clock_time();
-			if(memcmp(&(getmeasrue()->mac[3]),&mac[3],3)!=0)
+			if(memcmp(&(getmeasrue()->mac[3]),&mac[3],3)!=0)//非法连接不合法mac
 			{
 				blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
 			}
@@ -994,7 +994,7 @@ void ui_process()
 		  if(gpio_read(KB)==0)
 		  {
 			  getmeasrue()->power_status = ON;
-		   printf("off2\n");
+		   //printf("off2\n");
 			//cpu_set_gpio_wakeup (KB, Level_High, 1);
 			//cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE, PM_WAKEUP_PAD, 0);  //deepsleep
 		  }
@@ -1040,7 +1040,7 @@ int main_idle_loop (void)
      ui_process();
      
 	////////////////////////////////////// PM entry /////////////////////////////////
-	//app_process_power_management();
+	app_process_power_management();
 
 	return 0; //must return 0 due to SDP flow
 }

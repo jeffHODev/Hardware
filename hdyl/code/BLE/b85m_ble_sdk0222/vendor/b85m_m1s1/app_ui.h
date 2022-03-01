@@ -77,7 +77,7 @@ extern	int user_manual_pairing;
 #define M_OFF_PERIOD 600*1000
 #define PKT_HEAD  0xfe
 #define MEASURE_PERIOD 1000*1000
-#define CON_TIME_OUT  60*1000*1000
+#define CON_TIME_OUT  120*1000*1000
 typedef struct
 {
 	u8 start;

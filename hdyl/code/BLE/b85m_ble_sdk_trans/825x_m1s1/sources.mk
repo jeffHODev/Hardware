@@ -16,6 +16,7 @@ SIZEDUMMY :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+vendor/common \
 vendor/b85m_m1s1 \
 drivers/8258 \
 drivers/8258/flash \
