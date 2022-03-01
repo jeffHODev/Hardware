@@ -84,7 +84,7 @@ void adcResume()
 **************************************************************/
 void GetWaterLevel()
 {
-    static unsigned char result;
+    static unsigned char result=0;
 
 #if CPU == ST
     if(HAL_GPIO_ReadPin(TEST_VA_GPIO_Port, TEST_VA_Pin)==1)//Ë®Ñ¹µÍ
