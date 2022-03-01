@@ -1592,7 +1592,7 @@ void ele_dev_proc()
             GetSensor()->status[FLOW_INDEX] = 0;
             GetSensor()->status[ORP_INDEX] = 0;
             GetSensor()->status[PH_INDEX] = 0;
-            GetSensor()->status[NOWATER_INDEX] = 0;
+            //GetSensor()->status[NOWATER_INDEX] = 0;
         }
         else
         {

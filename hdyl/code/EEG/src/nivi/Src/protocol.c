@@ -287,9 +287,14 @@ static void protocol_parse_process(void)
             break;
         case 0x66:
 
-            // nibp_if_cmd_SPEC(0x66,&buffer[5]);
+            buffer2[0] = buffer[5];            
+			buffer2[1] = buffer[6];
+            nibp_if_speccmd(0x79,&buffer2[0],2);
 
-        }
+
+        break;
+
+        	}
     }
     else//ack
     {

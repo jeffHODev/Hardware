@@ -6,7 +6,7 @@
 //extern UART_HandleTypeDef huart2;
 //extern TIM_HandleTypeDef htim4;
 
-static uint8_t buffer_rx[16];
+static uint8_t buffer_rx[24];
 static uint32_t lastcounter;
 
 static struct __kfifo rxfifo;
