@@ -128,9 +128,9 @@ void GetWaterLevel()
         result = result & 0xfd;
     }
 
-    if(GetSensor()->water_status == 1)
+   /* if(GetSensor()->water_status == 1)
     {
-        if((result & 0x02)!=1)//水位低于最高水位
+        if((result & 0x02)!=0x02)//水位低于最高水位
         {
             result = 1;
         }
@@ -140,7 +140,7 @@ void GetWaterLevel()
             result = 2;
         }
 
-    }
+    }*/
 
     switch(result&0x03)
     {
@@ -321,24 +321,24 @@ void GetTds_EleCurr()
 
     }
 
-	}
+}
 float curr_tmp;
 unsigned char current_setting;
- void current_proc()
- {
-       
-	  if(GetSensor()->flow<=4)
-	  	{
-	  	curr_tmp =RATIO * GetSensor()->flow+MIN_CURRENT;//  0-4     3-8
+void current_proc()
+{
+
+    if(GetSensor()->flow<=4)
+    {
+        curr_tmp =RATIO * GetSensor()->flow+MIN_CURRENT;//  0-4     3-8
         if(curr_tmp==MIN_CURRENT)
-			curr_tmp = 0;
-		else if(curr_tmp>=MAX_CURRENT)
-			curr_tmp = MAX_CURRENT;
-	  }
-	  else
-	  curr_tmp =MAX_CURRENT;//  0-4     0-9	 
-	  current_setting = (unsigned char)(curr_tmp+0.5);
- }//uint32_t flow_cnt_last;
+            curr_tmp = 0;
+        else if(curr_tmp>=MAX_CURRENT)
+            curr_tmp = MAX_CURRENT;
+    }
+    else
+        curr_tmp =MAX_CURRENT;//  0-4     0-9
+    current_setting = (unsigned char)(curr_tmp+0.5);
+}//uint32_t flow_cnt_last;
 //float flow_sum,flow_aver;
 uint32_t flow_cnt;
 #define FLOW_CAL		0
@@ -391,11 +391,11 @@ void GetFlow()
             flow_tmp   = (FLOW_FACTOR/FLOW_RATIO);
             sensor.water_quantity = sensor.last_water_quantity+flow_cal/FLOW_RATIO;
             flow_tmp   = (flow_cal*flow_tmp)/(flow_cnt);
-					  //if((flow_cnt*FLOW_PERIOD/1000)%10==0)
-						{
-						sensor.flow =sensor.flow*0.1+flow_tmp*0.9;
-						}
-						//else
+            //if((flow_cnt*FLOW_PERIOD/1000)%10==0)
+            {
+                sensor.flow =sensor.flow*0.1+flow_tmp*0.9;
+            }
+            //else
             //sensor.flow =sensor.flow -sensor.flow /FIR_NUM_FLOW+flow_tmp/FIR_NUM_FLOW;
             //  sensor.flow	 = flow_tmp;
             *GetCapture() = -1;

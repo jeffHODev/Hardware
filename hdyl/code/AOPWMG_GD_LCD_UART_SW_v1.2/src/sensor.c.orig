@@ -50,7 +50,7 @@ extern ADC_HandleTypeDef hadc1;
 #endif
 sensor_stru sensor;
 uint16_t adc1_val_buf[6];
-unsigned char current_setting;
+extern unsigned char current_setting;
 uint16_t *get_adc_buf()
 {
     return adc1_val_buf;
@@ -106,7 +106,7 @@ void GetWaterLevel()
     if(gpio_input_bit_get(SensorB_GPIO_Port, SensorB_Pin)==WATER_LEVEL)//水位低于最低值
 #endif
     {
-        result = result & 0x02;
+        result = result & 0xfd;
         result = result | 0x01;
     }
     else
@@ -120,7 +120,7 @@ void GetWaterLevel()
     if(gpio_input_bit_get(SensorA_GPIO_Port, SensorA_Pin)==WATER_LEVEL)//水位大于等于于最高水位
 #endif
     {
-        result = result & 0x01;
+        result = result & 0xfe;
         result = result | 0x02;
     }
     else
@@ -130,7 +130,7 @@ void GetWaterLevel()
 
     if(GetSensor()->water_status == 1)
     {
-        if(result!=2)//水位低于最高水位
+        if((result & 0x02)!=0x02)//水位低于最高水位
         {
             result = 1;
         }
@@ -142,7 +142,7 @@ void GetWaterLevel()
 
     }
 
-    switch(result)
+    switch(result&0x03)
     {
     case 0:
         sensor.water_level = WATER_M;//水位适中
@@ -321,8 +321,24 @@ void GetTds_EleCurr()
 
     }
 
-}
-//uint32_t flow_cnt_last;
+	}
+float curr_tmp;
+unsigned char current_setting;
+ void current_proc()
+ {
+       
+	  if(GetSensor()->flow<=4)
+	  	{
+	  	curr_tmp =RATIO * GetSensor()->flow+MIN_CURRENT;//  0-4     3-8
+        if(curr_tmp==MIN_CURRENT)
+			curr_tmp = 0;
+		else if(curr_tmp>=MAX_CURRENT)
+			curr_tmp = MAX_CURRENT;
+	  }
+	  else
+	  curr_tmp =MAX_CURRENT;//  0-4     0-9	 
+	  current_setting = (unsigned char)(curr_tmp+0.5);
+ }//uint32_t flow_cnt_last;
 //float flow_sum,flow_aver;
 uint32_t flow_cnt;
 #define FLOW_CAL		0
@@ -359,9 +375,9 @@ void GetFlow()
 
         if(init_flag == 0)
         {
-            flow_cal = *GetCapture_cnt();
+            flow_cal = *GetCapture_cnt();//flow/650*60000/(50*flow_cnt)
             init_flag = 1;
-            flow_tmp   = (1200/FLOW_RATIO);
+            flow_tmp   = (FLOW_FACTOR/FLOW_RATIO);
             sensor.water_quantity = sensor.last_water_quantity+flow_cal/FLOW_RATIO;
             flow_tmp   = (flow_cal*flow_tmp)/(flow_cnt);
             sensor.flow =sensor.flow -sensor.flow /FIR_NUM_FLOW+flow_tmp/FIR_NUM_FLOW;
@@ -372,10 +388,15 @@ void GetFlow()
         else
         {
             flow_cal = *GetCapture_cnt();
-            flow_tmp   = (1200/FLOW_RATIO);
+            flow_tmp   = (FLOW_FACTOR/FLOW_RATIO);
             sensor.water_quantity = sensor.last_water_quantity+flow_cal/FLOW_RATIO;
             flow_tmp   = (flow_cal*flow_tmp)/(flow_cnt);
-            sensor.flow =sensor.flow -sensor.flow /FIR_NUM_FLOW+flow_tmp/FIR_NUM_FLOW;
+					  //if((flow_cnt*FLOW_PERIOD/1000)%10==0)
+						{
+						sensor.flow =sensor.flow*0.1+flow_tmp*0.9;
+						}
+						//else
+            //sensor.flow =sensor.flow -sensor.flow /FIR_NUM_FLOW+flow_tmp/FIR_NUM_FLOW;
             //  sensor.flow	 = flow_tmp;
             *GetCapture() = -1;
 
@@ -506,7 +527,7 @@ unsigned char GetPH_ORP()
 
     unsigned char tx_buf[2],i;
     static unsigned char flag=0,tx_cnt;
-    registerTick(SENSOR_TICK_NO,250,1,0);
+    registerTick(SENSOR_TICK_NO,100,1,0);
     if(GetTickResult(SENSOR_TICK_NO)==1)
     {
         //	flag = 1;
@@ -530,7 +551,7 @@ unsigned char GetPH_ORP()
             break;//read ph
         case 3:
 
-            if(GetSensor()->ele_offLine_T[addr_tmp-3]>=MAX_TX_TIMES )
+            if(GetSensor()->ele_offLine_T[addr_tmp-3]>=MAX_TX_TIMES&&((addr_tmp-3))<FLOW_SIZE )
             {
                 GetSensor()->ele_MOnLine[addr_tmp-3]=0;
                 GetSensor()->status[SYSTEM_INDEX] = SYSTEM_INDEX;
@@ -572,14 +593,14 @@ loop:
             if(GetSensor()->wash_time<=MAX_WASH_TIME)
             {
                 if(((GetSensor()->status[NORMAL_INDEX]==20||GetSensor()->status[WATER_LEVEL_INDEX]==WATER_LEVEL_INDEX)&&GetSensor()->flow>0)&&
-                        GetInOut()->key_cali_mode==0)//高压开关和水位正常且不在校准模式时启动电解
+                        GetInOut()->key_cali_mode==0&&GetSensor()->status[TDS2_INDEX]==0&&GetSensor()->status[NOWATER_INDEX]==0)//高压开关和水位正常且不在校准模式时启动电解
 
                 {
                     // current_setting = 1.78*sensor.flow;
                     //   if(current_setting>=8)
                     //   current_setting= 8;
                     tx_buf[0] = 0;
-                    tx_buf[1] = 1;//||current_setting<<8;
+                    tx_buf[1] = 1|current_setting<<4;
                     if(addr_tmp<=M4_ADDR&&((addr_tmp-3))<FLOW_SIZE)
                     {
                         flag = 1;
@@ -606,12 +627,12 @@ loop:
                     }
 
                 }
-                else if(GetSensor()->status[WASH_INDEX]&&GetSensor()->flow>0)//wash invert ele
+                else if(GetSensor()->status[WASH_INDEX]&&GetSensor()->flow>0.5)//wash invert ele
                     //  else if((GetSensor()->status[TDS2_INDEX]||GetSensor()->status[TDS1_INDEX]||
                     //     GetSensor()->status[ORP_INDEX]||GetSensor()->status[PH_INDEX]||GetSensor()->status[WASH_INDEX])&&GetSensor()->flow>0)//wash invert ele
                 {
                     tx_buf[0] = 0;
-                    tx_buf[1] = 1;
+                    tx_buf[1] = 1|current_setting<<4;
                     if(addr_tmp<=M4_ADDR&&((addr_tmp-3))<FLOW_SIZE)
                     {
                         flag = 1;
@@ -768,15 +789,15 @@ unsigned char calibration_sensors(unsigned char state)
                         buf[4] =  *(p+2);//b
                         memcpy(modbus_cali.modbus_txdata,buf,5);
                         Modbus_Pack( modbus_cali);
-                        delay_ms(200);
+                        //delay_ms(3000);
                         //getTouch()->str[0] = 0x00;
-						memset(getTouch()->str,0,20);
+                        memset(getTouch()->str,0,20);
                         if(getTouch()->last_ctrl_id!=PH1_CAL_ID)
                             getTouch()->last_ctrl_id = PH1_CAL_ID;
                         // getTouch()->key = 0;
                         //status = 8;
                         status = 0;
-						GetInOut()->key_cali_value = 0;
+                        GetInOut()->key_cali_value = 0;
                     }
                     else if(getTouch()->key!=ENTER)
                     {
