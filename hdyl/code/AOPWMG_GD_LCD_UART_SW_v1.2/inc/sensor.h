@@ -30,6 +30,7 @@
 #define TDS_LEVEL3   700-20-10//650-30   //850
 #define TDS_LEVEL4   1000+20-10//-100  //1000
 #define SET_FLOW     4
+#define SW_NOCHANGE 0
 
 
 #else if FLOW_SIZE == 2
@@ -144,7 +145,7 @@
 #define WORK_STATUS_SIZE  			15
 #define MAX_WASH_TIME  				3
 
-#define MAX_TX_TIMES   				10
+#define MAX_TX_TIMES   				5
 
 typedef struct
 {

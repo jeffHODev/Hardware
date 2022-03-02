@@ -145,7 +145,7 @@ int app_le_adv_report_event_handle(u8 *p)
 	//}
 	#else
 	//manual pairing methods 1: key press triggers
-	user_manual_pairing = master_pairing_enable && (rssi > -56);  //button trigger pairing(RSSI threshold, short distance)
+	user_manual_pairing = master_pairing_enable && (rssi > -22);  //button trigger pairing(RSSI threshold, short distance)
     if(memcmp(&pa->mac[3],&mac[3],3)!=0)
 		user_manual_pairing = 0;
 	#endif

@@ -150,7 +150,7 @@ unsigned char abnormalDec()
     {
 
 
-        status = status | TickTimeoutAb(TDS_TICK_NO,0x02,2*MAX_TICK);
+        status = status | TickTimeoutAb(TDS_TICK_NO,0x02,2*MAX_TICK);//
         if(status &0x02)
         {
             registerTick(TDS_TICK_NO, 0, 0,1);//定时器复位
@@ -863,8 +863,11 @@ module_reset(unsigned char mode)
 }
 void water_levelAbnormal_proc()
 {
-    //EleSwCtrl(WATER_SW,ON);//原水进水阀开
+   #if SW_NOCHANGE
+    EleSwCtrl(WATER_SW,ON);//原水进水阀开
+	#endif
     EleSwCtrl(SALT_SW,ON);//盐盒进水阀开
+    
 #if WATER_L_IGNORE == 0
     EleSwCtrl(WASTE_SW,OFF);//废水出水阀开
     EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
@@ -938,7 +941,7 @@ void dev_wash_ctrl()
     // GetSensor()->status[TDS2_INDEX] = 0;//tds2异常
     //GetSensor()->status[ORP_INDEX] = 0;//orp异常
     // GetSensor()->status[PH_INDEX] = 0;//ph异常
-    EleSwCtrl(WATER_SW,ON);//原水进水阀开
+    EleSwCtrl(WATER_SW,OFF);//原水进水阀开
     EleSwCtrl(WASTE_SW,OFF);//废水出水阀开
 #if WATER_L_IGNORE == 0
     EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
@@ -1038,9 +1041,9 @@ void pump_auto(unsigned char flag)
         }
         else
         {
-            if(delay_cnt <5000)
+            if(delay_cnt <10000)
                 delay_cnt ++;
-            if(delay_cnt>=5000)
+            if(delay_cnt>=10000)
             {
 
                 if(*getpumpstatus()==0)
@@ -1222,8 +1225,9 @@ void hsw_proc()
     else
     {
         EleSwCtrl(WATER_SW,OFF);//原水进水阀开
-
-        // EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
+        #if SW_NOCHANGE
+         EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
+        #endif
         EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
         EleSwCtrl(HCILO_SW,OFF);//消毒水出水阀关
         EleSwCtrl(WASTE_SW,OFF);//废水出水阀关
@@ -1648,10 +1652,12 @@ void ele_dev_proc()
 				   GetSensor()->status[WATER_LEVEL_INDEX] = 0;//
 				  // EleSwCtrl(SALT_SW,OFF);//关阀2
 				   //EleSwCtrl(6,OFF);//关所有阀
-				   DcMotorCtrl(7,OFF);//关所有电机
+				 DcMotorCtrl(7,OFF);//关所有电机
 
 			   EleSwCtrl(WATER_SW,OFF);//关所有阀
-			   //EleSwCtrl(SALT_SW,OFF);//关所有阀
+			   #if SW_NOCHANGE 
+			   EleSwCtrl(SALT_SW,OFF);//关所有阀
+			   #endif
 			   EleSwCtrl(WASTE_SW,OFF);//关所有阀
 			   EleSwCtrl(WASH_SW,OFF);//关所有阀
 			   EleSwCtrl(HCILO_SW,OFF);//关所有阀

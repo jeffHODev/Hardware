@@ -62,7 +62,7 @@ extern	int user_manual_pairing;
 #define KEY_PAIR         3
 #define KEY_UNPAIR       4
 
-#define AUTO_PAIR    1
+#define AUTO_PAIR    0
 
 #define LED_PAIR   0
 #define LED_UNPAIR 1
