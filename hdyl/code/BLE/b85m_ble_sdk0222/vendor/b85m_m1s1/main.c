@@ -138,7 +138,7 @@ _attribute_ram_code_ int main(void)
     blc_app_loadCustomizedParameters();
    
 
-    //irq_enable();
+    irq_enable();
 	//init_measure();
 	printf("init sdk\n");
     u32 tick_tmp;

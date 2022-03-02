@@ -798,7 +798,7 @@ _attribute_no_inline_ void user_init_normal(void)
 //////////////////////////// User Configuration for BLE application ////////////////////////////
 	blc_ll_setAdvData( (u8 *)tbl_advData, sizeof(tbl_advData) );
 	blc_ll_setScanRspData( (u8 *)tbl_scanRsp, sizeof(tbl_scanRsp));
-	blc_ll_setAdvParam(ADV_INTERVAL_200MS, ADV_INTERVAL_200MS, ADV_TYPE_CONNECTABLE_UNDIRECTED, OWN_ADDRESS_PUBLIC, 0, NULL, BLT_ENABLE_ADV_ALL, ADV_FP_NONE);
+	blc_ll_setAdvParam(ADV_INTERVAL_500MS, ADV_INTERVAL_500MS, ADV_TYPE_CONNECTABLE_UNDIRECTED, OWN_ADDRESS_PUBLIC, 0, NULL, BLT_ENABLE_ADV_ALL, ADV_FP_NONE);
 
 #if ROLE==SLAVE
 	blc_ll_setAdvEnable(BLC_ADV_ENABLE);  //ADV enable
@@ -1040,7 +1040,7 @@ int main_idle_loop (void)
      ui_process();
      
 	////////////////////////////////////// PM entry /////////////////////////////////
-	app_process_power_management();
+	//app_process_power_management();
 
 	return 0; //must return 0 due to SDP flow
 }

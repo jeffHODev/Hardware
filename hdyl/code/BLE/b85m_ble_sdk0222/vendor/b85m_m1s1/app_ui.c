@@ -1088,7 +1088,15 @@ void ui_proc()
 {
 
     ack_proc();
-    led_ctrl();
+   // led_ctrl();
+    static u32 tmp;
+    if(clock_time_exceed(tmp, 1000*1000))
+    {
+    	tmp = clock_time();
+    	// printf("lon\n");
+        gpio_toggle(GPIO_LED_RED);
+       // led_tick= clock_time();
+    }
     //if(ack_sig==1)
     mesure_proc();
 	  //test();
