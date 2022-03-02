@@ -3,10 +3,11 @@
 #include "stdlib.h"
 #include "bsp.h"
 #include "kfifo.h"
+#include "protocol.h"
 //extern UART_HandleTypeDef huart2;
 //extern TIM_HandleTypeDef htim4;
 
-static uint8_t buffer_rx[24];
+static uint8_t buffer_rx[64];
 static uint32_t lastcounter;
 
 static struct __kfifo rxfifo;
@@ -279,12 +280,12 @@ static void nibp_if_sparse_process(void)
     {
         return;
     }
-    __kfifo_out_peek(&rxfifo, buffer, 1);
-    if(buffer[0] != 0x3e)
-    {
-        __kfifo_out(&rxfifo, buffer, 1);
-        return;
-    }
+    __kfifo_out_peek(&rxfifo, buffer, len);
+//    if(buffer[0] != 0x3e)
+//    {
+//        __kfifo_out(&rxfifo, buffer, 1);
+//        return;
+//    }
 
 		 len = __kfifo_len(&rxfifo);
     if(len >= 5)
@@ -299,13 +300,13 @@ static void nibp_if_sparse_process(void)
             buf[2] =0;
             buf[3] = 0;
             g_pressure = atoi(buf);
-
+ __kfifo_out(&rxfifo, buffer, buffer[1]);
         }
-        else if(buffer[0] == 0x3e && ifCheckSum(buffer,buffer[1]) == 0xff)//Ðä´øÑ¹
-        {
-            __kfifo_out(&rxfifo, buffer, buffer[1]);
+//        else if(buffer[0] == 0x3e && ifCheckSum(buffer,buffer[1]) == 0xff)//Ðä´øÑ¹
+//        {
+//           
 
-        }		
+//        }		
     }
      /*len = __kfifo_len(&rxfifo);
    if(len >= 10)
@@ -335,19 +336,29 @@ static void nibp_if_sparse_process(void)
             //printf("%d,%d,%d,%d,%d,%d,%d,%d,%d\n", count, sta, mode, mmode, err, sbp, dbp, mbp, pr);
            // if(count == 8 && (err == 0 || err == 3))
             {  
-                g_sdp = buffer[2]+buffer[1]<<8;
-                g_dbp = buffer[4]+buffer[3]<<8;
-                g_mbp = buffer[6]+buffer[5]<<8;
-                g_pr =  buffer[8]+buffer[7]<<8;
+                g_sdp = buffer[3]<<8;
+                g_sdp = g_sdp+buffer[2];	
+                g_dbp = buffer[5]<<8;							
+                g_dbp = buffer[4]+g_dbp;
+                g_mbp = buffer[17]<<8;
+                g_mbp = buffer[16]+g_mbp;
+                g_pr =  buffer[19]<<8;
+                g_pr =  buffer[18]+g_pr;
             }
         }
     }
 		    len = __kfifo_len(&rxfifo);
     if(len >= 4)
 		{
-			 if(buffer[0] == 0x3e && buffer[1] == 0x04)//ÏµÍ³×´Ì¬·µ
-            __kfifo_out(&rxfifo, buffer, len);
-	
+			 if(buffer[0] == 0x3e && buffer[1] == 0x04&& ifCheckSum(buffer,buffer[1]) == 0xff)//ÏµÍ³×´Ì¬·µ
+			 {
+				 protocol_ack_send(getacksn(), &buffer[2], 1);
+				 __kfifo_out(&rxfifo, buffer,  buffer[1]);
+
+			 }
+           
+
+
    }
 }
 

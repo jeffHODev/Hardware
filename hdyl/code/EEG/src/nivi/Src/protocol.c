@@ -154,14 +154,18 @@ __IO static uint32_t packet_ticktmp = 0;
 static uint8_t packet_ack_buf[128];
 static uint16_t packet_ack_len = 0;
 
-static void protocol_ack_send(uint8_t sn, uint8_t *pdata, uint16_t len)
+ void protocol_ack_send(uint8_t sn, uint8_t *pdata, uint16_t len)
 {
     packet_ack_len = protocol_packet(0x5A, sn, pdata, len, packet_ack_buf);
 }
-
+uint8_t acksn = 0;
+unsigned char getacksn()
+{
+	return acksn;
+}
 static void protocol_parse_process(void)
 {
-    uint8_t acksn = 0;
+    
     static uint8_t buffer[1024];
     uint16_t len = __kfifo_len(&rxfifo);
     if(len < 6)
@@ -196,7 +200,7 @@ static void protocol_parse_process(void)
         switch(buffer[4])
         {
         case 0x02://start nibp
-            protocol_ack_send(acksn, 0, 0);
+             // protocol_ack_send(acksn, 0, 0);
             //nibp_if_cmd(0x01);
             *getstate()=SEND_UART;
             nibp_if_speccmd(0x20,&buffer[5],0);
@@ -285,6 +289,14 @@ static void protocol_parse_process(void)
             // nibp_if_speccmd(0x0c,&buffer[5],3);
 
             break;
+        case 0x0d://
+            *getstate()=SEND_UART;
+            buffer2[0] =0x03;            
+			buffer2[1] = 0x00;
+            nibp_if_speccmd(0x79,&buffer2[0],2);
+
+            break;
+
         case 0x66:
 
             buffer2[0] = buffer[5];            

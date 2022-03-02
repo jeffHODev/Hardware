@@ -22,6 +22,8 @@ void ClrBleUartBuf(void);
 void packet_proc(void);
 dma_counter_stru *getdma_counter_stru(void);
 
+unsigned char getacksn(void);
+void protocol_ack_send(uint8_t sn, uint8_t *pdata, uint16_t len);
 
 
 

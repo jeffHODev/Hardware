@@ -127,13 +127,14 @@ void rcu_config(void)
     adc_clock_config(ADC_ADCCK_PCLK2_DIV6);
     rcu_periph_clock_enable(RCU_SPI1);
 }
+unsigned char test2;
 void gpio_config(void)
 {
 
     /* enable the key clock */
     rcu_periph_clock_enable(RCU_SYSCFG);
 
-
+test2 = 1;
 
 
 
@@ -141,118 +142,118 @@ void gpio_config(void)
 
 
     /* config the GPIO as analog mode, for ADC */
-    gpio_mode_set(MMR_RD_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE,MMR_RD_Pin);
-    gpio_mode_set(BDATA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE,BDATA_Pin);
-    gpio_mode_set(BLINK_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE,BLINK_Pin);
-    gpio_mode_set(BLINK_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE,BLINK_Pin);
-    gpio_mode_set(BDISC_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,BDISC_Pin);
-    gpio_output_options_set(ADS129x_DRDY2_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,ADS129x_DRDY2_Pin);
-    gpio_mode_set(BWKP_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,BWKP_Pin);
-    gpio_output_options_set(BWKP_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,BWKP_Pin);
+    gpio_mode_set(MMR_RD_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE,MMR_RD_Pin);test2 ++;
+    gpio_mode_set(BDATA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE,BDATA_Pin);test2 ++;
+    gpio_mode_set(BLINK_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE,BLINK_Pin);test2 ++;
+    gpio_mode_set(BLINK_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE,BLINK_Pin);test2 ++;
+    gpio_mode_set(BDISC_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,BDISC_Pin);test2 ++;
+    gpio_output_options_set(ADS129x_DRDY2_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,ADS129x_DRDY2_Pin);test2 ++;
+    gpio_mode_set(BWKP_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,BWKP_Pin);test2 ++;
+    gpio_output_options_set(BWKP_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,BWKP_Pin);test2 ++;
 
-    gpio_mode_set(BMOD_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,BMOD_Pin);
-    gpio_output_options_set(BMOD_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,BMOD_Pin);
+    gpio_mode_set(BMOD_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,BMOD_Pin);test2 ++;
+    gpio_output_options_set(BMOD_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,BMOD_Pin);test2 ++;
 
-    gpio_mode_set(VBAT_STA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE,VBAT_STA_Pin);
-
-
-    gpio_mode_set(BRST_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,BRST_Pin);
-    gpio_output_options_set(BRST_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,BRST_Pin);
-
-    gpio_mode_set(ADS129x_DRDY_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE,ADS129x_DRDY_Pin);
-    gpio_mode_set(POW_HEA_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,POW_HEA_Pin);
-    gpio_output_options_set(POW_HEA_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,POW_HEA_Pin);
-
-    gpio_mode_set(PRESS_EN_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,PRESS_EN_Pin);
-    gpio_output_options_set(PRESS_EN_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,PRESS_EN_Pin);
-
-    gpio_mode_set(POW_EN_5V_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,POW_EN_5V_Pin);
-    gpio_output_options_set(POW_EN_5V_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,POW_EN_5V_Pin);
-
-    gpio_mode_set(ADS129x_CS2_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,ADS129x_CS2_Pin);
-    gpio_output_options_set(ADS129x_CS2_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,ADS129x_CS2_Pin);//ads1299 cs2
-    gpio_mode_set(ADS129x_CS_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,ADS129x_CS_Pin);
-    gpio_output_options_set(ADS129x_CS_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,ADS129x_CS_Pin);//ads1299 cs1
-
-    gpio_mode_set(LED1_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,LED1_Pin);
-    gpio_output_options_set(LED1_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,LED1_Pin);
-
-    gpio_mode_set(LED2_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,LED2_Pin);
-    gpio_output_options_set(LED2_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,LED2_Pin);
-
-    gpio_mode_set(BLE_EN_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,BLE_EN_Pin);
-    gpio_output_options_set(BLE_EN_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,BLE_EN_Pin);
+    gpio_mode_set(VBAT_STA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE,VBAT_STA_Pin);test2 ++;
 
 
-    gpio_mode_set(OUT1_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,OUT1_Pin);
-    gpio_output_options_set(OUT1_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,OUT1_Pin);
+    gpio_mode_set(BRST_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,BRST_Pin);test2 ++;
+    gpio_output_options_set(BRST_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,BRST_Pin);test2 ++;
+
+    gpio_mode_set(ADS129x_DRDY_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE,ADS129x_DRDY_Pin);test2 ++;
+    gpio_mode_set(POW_HEA_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,POW_HEA_Pin);test2 ++;
+    gpio_output_options_set(POW_HEA_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,POW_HEA_Pin);test2 ++;
+
+    gpio_mode_set(PRESS_EN_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,PRESS_EN_Pin);test2 ++;
+    gpio_output_options_set(PRESS_EN_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,PRESS_EN_Pin);test2 ++;
+
+    gpio_mode_set(POW_EN_5V_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,POW_EN_5V_Pin);test2 ++;
+    gpio_output_options_set(POW_EN_5V_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,POW_EN_5V_Pin);test2 ++;
+
+    gpio_mode_set(ADS129x_CS2_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,ADS129x_CS2_Pin);test2 ++;
+    gpio_output_options_set(ADS129x_CS2_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,ADS129x_CS2_Pin);test2 ++;//ads1299 cs2
+    gpio_mode_set(ADS129x_CS_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,ADS129x_CS_Pin);test2 ++;
+    gpio_output_options_set(ADS129x_CS_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,ADS129x_CS_Pin);test2 ++;//ads1299 cs1
+
+    gpio_mode_set(LED1_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,LED1_Pin);test2 ++;
+    gpio_output_options_set(LED1_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,LED1_Pin);test2 ++;
+
+    gpio_mode_set(LED2_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,LED2_Pin);test2 ++;
+    gpio_output_options_set(LED2_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,LED2_Pin);test2 ++;
+
+    gpio_mode_set(BLE_EN_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,BLE_EN_Pin);test2 ++;
+    gpio_output_options_set(BLE_EN_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,BLE_EN_Pin);test2 ++;
 
 
-    gpio_mode_set(OUT2_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,OUT2_Pin);
-    gpio_output_options_set(OUT2_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,OUT2_Pin);
-
-    gpio_mode_set(OUT3_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,OUT3_Pin);
-    gpio_output_options_set(OUT3_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,OUT3_Pin);
+    gpio_mode_set(OUT1_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,OUT1_Pin);test2 ++;
+    gpio_output_options_set(OUT1_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,OUT1_Pin);test2 ++;
 
 
-    gpio_mode_set(OUT4_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,OUT4_Pin);
-    gpio_output_options_set(OUT4_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,OUT4_Pin);
+    gpio_mode_set(OUT2_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,OUT2_Pin);test2 ++;
+    gpio_output_options_set(OUT2_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,OUT2_Pin);test2 ++;
 
-    gpio_mode_set(MMR_CS_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,MMR_CS_Pin);
-    gpio_output_options_set(MMR_CS_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,MMR_CS_Pin);
-
-    gpio_mode_set(SPI2_CS_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,SPI2_CS_Pin);
-    gpio_output_options_set(SPI2_CS_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,SPI2_CS_Pin);
-
-    gpio_mode_set(VALUE_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,VALUE_Pin);
-    gpio_output_options_set(VALUE_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,VALUE_Pin);
-
-    gpio_mode_set(POW_EN_3V3_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,POW_EN_3V3_Pin);
-    gpio_output_options_set(POW_EN_3V3_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,POW_EN_3V3_Pin);
+    gpio_mode_set(OUT3_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,OUT3_Pin);test2 ++;
+    gpio_output_options_set(OUT3_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,OUT3_Pin);test2 ++;
 
 
-    gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, SET);
+    gpio_mode_set(OUT4_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,OUT4_Pin);test2 ++;
+    gpio_output_options_set(OUT4_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,OUT4_Pin);test2 ++;
 
-    gpio_bit_write(BDISC_GPIO_Port, BDISC_Pin, RESET);
-    gpio_bit_write(BMOD_GPIO_Port, BMOD_Pin, RESET);
-    gpio_bit_write(BRST_GPIO_Port, BRST_Pin, RESET);
-    gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);
-    gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);
-    gpio_bit_write(OUT1_GPIO_Port, OUT1_Pin, RESET);
-    gpio_bit_write(OUT2_GPIO_Port, OUT2_Pin, RESET);
-    gpio_bit_write(OUT3_GPIO_Port, OUT3_Pin, RESET);
-    gpio_bit_write(OUT4_GPIO_Port, OUT4_Pin, RESET);
-    gpio_bit_write(SPI2_CS_GPIO_Port, SPI2_CS_Pin, SET);
-    gpio_bit_write(MMR_CS_GPIO_Port, MMR_CS_Pin, SET);
-    gpio_bit_write(VALUE_GPIO_Port, VALUE_Pin, SET);
+    gpio_mode_set(MMR_CS_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,MMR_CS_Pin);test2 ++;
+    gpio_output_options_set(MMR_CS_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,MMR_CS_Pin);test2 ++;
 
-    gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, RESET);
-    gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, RESET);
-    gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, RESET);
-    gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, RESET);
-    gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, RESET);
+    gpio_mode_set(SPI2_CS_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,SPI2_CS_Pin);test2 ++;
+    gpio_output_options_set(SPI2_CS_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,SPI2_CS_Pin);test2 ++;
+
+    gpio_mode_set(VALUE_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,VALUE_Pin);test2 ++;
+    gpio_output_options_set(VALUE_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,VALUE_Pin);test2 ++;
+
+    gpio_mode_set(POW_EN_3V3_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,POW_EN_3V3_Pin);test2 ++;
+    gpio_output_options_set(POW_EN_3V3_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,POW_EN_3V3_Pin);test2 ++;
 
 
-    gpio_mode_set(SPEAK_GPIO_Port, GPIO_MODE_AF, GPIO_PUPD_NONE, SPEAK_Pin);
-    gpio_output_options_set(SPEAK_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,SPEAK_Pin);
-    gpio_af_set(SPEAK_GPIO_Port, GPIO_AF_1, SPEAK_Pin);
+    gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, SET);test2 ++;
 
-    gpio_mode_set(MOTOR_GPIO_Port, GPIO_MODE_AF, GPIO_PUPD_NONE, MOTOR_Pin);
-    gpio_output_options_set(MOTOR_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,MOTOR_Pin);
-    gpio_af_set(MOTOR_GPIO_Port, GPIO_AF_1, MOTOR_Pin);
+    gpio_bit_write(BDISC_GPIO_Port, BDISC_Pin, RESET);test2 ++;
+    gpio_bit_write(BMOD_GPIO_Port, BMOD_Pin, RESET);test2 ++;
+    gpio_bit_write(BRST_GPIO_Port, BRST_Pin, RESET);test2 ++;
+    gpio_bit_write(ADS129x_CS2_GPIO_Port, ADS129x_CS2_Pin, SET);test2 ++;
+    gpio_bit_write(ADS129x_CS_GPIO_Port, ADS129x_CS_Pin, SET);test2 ++;
+    gpio_bit_write(OUT1_GPIO_Port, OUT1_Pin, RESET);test2 ++;
+    gpio_bit_write(OUT2_GPIO_Port, OUT2_Pin, RESET);test2 ++;
+    gpio_bit_write(OUT3_GPIO_Port, OUT3_Pin, RESET);test2 ++;
+    gpio_bit_write(OUT4_GPIO_Port, OUT4_Pin, RESET);test2 ++;
+    gpio_bit_write(SPI2_CS_GPIO_Port, SPI2_CS_Pin, SET);test2 ++;
+    gpio_bit_write(MMR_CS_GPIO_Port, MMR_CS_Pin, SET);test2 ++;
+    gpio_bit_write(VALUE_GPIO_Port, VALUE_Pin, SET);test2 ++;
+
+    gpio_bit_write(POW_EN_3V3_GPIO_Port, POW_EN_3V3_Pin, RESET);test2 ++;
+    gpio_bit_write(POW_EN_5V_GPIO_Port, POW_EN_5V_Pin, RESET);test2 ++;
+    gpio_bit_write(PRESS_EN_GPIO_Port, PRESS_EN_Pin, RESET);test2 ++;
+    gpio_bit_write(POW_HEA_GPIO_Port, POW_HEA_Pin, RESET);test2 ++;
+    gpio_bit_write(BLE_EN_GPIO_Port, BLE_EN_Pin, RESET);test2 ++;
+
+
+    gpio_mode_set(SPEAK_GPIO_Port, GPIO_MODE_AF, GPIO_PUPD_NONE, SPEAK_Pin);test2 ++;
+    gpio_output_options_set(SPEAK_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,SPEAK_Pin);test2 ++;
+    gpio_af_set(SPEAK_GPIO_Port, GPIO_AF_1, SPEAK_Pin);test2 ++;
+
+    gpio_mode_set(MOTOR_GPIO_Port, GPIO_MODE_AF, GPIO_PUPD_NONE, MOTOR_Pin);test2 ++;
+    gpio_output_options_set(MOTOR_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,MOTOR_Pin);test2 ++;
+    gpio_af_set(MOTOR_GPIO_Port, GPIO_AF_1, MOTOR_Pin);test2 ++;
 
 
     gpio_mode_set(GPIOC, GPIO_MODE_ANALOG, GPIO_PUPD_NONE,GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_3|
-                  GPIO_PIN_4|GPIO_PIN_5);
-    gpio_mode_set(GPIOA, GPIO_MODE_ANALOG, GPIO_PUPD_NONE,GPIO_PIN_4);
+                  GPIO_PIN_4|GPIO_PIN_5);test2 ++;
+    gpio_mode_set(GPIOA, GPIO_MODE_ANALOG, GPIO_PUPD_NONE,GPIO_PIN_4);test2 ++;
 
 
     /* SPI1 GPIO config */
 
 
-    gpio_af_set(GPIOB, GPIO_AF_5,  GPIO_PIN_15 | GPIO_PIN_13 |GPIO_PIN_14);
-    gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_NONE,  GPIO_PIN_15 | GPIO_PIN_13 |GPIO_PIN_14);
-    gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_15 | GPIO_PIN_13 |GPIO_PIN_14);
+    gpio_af_set(GPIOB, GPIO_AF_5,  GPIO_PIN_15 | GPIO_PIN_13 |GPIO_PIN_14);test2 ++;
+    gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_NONE,  GPIO_PIN_15 | GPIO_PIN_13 |GPIO_PIN_14);test2 ++;
+    gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_15 | GPIO_PIN_13 |GPIO_PIN_14);test2 ++;
 
 
 //****************************ble wake up pin********************************************
