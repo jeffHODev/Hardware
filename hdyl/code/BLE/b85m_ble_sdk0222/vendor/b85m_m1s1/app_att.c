@@ -431,9 +431,19 @@ int spp_onReceiveData(u16 connHandle, ble_rf_packet_att_write_t *p)
            gpio_toggle(GPIO_LED_RED);
 		   //blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, "456",3);
             if(data[0]!=PKT_HEAD)
-                return ;
+            	{
+			printf("re\n");
+			return ;
+
+			}
+                
             if(len<(data[2]+2))
-                return ;
+					{
+				printf("rl\n");
+				return ;
+				
+				}
+
             calCRC=CRC_Compute(&data[1],data[2]+2);
 			resCRC=(u16)data[4];
             resCRC=(resCRC<<8);

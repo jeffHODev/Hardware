@@ -319,16 +319,16 @@ void proc_keyboard (u8 e, u8 *p, int n)
             if(key_time_start++>=BUTTON_FILTER_TIME) 	 // 按键通过滤波检测
             {
 
-               // printf("kd\n");
-            	if(measure_usr.key_down_flag == 0)
-                measure_usr.key_down_flag = 1;
+                // printf("kd\n");
+                if(measure_usr.key_down_flag == 0)
+                    measure_usr.key_down_flag = 1;
             }
 
             if(key_time_start++>=BUTTON_LONG_TIME)		  // 按键通过滤波检测
             {
                 if(measure_usr.key_down_flag == 1)
                 {
-                   // printf("kh\n");
+                    // printf("kh\n");
                     measure_usr.key_update=1;
                     key_time_start = BUTTON_LONG_TIME;
                     measure_usr.key_down_flag = 2;
@@ -379,20 +379,20 @@ void key_proc()
             {
                 measure_usr.power_status =OFF;
                 printf("off\n");
-				gpio_write(GPIO_LED_RED,1);
+                //gpio_write(GPIO_LED_RED,1);
                 //power sleep
-               // blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
-				#if ROLE == MASTER
+                // blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
+#if ROLE == MASTER
                 cpu_set_gpio_wakeup (KB, Level_High, 1);
                 cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE, PM_WAKEUP_PAD, 0);  //deepsleep
-				#endif
+#endif
             }
             else
             {
-            	printf("on\n");
+                printf("on\n");
                 measure_usr.power_status =ON;
                 led_mode_set(LED_NORMAL);
-				//gpio_write(GPIO_LED_RED,0);
+                //gpio_write(GPIO_LED_RED,0);
                 //power on
             }
 
@@ -408,14 +408,16 @@ void key_proc()
             else
             {
                 if(master_pairing_enable == 0)//start pair
-                {printf("on33\n");
+                {
+                    printf("on33\n");
                     master_pairing_enable = 1;
                     master_unpair_enable = 0;
                     led_mode_set(LED_PAIR);
 
                 }
                 else  //start unpair
-                {printf("on44\n");
+                {
+                    printf("on44\n");
                     master_pairing_enable = 0;
                     master_unpair_enable = 1;
                     led_mode_set(LED_UNPAIR);
@@ -429,21 +431,21 @@ void key_proc()
         measure_usr.key = 0;
         measure_usr.key_update = 0;
     }
-	static u32 key_count;
-	if(measure_usr.key_down_cnt>0&&measure_usr.key_down_cnt<3)
-	{
-		
-		if(clock_time_exceed(key_count, 5000 * 1000))
-		{
-		    key_count = clock_time();
-			measure_usr.key_down_cnt = 0;
-		    measure_usr.key = 0;
+    static u32 key_count;
+    if(measure_usr.key_down_cnt>0&&measure_usr.key_down_cnt<3)
+    {
+
+        if(clock_time_exceed(key_count, 5000 * 1000))
+        {
+            key_count = clock_time();
+            measure_usr.key_down_cnt = 0;
+            measure_usr.key = 0;
             measure_usr.key_update = 0;
-		}
-		
-	}
-	else
-		key_count = clock_time();
+        }
+
+    }
+    else
+        key_count = clock_time();
 
 }
 
@@ -507,13 +509,16 @@ void proc_master_role_unpair(void)
     if(master_unpair_enable)
     {
 
-        dev_char_info_t* dev_char_info = dev_char_info_search_by_connhandle(master_unpair_enable); //connHandle has marked on on master_unpair_enable
+
+
+        dev_char_info_t* dev_char_info = dev_char_info_search_by_connhandle(handle_m); //connHandle has marked on on master_unpair_enable
 
         if( dev_char_info )  //un_pair device in still in connection state
         {
 
             if(blc_ll_disconnect(handle_m, HCI_ERR_REMOTE_USER_TERM_CONN) == BLE_SUCCESS)
             {
+                printf("up3\n");
 
                 master_disconnect_connhandle = master_unpair_enable; //mark conn_handle
 
@@ -522,6 +527,7 @@ void proc_master_role_unpair(void)
 
 #if (BLE_MASTER_SIMPLE_SDP_ENABLE)
                 // delete ATT handle storage on flash
+                printf("delte");
                 dev_char_info_delete_peer_att_handle_by_peer_mac(dev_char_info->peer_adrType, dev_char_info->peer_addr);
 #endif
 
@@ -667,20 +673,20 @@ void ack_proc()
         if(clock_time_exceed(ack_timeout, ACK_TIME_OUT)==0)//超时时间内
         {
 
-	            //主机在超时时间内发送握手信号
-			#if ROLE == MASTER
-	            static u32  send_acktime;
-	            if(clock_time_exceed(send_acktime,  1*1000*1000)&& master_conect_status()==1)
-	            {
-	                printf("sig2\n");
-	                send_acktime = clock_time();
-	                pkt_pack(0x5a);
-	                //gpio_toggle(GPIO_LED_RED);
-	                blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
-	                //printf("ack t\n");measure_usr.start == 1
-	            }
+            //主机在超时时间内发送握手信号
+#if ROLE == MASTER
+            static u32  send_acktime;
+            if(clock_time_exceed(send_acktime,  1*1000*1000)&& master_conect_status()==1)
+            {
+                printf("sig2\n");
+                send_acktime = clock_time();
+                pkt_pack(0x5a);
+                //gpio_toggle(GPIO_LED_RED);
+                blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+                //printf("ack t\n");measure_usr.start == 1
+            }
 
-			#endif
+#endif
 
         }
         /*        static u32  send_acktime;
@@ -704,48 +710,48 @@ void ack_proc()
         // ack = 1;
         ack_timeout = clock_time();
     }
-	#if ROLE==SLAVE
-	    /*    static u32	send_acktime;
-	        if(clock_time_exceed(send_acktime,  1*1000*1000))
-	        {
-	            // printf("sig2\n");
-	            send_acktime = clock_time();
-	            // pkt_pack(0x5a);
-	            gpio_toggle(GPIO_LED_RED);
-	            //blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
-	            //printf("ack t\n");
-	            measure_start();
-	            measure_usr.stop = 0;
-	            sensor_power(1);
-	            rx_tick = clock_time();
-	            measure_start();
-	        }*/
+#if ROLE==SLAVE
+    /*    static u32	send_acktime;
+        if(clock_time_exceed(send_acktime,  1*1000*1000))
+        {
+            // printf("sig2\n");
+            send_acktime = clock_time();
+            // pkt_pack(0x5a);
+            gpio_toggle(GPIO_LED_RED);
+            //blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+            //printf("ack t\n");
+            measure_start();
+            measure_usr.stop = 0;
+            sensor_power(1);
+            rx_tick = clock_time();
+            measure_start();
+        }*/
 
-	    if( GetBle_status()->connection ==0)
-	    {
+    if( GetBle_status()->connection ==0)
+    {
 
-	        if(measure_usr.ack_sig == 1)
-	        {
-	            printf("ssig\n");
-	            measure_usr.ack_sig = 0;
+        if(measure_usr.ack_sig == 1)
+        {
+            printf("ssig\n");
+            measure_usr.ack_sig = 0;
 
-	        }
-
-
-	    }
-	#else
-	     if( master_conect_status()==0)
-	    {
-
-	        if(measure_usr.ack_sig == 1)
-	        {
-	            printf("msig\n");
-	            measure_usr.ack_sig = 0;
-
-	        }
+        }
 
 
-	    }
+    }
+#else
+    if( master_conect_status()==0)
+    {
+
+        if(measure_usr.ack_sig == 1)
+        {
+            printf("msig\n");
+            measure_usr.ack_sig = 0;
+
+        }
+
+
+    }
 #endif
 }
 void led_mode_set(u8 status)
@@ -775,19 +781,20 @@ void led_mode_set(u8 status)
 }
 void led_ctrl()
 {
-    static u32 led_tick;
+    static u32 led_tick,tmp;
     if(led_usr.status == ON)
     {
         if(clock_time_exceed(led_tick, led_usr.tick))
         {
-        	// printf("lon\n");
+            tmp = led_usr.tick;
+            // printf("%d",tmp);
             gpio_toggle(GPIO_LED_RED);
             led_tick= clock_time();
         }
     }
     else
     {
-		//printf("fon\n");
+        //printf("fon\n");
 
         gpio_write(GPIO_LED_RED,1);
         led_tick= clock_time();
@@ -799,12 +806,12 @@ u8 test_flag;
 
 void test()
 {
-  
-   
-   sensor_power(1);
-   measure_start();
-   //printf("rx2 %d",rx_tick);
-   sleep_ms(100);
+
+
+    sensor_power(1);
+    measure_start();
+    //printf("rx2 %d",rx_tick);
+    sleep_ms(100);
 
 
 
@@ -820,7 +827,7 @@ void parase(u8 tmp)
         measure_start();
         measure_usr.stop = 0;
         sensor_power(1);
-		//printf("ss\n");
+        printf("0x4b\n");
     }
     break;
     case 0x5a://主从机到主机握手
@@ -844,12 +851,12 @@ void parase(u8 tmp)
     case 0x5b://配对指示灯
     {
         led_mode_set(LED_PAIR);
-		 printf("PA\n");
+        printf("PA\n");
     }
     case 0x5c://解绑对指示灯
     {
         led_mode_set(LED_UNPAIR);
-		 printf("uPA\n");
+        printf("uPA\n");
     }
 
     break;
@@ -907,8 +914,8 @@ cal_rx_time()
 {
     measure_usr.rx_time = clock_time()-rx_tick;
     measure_usr.rx_time = measure_usr.rx_time /1000-500;
-	rx_tick =  clock_time();
-    printf("measure_usr.rx_time:%d\n",measure_usr.rx_time);
+    rx_tick =  clock_time();
+    printf("rx_time:%d\n",measure_usr.rx_time);
 
 
 }
@@ -942,7 +949,7 @@ void mesure_proc()
     {
         if(tick_tmp>=TIMEOUT_PERIOD)//测量超时
         {
-           // printf("timeout\n");
+            // printf("timeout\n");
             measure_usr.dis = MAX_DIS+1;
             measure_usr.start = 0;
             measure_usr.sum  = 0;
@@ -955,7 +962,7 @@ void mesure_proc()
             if(measure_usr.stop == 1)
             {
                 //  printf("m3\n");
-                measure_usr.time = tick_tmp/1000; 
+                measure_usr.time = tick_tmp/1000;
                 measure_usr.dis = measure_usr.time*17;
                 printf("dis = %d\n",measure_usr.dis);
                 if(measure_usr.dis>=MAX_DIS)
@@ -989,21 +996,21 @@ void mesure_proc()
     if(measure_usr.sum>=10)//超过10次报警，震动
     {
         printf("m7\n");
-		if(clock_time_exceed( measure_usr.motor_tick, M_OFF_PERIOD))
-		{
-			measure_usr.motor_tick = clock_time();
-			gpio_write(M_EN,1); 		//输入失能	500 100
-			
-		}
-		else
-		{
-			if(clock_time_exceed( measure_usr.motor_tick, M_ON_PERIOD)==0)
-			{
-				gpio_write(M_EN,1); 	   //输入失能
+        if(clock_time_exceed( measure_usr.motor_tick, M_OFF_PERIOD))
+        {
+            measure_usr.motor_tick = clock_time();
+            gpio_write(M_EN,1); 		//输入失能	500 100
 
-			}
-		}
-		
+        }
+        else
+        {
+            if(clock_time_exceed( measure_usr.motor_tick, M_ON_PERIOD)==0)
+            {
+                gpio_write(M_EN,1); 	   //输入失能
+
+            }
+        }
+
     }
     else
     {
@@ -1023,7 +1030,7 @@ void mesure_proc()
                 if(clock_time_exceed( measure_usr.tick, MEASURE_PERIOD))
                 {
                     extern u16 handle_s;
-                   // gpio_toggle(GPIO_LED_RED);
+                    // gpio_toggle(GPIO_LED_RED);
                     pkt_pack(0x4b);
                     blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
                     sleep_us(100);
@@ -1076,8 +1083,8 @@ void init_measure()
 {
 #if ROLE == MASTER
     measure_usr.power_status = OFF;
-	led_usr.tick = 1000000;
-	led_usr.status = ON;
+    led_usr.tick = 1000000;
+    led_usr.status = ON;
 
 #else
     measure_usr.power_status = ON;
@@ -1086,53 +1093,44 @@ void init_measure()
 }
 void ui_proc()
 {
-
+    static u32 tmp;
     ack_proc();
    // led_ctrl();
-    static u32 tmp;
-    if(clock_time_exceed(tmp, 1000*1000))
-    {
-    	tmp = clock_time();
-    	// printf("lon\n");
-        gpio_toggle(GPIO_LED_RED);
-       // led_tick= clock_time();
-    }
-    //if(ack_sig==1)
     mesure_proc();
-	  //test();
-	/*if(GetBle_status()->connection == 1&&measure_usr.ack_sig==1)
-			   {
-	
-				   if(clock_time_exceed( measure_usr.tick, MEASURE_PERIOD))
-				   {
-					   extern u16 handle_s;
-					  // gpio_toggle(GPIO_LED_RED);
-					   pkt_pack(0x4b);
-					   blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
-					   sleep_us(100);
-					   measure_start();
-					   sensor_power(1);
-					   printf("m8\n");
-					//   tick_tmp = 0;
-	
-				   }
-	
-			   }
-				#if ROLE == MASTER
-	            static u32  send_acktime;
-	            if(clock_time_exceed(send_acktime,  1*3000*1000))//&& master_conect_status()==1&&measure_usr.ack_sig==0
-	            {
-					   measure_start();
-					   sensor_power(1);
-	                printf("sig2\n");
-	                send_acktime = clock_time();
-	                pkt_pack(0x5a);
-	                //gpio_toggle(GPIO_LED_RED);
-	                blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
-	                //printf("ack t\n");measure_usr.start == 1
-	            }
+    //test();
+    /*if(GetBle_status()->connection == 1&&measure_usr.ack_sig==1)
+    		   {
 
-			#endif*/
+    			   if(clock_time_exceed( measure_usr.tick, MEASURE_PERIOD))
+    			   {
+    				   extern u16 handle_s;
+    				  // gpio_toggle(GPIO_LED_RED);
+    				   pkt_pack(0x4b);
+    				   blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
+    				   sleep_us(100);
+    				   measure_start();
+    				   sensor_power(1);
+    				   printf("m8\n");
+    				//   tick_tmp = 0;
+
+    			   }
+
+    		   }*/
+    /*	#if ROLE == MASTER
+        static u32  send_acktime;
+        if(clock_time_exceed(send_acktime,  1*3000*1000))//&& master_conect_status()==1&&measure_usr.ack_sig==0
+        {
+    		   measure_start();
+    		   sensor_power(1);
+            //printf("sig2\n");
+            send_acktime = clock_time();
+         //   pkt_pack(0x5a);
+            //gpio_toggle(GPIO_LED_RED);
+           // blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+            //printf("ack t\n");measure_usr.start == 1
+        }
+
+    #endif*/
 
 }
 

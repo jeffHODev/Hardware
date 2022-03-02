@@ -139,7 +139,7 @@ _attribute_ram_code_ int main(void)
    
 
     irq_enable();
-	//init_measure();
+	init_measure();
 	printf("init sdk\n");
     u32 tick_tmp;
     //gpio_write(GPIO_LED_RED,1);
