@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
+    <include layout="@layout/app_title_new" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <!--   标题     -->
+        <LinearLayout
+            android:id="@+id/title_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="颈-股脉搏波传导速度 cfPWV 的参考范围图"
+                android:textColor="@color/titleback"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+
+        <!--   图片     -->
+        <ImageView
+            android:id="@+id/img_lr"
+            android:layout_below="@id/title_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+             />
+
+        <!--   左侧     -->
+        <com.hekangyuan.nivi1000.view.graphViewForLive.XYView
+            android:id="@+id/xyView"
+            android:layout_width="750dp"
+            android:layout_height="300dp"
+            android:layout_marginLeft="165dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginRight="80dp" />
+        <TextView
+            android:id="@+id/pwvview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="180dp"
+            android:layout_marginTop="320dp"
+            android:textStyle="bold"
+            android:textColor="@color/blue"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="330dp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginTop="40dp"
+            android:layout_toLeftOf="@id/img_lr"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textStyle="bold"
+                android:text="m/s"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="1dp"
+                android:text="20"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="55dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="7dp"
+                android:text="15"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="7dp"
+                android:text="10"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"
+                android:text="5"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <!--        底部栏-->
+        <LinearLayout
+            android:layout_below="@id/xyView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:text="@string/twozhi"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="120dp"
+                android:textStyle="bold"
+                android:text="30-39"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="110dp"
+                android:textStyle="bold"
+                android:text="40-49"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="110dp"
+                android:textStyle="bold"
+                android:text="50-59"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="110dp"
+                android:textStyle="bold"
+                android:text="60-69"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="93dp"
+                android:textStyle="bold"
+                android:text="@string/agezhi"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="620dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="绿色部分为健康人cfPWV均值的10%-90%范围"
+            android:textColor="@color/titleback"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!--底部按钮-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                style="@style/savepaint_linearlay_style"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp">
+
+
+                <Button
+                    android:id="@+id/bt_previous"
+                    android:layout_height="40dp"
+                    style="@style/savepaint_button_style"
+                    android:background="@mipmap/up"
+                    android:text="上一步"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/savepaint_linearlay_style">>
+
+                <Button
+                    android:id="@+id/bt_newtext"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    style="@style/savepaint_button_style"
+                    android:background="@mipmap/center"
+                    android:text="新建"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/savepaint_linearlay_style"
+                android:layout_marginTop="7dp">
+
+                <Button
+                    android:id="@+id/bt_next"
+                    android:layout_height="40dp"
+                    style="@style/savepaint_button_style"
+                    android:background="@mipmap/down"
+                    android:text="下一步"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -154,18 +154,55 @@ __IO static uint32_t packet_ticktmp = 0;
 static uint8_t packet_ack_buf[128];
 static uint16_t packet_ack_len = 0;
 
- void protocol_ack_send(uint8_t sn, uint8_t *pdata, uint16_t len)
+void protocol_ack_send(uint8_t sn, uint8_t *pdata, uint16_t len)
 {
     packet_ack_len = protocol_packet(0x5A, sn, pdata, len, packet_ack_buf);
 }
 uint8_t acksn = 0;
 unsigned char getacksn()
 {
-	return acksn;
+    return acksn;
 }
+static uint8_t able_flag;
+void reapte_task_flag(uint8_t flag)
+{
+	
+	able_flag = flag;
+
+
+
+}
+
+void reapte_task(uint8_t flag)
+{
+    static uint8_t buffer2[16];
+	//static uint8_t able_flag;
+	static uint32_t tick;
+	//able_flag = 1;
+	if((HAL_GetTick()-tick)>=1000)
+	{
+	    tick = HAL_GetTick();
+		if(able_flag == 1)
+		{
+		    buffer2[0] = 0x79;
+		    buffer2[1] = 0x05;
+		    buffer2[2] = 0x00;
+		    *getstate()=SEND_UART;
+		    nibp_if_speccmd(0x79,&buffer2[1],2);
+		buffer2[0] = 0x06;
+		buffer2[1] = nibp_if_getpressure();
+		protocol_ack_send(acksn, buffer2, 2);
+
+		}
+
+	}
+
+
+}
+
 static void protocol_parse_process(void)
 {
-    
+
     static uint8_t buffer[1024];
     uint16_t len = __kfifo_len(&rxfifo);
     if(len < 6)
@@ -200,7 +237,7 @@ static void protocol_parse_process(void)
         switch(buffer[4])
         {
         case 0x02://start nibp
-             // protocol_ack_send(acksn, 0, 0);
+            // protocol_ack_send(acksn, 0, 0);
             //nibp_if_cmd(0x01);
             *getstate()=SEND_UART;
             nibp_if_speccmd(0x20,&buffer[5],0);
@@ -209,6 +246,7 @@ static void protocol_parse_process(void)
             buffer2[0] = 0x79;
             buffer2[1] = 0x01;
             buffer2[2] = 0x00;
+			reapte_task_flag(0);
             protocol_ack_send(acksn, 0, 0);
             nibp_if_speccmd(0x79,&buffer2[1],2);
             //nibp_if_stop();//stop nibp
@@ -225,6 +263,7 @@ static void protocol_parse_process(void)
             buffer2[1] = 0x05;
             buffer2[2] = 0x00;
             *getstate()=SEND_UART;
+			reapte_task_flag(1);
             nibp_if_speccmd(0x79,&buffer2[1],2);
             buffer2[0] = 0x06;
             buffer2[1] = nibp_if_getpressure();
@@ -291,22 +330,22 @@ static void protocol_parse_process(void)
             break;
         case 0x0d://
             *getstate()=SEND_UART;
-            buffer2[0] =0x03;            
-			buffer2[1] = 0x00;
+            buffer2[0] =0x03;
+            buffer2[1] = 0x00;
             nibp_if_speccmd(0x79,&buffer2[0],2);
 
             break;
 
         case 0x66:
 
-            buffer2[0] = buffer[5];            
-			buffer2[1] = buffer[6];
+            buffer2[0] = buffer[5];
+            buffer2[1] = buffer[6];
             nibp_if_speccmd(0x79,&buffer2[0],2);
 
 
-        break;
+            break;
 
-        	}
+        }
     }
     else//ack
     {

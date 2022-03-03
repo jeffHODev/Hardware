@@ -982,7 +982,7 @@ void mesure_proc()
                 }
                 measure_usr.start = 0;
                 sensor_power(0);
-                measure_stop();
+                measure_usr.stop = 0;
 
             }
         }
@@ -991,7 +991,7 @@ void mesure_proc()
     {
         //printf("m6\n");
         sensor_power(0);
-        measure_stop();
+        measure_usr.stop = 0;
     }
     if(measure_usr.sum>=10)//超过10次报警，震动
     {
@@ -1095,7 +1095,7 @@ void ui_proc()
 {
     static u32 tmp;
     ack_proc();
-   // led_ctrl();
+    // led_ctrl();
     mesure_proc();
     //test();
     /*if(GetBle_status()->connection == 1&&measure_usr.ack_sig==1)

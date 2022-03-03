@@ -140,6 +140,7 @@ void SysTick_Handler(void)
 {
 
     sys_tick++;
+	  reapte_task();
 
 }
 

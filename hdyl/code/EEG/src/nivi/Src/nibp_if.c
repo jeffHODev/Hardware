@@ -295,11 +295,12 @@ static void nibp_if_sparse_process(void)
         {
             __kfifo_out(&rxfifo, buffer, 5);
             char buf[4];
-            buf[0] = buffer[3];
-            buf[1] = buffer[2];
-            buf[2] =0;
-            buf[3] = 0;
-            g_pressure = atoi(buf);
+           // buf[0] = buffer[3];
+           // buf[1] = buffer[2];
+           // buf[2] =0;
+           // buf[3] = 0;
+            g_pressure = buffer[3]<<8;
+            g_pressure = g_pressure+buffer[2];					
  __kfifo_out(&rxfifo, buffer, buffer[1]);
         }
 //        else if(buffer[0] == 0x3e && ifCheckSum(buffer,buffer[1]) == 0xff)//Ðä´øÑ¹

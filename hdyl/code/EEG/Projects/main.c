@@ -89,7 +89,7 @@ int main(void)
     test = 8;
     adc_config();
     test = 9;
-    timer_config(TIMER3, 1);
+    timer_config(TIMER3, 2);
     test = 10;
 
     //ADS129x_ReInit(0);

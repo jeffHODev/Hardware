@@ -471,6 +471,11 @@ void ADS129x_ReInit(u8 cmd)
 /////////////////////////////////////////////////////////////////////////////
 //		RL_temp=(!KE_1);
 //		Main_printf("右腿设置 %x:\r\n",RL_temp);
+#if ADS129xDEVICE == ADS1299
+			ADS129x_REG_BUF[1]=0x95; //500采样率
+#elif ADS129xDEVICE == ADS1298
+			ADS129x_REG_BUF[1]=0x86; //500采样率
+#endif
 
     ADS129x_REG_BUF[13] = RL_temp; //设置右腿驱动
     ADS129x_REG_BUF[14] = RL_temp;

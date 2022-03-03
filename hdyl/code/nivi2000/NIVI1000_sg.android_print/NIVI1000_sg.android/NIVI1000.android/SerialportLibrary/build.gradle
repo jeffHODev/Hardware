@@ -1,0 +1,61 @@
+apply plugin: 'com.android.library'
+
+android {
+//    lintOptions {
+//        checkReleaseBuilds false
+//        // Or, if you prefer, you can continue to check for errors in release builds,
+//        // but continue the build even when errors are found:
+//        abortOnError false
+//    }
+    signingConfigs {
+        debug {
+            storeFile file('D:\\shenggu.jks')
+            storePassword 'shenggu'
+            keyAlias 'shenggu'
+            keyPassword 'shenggu'
+        }
+        release {
+        }
+    }
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
+        ndk {
+            moduleName "serial_port"                      //so文件，lib+moduleName+。so
+            abiFilters "armeabi", "armeabi-v7a", "x86"          //u的类型
+        }
+        ndk {    //C中打印logcat日志需要配置此项
+            ldLibs "log"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jni.srcDirs = []
+        }
+    }
+//    buildToolsVersion '26.0.2'
+    ndkVersion '16.1.4479499'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
