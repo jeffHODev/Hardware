@@ -20,7 +20,7 @@
 #define TDS_LEVEL5   1100-100 //1000
 #define TDS_LEVEL6   1200-50
 */
-#define MIN_CURRENT   4
+#define MIN_CURRENT   5
 
 #define MAX_CURRENT   9
 #define RATIO (MAX_CURRENT-FLOW_SIZE)/MIN_CURRENT
