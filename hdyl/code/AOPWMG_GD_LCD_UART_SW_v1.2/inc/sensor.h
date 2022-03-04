@@ -20,7 +20,7 @@
 #define TDS_LEVEL5   1100-100 //1000
 #define TDS_LEVEL6   1200-50
 */
-#define MIN_CURRENT   3
+#define MIN_CURRENT   4
 
 #define MAX_CURRENT   9
 #define RATIO (MAX_CURRENT-FLOW_SIZE)/MIN_CURRENT
@@ -94,7 +94,7 @@
 #define MIN_ORP   -100
 
 #define MAX_TDS_VALUE  1700 //进水tds阈值300----  1300
-#define MIN_TDS_VALUE  200
+#define MIN_TDS_VALUE  350
 
 #define MAX_TDS1_VALUE  150//150  //原水tds阈值 150
 #define MIN_TDS1_VALUE  0

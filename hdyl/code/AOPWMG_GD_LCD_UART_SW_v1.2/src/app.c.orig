@@ -150,7 +150,7 @@ unsigned char abnormalDec()
     {
 
 
-        status = status | TickTimeoutAb(TDS_TICK_NO,0x02,2*MAX_TICK);
+        status = status | TickTimeoutAb(TDS_TICK_NO,0x02,2*MAX_TICK);//
         if(status &0x02)
         {
             registerTick(TDS_TICK_NO, 0, 0,1);//定时器复位
@@ -558,16 +558,16 @@ polling_status:
     switch(status_tmp)// 0:正常  1：tds1 2:tds2 3：流量 4：orp
         //  5:高压开关6：水位开关 7:电解中
     {
-        /*	str = "正常          ";
-        	str = "原水TDS异常	 ";
-        	str = "缺盐		 	 ";
-        	str = "流量异常 	 ";
-        	str = "盐水箱注水中";
-        	str = "清洗中		 ";
-        	str = "缺水			 ";
-        	str = "系统故障 	 ";
-        	str = "正常			 ";
-        	str = "正常			 ";*/
+    /*	str = "正常          ";
+    	str = "原水TDS异常	 ";
+    	str = "缺盐		 	 ";
+    	str = "流量异常 	 ";
+    	str = "盐水箱注水中";
+    	str = "清洗中		 ";
+    	str = "缺水			 ";
+    	str = "系统故障 	 ";
+    	str = "正常			 ";
+    	str = "正常			 ";*/
 
 
 
@@ -863,8 +863,11 @@ module_reset(unsigned char mode)
 }
 void water_levelAbnormal_proc()
 {
+   #if SW_NOCHANGE
     EleSwCtrl(WATER_SW,ON);//原水进水阀开
+	#endif
     EleSwCtrl(SALT_SW,ON);//盐盒进水阀开
+    
 #if WATER_L_IGNORE == 0
     EleSwCtrl(WASTE_SW,OFF);//废水出水阀开
     EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
@@ -938,7 +941,7 @@ void dev_wash_ctrl()
     // GetSensor()->status[TDS2_INDEX] = 0;//tds2异常
     //GetSensor()->status[ORP_INDEX] = 0;//orp异常
     // GetSensor()->status[PH_INDEX] = 0;//ph异常
-    EleSwCtrl(WATER_SW,ON);//原水进水阀开
+    EleSwCtrl(WATER_SW,OFF);//原水进水阀开
     EleSwCtrl(WASTE_SW,OFF);//废水出水阀开
 #if WATER_L_IGNORE == 0
     EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
@@ -1038,9 +1041,9 @@ void pump_auto(unsigned char flag)
         }
         else
         {
-            if(delay_cnt <5000)
+            if(delay_cnt <10000)
                 delay_cnt ++;
-            if(delay_cnt>=5000)
+            if(delay_cnt>=10000)
             {
 
                 if(*getpumpstatus()==0)
@@ -1093,25 +1096,30 @@ unsigned char flow_proc()
                 result = 1;
             }
         }
-    
+
         else
         {
-					 if(*getpumpstatus()!=1)
-					 {
-            result = 0;
-            GetSensor()->status[NOWATER_INDEX] = 0;//缺水
-            GetSensor()->status[FLOW_INDEX] = 0;//流量异常
-            flow_low_cnt =0;					 
-					 }
+            if(*getpumpstatus()!=1)
+            {
+                result = 0;
+                GetSensor()->status[NOWATER_INDEX] = 0;//缺水
+                GetSensor()->status[FLOW_INDEX] = 0;//流量异常
+                flow_low_cnt =0;
+            }
 
 
         }
-     if(*getpumpstatus()==1)
+        if(*getpumpstatus()==1&&GetSensor()->flow==0)
         {
-					  if(GetSensor()->flow<=0)
-            GetSensor()->status[NOWATER_INDEX]=NOWATER_INDEX;
+            if(GetSensor()->flow<=0)
+                GetSensor()->status[NOWATER_INDEX]=NOWATER_INDEX;
 
         }
+				else if(GetSensor()->flow>0)
+				{
+					if(*getpumpstatus()==1)
+							*getpumpstatus() = 0;
+				}
     }
 
 
@@ -1182,23 +1190,25 @@ void pump_hw(unsigned char flag)
 }
 void hsw_proc()
 {
+	// EleSwCtrl(WATER_SW,OFF);//原水进水阀开
+		   //EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
+		   EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
+		   EleSwCtrl(HCILO_SW,OFF);//消毒水出水阀关
+		   EleSwCtrl(WASTE_SW,OFF);//废水出水阀关
+		   DcMotorCtrl(7,0);//关所有电机
+		   //pump_ctrl(1);
+		   //pump_ctrl(0);
+		   flow_low_cnt = 0;
+		   GetSensor()->status[WATER_LEVEL_INDEX] = WATER_LEVEL_INDEX;//水位异常
+		   GetSensor()->status[FLOW_INDEX] = 0;//流量异常
+		   GetSensor()->status[NOWATER_INDEX] = 0;//缺水
+		   GetSensor()->status[TDS2_INDEX] = 0;//缺水
+		   GetSensor()->status[TDS1_INDEX] = 0;//缺水
+
     // EleSwCtrl(6,OFF);//关所有阀
     if(abnormalDec()&0x20)//水位异常
     {
-        // EleSwCtrl(WATER_SW,OFF);//原水进水阀开
-        //EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
-        EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
-        EleSwCtrl(HCILO_SW,OFF);//消毒水出水阀关
-        EleSwCtrl(WASTE_SW,OFF);//废水出水阀关
-        DcMotorCtrl(7,0);//关所有电机
-        //pump_ctrl(1);
-        //pump_ctrl(0);
-        flow_low_cnt = 0;
-        GetSensor()->status[WATER_LEVEL_INDEX] = WATER_LEVEL_INDEX;//水位异常
-        GetSensor()->status[FLOW_INDEX] = 0;//流量异常
-        GetSensor()->status[NOWATER_INDEX] = 0;//缺水
-        GetSensor()->status[TDS2_INDEX] = 0;//缺水
-        GetSensor()->status[TDS1_INDEX] = 0;//缺水
+       
 
         if(GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)
         {
@@ -1207,18 +1217,30 @@ void hsw_proc()
 
 
         }
-        else //水位开关异常
-        {
-            GetSensor()->status[WATER_LEVEL_INDEX] = 0;//高压开关异常
-            EleSwCtrl(SALT_SW,OFF);//关阀2
-        }
+
 
     }//end 水位异常
-    else
-    {
-        EleSwCtrl(WATER_SW,OFF);//原水进水阀开
+            else //水位开关异常
+        {
+            GetSensor()->status[WATER_LEVEL_INDEX] = 0;//高压开关异常
+			#if SW_NOCHANGE
+			 //EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
+			 EleSwCtrl(WATER_SW,OFF);//原水进水阀开
+ 			#else
+			 EleSwCtrl(WATER_SW,ON);//原水进水阀开		 
+			#endif
 
-        // EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
+            EleSwCtrl(SALT_SW,OFF);//关阀2
+        }
+   
+    {
+        
+       // #if SW_NOCHANGE
+         //EleSwCtrl(SALT_SW,OFF);//盐盒进水阀关
+        // EleSwCtrl(WATER_SW,OFF);//原水进水阀开
+       //  #else
+         ;//EleSwCtrl(WATER_SW,OFF);//原水进水阀开		 
+       // #endif
         EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
         EleSwCtrl(HCILO_SW,OFF);//消毒水出水阀关
         EleSwCtrl(WASTE_SW,OFF);//废水出水阀关
@@ -1242,7 +1264,7 @@ void hsw_proc()
 
     }
 
-    
+
 
     GetSensor()->status[HSW_INDEX] = 5;//高压开关异常
     registerTick(FLOW_TICK_NO2, 20000,1,0);//
@@ -1587,7 +1609,7 @@ void ele_dev_proc()
             GetSensor()->status[FLOW_INDEX] = 0;
             GetSensor()->status[ORP_INDEX] = 0;
             GetSensor()->status[PH_INDEX] = 0;
-            GetSensor()->status[NOWATER_INDEX] = 0;
+            //GetSensor()->status[NOWATER_INDEX] = 0;
         }
         else
         {
@@ -1620,24 +1642,47 @@ void ele_dev_proc()
         flow_proc();
         //tds_proc();
         if(GetSensor()->status[TDS1_INDEX]==TDS1_INDEX||GetSensor()->status[SYSTEM_INDEX] == SYSTEM_INDEX||GetSensor()->status[TDS2_INDEX] == TDS2_INDEX||GetSensor()->status[SHUNT_INDEX] == SHUNT_INDEX||
-			GetSensor()->status[NOWATER_INDEX] == NOWATER_INDEX)
+                GetSensor()->status[NOWATER_INDEX] == NOWATER_INDEX)
         {
-            /*  if((GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)&&GetSensor()->status[SYSTEM_INDEX] != SYSTEM_INDEX&&
-            	GetSensor()->status[TDS2_INDEX] == 0)
+             if((GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M))
               {
 
                   water_levelAbnormal_proc();
 
               }
+			 else
+				{
+				 EleSwCtrl(SALT_SW,OFF);//关所有阀
 
-              else //水位开关异常*/
+			 }
+
+              /* else //水位开关异常*/
             {
-                GetSensor()->status[NORMAL_INDEX] = 0;//
-                GetSensor()->status[WASH_INDEX] = 0;//
-                GetSensor()->status[WATER_LEVEL_INDEX] = 0;//
-                EleSwCtrl(SALT_SW,OFF);//关阀2
-                EleSwCtrl(6,OFF);//关所有阀
-                DcMotorCtrl(7,OFF);//关所有电机
+               if(GetSensor()->status[NOWATER_INDEX] != NOWATER_INDEX)
+               	{
+				   GetSensor()->status[NORMAL_INDEX] = 0;//
+				   GetSensor()->status[WASH_INDEX] = 0;//
+				   GetSensor()->status[WATER_LEVEL_INDEX] = 0;//
+				  // EleSwCtrl(SALT_SW,OFF);//关阀2
+				   //EleSwCtrl(6,OFF);//关所有阀
+				 DcMotorCtrl(7,OFF);//关所有电机
+
+			   EleSwCtrl(WATER_SW,OFF);//关所有阀
+			   #if SW_NOCHANGE 
+			   EleSwCtrl(SALT_SW,OFF);//关所有阀
+			   #endif
+			   EleSwCtrl(WASTE_SW,OFF);//关所有阀
+			   EleSwCtrl(WASH_SW,OFF);//关所有阀
+			   EleSwCtrl(HCILO_SW,OFF);//关所有阀
+
+			   }
+			   else
+			   	{
+					EleSwCtrl(WATER_SW,ON);//原水进水阀开
+					DcMotorCtrl(7,OFF);//关所有电机
+					//EleSwCtrl(SALT_SW,OFF);//关阀2
+			   }
+
             }
 
 

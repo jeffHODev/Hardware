@@ -342,6 +342,8 @@ void current_proc()
 //float flow_sum,flow_aver;
 uint32_t flow_cnt;
 #define FLOW_CAL		0
+static float  flow_cal,flow_cal_sum;
+
 void GetFlow()
 {
 
@@ -350,7 +352,7 @@ void GetFlow()
     static float flow_tmp=0;
     static unsigned init_flag;
     static uint32_t flow_tick;
-    static uint32_t flow_cal;
+    
     static unsigned char start_sample_flag=0;
     //Á÷Á¿ = (f+5)/24   19hz/s----1L/min  575 499  537
     if(*GetCapture() != -1 )
@@ -378,7 +380,9 @@ void GetFlow()
             flow_cal = *GetCapture_cnt();//flow/650*60000/(50*flow_cnt)
             init_flag = 1;
             flow_tmp   = (FLOW_FACTOR/FLOW_RATIO);
-            sensor.water_quantity = sensor.last_water_quantity+flow_cal/FLOW_RATIO;
+			
+            sensor.water_quantity = sensor.last_water_quantity+flow_cal_sum;
+			flow_cal_sum = flow_cal_sum +flow_tmp*FLOW_PERIOD/60000;
             flow_tmp   = (flow_cal*flow_tmp)/(flow_cnt);
             sensor.flow =sensor.flow -sensor.flow /FIR_NUM_FLOW+flow_tmp/FIR_NUM_FLOW;
 
@@ -389,7 +393,9 @@ void GetFlow()
         {
             flow_cal = *GetCapture_cnt();
             flow_tmp   = (FLOW_FACTOR/FLOW_RATIO);
-            sensor.water_quantity = sensor.last_water_quantity+flow_cal/FLOW_RATIO;
+				sensor.water_quantity = sensor.last_water_quantity+flow_cal_sum;
+						   flow_cal_sum = flow_cal_sum +flow_tmp*FLOW_PERIOD/60000;
+
             flow_tmp   = (flow_cal*flow_tmp)/(flow_cnt);
             //if((flow_cnt*FLOW_PERIOD/1000)%10==0)
             {
