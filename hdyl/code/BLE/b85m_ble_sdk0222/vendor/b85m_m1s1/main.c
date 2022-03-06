@@ -71,7 +71,7 @@ _attribute_ram_code_ void irq_handler(void)
 			cal_rx_time();
 		  // sensor_power(0);
 
-            gpio_toggle(GPIO_LED_RED);
+           // gpio_toggle(GPIO_LED_RED);
             measure_stop();
 
         }
@@ -89,7 +89,7 @@ _attribute_ram_code_ void irq_handler(void)
             //measure_start();
 
         }
-         //printf("key\n");
+         printf("key\n");
     }
 
     DBG_CHN15_LOW;

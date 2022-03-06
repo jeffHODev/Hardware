@@ -10,10 +10,11 @@
 
 	#define SLAVE  0
 	#define MASTER 1
-	#define ROLE  MASTER
+	#define ROLE  SLAVE
+
 
 	#define MAX_DIS 100
-	#define MIN_DIS 10
+	#define MIN_DIS 40
 
 	#if ROLE ==MASTER
 		#define	GPIO_LED_RED			GPIO_PD7

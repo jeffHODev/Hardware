@@ -140,7 +140,7 @@ typedef enum {
 	 RF_POWER_P1p17dBm  = BIT(7) | 48,   //   1.17 dbm
 	 RF_POWER_P0p90dBm  = BIT(7) | 46,   //   0.90 dbm
 	 RF_POWER_P0p58dBm  = BIT(7) | 44,   //   0.58 dbm
-	 RF_POWER_P0p04dBm  = BIT(7) | 41,   /*   0.04 dbm */	RF_POWER_P0dBm = RF_POWER_P2p61dBm,
+	 RF_POWER_P0p04dBm  = BIT(7) | 41,   /*   0.04 dbm */	RF_POWER_P0dBm = RF_POWER_P0p04dBm,
 	 RF_POWER_N0p14dBm  = BIT(7) | 40,   //  -0.14 dbm
 	 RF_POWER_N0p97dBm  = BIT(7) | 36,   //  -0.97 dbm
 	 RF_POWER_N1p42dBm  = BIT(7) | 34,   //  -1.42 dbm

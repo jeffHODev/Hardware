@@ -74,7 +74,7 @@
 
 #define BLE_SLAVE_SMP_ENABLE						0   //1 for smp,  0 no security
 #define BLE_MASTER_SMP_ENABLE						0   //1 for smp,  0 no security
-#define BLE_MASTER_SIMPLE_SDP_ENABLE				1   //simple service discovery for BLE master
+#define BLE_MASTER_SIMPLE_SDP_ENABLE				0   //simple service discovery for BLE master
 #define BLE_OTA_SERVER_ENABLE						1
 
 #define BLE_APP_PM_ENABLE							1
@@ -207,7 +207,7 @@
 #define	SYS_CLK_TYPE										SYS_CLK_24M_Crystal
 
 #if(SYS_CLK_TYPE == SYS_CLK_32M_Crystal)
-#define CLOCK_SYS_CLOCK_HZ  							32000000
+#define CLOCK_SYS_CLOCK_HZ  							24000000
 #elif(SYS_CLK_TYPE == SYS_CLK_48M_Crystal)
 #define CLOCK_SYS_CLOCK_HZ  							48000000
 #elif(SYS_CLK_TYPE == SYS_CLK_24M_Crystal)

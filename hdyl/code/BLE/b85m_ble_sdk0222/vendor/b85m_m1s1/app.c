@@ -143,7 +143,7 @@ int app_le_adv_report_event_handle(u8 *p)
     if(memcmp(&pa->mac[3],&mac[3],3)==0)
     {
         //printf("mac2\n");
-        //user_manual_pairing=1;
+        user_manual_pairing=1;
     }
     //printf("mac1\n");
     //if(memcmp(&advdata[2],name,9)==0)
@@ -930,8 +930,18 @@ _attribute_ram_code_ void user_init_deepRetn(void)
 
 u32 t_count=0;
 extern u8 tx_buf[8];
+u8 getpair_mode(u8 sel)
+{
+    if(sel )
+        return master_pairing_enable;
+    else
+        return 	master_unpair_enable;
+
+}
 void send_test()
 {
+    // if(con_stare&&clock_time_exceed(t_count, 1000*1000))
+
     if(con_stare&&clock_time_exceed(t_count, 1000*1000))
     {
         //printf("tst");
@@ -955,6 +965,8 @@ void send_test()
         //gpio_toggle(GPIO_LED_RED);
         blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H, "123",3);
 #endif
+
+        // printf("tx:%d",( clock_time()-t_count)/16000000);
         t_count= clock_time();
     }
 #if ROLE==SLAVE
@@ -970,7 +982,7 @@ void app_process_power_management(void)
 {
 #if (BLE_APP_PM_ENABLE)
     {
-        static u32 power_tick;
+        static u32 power_tick,power_tick2;
 #if ROLE == MASTER
         if(clock_time_exceed(power_tick, CON_TIME_OUT))//master timeout power sleep
         {
@@ -1011,11 +1023,25 @@ void app_process_power_management(void)
             }
         }
         else
+        {
             power_tick = clock_time();
+
+           /* if(clock_time_exceed(power_tick2, 10000*1000))//master timeout power sleep
+            {
+                power_tick2 = clock_time();
+
+                blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
+            }*/
+
+
+        }
+        blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
 
 #endif
     }
 #endif
+      cpu_set_gpio_wakeup (KB, Level_High, 1);
+      cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
 }
 
 void ui_process()
@@ -1044,10 +1070,10 @@ void ui_process()
 #if ROLE == MASTER
         if(gpio_read(KB)==0)
         {
-            getmeasrue()->power_status = ON;
+            getmeasrue()->power_status = OFF;
             //printf("off2\n");
-            //cpu_set_gpio_wakeup (KB, Level_High, 1);
-            //cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE, PM_WAKEUP_PAD, 0);  //deepsleep
+            cpu_set_gpio_wakeup (KB, Level_High, 1);
+            cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE, PM_WAKEUP_PAD, 0);  //deepsleep
         }
 
 
@@ -1090,9 +1116,9 @@ int main_idle_loop (void)
     key_proc();//Ö÷»ú°´¼üÉ¨Ãè
 #endif
     ui_process();
-
+    //send_test();
     ////////////////////////////////////// PM entry /////////////////////////////////
-    //app_process_power_management();
+    app_process_power_management();
 
     return 0; //must return 0 due to SDP flow
 }
