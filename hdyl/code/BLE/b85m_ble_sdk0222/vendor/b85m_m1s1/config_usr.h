@@ -10,7 +10,7 @@
 
 	#define SLAVE  0
 	#define MASTER 1
-	#define ROLE  SLAVE
+	#define ROLE  MASTER
 
 
 	#define MAX_DIS 100

@@ -743,6 +743,8 @@ void ack_proc()
 
 
     }
+	else
+		ack_timeout = clock_time();
 #else
     if( master_conect_status()==0)
     {
@@ -756,6 +758,8 @@ void ack_proc()
 
 
     }
+	else
+		ack_timeout = clock_time();
 #endif
 }
 void led_mode_set(u8 status)
@@ -1092,7 +1096,7 @@ void mesure_proc()
    // if(clock_time_exceed( measure_usr.timeout, SLEEP_TIME_OUT))
        // if(measure_usr.timeout < SLEEP_TIME_OUT)//震动开关无振动超时判断，大于设置时间进入低功耗休眠
         {
-            if(GetBle_status()->connection == 1&&measure_usr.ack_sig==1)
+            if(GetBle_status()->connection == 1)
             {
 
                 if(clock_time_exceed( measure_usr.tick, MEASURE_PERIOD))

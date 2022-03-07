@@ -978,18 +978,18 @@ void send_test()
 
 
 
-void app_process_power_management(void)
+
+void app_process_power_management_usr(void)
 {
 #if (BLE_APP_PM_ENABLE)
     {
         static u32 power_tick,power_tick2;
 #if ROLE == MASTER
-        if(clock_time_exceed(power_tick, CON_TIME_OUT))//master timeout power sleep
-        {
-            power_tick = clock_time();
-
-            if(!con_stare)
+   	if(!con_stare) 
+        {  
+			if(clock_time_exceed(power_tick, CON_TIME_OUT))//master timeout power sleep
             {
+				power_tick = clock_time();
 
                 if(master_pairing_enable ==0&&master_unpair_enable ==0)
                 {
@@ -999,6 +999,8 @@ void app_process_power_management(void)
                 }
             }
         }
+	  else
+	  	power_tick = clock_time();
 
 #else  //slave timeout power sleep
         if(clock_time_exceed(power_tick, CON_TIME_OUT))
@@ -1007,13 +1009,11 @@ void app_process_power_management(void)
             if(getmeasrue()->ack_sig==0)//非法连接，没握手信号
             {
                 blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
-
+                blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
             }
-            //blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
-
         }
 
-        if(GetBle_status()==1)
+       /* if(GetBle_status()->connection==1)
         {
             u8 mac[6]= {0xc2,0xb3,0x1a,0x38,0xc1,0xa4};
             power_tick = clock_time();
@@ -1026,46 +1026,42 @@ void app_process_power_management(void)
         {
             power_tick = clock_time();
 
-           /* if(clock_time_exceed(power_tick2, 10000*1000))//master timeout power sleep
-            {
-                power_tick2 = clock_time();
-
-                blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
-            }*/
-
-
-        }
-        blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
+       }*/
+        
 
 #endif
     }
 
-if(*GetBle_status()==0)
-	{
-	blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
-
-	int user_task_flg = ota_is_working;
-	#if UI_KEYBOARD_ENABLE
-		user_task_flg = user_task_flg || scan_pin_need || key_not_released;
-	#endif
-	#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
-		user_task_flg = user_task_flg || master_sdp_pending;
-	#endif
-
-
-	if(user_task_flg){
-		blc_pm_setSleepMask(PM_SLEEP_DISABLE);
-	}
-}else{
-	blc_pm_setSleepMask(PM_SLEEP_DISABLE);
-}
-
 #endif
-      //cpu_set_gpio_wakeup (KB, Level_High, 1);
-     // cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+    //cpu_set_gpio_wakeup (KB, Level_High, 1);
+    // cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
 
 
 
+}
+void app_process_power_management(void)
+{
+#if ROLE == MASTER
+
+#else
+
+	#if (BLE_APP_PM_ENABLE)
+		blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
+
+		int user_task_flg = ota_is_working||GetBle_status()->connection;
+		#if 0
+			user_task_flg = user_task_flg || scan_pin_need || key_not_released;
+		#endif
+		#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
+			user_task_flg = user_task_flg || master_sdp_pending;
+		#endif
+
+
+		if(user_task_flg){
+			blc_pm_setSleepMask(PM_SLEEP_DISABLE);
+		}
+	#endif
+#endif
 }
 
 void ui_process()
