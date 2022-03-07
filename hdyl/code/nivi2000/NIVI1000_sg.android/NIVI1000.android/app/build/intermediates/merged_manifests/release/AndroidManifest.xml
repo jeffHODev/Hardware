@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hekangyuan.nivi1000"
+    android:versionCode="2"
+    android:versionName="1.1" >
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="26" />
+
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <!-- 必选 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 获取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 网络通信 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 获取设备信息 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 获取MAC地址 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取MAC地址 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 读写sdcard，storage等等 -->
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 允许程序录制音频 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <!-- 悬浮窗 -->
+    <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> -->
+    <!-- <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW"/> -->
+    <!-- <uses-permission android:name="android.permission.GET_TASKS"/> -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE"/> -->
+
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.hardware.usb.host"
+        android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.usb.host"
+        android:required="true" />
+
+    <application
+        android:name="com.hekangyuan.nivi1000.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/logo"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.HistoryActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.PatientInfomationActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+
+        <!-- <activity android:name="org.mopria.printplugin.DocumentRenderingActivity" -->
+        <!-- android:screenOrientation="landscape"> -->
+
+
+        <!-- </activity> -->
+
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.NewBloodPressureActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.ShowPerinfoActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.LoginActivity"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hekangyuan.nivi1000.print.PrintActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.DoubleBarActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.AnalysisActivity"
+            android:screenOrientation="landscape" >
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.DrawsActivity"
+            android:screenOrientation="landscape" >
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+
+        </activity>
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.ResultThreeActivity"
+            android:screenOrientation="landscape" >
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.ResultOneActivity"
+            android:screenOrientation="landscape" >
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.HistoryResultOneActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.ResultTwoActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.SettingActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.ModifyPasswordActivity"
+            android:label=""
+            android:screenOrientation="landscape"
+            android:theme="@style/MyDialogStyle" />
+        <activity
+            android:name="com.hekangyuan.nivi1000.activity.UsbActivity"
+            android:label=""
+            android:screenOrientation="landscape"
+            android:theme="@style/MyDialogStyle" >
+        </activity>
+
+        <receiver
+            android:name="com.hekangyuan.nivi1000.broadcast.USBBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+                <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="1080" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="1920" />
+
+        <!-- <meta-data -->
+        <!-- android:name="design_width_in_dp" -->
+        <!-- android:value="640"/> -->
+        <!-- <meta-data -->
+        <!-- android:name="design_height_in_dp" -->
+        <!-- android:value="1280"/> -->
+
+        <meta-data
+            android:name="android.support.VERSION"
+            android:value="26.1.0" />
+
+        <activity
+            android:name="com.blankj.utilcode.util.UtilsTransActivity4MainProcess"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/ActivityTranslucent"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
+            android:name="com.blankj.utilcode.util.UtilsTransActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:multiprocess="true"
+            android:theme="@style/ActivityTranslucent"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+
+        <provider
+            android:name="com.blankj.utilcode.util.UtilsFileProvider"
+            android:authorities="com.hekangyuan.nivi1000.utilcode.provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/util_code_provider_paths" />
+        </provider>
+
+        <service
+            android:name="com.blankj.utilcode.util.MessengerUtils$ServerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.hekangyuan.nivi1000.messenger" />
+            </intent-filter>
+        </service>
+
+        <provider
+            android:name="me.jessyan.autosize.InitProvider"
+            android:authorities="com.hekangyuan.nivi1000.autosize-init-provider"
+            android:exported="false"
+            android:multiprocess="true" />
+
+        <meta-data
+            android:name="android.arch.lifecycle.VERSION"
+            android:value="27.0.0-SNAPSHOT" />
+    </application>
+
+</manifest>

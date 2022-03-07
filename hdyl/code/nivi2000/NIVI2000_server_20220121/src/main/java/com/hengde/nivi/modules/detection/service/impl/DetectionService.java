@@ -66,7 +66,8 @@ public class DetectionService implements IDetectionService {
             parmeMap.put("createDate", new Date());
             parmeMap.put("delFlag", (byte)0);
             parmeMap.put("basisMeasurementId", originalWaveformReq.getBasisMeasurementId());
-
+//            parmeMap.put("model", originalWaveformReq.getModel());
+  //          basisMeasurementMapper.updateModel(parmeMap);
             Map<String, int[]> parMap = new HashMap();
             this.resMap(parMap, originalWaveformReq, null);
 

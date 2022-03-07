@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hengde.nivi.modules.detection.dao.OriginalWaveformMapper" >
+  <resultMap id="BaseResultMap" type="com.hengde.nivi.modules.detection.entity.OriginalWaveform" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="basis_measurement_id" property="basisMeasurementId" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hengde.nivi.modules.detection.entity.OriginalWaveform" extends="BaseResultMap" >
+    <result column="hypecgs" property="hypecgs" jdbcType="LONGVARBINARY" />
+    <result column="hyppcgs" property="hyppcgs" jdbcType="LONGVARBINARY" />
+    <result column="hypapgs" property="hypapgs" jdbcType="LONGVARBINARY" />
+    <result column="hypecgd" property="hypecgd" jdbcType="LONGVARBINARY" />
+    <result column="hyppcgd" property="hyppcgd" jdbcType="LONGVARBINARY" />
+    <result column="hypapgd" property="hypapgd" jdbcType="LONGVARBINARY" />
+    <result column="ecg_pl" property="ecgPl" jdbcType="LONGVARBINARY" />
+    <result column="pcg_pl" property="pcgPl" jdbcType="LONGVARBINARY" />
+    <result column="apg_l" property="apgL" jdbcType="LONGVARBINARY" />
+    <result column="ecg_pr" property="ecgPr" jdbcType="LONGVARBINARY" />
+    <result column="pcg_pr" property="pcgPr" jdbcType="LONGVARBINARY" />
+    <result column="apg_r" property="apgR" jdbcType="LONGVARBINARY" />
+    <result column="ecg_th" property="ecgTh" jdbcType="LONGVARBINARY" />
+    <result column="apg_th" property="apgTh" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, basis_measurement_id, del_flag
+  </sql>
+  <sql id="Blob_Column_List" >
+    hypecgs, hyppcgs, hypapgs, hypecgd, hyppcgd, hypapgd, ecg_pl, pcg_pl, apg_l, ecg_pr, 
+    pcg_pr, apg_r, ecg_th, apg_th
+  </sql>
+
+  <!-- 根据测试号获取检测原始波形 -->
+  <select id="selectByBasisMeasurementId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from original_waveform
+    where basis_measurement_id = #{basisMeasurementId,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 查询医院设备剩余检测次数 -->
+  <select id="selectDetectCountByHospitalId" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select detect_count
+    from device_hospital
+    where device_id = #{deviceId,jdbcType=VARCHAR} and del_flag = 0
+  </select>
+
+  <!-- 更新医院设备剩余检测次数 -->
+  <update id="updateDetectCountByHospitalId" parameterType="java.lang.String" >
+    update device_hospital
+    set detect_count = detect_count - 1
+    where device_id = #{deviceId,jdbcType=VARCHAR} and del_flag = 0
+  </update>
+
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from original_waveform
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from original_waveform
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="java.util.Map" >
+    insert into original_waveform (id, create_date, basis_measurement_id,
+      del_flag, hypecgs, hyppcgs,
+      hypapgs, hypecgd, hyppcgd,
+      hypapgd, ecg_pl, pcg_pl,
+      apg_l, ecg_pr, pcg_pr,
+      apg_r, ecg_th, apg_th
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{basisMeasurementId,jdbcType=VARCHAR},
+      #{delFlag,jdbcType=TINYINT}, #{hypecgs,jdbcType=LONGVARBINARY}, #{hyppcgs,jdbcType=LONGVARBINARY},
+      #{hypapgs,jdbcType=LONGVARBINARY}, #{hypecgd,jdbcType=LONGVARBINARY}, #{hyppcgd,jdbcType=LONGVARBINARY},
+      #{hypapgd,jdbcType=LONGVARBINARY}, #{ecgPl,jdbcType=LONGVARBINARY}, #{pcgPl,jdbcType=LONGVARBINARY},
+      #{apgL,jdbcType=LONGVARBINARY}, #{ecgPr,jdbcType=LONGVARBINARY}, #{pcgPr,jdbcType=LONGVARBINARY},
+      #{apgR,jdbcType=LONGVARBINARY}, #{ecgTh,jdbcType=LONGVARBINARY}, #{apgTh,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hengde.nivi.modules.detection.entity.OriginalWaveform" >
+    insert into original_waveform
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="basisMeasurementId != null" >
+        basis_measurement_id,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="hypecgs != null" >
+        hypecgs,
+      </if>
+      <if test="hyppcgs != null" >
+        hyppcgs,
+      </if>
+      <if test="hypapgs != null" >
+        hypapgs,
+      </if>
+      <if test="hypecgd != null" >
+        hypecgd,
+      </if>
+      <if test="hyppcgd != null" >
+        hyppcgd,
+      </if>
+      <if test="hypapgd != null" >
+        hypapgd,
+      </if>
+      <if test="ecgPl != null" >
+        ecg_pl,
+      </if>
+      <if test="pcgPl != null" >
+        pcg_pl,
+      </if>
+      <if test="apgL != null" >
+        apg_l,
+      </if>
+      <if test="ecgPr != null" >
+        ecg_pr,
+      </if>
+      <if test="pcgPr != null" >
+        pcg_pr,
+      </if>
+      <if test="apgR != null" >
+        apg_r,
+      </if>
+      <if test="ecgTh != null" >
+        ecg_th,
+      </if>
+      <if test="apgTh != null" >
+        apg_th,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="basisMeasurementId != null" >
+        #{basisMeasurementId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="hypecgs != null" >
+        #{hypecgs,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="hyppcgs != null" >
+        #{hyppcgs,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="hypapgs != null" >
+        #{hypapgs,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="hypecgd != null" >
+        #{hypecgd,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="hyppcgd != null" >
+        #{hyppcgd,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="hypapgd != null" >
+        #{hypapgd,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="ecgPl != null" >
+        #{ecgPl,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="pcgPl != null" >
+        #{pcgPl,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="apgL != null" >
+        #{apgL,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="ecgPr != null" >
+        #{ecgPr,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="pcgPr != null" >
+        #{pcgPr,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="apgR != null" >
+        #{apgR,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="ecgTh != null" >
+        #{ecgTh,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="apgTh != null" >
+        #{apgTh,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hengde.nivi.modules.detection.entity.OriginalWaveform" >
+    update original_waveform
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="basisMeasurementId != null" >
+        basis_measurement_id = #{basisMeasurementId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="hypecgs != null" >
+        hypecgs = #{hypecgs,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="hyppcgs != null" >
+        hyppcgs = #{hyppcgs,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="hypapgs != null" >
+        hypapgs = #{hypapgs,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="hypecgd != null" >
+        hypecgd = #{hypecgd,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="hyppcgd != null" >
+        hyppcgd = #{hyppcgd,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="hypapgd != null" >
+        hypapgd = #{hypapgd,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="ecgPl != null" >
+        ecg_pl = #{ecgPl,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="pcgPl != null" >
+        pcg_pl = #{pcgPl,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="apgL != null" >
+        apg_l = #{apgL,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="ecgPr != null" >
+        ecg_pr = #{ecgPr,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="pcgPr != null" >
+        pcg_pr = #{pcgPr,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="apgR != null" >
+        apg_r = #{apgR,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="ecgTh != null" >
+        ecg_th = #{ecgTh,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="apgTh != null" >
+        apg_th = #{apgTh,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hengde.nivi.modules.detection.entity.OriginalWaveform" >
+    update original_waveform
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      basis_measurement_id = #{basisMeasurementId,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      hypecgs = #{hypecgs,jdbcType=LONGVARBINARY},
+      hyppcgs = #{hyppcgs,jdbcType=LONGVARBINARY},
+      hypapgs = #{hypapgs,jdbcType=LONGVARBINARY},
+      hypecgd = #{hypecgd,jdbcType=LONGVARBINARY},
+      hyppcgd = #{hyppcgd,jdbcType=LONGVARBINARY},
+      hypapgd = #{hypapgd,jdbcType=LONGVARBINARY},
+      ecg_pl = #{ecgPl,jdbcType=LONGVARBINARY},
+      pcg_pl = #{pcgPl,jdbcType=LONGVARBINARY},
+      apg_l = #{apgL,jdbcType=LONGVARBINARY},
+      ecg_pr = #{ecgPr,jdbcType=LONGVARBINARY},
+      pcg_pr = #{pcgPr,jdbcType=LONGVARBINARY},
+      apg_r = #{apgR,jdbcType=LONGVARBINARY},
+      ecg_th = #{ecgTh,jdbcType=LONGVARBINARY},
+      apg_th = #{apgTh,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hengde.nivi.modules.detection.entity.OriginalWaveform" >
+    update original_waveform
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      basis_measurement_id = #{basisMeasurementId,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=TINYINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

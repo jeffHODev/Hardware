@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Gradle: net.java.dev.jna:jna:4.5.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/modules-2/files-2.1/net.java.dev.jna/jna/4.5.0/55b548d3195efc5280bf1c3f17b49659c54dee40/jna-4.5.0.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/4.5.0/55b548d3195efc5280bf1c3f17b49659c54dee40/jna-4.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/modules-2/files-2.1/net.java.dev.jna/jna/4.5.0/b7bdcf147eb45049f9a57dd76d0e2a4db2ede7b/jna-4.5.0-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/4.5.0/b7bdcf147eb45049f9a57dd76d0e2a4db2ede7b/jna-4.5.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.6.4-all/caches/modules-2/files-2.1/net.java.dev.jna/jna/4.5.0/81072e8420f1635a3625cdfd253ccea6e33535cc/jna-4.5.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/4.5.0/81072e8420f1635a3625cdfd253ccea6e33535cc/jna-4.5.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

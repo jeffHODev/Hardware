@@ -790,6 +790,7 @@ public class ResultThreeActivity extends BaseActivity<PringtPDFPresenter> implem
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void doPdfPrint(String filePath) {
         PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+                Log.e("huang", "----" + printManager.getPrintJobs().size() + "---------" + printManager);
         if(null == printManager || printManager.getPrintJobs().size() == 0){
             ToastUtils.showToast(ResultThreeActivity.this, "没有发现打印设备");
             return;

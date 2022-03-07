@@ -1,6 +1,7 @@
 package com.hekangyuan.nivi1000.activity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -282,6 +283,7 @@ public class SettingActivity extends BaseActivity<LoginPresenter> implements Log
 
             case R.id.mode_two:
                 saveModeToSp(Constants.MEASURE_MODE_ASYNC);
+
                 break;
             case R.id.submit:
                 submit();

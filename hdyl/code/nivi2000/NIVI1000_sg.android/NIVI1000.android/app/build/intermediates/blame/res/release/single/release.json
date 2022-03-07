@@ -1,0 +1,606 @@
+[
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_logo.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\logo.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_greeone.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\greeone.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_newbutton.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\newbutton.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_timg.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\timg.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_threeback.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\threeback.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_forgetmima.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\forgetmima.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_imgpassword.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\imgpassword.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_b.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\b.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_app_title.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\app_title.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_healthyres8.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\healthyres8.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_ispassword.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\ispassword.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_healthyres1.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\healthyres1.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_up.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\up.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\anim_act_close_exit.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\anim\\act_close_exit.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_measureblood.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_measureblood.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_down.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\down.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_greethr.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\greethr.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_db.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_db.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_rounded_edittext.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\rounded_edittext.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_analysis.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_analysis.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_ripple_bg_drawable.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\ripple_bg_drawable.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_imgusername.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\imgusername.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_buttonce_style.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\buttonce_style.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_logo.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\logo.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_ecg.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\ecg.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_healthyres7.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\healthyres7.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_btn_normal.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\btn_normal.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_threelight.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\threelight.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\anim_act_close_enter.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\anim\\act_close_enter.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_button_style.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\button_style.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_qimg.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\qimg.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_dialog_loading.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\dialog_loading.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_name.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\name.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_guanmailead.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\guanmailead.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_loginbutton.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\loginbutton.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_bottombtnc.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\bottombtnc.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_greetwo.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\greetwo.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-ldpi_logo.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-ldpi\\logo.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_print.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_print.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_back_selector.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\back_selector.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_result_three.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_result_three.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_transfer_files_via_bt.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_transfer_files_via_bt.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_per_list.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_per_list.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi_back_selected.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable-xhdpi\\back_selected.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_bb.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\bb.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_historyper.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\historyper.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_item_device.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\item_device.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_ico_search_blue.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\ico_search_blue.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_serial_port.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_serial_port.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_showperinfo.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_showperinfo.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_youjiantou.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\youjiantou.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_modify_password.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_modify_password.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_xlistview_header.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\xlistview_header.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\anim_act_open_enter.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\anim\\act_open_enter.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_grid_item.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\grid_item.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_bbb.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\bbb.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_buttoncha_style.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\buttoncha_style.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_ccarotidartery.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\ccarotidartery.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_center.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\center.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_healthyres5.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\healthyres5.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi_back_normal.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable-xhdpi\\back_normal.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_login.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_birthday.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\birthday.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_jizhumima.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\jizhumima.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_concarotidartery.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\concarotidartery.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_progressbar_round.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\progressbar_round.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_app_title_new.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\app_title_new.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_healthyres2.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\healthyres2.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_goback.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\goback.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_sounds.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\sounds.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_nn_paster_btn_close.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\nn_paster_btn_close.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_bottpmbtnn.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\bottpmbtnn.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_custom_toast.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\custom_toast.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_main.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_ic_launcher_background.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_bar.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_bar.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_horn.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\horn.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_healthyres4.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\healthyres4.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_carotidartery.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\carotidartery.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxxhdpi_logo.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxxhdpi\\logo.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_pulse.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\pulse.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_newblood_pop.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\newblood_pop.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_float_view_inner_layout.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\float_view_inner_layout.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_bb.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\bb.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_address.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\address.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_healthyres10.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\healthyres10.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_carotidpulsebac.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\carotidpulsebac.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_healthyres3.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\healthyres3.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_settings.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_settings.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_loginbackground.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\loginbackground.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_result_one.jpg.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\result_one.jpg"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_table_line.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\table_line.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\anim_act_open_exit.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\anim\\act_open_exit.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_checkboxsee_style.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\checkboxsee_style.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_bbb.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\bbb.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_sexcou.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\sexcou.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_range.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\range.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_celiangbtnc.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\celiangbtnc.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_id_card.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\id_card.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_aa.9.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\aa.9.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_shenblue.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\shenblue.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_qianblue.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\qianblue.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-hdpi_oindex.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-hdpi\\oindex.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_result_one.jpg.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\result_one.jpg"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_phone.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\phone.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_query.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\query.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable-v21_ripple_bg.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable-v21\\ripple_bg.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_result_one.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_result_one.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xxhdpi_people.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable-xxhdpi\\people.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_logo.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\logo.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_healthyres9.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\healthyres9.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_primg.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\primg.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_chaxunn.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\chaxunn.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\xml_file_paths.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\xml\\file_paths.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_savepatinf.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_savepatinf.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_chaxunc.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\chaxunc.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_pop.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_pop.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_view_floating_window.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\view_floating_window.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_select_serial_port.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_select_serial_port.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_idcard.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\idcard.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_healthyres6.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\healthyres6.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_usb.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_usb.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_celiangbtnn.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\celiangbtnn.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_imgv_slide.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\imgv_slide.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_xlistview_footer.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\xlistview_footer.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_guanmaileadnew.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\guanmaileadnew.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_loginwhitebox.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\loginwhitebox.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_xlistview_arrow.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\xlistview_arrow.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_list_item.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\list_item.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_result_two.jpg.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\result_two.jpg"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi_logo.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-mdpi\\logo.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi_carotidpulsebac.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable-xhdpi\\carotidpulsebac.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_patient_sex.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\patient_sex.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_loginremember.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xxhdpi\\loginremember.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\layout_activity_result_two.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\layout\\activity_result_two.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable_bp_bg_drawable.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable\\bp_bg_drawable.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi_base_toast_bg.9.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\drawable-xhdpi\\base_toast_bg.9.png"
+    },
+    {
+        "merged": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi_fengxianyuan.png.flat",
+        "source": "D:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\src\\main\\res\\mipmap-xhdpi\\fengxianyuan.png"
+    }
+]

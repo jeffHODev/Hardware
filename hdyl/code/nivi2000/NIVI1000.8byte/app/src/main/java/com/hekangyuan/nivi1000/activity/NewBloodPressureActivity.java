@@ -145,6 +145,7 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
         //处理串口通信方法：1.初始化数据解析线程 2.打开串口通信
         initSerialThread();
         openSerialPort();
+
     }
 
     private void initView() {

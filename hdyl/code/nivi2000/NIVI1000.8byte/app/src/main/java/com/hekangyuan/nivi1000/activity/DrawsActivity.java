@@ -266,6 +266,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
             int mode = (int) modeMap.get(Constants.SP_MODE);
             this.mode = mode;
         }
+
     }
 
     /**
@@ -717,6 +718,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 
 
         //TODO 第一个页面 收缩压*1.05，第二个舒张压*0.95
+        Log.e("huang", "Constants.MEASURE_MODE_////" + mode);
     }
 
     private void stopMeasure() {
