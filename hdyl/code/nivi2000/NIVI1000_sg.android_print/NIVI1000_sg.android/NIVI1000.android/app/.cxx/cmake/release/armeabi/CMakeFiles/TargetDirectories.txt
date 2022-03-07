@@ -1,3 +1,0 @@
-D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/native-lib.dir
-D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/edit_cache.dir
-D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/rebuild_cache.dir

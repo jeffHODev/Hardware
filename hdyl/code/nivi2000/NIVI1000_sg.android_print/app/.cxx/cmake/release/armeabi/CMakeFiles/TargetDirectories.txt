@@ -1,3 +1,0 @@
-C:/Users/86152/Desktop/hdyl/code/nivi2000/NIVI1000_sg.android_print/app/.cxx/cmake/release/armeabi/CMakeFiles/native-lib.dir
-C:/Users/86152/Desktop/hdyl/code/nivi2000/NIVI1000_sg.android_print/app/.cxx/cmake/release/armeabi/CMakeFiles/edit_cache.dir
-C:/Users/86152/Desktop/hdyl/code/nivi2000/NIVI1000_sg.android_print/app/.cxx/cmake/release/armeabi/CMakeFiles/rebuild_cache.dir

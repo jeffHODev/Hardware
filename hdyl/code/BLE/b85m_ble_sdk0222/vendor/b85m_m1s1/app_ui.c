@@ -556,7 +556,7 @@ void proc_master_role_unpair(void)
 
 void user_gpio_init()
 {
-    sleep_ms(2000);
+    //sleep_ms(2000);
 
     //	gpio_set_func(GPIO_PB4 ,AS_GPIO);                      //设置GPIO功能
     //gpio_set_output_en(GPIO_PB4, 1); 		//输出使能

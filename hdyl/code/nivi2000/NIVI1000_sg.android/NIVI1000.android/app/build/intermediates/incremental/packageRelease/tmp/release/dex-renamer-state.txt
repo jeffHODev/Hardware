@@ -1,4 +1,0 @@
-#Wed Jan 26 16:03:25 CST 2022
-base.0=D\:\\workspace\\NIVI1000.android\\NIVI1000.android\\app\\build\\intermediates\\dex\\release\\out\\classes.dex
-path.0=classes.dex
-renamed.0=classes.dex
