@@ -75,6 +75,7 @@ extern u16 handle_s;
 
 
 
+led_stru led_usr;
 
 #if (UI_KEYBOARD_ENABLE)
 
@@ -84,7 +85,7 @@ _attribute_ble_data_retention_	int 	key_not_released;
 #define CONSUMER_KEY   	   			1
 #define KEYBOARD_KEY   	   			2
 #define PAIR_UNPAIR_KEY   	   		3
-led_stru led_usr;
+
 
 _attribute_ble_data_retention_	u8 		key_type;
 
@@ -256,7 +257,7 @@ void key_change_proc(void)
     }
 
 }
-
+#endif   //end of UI_KEYBOARD_ENABLE
 
 
 
@@ -272,6 +273,7 @@ _attribute_ble_data_retention_	static int gpioWakeup_keyProc_cnt = 0;
  * @param[in]  n    - the length of event parameter.
  * @return     none.
 */
+
 void proc_keyboard (u8 e, u8 *p, int n)
 {
 #if 0
@@ -303,6 +305,7 @@ void proc_keyboard (u8 e, u8 *p, int n)
         key_change_proc();
     }
 #endif
+
 
 #if ROLE == MASTER
     static u32 key_delay_tick,key_time_start;
@@ -552,7 +555,7 @@ void proc_master_role_unpair(void)
 
 
 
-#endif   //end of UI_KEYBOARD_ENABLE
+
 
 void user_gpio_init()
 {

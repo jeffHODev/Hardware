@@ -1040,8 +1040,8 @@ void app_process_power_management(void)
 #endif
     }
 #endif
-      cpu_set_gpio_wakeup (KB, Level_High, 1);
-      cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+      //cpu_set_gpio_wakeup (KB, Level_High, 1);
+     // cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
 }
 
 void ui_process()
