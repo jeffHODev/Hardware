@@ -993,6 +993,7 @@ void app_process_power_management(void)
 
                 if(master_pairing_enable ==0&&master_unpair_enable ==0)
                 {
+                	printf("msk\n");
                     cpu_set_gpio_wakeup (KB, Level_High, 1);
                     cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
                     //blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
@@ -1007,41 +1008,74 @@ void app_process_power_management(void)
             if(getmeasrue()->ack_sig==0)//非法连接，没握手信号
             {
                 blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
+                blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
 
+                printf("dix3\n");
             }
             //blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
 
         }
 
-        if(GetBle_status()==1)
+        if(GetBle_status()->connection==1)
         {
             u8 mac[6]= {0xc2,0xb3,0x1a,0x38,0xc1,0xa4};
             power_tick = clock_time();
             if(memcmp(&(getmeasrue()->mac[3]),&mac[3],3)!=0)//非法连接不合法mac
             {
-                blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
+            	 printf("dix\n");
+                //;blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
             }
         }
         else
         {
             power_tick = clock_time();
 
-           /* if(clock_time_exceed(power_tick2, 10000*1000))//master timeout power sleep
-            {
-                power_tick2 = clock_time();
+            /* if(clock_time_exceed(power_tick2, 10000*1000))//master timeout power sleep
+             {
+                 power_tick2 = clock_time();
 
-                blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
-            }*/
+                 blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
+             }*/
 
 
         }
+       // blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
+
+
+
+
+    if(GetBle_status()->connection==0)
+    {
+     
         blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
+        printf("dix2\n");
+        int user_task_flg = ota_is_working;
+#if UI_KEYBOARD_ENABLE
+        user_task_flg = user_task_flg || scan_pin_need || key_not_released;
+#endif
+#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
+        user_task_flg = user_task_flg || master_sdp_pending;
+#endif
+
+
+        if(user_task_flg)
+        {
+            blc_pm_setSleepMask(PM_SLEEP_DISABLE);
+        }
+    }
+    else
+    {
+        blc_pm_setSleepMask(PM_SLEEP_DISABLE);
+    }
 
 #endif
     }
 #endif
-      //cpu_set_gpio_wakeup (KB, Level_High, 1);
-     // cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+    //cpu_set_gpio_wakeup (KB, Level_High, 1);
+    // cpu_sleep_wakeup_32k_rc(DEEPSLEEP_MODE_RET_SRAM_LOW32K, PM_WAKEUP_PAD, 0);  //deepsleep
+
+
+
 }
 
 void ui_process()

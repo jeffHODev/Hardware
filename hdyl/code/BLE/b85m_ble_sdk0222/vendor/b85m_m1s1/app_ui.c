@@ -594,7 +594,7 @@ void user_gpio_init()
     gpio_set_func(ECHO,AS_GPIO);
     gpio_set_output_en(ECHO, 0); 			//enable output
     gpio_set_input_en(ECHO,1);				//disable input
-    gpio_setup_up_down_resistor(ECHO, PM_PIN_PULLUP_10K);
+    gpio_setup_up_down_resistor(ECHO, PM_PIN_PULLDOWN_100K);
     // gpio_set_interrupt(ECHO, POL_FALLING);
     gpio_set_interrupt_risc0(ECHO, POL_FALLING);
 
@@ -610,7 +610,7 @@ void user_gpio_init()
     gpio_set_func(CS102_EN,AS_GPIO);                       //设置GPIO功能
     gpio_set_output_en(CS102_EN, 1); 		//输出使能
     gpio_set_input_en(CS102_EN,0);			//输入失能
-    gpio_setup_up_down_resistor(CS102_EN, PM_PIN_PULLUP_10K);
+    gpio_setup_up_down_resistor(CS102_EN, PM_PIN_PULLDOWN_100K);
 
     gpio_write(CS102_EN, 1);
 
@@ -1175,7 +1175,8 @@ void ui_proc()
     static u32 tmp;
     ack_proc();
 	 #if ROLE == SLAVE
-    // led_ctrl();
+	 if(GetBle_status()->connection)
+     led_ctrl();
 	 #else
 	 if( getpair_mode(0)||getpair_mode(1))
 	 led_ctrl();
