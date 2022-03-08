@@ -143,6 +143,8 @@ _attribute_ram_code_ int main(void)
 	printf("init sdk\n");
     u32 tick_tmp;
     //gpio_write(GPIO_LED_RED,1);
+   // while(1)
+    //	;
     while(1)
     {
 
@@ -162,7 +164,9 @@ _attribute_ram_code_ int main(void)
         //gpio_write(GPIO_LED_RED, 1);
         //gpio_write(GPIO_PB4, 1);
         // sleep_ms(1000);
-
+#if (MODULE_WATCHDOG_ENABLE)
+		wd_clear(); //clear watch dog
+#endif
         main_loop ();
 
     }

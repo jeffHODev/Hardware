@@ -906,14 +906,14 @@ void parase(u8 tmp)
 
         measure_usr.ack_sig = 0;
         led_mode_set(LED_PAIR);
-        printf("Pair\n");
-    }
+        printf("P1\n");
+    }break;
     case 0x5c://解绑对指示灯
     {
 
         measure_usr.ack_sig = 0;
         led_mode_set(LED_UNPAIR);
-        printf("uPair\n");
+        printf("P2\n");
     }
 
     break;
@@ -1105,13 +1105,13 @@ void mesure_proc()
             if(clock_time_exceed( measure_usr.motor_tick, M_ON_PERIOD)==0)
             {
                 //printf("m99\n");
-                gpio_write(M_EN,1); 	   //输入失能
+                gpio_write(M_EN,0); 	   //输入失能
 
             }
             else
             {
 
-                gpio_write(M_EN,0); 	   //输入失能
+                gpio_write(M_EN,1); 	   //输入失能
             }
         }
 
@@ -1214,6 +1214,12 @@ void led_proc_usr()
     {
 		led_mode_set(LED_DISCON);
 	}
+    else
+    {
+
+    	//if(measure_usr.mode==SETTING)
+
+    }
 	#else
     if(master_conect_status()==0)
     {
