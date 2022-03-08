@@ -447,7 +447,7 @@ int spp_onReceiveData(u16 connHandle, ble_rf_packet_att_write_t *p)
         calCRC=CRC_Compute(&data[1],data[2]+2);
         resCRC=(u16)data[4];
         resCRC=(resCRC<<8);
-        resCRC=resCRC|(data[5])&0xFF;
+        resCRC=resCRC|(data[5]&0xFF);
 
         if(calCRC==resCRC)
         {
@@ -630,7 +630,7 @@ void	my_gatt_init (void)
  */
 void	att_keyboard_media (u16 conn, u8 *p)
 {
-    u16 consumer_key = p[0] | p[1]<<8;
+   // u16 consumer_key = p[0] | p[1]<<8;
 
 
 #if (1 && UI_LED_ENABLE)	//Demo effect: when slave send Vol+/Vol- to master, LED GPIO toggle to show the result

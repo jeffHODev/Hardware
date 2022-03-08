@@ -152,7 +152,7 @@ int app_le_adv_report_event_handle(u8 *p)
     //}
 #else
     //manual pairing methods 1: key press triggers
-    u8 i;
+
     //for(i=0;i<6;i++)
     //printf("%x\n",pa->mac[i]);
     user_manual_pairing = master_pairing_enable && (rssi > -30);  //button trigger pairing(RSSI threshold, short distance)
@@ -189,7 +189,7 @@ int app_le_adv_report_event_handle(u8 *p)
 
         if(status == BLE_SUCCESS)  //create connection success
         {
-            master_pairing_enable==0;
+            master_pairing_enable=0;
 #if (!BLE_MASTER_SMP_ENABLE)
             // for Telink referenced pair&bonding,
             if(user_manual_pairing && !master_auto_connect)   //manual pair but not auto connect
@@ -622,7 +622,7 @@ int app_gatt_data_handler (u16 connHandle, u8 *pkt)
                     calCRC=CRC_Compute(&data[1],data[2]+2);
                     resCRC=(u16)data[4];
                     resCRC=(resCRC<<8);
-                    resCRC=resCRC|(data[5])&0xFF;
+                    resCRC=resCRC|(data[5]&0xFF);
 
 
                     if(calCRC==resCRC)
@@ -983,7 +983,7 @@ void app_process_power_management_usr(void)
 {
 #if (BLE_APP_PM_ENABLE)
     {
-        static u32 power_tick,power_tick2;
+        static u32 power_tick;
 #if ROLE == MASTER
         if(!con_stare)
         {
@@ -1003,15 +1003,25 @@ void app_process_power_management_usr(void)
             power_tick = clock_time();
 
 #else  //slave timeout power sleep
-        if(getmeasrue()->ack_sig==0)//非法连接，没握手信号
+        if(getmeasrue()->ack_sig==0&&GetBle_status()->connection == 1)//非法连接，没握手信号
         {
            
             if(clock_time_exceed(power_tick, CON_TIME_OUT))
             {   
                 power_tick = clock_time();
+				 printf("utimeout\n");
                 blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
                 blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
             }
+			u8 umac[6]= {0xa8,0x50,0x2b,0x38,0xc1,0xa4}; 
+		  if(memcmp(&getmeasrue()->mac[3],&umac[3],3)!=0)
+		   {
+		   printf("umac\n");
+		    GetBle_status()->connection = 0;
+		  	blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
+		  	blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
+
+		  }
         }
 		else
 			 power_tick = clock_time();

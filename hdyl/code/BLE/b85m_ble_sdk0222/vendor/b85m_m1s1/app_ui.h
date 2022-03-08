@@ -67,10 +67,16 @@ extern	int user_manual_pairing;
 #define LED_PAIR   0
 #define LED_UNPAIR 1
 #define LED_NORMAL 2
+#define LED_DISCON 3
+#define LED_CON 4
+
+#define NORMAL 0
+#define SETTING 1
+
 #define ON  0
 #define OFF 1
 #define DEBUG_BLE 0
-#define ACK_TIME_OUT     500*1000*1000
+#define ACK_TIME_OUT     120*1000*1000
 #define SLEEP_TIME_OUT   0xffffffff
 #define TIMEOUT_PERIOD 100*1000
 #define M_ON_PERIOD 300*1000
@@ -98,7 +104,8 @@ typedef struct
 	u32 rx_time;
 	u8 mac[6];
 	u8 ack_sig;
-	u16 timout_cnt;
+	u16 timeout_cnt;
+	u8 mode;
 }measure_stru;
 typedef struct
 {
@@ -163,7 +170,7 @@ measure_stru *getmeasrue(void);
 void init_measure(void);
 void cal_rx_time(void);
 void led_mode_set(u8 status);
-
+void pkt_pack(u8 ucmd);
 
 
 #endif /* APP_UI_H_ */

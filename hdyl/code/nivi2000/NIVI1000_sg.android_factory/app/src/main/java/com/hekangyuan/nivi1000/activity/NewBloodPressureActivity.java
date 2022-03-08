@@ -334,24 +334,25 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
                                 isRunning = false;
 
                                 if(null == patientInformationBean || StringUtils.isTrimEmpty(patientInformationBean.getId())){
-                                    showToast("患者基本信息不存在，请返回重新查询患者");
-                                    return;
+                                   // showToast("患者基本信息不存在，请返回重新查询患者");
+                                    Log.e(TAG, "测试55555555c");
+                                  //  return;
                                 }
                                 if(et_height.getText().toString().trim().length() == 0 || et_height.getText().toString().equals("0")){
-                                    showToast("请手动填写身高");
-                                    return;
+                                    //showToast("请手动填写身高");
+                                   // return;
                                 }
                                 if(Integer.parseInt(et_height.getText().toString()) < 20 || Integer.parseInt(et_height.getText().toString()) > 300 || Integer.parseInt(et_height.getText().toString()) == 0){
-                                    showToast("请填写真实身高");
-                                    return;
+                                  //  showToast("请填写真实身高");
+                                  //  return;
                                 }
                                 if(et_weight.getText().toString().trim().length() == 0 || et_weight.getText().toString().equals("0")){
-                                    showToast("请手动填写体重");
-                                    return;
+                                   // showToast("请手动填写体重");
+                                    //return;
                                 }
                                 if(Integer.parseInt(et_weight.getText().toString()) < 5 || Integer.parseInt(et_weight.getText().toString()) > 250 || Integer.parseInt(et_weight.getText().toString()) == 0){
-                                    showToast("请填写真实体重");
-                                    return;
+                                  //  showToast("请填写真实体重");
+                                  //  return;
                                 }
                                 if(sbpEdit.getText().toString().trim().length() == 0 || sbpEdit.getText().toString().equals("0")){
                                     showToast("请先进行测量");
@@ -551,7 +552,7 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
                 return;
             }
         }
-//        sendPacketByTimer();
+//        sendPacketByTimer();设备登录信
 
     }
 
@@ -682,6 +683,7 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
 
                 if(null == patientInformationBean || StringUtils.isTrimEmpty(patientInformationBean.getId())){
                     showToast("患者基本信息不存在，请返回重新查询患者");
+                    Log.e(TAG, "测试55555555a");
                     break;
                 }
                 if(et_height.getText().toString().trim().length() == 0 || et_height.getText().toString().equals("0")){
@@ -778,6 +780,7 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
      * 创建血压测量信息，并上传
      */
     private void createBloodPressureInfo() {
+        Log.e(TAG, "测试55555555j");
         bloodPressureBean.setHeight(Integer.parseInt(et_height.getText().toString()));
         bloodPressureBean.setWeight(Integer.parseInt(et_weight.getText().toString()));
         bloodPressureBean.setPs(Integer.parseInt(sbpEdit.getText().toString()));
@@ -785,24 +788,31 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
         bloodPressureBean.setBrPs(Integer.parseInt(et_brPs.getText().toString()));
         if (TextUtils.isEmpty(et_brPd.getText().toString().trim())){
             et_brPd.setText("0");
+            Log.e(TAG, "测试55555555d");
         }
         bloodPressureBean.setBrPd(Integer.parseInt(et_brPd.getText().toString()));
+        Log.e(TAG, "测试55555555k");
         if (TextUtils.isEmpty(et_arPs.getText().toString().trim())){
             et_arPs.setText("0");
+            Log.e(TAG, "测试55555555e");
         }
+        Log.e(TAG, "测试55555555h");
         bloodPressureBean.setArPs(Integer.parseInt(et_arPs.getText().toString()));
 //        bloodPressureBean.setPhr(Integer.parseInt(heartRateEdit.getText().toString()));
-        bloodPressureBean.setPavrg(avgPressure);
-        bloodPressureBean.setPatientId(patientInformationBean.getId());
+       // bloodPressureBean.setPavrg(avgPressure);
+       // bloodPressureBean.setPatientId(patientInformationBean.getId());
 
-        if (NetWorkUtils.isNetworkAvailable(NewBloodPressureActivity.this)) {
-            mPresenter.NewBloodPressurePresenterhttp(bloodPressureBean);
+        if (NetWorkUtils.isNetworkAvailable(NewBloodPressureActivity.this)) {Log.e(TAG, "测试55555555fd");
+            //mPresenter.NewBloodPressurePresenterhttp(bloodPressureBean);
+            Log.e(TAG, "测试55555555f");
         } else {
             ToastUtils.showToast(NewBloodPressureActivity.this, R.string.no_wifi);
             Intent intent = new Intent(NewBloodPressureActivity.this, DrawsActivity.class);
 //            intent.putExtra("bloodPressure", bloodPressureBean);
             MyApplication.bloodPressureBeanNew = bloodPressureBean;
+            Log.e(TAG, "测试55555555g");
             startActivity(intent);
+            Log.e(TAG, "测试55555555h");
         }
     }
 

@@ -335,6 +335,7 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
 
                                 if(null == patientInformationBean || StringUtils.isTrimEmpty(patientInformationBean.getId())){
                                     showToast("患者基本信息不存在，请返回重新查询患者");
+                                    Log.e(TAG, "测试55555555b");
                                     return;
                                 }
                                 if(et_height.getText().toString().trim().length() == 0 || et_height.getText().toString().equals("0")){

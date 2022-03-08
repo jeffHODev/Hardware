@@ -263,8 +263,8 @@ void key_change_proc(void)
 
 
 #define GPIO_WAKEUP_KEYPROC_CNT				3
-_attribute_ble_data_retention_	static u32 keyScanTick = 0;
-_attribute_ble_data_retention_	static int gpioWakeup_keyProc_cnt = 0;
+
+
 
 /*
  * @brief      keyboard task handler
@@ -743,8 +743,8 @@ void ack_proc()
 
 
     }
-	else
-		ack_timeout = clock_time();
+    else
+        ack_timeout = clock_time();
 #else
     if( master_conect_status()==0)
     {
@@ -758,8 +758,8 @@ void ack_proc()
 
 
     }
-	else
-		ack_timeout = clock_time();
+    else
+        ack_timeout = clock_time();
 #endif
 }
 void led_mode_set(u8 status)
@@ -768,36 +768,63 @@ void led_mode_set(u8 status)
     {
     case LED_PAIR:
     {
-        led_usr.tick = 100000;
+        led_usr.tick = 100000;//100ms
         led_usr.status = ON;
     }
     break;
     case LED_UNPAIR:
     {
-        led_usr.tick = 500000;
+        led_usr.tick = 2000000;//2s
         led_usr.status = ON;
     }
     break;
     case LED_NORMAL:
     {
-        led_usr.tick = 1000000;
+        led_usr.tick = 1000000;//1s
         led_usr.status = ON;
 
     }
     break;
+    case LED_CON:
+    {
+        led_usr.tick = 500000;//500ms
+        led_usr.status = ON;
+
+    }
+    break;
+    case LED_DISCON:
+    {
+        led_usr.tick = 800000;//800ms
+        led_usr.status = ON;
+
+    }
+    break;
+
     }
 }
 void led_ctrl()
 {
-    static u32 led_tick,tmp;
+    static u32 led_tick;
     if(led_usr.status == ON)
     {
         if(clock_time_exceed(led_tick, led_usr.tick))
         {
-            tmp = led_usr.tick;
-            // printf("%d",tmp);
-            gpio_toggle(GPIO_LED_RED);
+            gpio_write(GPIO_LED_RED,1);
             led_tick= clock_time();
+        }
+        else
+        {
+            if(clock_time_exceed(led_tick, led_usr.tick/3)==0)
+            {
+
+                gpio_write(GPIO_LED_RED,0);
+            }
+            else
+            {
+
+                gpio_write(GPIO_LED_RED,1);
+            }
+
         }
     }
     else
@@ -825,9 +852,13 @@ void test()
 
 
 }
-static u32 tick_cal;
+
 void parase(u8 tmp)
 {
+    if(tmp != 0x5b && tmp!=0x5c)
+        measure_usr.mode = NORMAL;
+    else
+        measure_usr.mode = SETTING;
     switch(tmp)
     {
     case 0x4b://通知主机开始测量
@@ -839,9 +870,9 @@ void parase(u8 tmp)
         blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
         sensor_power(1);
         measure_start();
-    //    sensor_power(1);
-       // printf("rt:%d\n",(clock_time()-tick_cal)/16000);
-       // tick_cal = clock_time();
+        //    sensor_power(1);
+        // printf("rt:%d\n",(clock_time()-tick_cal)/16000);
+        // tick_cal = clock_time();
     }
     break;
     case 0x5d://通知主机开始测量
@@ -872,15 +903,17 @@ void parase(u8 tmp)
     break;
     case 0x5b://配对指示灯
     {
-    	measure_usr.ack_sig = 0;
+
+        measure_usr.ack_sig = 0;
         led_mode_set(LED_PAIR);
-        printf("PA\n");
+        printf("Pair\n");
     }
     case 0x5c://解绑对指示灯
     {
-    	measure_usr.ack_sig = 0;
+
+        measure_usr.ack_sig = 0;
         led_mode_set(LED_UNPAIR);
-        printf("uPA\n");
+        printf("uPair\n");
     }
 
     break;
@@ -904,7 +937,7 @@ void deviceTimeout(unsigned char time)
 void measure_start()
 {
     rx_tick = clock_time()/16000;
-	//printf("t %d",rx_tick);
+    //printf("t %d",rx_tick);
     measure_usr.start = 1;
     measure_usr.dis = MAX_DIS;
     measure_usr.tick = clock_time();
@@ -936,24 +969,24 @@ void measure_stop()
     measure_usr.stop = 1;
 }
 u32 t1,t2;
-cal_rx_time()
+void cal_rx_time()
 {
     measure_usr.rx_time = clock_time()/16000-rx_tick;
     measure_usr.rx_time = measure_usr.rx_time ;
     rx_tick =  clock_time()/16000;
-   // printf("rx:%d\n",measure_usr.rx_time);
+    // printf("rx:%d\n",measure_usr.rx_time);
 
-  /*  t1 = clock_time()/16000-t2;
-   // t1 = measure_usr.rx_time ;
-    t2 =  clock_time()/16000;
-    printf("rx:%d\n",t1);*/
+    /*  t1 = clock_time()/16000-t2;
+     // t1 = measure_usr.rx_time ;
+      t2 =  clock_time()/16000;
+      printf("rx:%d\n",t1);*/
 
 }
 void sensor_power(u8 flag)
 {
     if(flag == 0)//
     {
-       // gpio_write(CS102_EN, 1);
+        // gpio_write(CS102_EN, 1);
         gpio_write(CS102_T, 0);
     }
     else //启动
@@ -977,18 +1010,18 @@ void mesure_proc()
     tick_tmp = clock_time()-measure_usr.tick;
     if(measure_usr.start == 1)
     {
-    	 // printf("su:%d",measure_usr.sum);
-    	 if(clock_time_exceed(measure_usr.tick,  MEASURE_PERIOD))
-        //if(tick_tmp>=TIMEOUT_PERIOD)//测量超时
+        // printf("su:%d",measure_usr.sum);
+        if(clock_time_exceed(measure_usr.tick,  MEASURE_PERIOD))
+            //if(tick_tmp>=TIMEOUT_PERIOD)//测量超时
         {
-             printf("timeout\n");
-            if(measure_usr.timout_cnt<=100)
-            	measure_usr.timout_cnt = measure_usr.timout_cnt ++;
-            if(measure_usr.timout_cnt>100)
+            printf("timeout\n");
+            if(measure_usr.timeout_cnt<=100)
+                measure_usr.timeout_cnt = measure_usr.timeout_cnt ++;
+            if(measure_usr.timeout_cnt>100)
             {
-               	if(measure_usr.sum)
+                if(measure_usr.sum)
                     measure_usr.sum  = measure_usr.sum-1;
-               	measure_usr.timout_cnt = 0;
+                measure_usr.timeout_cnt = 0;
             }
             measure_usr.dis = MAX_DIS+1;
             measure_usr.start = 0;
@@ -999,28 +1032,28 @@ void mesure_proc()
         }
         else
         {
-        	if(measure_usr.timout_cnt>0)
-        	   measure_usr.timout_cnt = 0;
+            if(measure_usr.timeout_cnt>0)
+                measure_usr.timeout_cnt = 0;
             //printf("notimeout\n");
             if(measure_usr.stop == 1)
             {
                 //  printf("m3\n");
-               // measure_usr.time = tick_tmp/1000; 34000*x/1000
+                // measure_usr.time = tick_tmp/1000; 34000*x/1000
                 measure_usr.dis = measure_usr.rx_time*17;
                 printf("dis = %d\n",measure_usr.dis);
                 if(measure_usr.dis>=MAX_DIS)
                     measure_usr.dis = MAX_DIS + 2;
                 if(measure_usr.dis<=MIN_DIS)
                 {
-                  //  printf("warn\n");
+                    //  printf("warn\n");
                     measure_usr.sum  = measure_usr.sum + 1;
                     measure_usr.dis = MAX_DIS + 3;
                 }
                 else
                 {
-                  //  printf("normal\n");
-                	if(measure_usr.sum)
-                    measure_usr.sum  = measure_usr.sum-1;
+                    //  printf("normal\n");
+                    if(measure_usr.sum)
+                        measure_usr.sum  = measure_usr.sum-1;
                     measure_usr.dis = MAX_DIS + 4;
 
                 }
@@ -1038,31 +1071,31 @@ void mesure_proc()
         measure_usr.stop = 0;
         measure_usr.tick = clock_time();
         //if(measure_usr.sum>0)//超过10次报警，震动
-        	//measure_usr.sum = measure_usr.sum -1;
+        //measure_usr.sum = measure_usr.sum -1;
     }
     if(measure_usr.sum>0)
     {
-    	static u32 mtick=0;
-    	if(measure_usr.start == 0)
-    	{
+        static u32 mtick=0;
+        if(measure_usr.start == 0)
+        {
 
             if(clock_time_exceed(mtick, 5000*1000))
             {
-            	measure_usr.sum = 0;
-            	mtick = clock_time();
+                measure_usr.sum = 0;
+                mtick = clock_time();
 
             }
-    	}
-    	else
-    		mtick = clock_time();
+        }
+        else
+            mtick = clock_time();
     }
     if(measure_usr.sum>=1)//超过10次报警，震动
     {
-       // printf("m7\n");
-      //  gpio_write(M_EN,0);
+        // printf("m7\n");
+        //  gpio_write(M_EN,0);
         if(clock_time_exceed( measure_usr.motor_tick, M_OFF_PERIOD))
         {
-        	//printf("m88\n");
+            //printf("m88\n");
             measure_usr.motor_tick = clock_time();
             gpio_write(M_EN,1); 		//输入失能	500 100
 
@@ -1071,14 +1104,14 @@ void mesure_proc()
         {
             if(clock_time_exceed( measure_usr.motor_tick, M_ON_PERIOD)==0)
             {
-            	//printf("m99\n");
+                //printf("m99\n");
                 gpio_write(M_EN,1); 	   //输入失能
 
             }
             else
             {
 
-            	gpio_write(M_EN,0); 	   //输入失能
+                gpio_write(M_EN,0); 	   //输入失能
             }
         }
 
@@ -1093,8 +1126,8 @@ void mesure_proc()
     deviceTimeout(1);//休眠倒计时
     if(measure_usr.ack_sig == 1)
     {
-   // if(clock_time_exceed( measure_usr.timeout, SLEEP_TIME_OUT))
-       // if(measure_usr.timeout < SLEEP_TIME_OUT)//震动开关无振动超时判断，大于设置时间进入低功耗休眠
+        // if(clock_time_exceed( measure_usr.timeout, SLEEP_TIME_OUT))
+        // if(measure_usr.timeout < SLEEP_TIME_OUT)//震动开关无振动超时判断，大于设置时间进入低功耗休眠
         {
             if(GetBle_status()->connection == 1)
             {
@@ -1115,12 +1148,12 @@ void mesure_proc()
                 }
                 else
                 {
-                	if(measure_usr.start == 1)
-                	{
-                		measure_usr.start = 0;
+                    if(measure_usr.start == 1)
+                    {
+                        measure_usr.start = 0;
                         pkt_pack(0x4b);
                         blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
-                	}
+                    }
 
                 }
 
@@ -1174,55 +1207,31 @@ void init_measure()
     led_mode_set(LED_NORMAL);
 #endif
 }
+void led_proc_usr()
+{
+    #if ROLE == SLAVE
+    if(ble_usr.connection == 0)
+    {
+		led_mode_set(LED_DISCON);
+	}
+	#else
+    if(master_conect_status()==0)
+    {
+		led_mode_set(LED_DISCON);
+	}
+	#endif
+	led_ctrl();
+
+}
 void ui_proc()
 {
-    static u32 tmp;
+  //  static u32 tmp;
+	
     ack_proc();
-	 #if ROLE == SLAVE
-	 if(GetBle_status()->connection)
-     led_ctrl();
-	 #else
-	 if( getpair_mode(0)||getpair_mode(1))
-	 led_ctrl();
-
-	 #endif
-    mesure_proc();
-    //test();
-    /*if(GetBle_status()->connection == 1&&measure_usr.ack_sig==1)
-    		   {
-
-    			   if(clock_time_exceed( measure_usr.tick, MEASURE_PERIOD))
-    			   {
-    				   extern u16 handle_s;
-    				  // gpio_toggle(GPIO_LED_RED);
-    				   pkt_pack(0x4b);
-    				   blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
-    				   sleep_us(100);
-    				   measure_start();
-    				   sensor_power(1);
-    				   printf("m8\n");
-    				//   tick_tmp = 0;
-
-    			   }
-
-    		   }*/
-    	/*#if ROLE == MASTER
-        static u32  send_acktime;
-        if(clock_time_exceed(send_acktime,  1000*1000))//&& master_conect_status()==1&&measure_usr.ack_sig==0
-        {
-    		   measure_start();
-    		   sensor_power(1);
-            //printf("sig2\n");
-    		 //  printf("s:%d\n",(clock_time()-send_acktime));
-            send_acktime = clock_time();
-           // gpio_write(M_EN,0); 	   //输入失能
-         //   pkt_pack(0x5a);
-            //gpio_toggle(GPIO_LED_RED);
-           // blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
-            //printf("ack t\n");measure_usr.start == 1
-        }
-
-    #endif*/
+    led_proc_usr();
+	
+    if( measure_usr.mode != SETTING)
+        mesure_proc();
 
 }
 
