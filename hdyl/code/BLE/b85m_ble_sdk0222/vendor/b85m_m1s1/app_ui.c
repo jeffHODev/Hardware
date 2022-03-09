@@ -814,7 +814,7 @@ void led_ctrl()
         }
         else
         {
-            if(clock_time_exceed(led_tick, led_usr.tick/3)==0)
+            if(clock_time_exceed(led_tick, led_usr.tick/2)==0)
             {
 
                 gpio_write(GPIO_LED_RED,0);
@@ -855,16 +855,19 @@ void test()
 
 void parase(u8 tmp)
 {
+   #if ROLE == SLAVE
+
     if(tmp != 0x5b && tmp!=0x5c)
         measure_usr.mode = NORMAL;
     else
         measure_usr.mode = SETTING;
+	#endif
     switch(tmp)
     {
     case 0x4b://通知主机开始测量
     {
         deviceTimeout(0);
-        measure_start();
+        //measure_start();
         measure_usr.stop = 0;
        // pkt_pack(0x5d);
        // blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
@@ -878,8 +881,8 @@ void parase(u8 tmp)
     case 0x5d://通知主机开始测量
     {
         //deviceTimeout(0);
-        sensor_power(1);
-        measure_start();
+       // sensor_power(1);
+       // measure_start();
         //sensor_power(1);
     }
     break;
@@ -984,16 +987,8 @@ void cal_rx_time()
 }
 void cal_rx_time_start()
 {
-   // measure_usr.rx_time = clock_time()/16000-rx_tick;
-   // measure_usr.rx_time = measure_usr.rx_time ;
     rx_tick =  clock_time()/16000;
-   measure_start();
-    // printf("rx:%d\n",measure_usr.rx_time);
-
-    /*  t1 = clock_time()/16000-t2;
-     // t1 = measure_usr.rx_time ;
-      t2 =  clock_time()/16000;
-      printf("rx:%d\n",t1);*/
+    measure_start();
 
 }
 
@@ -1154,37 +1149,31 @@ void mesure_proc()
                     // gpio_toggle(GPIO_LED_RED);
                     pkt_pack(0x4b);
                     blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
-                    //sleep_us(20000);
+                    //
                    // measure_start();
                     sensor_power(1);
                     printf("m8\n");
-                    tick_tmp = 0;
-                    measure_usr.start = 0;
-
-                }
-                else
-                {
-                    if(measure_usr.start == 1)
-                    {
-                        measure_usr.start = 0;
-                        pkt_pack(0x4b);
-                        blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
-                    }
+				    sleep_us(10000);
+               		 sensor_power(0);
+					 measure_usr.tick = clock_time();		
 
                 }
 
             }
             else
             {
-                // printf("m9\n");
-                //power off
+				measure_usr.tick = clock_time();
+
                 sensor_power(0);
-                measure_stop();
             }
         }
 
     }
-
+	else
+	{
+		measure_usr.tick = clock_time();
+		sensor_power(0);
+	}
 
 
 #endif
