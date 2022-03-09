@@ -16,7 +16,7 @@ public class SerialBeanFilterEcg {
 //            {1.00, -1.546907205895733, 0.599299836547364}
 //    };
 
-//    private static final float a[][] = { //ecgfilter bandpass 0.05 - 35Hz fs833
+    //    private static final float a[][] = { //ecgfilter bandpass 0.05 - 35Hz fs833
 //            {1.00f, -1.85528235172459f, 0.921803530454676f},
 //            {1.00f, -1.99988223383094f, 0.999882375965657f},
 //            {1.00f, -1.99965818715830f, 0.999658329423239f},
@@ -29,16 +29,16 @@ public class SerialBeanFilterEcg {
 //            {1.00f, -1.53640266617756f, 0.591187419087585f}
 //    };
     private static final double a[][] = { //ecgfilter bandpass 0.5 - 25Hz fs833
-        {1.00f, -1.91076936924490f, 0.945189798837126f},
-        {1.00f, -1.99885057321829f, 0.998864814456533f},
-        {1.00f, -1.99665018958606f, 0.996664611752781f},
-        {1.00f, -1.81656309867549f, 0.848836452502025f},
-        {1.00f, -1.99467470424797f, 0.994689454167301f},
-        {1.00f, -1.74387407358110f, 0.774131381559491f},
-        {1.00f, -1.99313105372667f, 0.993146168909269f},
-        {1.00f, -1.69491403838299f, 0.723582806041133f},
-        {1.00f, -1.99226579526166f, 0.992281157153817f},
-        {1.00f, -1.67038656338464f, 0.698170765073687f}
+            {1.00f, -1.91076936924490f, 0.945189798837126f},
+            {1.00f, -1.99885057321829f, 0.998864814456533f},
+            {1.00f, -1.99665018958606f, 0.996664611752781f},
+            {1.00f, -1.81656309867549f, 0.848836452502025f},
+            {1.00f, -1.99467470424797f, 0.994689454167301f},
+            {1.00f, -1.74387407358110f, 0.774131381559491f},
+            {1.00f, -1.99313105372667f, 0.993146168909269f},
+            {1.00f, -1.69491403838299f, 0.723582806041133f},
+            {1.00f, -1.99226579526166f, 0.992281157153817f},
+            {1.00f, -1.67038656338464f, 0.698170765073687f}
     };
     private static final double b[] = { 1.00, 0.00, -1.00 }; //第一级二阶滤波，分子
 
@@ -55,7 +55,7 @@ public class SerialBeanFilterEcg {
 //            0.115858008627607,
 //    };
 
-//    private static final float gain[] = { //ecgfilter bandpass 0.05 - 35Hz fs833
+    //    private static final float gain[] = { //ecgfilter bandpass 0.05 - 35Hz fs833
 //            0.128780457440290f,
 //            0.128780457440290f,
 //            0.124237394568045f,
@@ -67,7 +67,7 @@ public class SerialBeanFilterEcg {
 //            0.117167768683121f,
 //            0.117167768683121f
 //    };
-        private static final double gain[] = { //ecgfilter bandpass 0.5 - 25Hz fs833
+    private static final double gain[] = { //ecgfilter bandpass 0.5 - 25Hz fs833
             0.090970164778141,
             0.090970164778141,
             0.088645004698801,
@@ -80,7 +80,7 @@ public class SerialBeanFilterEcg {
             0.084886431736559
     };
 
-    public static double[] m00 = {0};
+    /*public static double[] m00 = {0};
     public static double[] m01 = {0};
 
     public static double[] m10 = {0};
@@ -108,9 +108,38 @@ public class SerialBeanFilterEcg {
     public static double[] m81 = {0};
 
     public static double[] m90 = {0};
-    public static double[] m91 = {0};
+    public static double[] m91 = {0};*/
 
 
+
+    public static double[] m00 = {2.987934559834893E7};
+    public static double[] m01 = {2.9879406798800383E7};
+
+    public static double[] m10 = {-5880.604449062418};
+    public static double[] m11 = {-5992.671579732362};
+
+    public static double[] m20 = {-204632.75677762998};
+    public static double[] m21 = {-204888.8509942126};
+
+    public static double[] m30 = {928.7368622895287};
+    public static double[] m31 = {928.7368622895287};
+
+    public static double[] m40 = {38368.9971912791};
+    public static double[] m41 = {37844.79574997408};
+
+    public static double[] m50 = {2645.7632978934976};
+    public static double[] m51 = {2586.0788048106056};
+
+    public static double[] m60 = {68458.03011134174};
+    public static double[] m61 = {68602.41522595365};
+
+    public static double[] m70 = {-1313.4442246167473};
+    public static double[] m71 = {-1348.548328044064};
+
+    public static double[] m80 = {-33383.47653239929};
+    public static double[] m81 = {-33245.9836132479};
+    public static double[] m90 = {-993.2886380413053};
+    public static double[] m91 = {-1000.2277270861545};
     //IIR
     public static float serialBeanFilter(float x) {
         double y0 = filterOrder2(x, m00, m01, a[0], b, gain[0]);  //第一级二阶滤波
@@ -124,9 +153,27 @@ public class SerialBeanFilterEcg {
         double y8 = filterOrder2(y7, m80, m81, a[8], b, gain[8]);  //第二级二阶滤波
         double y9 = filterOrder2(y8, m90, m91, a[9], b, gain[9]);  //第二级二阶滤波
 
-        if (y9>3000 | y9< -3000){
-            y9=x;
-        }
+
+       /* System.out.println("ECG_Filter1：" +m00[0]);
+        System.out.println("ECG_Filter：" +m01[0]);
+        System.out.println("ECG_Filter：" +m10[0]);
+        System.out.println("ECG_Filter：" +m11[0]);
+        System.out.println("ECG_Filter：" +m20[0]);
+        System.out.println("ECG_Filter：" +m21[0]);
+        System.out.println("ECG_Filter：" +m30[0]);
+        System.out.println("ECG_Filter：" +m31[0]);
+        System.out.println("ECG_Filter：" +m40[0]);
+        System.out.println("ECG_Filter：" +m41[0]);
+        System.out.println("ECG_Filter：" +m50[0]);
+        System.out.println("ECG_Filter：" +m51[0]);
+        System.out.println("ECG_Filter：" +m60[0]);
+        System.out.println("ECG_Filter：" +m61[0]);
+        System.out.println("ECG_Filter：" +m70[0]);
+        System.out.println("ECG_Filter：" +m71[0]);
+        System.out.println("ECG_Filter：" +m80[0]);
+        System.out.println("ECG_Filter：" +m81[0]);
+        System.out.println("ECG_Filter：" +m90[0]);
+        System.out.println("ECG_Filter20：" +m91[0]);*/
         return (float)y9;
 
     }
