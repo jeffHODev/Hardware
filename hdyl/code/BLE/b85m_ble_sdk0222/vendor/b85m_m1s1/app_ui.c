@@ -596,7 +596,7 @@ void user_gpio_init()
     gpio_set_input_en(ECHO,1);				//disable input
     gpio_setup_up_down_resistor(ECHO, PM_PIN_PULLDOWN_100K);
     // gpio_set_interrupt(ECHO, POL_FALLING);
-    gpio_set_interrupt_risc0(ECHO, POL_FALLING);
+    gpio_set_interrupt_risc0(ECHO, POL_RISING);
 
 
     gpio_set_func(M_EN,AS_GPIO);                       //ÉèÖÃGPIO¹¦ÄÜ
@@ -869,7 +869,7 @@ void parase(u8 tmp)
         pkt_pack(0x5d);
         blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
         sensor_power(1);
-        measure_start();
+        
         //    sensor_power(1);
         // printf("rt:%d\n",(clock_time()-tick_cal)/16000);
         // tick_cal = clock_time();
@@ -982,6 +982,21 @@ void cal_rx_time()
       printf("rx:%d\n",t1);*/
 
 }
+void cal_rx_time_start()
+{
+   // measure_usr.rx_time = clock_time()/16000-rx_tick;
+   // measure_usr.rx_time = measure_usr.rx_time ;
+    rx_tick =  clock_time()/16000;
+   measure_start();
+    // printf("rx:%d\n",measure_usr.rx_time);
+
+    /*  t1 = clock_time()/16000-t2;
+     // t1 = measure_usr.rx_time ;
+      t2 =  clock_time()/16000;
+      printf("rx:%d\n",t1);*/
+
+}
+
 void sensor_power(u8 flag)
 {
     if(flag == 0)//
@@ -1035,8 +1050,9 @@ void mesure_proc()
             if(measure_usr.timeout_cnt>0)
                 measure_usr.timeout_cnt = 0;
             //printf("notimeout\n");
-            if(measure_usr.stop == 1)
+            if(gpio_read(ECHO)==0)
             {
+                cal_rx_time();
                 //  printf("m3\n");
                 // measure_usr.time = tick_tmp/1000; 34000*x/1000
                 measure_usr.dis = measure_usr.rx_time*17;
