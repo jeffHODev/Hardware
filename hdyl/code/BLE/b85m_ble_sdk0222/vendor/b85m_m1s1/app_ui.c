@@ -866,8 +866,8 @@ void parase(u8 tmp)
         deviceTimeout(0);
         measure_start();
         measure_usr.stop = 0;
-        pkt_pack(0x5d);
-        blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
+       // pkt_pack(0x5d);
+       // blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
         sensor_power(1);
         
         //    sensor_power(1);
@@ -1155,8 +1155,8 @@ void mesure_proc()
                     pkt_pack(0x4b);
                     blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
                     //sleep_us(20000);
-                    //measure_start();
-                    //sensor_power(1);
+                   // measure_start();
+                    sensor_power(1);
                     printf("m8\n");
                     tick_tmp = 0;
                     measure_usr.start = 0;
