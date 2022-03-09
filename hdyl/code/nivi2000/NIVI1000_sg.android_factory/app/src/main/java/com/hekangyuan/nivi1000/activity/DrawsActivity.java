@@ -224,6 +224,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
         secondYadj = 0;
         thirdYadj = 0;
         analHPADataStruct = new AnalHPA_Data.ByReference();
+        // NewBloodPressureActivity.this.finish();
+       // Thread.interrupted();
         initBean();
 
         initView();
@@ -487,10 +489,10 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                                 clearList();
                                 bt_previous_step.setText("上一步");
                                 if (bt_next.getText().equals("完成")) {
-
+                                    Log.e(TAG, "测试55555555ggg");
                                    // uploadInfo();
 
-                                } else {
+                                } else {Log.e(TAG, "测试55555555tggg");
                                     titleIndex++;
                                     setEcgTitle();
                                     //分两种情况，同步模式只能加到3，异步模式可以加到4；

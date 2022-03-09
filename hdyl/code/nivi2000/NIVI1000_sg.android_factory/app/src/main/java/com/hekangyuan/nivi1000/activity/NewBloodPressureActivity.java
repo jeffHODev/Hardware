@@ -355,13 +355,13 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
                                   //  return;
                                 }
                                 if(sbpEdit.getText().toString().trim().length() == 0 || sbpEdit.getText().toString().equals("0")){
-                                    showToast("请先进行测量");
-                                    return;
+                                   // showToast("请先进行测量");
+                                   // return;
                                 }
 
                                 if(dbpEdit.getText().toString().trim().length() == 0 || dbpEdit.getText().toString().equals("0")){
-                                    showToast("请先进行测量");
-                                    return;
+                                   // showToast("请先进行测量");
+                                  //  return;
                                 }
 
 //                                istrue = false;
@@ -675,6 +675,8 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
 
     @Override
     public void onClick(View v) {
+        Log.e(TAG, "测试55555555a");
+       // Utils.exitActivityAnimation(NewBloodPressureActivity.this);
         switch (v.getId()) {
 
             case R.id.creat_blood:// TODO 异步
@@ -682,42 +684,42 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
                 isRunning = false;
 
                 if(null == patientInformationBean || StringUtils.isTrimEmpty(patientInformationBean.getId())){
-                    showToast("患者基本信息不存在，请返回重新查询患者");
+                //    showToast("患者基本信息不存在，请返回重新查询患者");
                     Log.e(TAG, "测试55555555a");
-                    break;
+                  //  break;
                 }
                 if(et_height.getText().toString().trim().length() == 0 || et_height.getText().toString().equals("0")){
-                    showToast("请填写真实身高");
-                    break;
+                  //  showToast("请填写真实身高");
+                   // break;
                 }
                 if(Integer.parseInt(et_height.getText().toString()) < 20 || Integer.parseInt(et_height.getText().toString()) > 999 || Integer.parseInt(et_height.getText().toString()) == 0){
-                    showToast("请填写真实身高");
-                    break;
+                  //  showToast("请填写真实身高");
+                  //  break;
                 }
                 if(et_weight.getText().toString().trim().length() == 0 || et_weight.getText().toString().equals("0")){
-                    showToast("请填写真实体重");
-                    break;
+                  //  showToast("请填写真实体重");
+                   // break;
                 }
                 if(Integer.parseInt(et_weight.getText().toString()) < 10 || Integer.parseInt(et_weight.getText().toString()) > 999 || Integer.parseInt(et_weight.getText().toString()) == 0){
-                    showToast("请填写真实体重");
-                    break;
+                   // showToast("请填写真实体重");
+                  //  break;
                 }
                 if(sbpEdit.getText().toString().trim().length() == 0 || sbpEdit.getText().toString().equals("0")){
-                    showToast("请填写真实收缩压");
-                    break;
+                  //  showToast("请填写真实收缩压");
+                  //  break;
                 }
                 if(Integer.parseInt(sbpEdit.getText().toString()) < 10 || Integer.parseInt(sbpEdit.getText().toString()) > 999){
-                    showToast("请填写真实收缩压");
-                    break;
+                  //  showToast("请填写真实收缩压");
+                  //  break;
                 }
 
                 if(dbpEdit.getText().toString().trim().length() == 0 || dbpEdit.getText().toString().equals("0")){
-                    showToast("请填写真实舒张压");
-                    break;
+                   // showToast("请填写真实舒张压");
+                   // break;
                 }
                 if(Integer.parseInt(dbpEdit.getText().toString()) < 10 || Integer.parseInt(dbpEdit.getText().toString()) > 999){
-                    showToast("请填写真实舒张压");
-                    break;
+                   // showToast("请填写真实舒张压");
+                  //  break;
                 }
 
 //                istrue = false;
@@ -730,6 +732,8 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
 //                ThreadPoolWrapper.shutdown();
 
                 createBloodPressureInfo();
+
+
                 break;
             case R.id.tx_zero:
                 et_arPs.setText("0");
@@ -804,7 +808,20 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
 
         if (NetWorkUtils.isNetworkAvailable(NewBloodPressureActivity.this)) {Log.e(TAG, "测试55555555fd");
             //mPresenter.NewBloodPressurePresenterhttp(bloodPressureBean);
-            Log.e(TAG, "测试55555555f");
+            istrue = false;
+            GpioNative.closeGpioDev();
+            ThreadPoolWrapper.removeTask(parseRunnable);
+            ThreadPoolWrapper.removeTask(parseRunnableGpio1);
+            ThreadPoolWrapper.removeTask(parseRunnableGpio2);
+            ThreadPoolWrapper.removeTask(parseRunnableGpio3);
+            ThreadPoolWrapper.removeTask(parseRunnableGpio4);
+            ThreadPoolWrapper.shutdown();
+            Intent intent = new Intent(NewBloodPressureActivity.this, DrawsActivity.class);
+//            intent.putExtra("bloodPressure", bloodPressureBean);
+         //   MyApplication.bloodPressureBeanNew = bloodPressureBean;
+
+            Log.e(TAG, "测试55555555g");
+            startActivity(intent);
         } else {
             ToastUtils.showToast(NewBloodPressureActivity.this, R.string.no_wifi);
             Intent intent = new Intent(NewBloodPressureActivity.this, DrawsActivity.class);
@@ -844,9 +861,10 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
             public void onClick(View arg0) {
                 if(Utils.nextFastClick()){
                     ToastUtils.showToast(NewBloodPressureActivity.this,"点击过快");
+                    Log.e(TAG, "测试5566666h");
                     return;
                 }
-
+                Log.e(TAG, "测试5566666a");
                 istrue = false;
                 GpioNative.closeGpioDev();
                 isRunning = false;
@@ -860,7 +878,7 @@ public class NewBloodPressureActivity extends BaseActivity<NewBloodPressurePrese
                 ThreadPoolWrapper.removeTask(parseRunnableGpio3);
                 ThreadPoolWrapper.removeTask(parseRunnableGpio4);
                 ThreadPoolWrapper.shutdown();
-
+                Log.e(TAG, "测试5566666b");
                 finish();
                 Utils.exitActivityAnimation(NewBloodPressureActivity.this);
             }
