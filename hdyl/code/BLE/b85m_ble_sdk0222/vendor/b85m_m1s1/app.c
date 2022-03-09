@@ -101,7 +101,6 @@ int app_le_adv_report_event_handle(u8 *p)
     s8 rssi = pa->data[pa->len];
     u8 adv[31];
     memcpy(adv,&pa->data,pa->len);
-    memcpy(&getmeasrue()->mac,&pa->mac,6);
 
     u8 mac[6]= {0xa8,0x50,0x2b,0x38,0xc1,0xa4};
 
@@ -158,9 +157,9 @@ int app_le_adv_report_event_handle(u8 *p)
     user_manual_pairing = master_pairing_enable && (rssi > -30);  //button trigger pairing(RSSI threshold, short distance)
     //printf("aupair:%d\n",user_manual_pairing);
 
-    if(memcmp(&pa->mac[3],&mac[3],3)!=0)
+    if(&pa->mac[3]!=0x38)
     {
-        user_manual_pairing = 0;
+      //  user_manual_pairing = 0;
 
 
     }
@@ -235,6 +234,13 @@ int app_le_connection_complete_event_handle(u8 *p)
             handle_s=pConnEvt->connHandle;
             printf("conn\n");
             ble_status(1);
+
+            event_adv_report_t *pa = (event_adv_report_t *)p;
+
+            memcpy(&getmeasrue()->mac,&pa->mac,6);
+            //for(u8 i=0;i<6;i++)
+            	//printf("mac2:%x",getmeasrue()->mac[5]);
+
         }
         else if(pConnEvt->role == LL_ROLE_MASTER)  // master role, process SMP and SDP if necessary
         {
@@ -956,7 +962,7 @@ void send_test()
         }
         else if(master_unpair_enable==1)
         {
-            //printf("up");
+            printf("up");
             // gpio_toggle(GPIO_LED_RED);
             pkt_pack(0x5c);
             blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
@@ -1014,9 +1020,10 @@ void app_process_power_management_usr(void)
                 blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);
             }
 			u8 umac[6]= {0xa8,0x50,0x2b,0x38,0xc1,0xa4}; 
-		  if(memcmp(&getmeasrue()->mac[3],&umac[3],3)!=0)
+		  if(getmeasrue()->mac[5]!=0x38)
 		   {
-		   printf("umac\n");
+			//  for(u8 i =0;i<6;i++)
+		 //  printf("mac:%x\n",getmeasrue()->mac[i]);
 		    GetBle_status()->connection = 0;
 		  	blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
 		  	blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_SLAVE);

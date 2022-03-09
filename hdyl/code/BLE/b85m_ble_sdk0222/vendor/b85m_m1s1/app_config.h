@@ -221,7 +221,8 @@ enum
     CLOCK_SYS_CLOCK_1US = (CLOCK_SYS_CLOCK_1S / 1000000),
 };
 
-
+#define MODULE_WATCHDOG_ENABLE				1
+#define WATCHDOG_INIT_TIMEOUT				500  //ms
 
 /////////////////////////////////////// PRINT DEBUG INFO ///////////////////////////////////////
 #if (UART_PRINT_DEBUG_ENABLE)
