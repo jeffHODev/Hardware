@@ -42,33 +42,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49935970-80a9-4521-8f4c-f42d8515fd1b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/algorithm/lc3/src/fft_lib/kiss_fft_custom/subdir.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/algorithm/lc3/src/fft_lib/kiss_fft_custom/subdir.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/algorithm/lc3/src/fft_lib/subdir.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/algorithm/lc3/src/fft_lib/subdir.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/application/app/subdir.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/application/app/subdir.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/application/keyboard/subdir.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/application/keyboard/subdir.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/application/print/subdir.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/application/print/subdir.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/application/usbstd/subdir.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/application/usbstd/subdir.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/b85m_ble_sdk.elf" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/b85m_ble_sdk.elf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/common/subdir.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/common/subdir.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/drivers/8258/driver_ext/subdir.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/drivers/8258/driver_ext/subdir.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/drivers/8258/flash/subdir.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/drivers/8258/flash/subdir.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/drivers/8258/subdir.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/drivers/8258/subdir.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/makefile" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/vendor/b85m_m1s1/subdir.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/vendor/b85m_m1s1/subdir.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/vendor/common/subdir.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/vendor/common/subdir.mk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/vendor/b85m_m1s1/app.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/vendor/b85m_m1s1/app.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/vendor/b85m_m1s1/app_ui.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/vendor/b85m_m1s1/app_ui.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/NIVI1000_sg.android/NIVI1000.android/app/src/main/java/com/hekangyuan/nivi1000/activity/NewBloodPressureActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/NIVI1000_sg.android/NIVI1000.android/app/src/main/java/com/hekangyuan/nivi1000/activity/NewBloodPressureActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/app/src/main/java/com/hekangyuan/nivi1000/activity/NewBloodPressureActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/app/src/main/java/com/hekangyuan/nivi1000/activity/NewBloodPressureActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/.cxx/ndk_locator_record.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/.cxx/ndk_locator_record.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/app/src/main/java/com/hekangyuan/nivi1000/activity/DrawsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/app/src/main/java/com/hekangyuan/nivi1000/activity/DrawsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/app/src/main/java/com/nivi/nivifilter/SerialBeanFilterEcg.java" beforeDir="false" afterPath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/app/src/main/java/com/nivi/nivifilter/SerialBeanFilterEcg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/app/src/main/res/layout/activity_measureblood.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/app/src/main/res/layout/activity_measureblood.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[LNGNW8LKGM]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[LNGNWVTOCU]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -351,22 +337,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="651" y="202" key="#PSD/0.0.1920.1040@0.0.1920.1040" timestamp="1645149807880" />
-    <state width="1860" height="167" key="GridCell.Tab.0.bottom" timestamp="1646703952122">
+    <state width="1877" height="79" key="GridCell.Tab.0.bottom" timestamp="1646902883588">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="167" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1646703952122" />
-    <state width="1860" height="167" key="GridCell.Tab.0.center" timestamp="1646703952122">
+    <state width="1877" height="79" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1646902883588" />
+    <state width="1877" height="79" key="GridCell.Tab.0.center" timestamp="1646902883588">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="167" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1646703952122" />
-    <state width="1860" height="167" key="GridCell.Tab.0.left" timestamp="1646703952122">
+    <state width="1877" height="79" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1646902883588" />
+    <state width="1877" height="79" key="GridCell.Tab.0.left" timestamp="1646902883588">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="167" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1646703952122" />
-    <state width="1860" height="167" key="GridCell.Tab.0.right" timestamp="1646703952122">
+    <state width="1877" height="79" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1646902883588" />
+    <state width="1877" height="79" key="GridCell.Tab.0.right" timestamp="1646902883588">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="167" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1646703952122" />
+    <state width="1877" height="79" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1646902883588" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -41,6 +41,7 @@ import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Timer;
@@ -1920,6 +1921,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
      * @param serialBean
      */
     private void preProcessdata(SerialBean serialBean) {
+        float[] tempdiff = new float[199];
+        float[] tempdiff2 = new float[198];
         bufferf = new float[4][serialBean.getEcgdata().length];
 //        bufferFilterf = new float[4][serialBean.getEcgdata().length / 4];
         bufferFilterf = new float[4][];
@@ -1948,9 +1951,47 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //                z++;
 //            }
 //        }
+       //斜率判断，求root mean square ,跟阈值比大小
+        for (int y = 0; y < (bufferf[0].length - 1); y++){
+            tempdiff[y] = Math.abs(bufferf[0][y+1]-bufferf[0][y]);
+        }
+        for (int y = 0; y < (bufferf[0].length - 2); y++){
+            tempdiff2[y] = Math.abs(tempdiff[y+1]-tempdiff[y]);
+        }
 
+        Arrays.sort(tempdiff2);
+        for (int y=0;y<10;y++){
+        tempdiff2[y] = tempdiff2[y+90];
+        tempdiff2[188+y] = tempdiff2[y+90];
+            //Log.e("huang","微分阈值"+ tempdiff2[y]);
+        }
+        for (int y=0;y<198;y++){
+            if(y == 0)
+            Log.e("huang1","微分阈值"+ tempdiff2[y]);
+            else if (y == 197)
+                Log.e("huang2","微分阈值"+ tempdiff2[y]);
+                else  Log.e("huang3","微分阈值"+ tempdiff2[y]);
+        }
+        float sumtemp = 0;
+
+        float meantemp =0;
+        for (int y = 0; y < (bufferf[0].length - 2); y++){
+            sumtemp = sumtemp + tempdiff2[y] ;
+        }
+        meantemp = sumtemp/198;
+//        for (int y = 0; y < (bufferf[0].length - 2); y++){
+//            sumsquaretemp = sumsquaretemp + (tempdiff2[y] - meantemp)*(tempdiff2[y] - meantemp);
+//        }
+//
+        //
         for (int y = 0; y < bufferf[0].length; y++){
-            bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);
+           // Log.e("huang","微分阈值"+ meantemp);
+            if (meantemp < 5){
+                bufferFilterf[0][y] = bufferf[0][y];
+                }
+            else{
+                bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
+                }
         }
 
         for (int y = 0; y < bufferf[1].length; y++){
@@ -2104,7 +2145,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
      *      * 第三个页面：012
      *      * 第四个页面：023
      */
-    private synchronized void setEachViewData() {
+    private synchronized void setEachViewData() { //xingjian
         switch (titleIndex){
             case 0:
             case 1:

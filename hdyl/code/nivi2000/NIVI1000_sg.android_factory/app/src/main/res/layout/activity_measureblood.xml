@@ -24,17 +24,8 @@
         <RelativeLayout
             style="@style/savepaint_relativeLayout_style"
         >
-        <TextView
-            style="@style/measureblood_textview_style"
-            android:layout_marginLeft="170dp"
-            android:text="*"
-            android:textColor="@color/red" />
-        <TextView
-            style="@style/measureblood_textview_style"
-            android:layout_marginLeft="195dp"
-            android:text="身高：" />
 
-        <View
+            <View
             android:layout_width="2dip"
             android:layout_height="80dp"
             android:layout_marginLeft="450dp"
@@ -64,15 +55,6 @@
             style="@style/savepaint_relativeLayout_style"
             android:background="@color/white"
             >
-            <TextView
-                style="@style/measureblood_textview_style"
-                android:layout_marginLeft="170dp"
-                android:text="*"
-                android:textColor="@color/red" />
-            <TextView
-                style="@style/measureblood_textview_style"
-                android:layout_marginLeft="195dp"
-                android:text="体重：" />
 
             <View
                 android:layout_width="2dip"
@@ -180,10 +162,6 @@
         <RelativeLayout
             style="@style/savepaint_relativeLayout_style"
             >
-            <TextView
-                style="@style/measureblood_textview_style"
-                android:layout_marginLeft="180dp"
-                android:text="药前收缩压：" />
 
             <View
                 android:layout_width="2dip"
@@ -215,10 +193,6 @@
             style="@style/savepaint_relativeLayout_style"
             android:background="@color/white"
             >
-            <TextView
-                style="@style/measureblood_textview_style"
-                android:layout_marginLeft="180dp"
-                android:text="药前舒张压：" />
 
             <View
                 android:layout_width="2dip"
@@ -250,32 +224,18 @@
             android:id="@+id/rl_cmo"
             style="@style/savepaint_relativeLayout_style"
             >
-            <TextView
-                style="@style/measureblood_textview_style"
-                android:layout_marginLeft="110dp"
-                android:text="冠脉药效等级：" />
 
             <RelativeLayout
                 style="@style/savepaint_relativeLayout_style"
                 android:layout_marginBottom="30dp"
                 android:layout_marginLeft="210dp"
-                >
-                <TextView
-                    style="@style/measureblood_textview_style"
-                    android:text="0-不服用降压药者"
-                    android:textColor="@color/gray"/>
-            </RelativeLayout>
+                />
 
             <RelativeLayout
                 style="@style/savepaint_relativeLayout_style"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="210dp"
-                >
-                <TextView
-                    style="@style/measureblood_textview_style"
-                    android:text="1-降压药服用者"
-                    android:textColor="@color/gray"/>
-            </RelativeLayout>
+                />
 
             <View
                 android:layout_width="2dip"

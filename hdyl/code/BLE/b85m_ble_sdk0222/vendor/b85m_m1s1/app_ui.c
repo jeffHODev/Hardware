@@ -664,6 +664,7 @@ void ack_res(u8 ack)
     measure_usr.ack_sig = ack;
 }
 
+static u32  send_acktime;
 
 /*函数名：ack_proc()
 功能：超时未收到握手信号主动断开连接*/
@@ -679,7 +680,7 @@ void ack_proc()
 
             //主机在超时时间内发送握手信号
 #if ROLE == MASTER
-            static u32  send_acktime;
+            
             if(clock_time_exceed(send_acktime,  1*1000*1000)&& master_conect_status()==1)
             {
                 printf("sig2\n");
@@ -1237,8 +1238,14 @@ void led_proc_usr()
 void ui_proc()
 {
   //  static u32 tmp;
-	
-    ack_proc();
+	u32 tx_tick_init;
+     if(clock_time_exceed(tx_tick_init, 5000*1000))//超时时间内
+     	{
+     	tx_tick_init = clock_time();
+	   ack_proc();
+
+	 }
+    
     led_proc_usr();
 	
     if( measure_usr.mode != SETTING)

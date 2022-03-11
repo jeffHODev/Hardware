@@ -159,7 +159,7 @@ int app_le_adv_report_event_handle(u8 *p)
 
     if(&pa->mac[3]!=0x38)
     {
-      //  user_manual_pairing = 0;
+        user_manual_pairing = 0;
 
 
     }
