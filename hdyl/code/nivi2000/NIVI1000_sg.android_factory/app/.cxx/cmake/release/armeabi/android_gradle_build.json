@@ -1,21 +1,21 @@
 {
   "stringTable": {
     "0": "D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android_factory/app/.cxx/cmake/release/armeabi",
-    "1": "--target=armv5te-none-linux-androideabi --gcc-toolchain=C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/sysroot -Dnative_lib_EXPORTS -isystem C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/sources/cxx-stl/gnu-libstdc++/4.9/libs/armeabi/include -isystem C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/sources/cxx-stl/gnu-libstdc++/4.9/include/backward -isystem C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -Os -DNDEBUG -fPIC"
+    "1": "--target=armv5te-none-linux-androideabi --gcc-toolchain=C:/Users/HDYL-YF/AppData/Local/Android/Sdk/ndk/16.1.4479499/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=C:/Users/HDYL-YF/AppData/Local/Android/Sdk/ndk/16.1.4479499/sysroot -Dnative_lib_EXPORTS -isystem C:/Users/HDYL-YF/AppData/Local/Android/Sdk/ndk/16.1.4479499/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem C:/Users/HDYL-YF/AppData/Local/Android/Sdk/ndk/16.1.4479499/sources/cxx-stl/gnu-libstdc++/4.9/libs/armeabi/include -isystem C:/Users/HDYL-YF/AppData/Local/Android/Sdk/ndk/16.1.4479499/sources/cxx-stl/gnu-libstdc++/4.9/include/backward -isystem C:/Users/HDYL-YF/AppData/Local/Android/Sdk/ndk/16.1.4479499/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -Os -DNDEBUG -fPIC"
   },
   "buildFiles": [
-    "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android_factory\\app\\CMakeLists.txt",
-    "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\build\\cmake\\android.toolchain.cmake"
+    "C:\\Users\\HDYL-YF\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\build\\cmake\\android.toolchain.cmake",
+    "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android_factory\\app\\CMakeLists.txt"
   ],
   "cleanCommands": [
-    "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android_factory\\app\\.cxx\\cmake\\release\\armeabi\" clean"
+    "C:\\Users\\HDYL-YF\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android_factory\\app\\.cxx\\cmake\\release\\armeabi\" clean"
   ],
-  "buildTargetsCommand": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android_factory\\app\\.cxx\\cmake\\release\\armeabi\" {LIST_OF_TARGETS_TO_BUILD}",
+  "buildTargetsCommand": "C:\\Users\\HDYL-YF\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android_factory\\app\\.cxx\\cmake\\release\\armeabi\" {LIST_OF_TARGETS_TO_BUILD}",
   "libraries": {
     "native-lib-Release-armeabi": {
-      "buildCommand": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android_factory\\app\\.cxx\\cmake\\release\\armeabi\" native-lib",
+      "buildCommand": "C:\\Users\\HDYL-YF\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android_factory\\app\\.cxx\\cmake\\release\\armeabi\" native-lib",
       "buildType": "release",
-      "toolchain": "3363533168",
+      "toolchain": "1405158379",
       "abi": "armeabi",
       "artifactName": "native-lib",
       "files": [
@@ -30,8 +30,8 @@
     }
   },
   "toolchains": {
-    "3363533168": {
-      "cppCompilerExecutable": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    "1405158379": {
+      "cppCompilerExecutable": "C:\\Users\\HDYL-YF\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
     }
   },
   "cFileExtensions": [],

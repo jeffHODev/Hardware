@@ -1983,13 +1983,13 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
             if (sumtemp < 350){
               //  bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
                 bufferFilterf[0][y] = bufferf[0][y];//xingjian
-                yadj_set = 5000;
+                yadj_set = 4700;
                 }
             else   if (sumtemp > 350&&sumtemp <=500){
                 //  bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
                // bufferFilterf[0][y] = bufferf[0][y];//xingjian
                 bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
-                yadj_set = 5000;
+                yadj_set = 4700;
             }
             else{
                 yadj_set = 3000;
