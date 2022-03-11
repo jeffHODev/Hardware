@@ -802,7 +802,7 @@ _attribute_no_inline_ void user_init_normal(void)
 
     /* L2CAP buffer Initialization */
     blc_l2cap_initAclConnMasterMtuBuffer(mtu_m_rx_fifo, MTU_M_BUFF_SIZE_MAX, 			0,					 0);
-    blc_l2cap_initAclConnSlaveMtuBuffer(mtu_s_rx_fifo, MTU_S_BUFF_SIZE_MAX, mtu_s_tx_fifo, MTU_S_BUFF_SIZE_MAX);
+    blc_l2cap_initAclConnSlaveMtuBuffer(mtu_s_rx_fifo,  , mtu_s_tx_fifo, MTU_S_BUFF_SIZE_MAX);
 
     blc_att_setMasterRxMTUSize(ATT_MTU_MASTER_RX_MAX_SIZE); ///must be placed after "blc_gap_init"
     blc_att_setSlaveRxMTUSize(ATT_MTU_SLAVE_RX_MAX_SIZE);   ///must be placed after "blc_gap_init"
@@ -1080,12 +1080,19 @@ void ui_process()
 #if ROLE == MASTER
         send_test();
 
-        if(con_stare&&clock_time_exceed(unpair_tick, 2000*1000))
+        if(con_stare)
         {
-            unpair_tick = clock_time();
-            proc_master_role_unpair();
+            if(clock_time_exceed(unpair_tick, 2000*1000))
+            {
+	            unpair_tick = clock_time();
+	            proc_master_role_unpair();
 
+			}
         }
+		else
+		{
+			unpair_tick = clock_time();
+		}
 #endif
         //printf("nor");
         ui_proc();

@@ -1049,8 +1049,6 @@ void mesure_proc()
             if(gpio_read(ECHO)==0)
             {
                 cal_rx_time();
-                //  printf("m3\n");
-                // measure_usr.time = tick_tmp/1000; 34000*x/1000
                 measure_usr.dis = measure_usr.rx_time*17;
                 printf("dis = %d\n",measure_usr.dis);
                 if(measure_usr.dis>=MAX_DIS)
@@ -1063,8 +1061,7 @@ void mesure_proc()
                 }
                 else
                 {
-                    //  printf("normal\n");
-                    if(measure_usr.sum)
+                   if(measure_usr.sum)
                         measure_usr.sum  = measure_usr.sum-1;
                     measure_usr.dis = MAX_DIS + 4;
 
@@ -1078,12 +1075,9 @@ void mesure_proc()
     }
     else
     {
-        //printf("m6\n");
         sensor_power(0);
         measure_usr.stop = 0;
         measure_usr.tick = clock_time();
-        //if(measure_usr.sum>0)//超过10次报警，震动
-        //measure_usr.sum = measure_usr.sum -1;
     }
     if(measure_usr.sum>0)
     {
@@ -1238,14 +1232,23 @@ void led_proc_usr()
 void ui_proc()
 {
   //  static u32 tmp;
-	u32 tx_tick_init;
+	static u32 tx_tick_init=0;
+	u8 init_flag=0;
      if(clock_time_exceed(tx_tick_init, 5000*1000))//超时时间内
      	{
+    	 init_flag = 1;
      	tx_tick_init = clock_time();
-	   ack_proc();
-
+	    ack_proc();
 	 }
-    
+
+     if(measure_usr.mode == SETTING)
+     {
+    	 tx_tick_init = clock_time();
+    	 init_flag = 0;
+     }
+     if(init_flag == 1)
+    	 tx_tick_init = clock_time();
+
     led_proc_usr();
 	
     if( measure_usr.mode != SETTING)

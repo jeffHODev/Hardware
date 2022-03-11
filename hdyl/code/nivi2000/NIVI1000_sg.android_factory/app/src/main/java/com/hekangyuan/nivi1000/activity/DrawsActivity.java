@@ -70,10 +70,13 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
     private Float[] ecgTh;
     private Float[] apgTh;
     private boolean isStart = false;
-
+    int yadj_set = 3000;
     public static float widthPerPointone;
     public static float widthPerPointonePcg;
     public int titleIndex = 0;
+    float sumtemp = 0;
+    int pointerx = 0;
+    float[] temp = new float[800];
     private String[][] ecgTitle = {{"心电波", "心音波", "超收缩压脉搏波"},
             {"心电波", "心音波", "低舒张压脉搏波"},
             {"心电波", "心音波", "左颈动脉脉搏波"},
@@ -1921,8 +1924,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
      * @param serialBean
      */
     private void preProcessdata(SerialBean serialBean) {
-        float[] tempdiff = new float[199];
-        float[] tempdiff2 = new float[198];
+
         bufferf = new float[4][serialBean.getEcgdata().length];
 //        bufferFilterf = new float[4][serialBean.getEcgdata().length / 4];
         bufferFilterf = new float[4][];
@@ -1952,44 +1954,45 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //            }
 //        }
        //斜率判断，求root mean square ,跟阈值比大小
-        for (int y = 0; y < (bufferf[0].length - 1); y++){
-            tempdiff[y] = Math.abs(bufferf[0][y+1]-bufferf[0][y]);
+
+
+        for (int y = 0; y < (bufferf[0].length ); y++){
+            if (pointerx>=800)
+                    pointerx = 0;
+
+            if ((bufferf[0][y] > 1027000 && bufferf[0][y] < 1028600) || (bufferf[0][y] > 1029000 && bufferf[0][y] < 1030230)){//1030218.3 1030216.0 1030213.9 1030220.44 1030211.6 1030209.5 1028586.9
+                temp[pointerx]= 0;
+
+            }
+            else {temp[pointerx] = 1;}
+
+            pointerx = pointerx + 1;
         }
-        for (int y = 0; y < (bufferf[0].length - 2); y++){
-            tempdiff2[y] = Math.abs(tempdiff[y+1]-tempdiff[y]);
+        if (pointerx==800) {sumtemp=0;
+            for (int yy = 0; yy < 800; yy++) {
+                sumtemp = sumtemp + temp[yy];
+            }
+            Log.e("huang","yuzhi"+ sumtemp);
         }
 
-        Arrays.sort(tempdiff2);
-        for (int y=0;y<10;y++){
-        tempdiff2[y] = tempdiff2[y+90];
-        tempdiff2[188+y] = tempdiff2[y+90];
-            //Log.e("huang","微分阈值"+ tempdiff2[y]);
-        }
-        for (int y=0;y<198;y++){
-            if(y == 0)
-            Log.e("huang1","微分阈值"+ tempdiff2[y]);
-            else if (y == 197)
-                Log.e("huang2","微分阈值"+ tempdiff2[y]);
-                else  Log.e("huang3","微分阈值"+ tempdiff2[y]);
-        }
-        float sumtemp = 0;
-
-        float meantemp =0;
-        for (int y = 0; y < (bufferf[0].length - 2); y++){
-            sumtemp = sumtemp + tempdiff2[y] ;
-        }
-        meantemp = sumtemp/198;
-//        for (int y = 0; y < (bufferf[0].length - 2); y++){
-//            sumsquaretemp = sumsquaretemp + (tempdiff2[y] - meantemp)*(tempdiff2[y] - meantemp);
-//        }
-//
         //
         for (int y = 0; y < bufferf[0].length; y++){
-           // Log.e("huang","微分阈值"+ meantemp);
-            if (meantemp < 5){
-                bufferFilterf[0][y] = bufferf[0][y];
+            Log.e("huang","心电"+ bufferf[0][y]);
+
+
+            if (sumtemp < 350){
+              //  bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
+                bufferFilterf[0][y] = bufferf[0][y];//xingjian
+                yadj_set = 5000;
                 }
+            else   if (sumtemp > 350&&sumtemp <=500){
+                //  bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
+               // bufferFilterf[0][y] = bufferf[0][y];//xingjian
+                bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
+                yadj_set = 5000;
+            }
             else{
+                yadj_set = 3000;
                 bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
                 }
         }
@@ -2153,7 +2156,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //                secondPathView.setData(pcgPointListView, widthPerPointone, viewHeight, curPos);
 //                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj);
 //                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set);
                 secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 1500);
 //                thirdPathView.setData2(tstPointListView,  widthPerPointone, viewHeight,curPos); //3 tst
                 thirdPathView.setData3(tstPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
