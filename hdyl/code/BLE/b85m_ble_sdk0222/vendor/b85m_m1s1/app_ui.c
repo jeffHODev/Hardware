@@ -679,7 +679,7 @@ void ack_proc()
         {
 
             //主机在超时时间内发送握手信号
-#if ROLE == MASTER
+			#if ROLE == MASTER
             
             if(clock_time_exceed(send_acktime,  1*1000*1000)&& master_conect_status()==1)
             {
@@ -691,7 +691,7 @@ void ack_proc()
                 //printf("ack t\n");measure_usr.start == 1
             }
 
-#endif
+			#endif
 
         }
         /*        static u32  send_acktime;
@@ -781,7 +781,7 @@ void led_mode_set(u8 status)
     break;
     case LED_NORMAL:
     {
-        led_usr.tick = 1000000;//1s
+        led_usr.tick = 3000000;//1s
         led_usr.status = ON;
 
     }
@@ -907,14 +907,15 @@ void parase(u8 tmp)
     break;
     case 0x5b://配对指示灯
     {
-
+    	ack_res(0);
         measure_usr.ack_sig = 0;
         led_mode_set(LED_PAIR);
         printf("P1\n");
     }break;
     case 0x5c://解绑对指示灯
     {
-
+    	ack_res(0);
+    	blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
         measure_usr.ack_sig = 0;
         led_mode_set(LED_UNPAIR);
         printf("P2\n");
@@ -1237,7 +1238,7 @@ void led_proc_usr()
     #if ROLE == SLAVE
     if(ble_usr.connection == 0)
     {
-		led_mode_set(LED_DISCON);
+		;//led_mode_set(LED_DISCON);
 	}
     else
     {
@@ -1248,7 +1249,7 @@ void led_proc_usr()
 	#else
     if(master_conect_status()==0)
     {
-		led_mode_set(LED_DISCON);
+		;//led_mode_set(LED_DISCON);
 	}
 	#endif
 	led_ctrl();
@@ -1256,11 +1257,20 @@ void led_proc_usr()
 }
 void ui_proc()
 {
-     	{
+   static u32 tick;
 
 
-	    ack_proc();
-	 }
+  if( GetBle_status()->connection == 0&&master_conect_status()==0)
+	  tick = clock_time();
+  else
+  {
+	  if(clock_time_exceed(tick, 5000000))//超时时间内
+	  {
+		 // printf("del1\n");
+		  ack_proc();
+	  }
+  }
+
 
 
 

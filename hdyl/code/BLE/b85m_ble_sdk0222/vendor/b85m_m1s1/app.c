@@ -154,7 +154,7 @@ int app_le_adv_report_event_handle(u8 *p)
 
     //for(i=0;i<6;i++)
     //printf("%x\n",pa->mac[i]);
-    user_manual_pairing = master_pairing_enable && (rssi > -60);  //button trigger pairing(RSSI threshold, short distance)
+    user_manual_pairing = master_pairing_enable && (rssi > -35);  //button trigger pairing(RSSI threshold, short distance)
     //printf("aupair:%d\n",user_manual_pairing);
 
     if(pa->mac[3]!=0x38)
@@ -174,7 +174,7 @@ int app_le_adv_report_event_handle(u8 *p)
 
     if(master_auto_connect || user_manual_pairing)
     {
-        printf("apair:%d\n",master_auto_connect);
+        //printf("apair:%d\n",master_auto_connect);
 
         /* send create connection command to Controller, trigger it switch to initiating state. After this command, Controller
          * will scan all the ADV packets it received but not report to host, to find the specified device(mac_adr_type & mac_adr),
@@ -188,7 +188,7 @@ int app_le_adv_report_event_handle(u8 *p)
 
         if(status == BLE_SUCCESS)  //create connection success
         {
-            master_pairing_enable=0;
+           // master_pairing_enable=0;
 #if (!BLE_MASTER_SMP_ENABLE)
             // for Telink referenced pair&bonding,
             if(user_manual_pairing && !master_auto_connect)   //manual pair but not auto connect
@@ -354,7 +354,7 @@ int 	app_disconnect_event_handle(u8 *p)
 
     dev_char_info_delete_by_connhandle(pCon->connHandle);
     ble_status(0);
-    printf("pCon->reason:%x \n",pCon->reason);
+    printf("pCon->reason2:%x \n",pCon->reason);
     return 0;
 }
 
@@ -1049,21 +1049,38 @@ void app_process_power_management(void)
 #else
 
 #if (BLE_APP_PM_ENABLE)
-    blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
+	static u32 pm_tick;
+	if(GetBle_status()->connection == 1)
+	{
+		pm_tick = clock_time();
 
-    int user_task_flg = ota_is_working||GetBle_status()->connection;
-#if 0
-    user_task_flg = user_task_flg || scan_pin_need || key_not_released;
-#endif
-#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
-    user_task_flg = user_task_flg || master_sdp_pending;
-#endif
+		    int user_task_flg = ota_is_working||GetBle_status()->connection;
+		#if 0
+		    user_task_flg = user_task_flg || scan_pin_need || key_not_released;
+		#endif
+		#if (BLE_MASTER_SIMPLE_SDP_ENABLE)
+		    user_task_flg = user_task_flg || master_sdp_pending;
+		#endif
 
 
-    if(user_task_flg)
-    {
-        blc_pm_setSleepMask(PM_SLEEP_DISABLE);
-    }
+		    if(user_task_flg)
+		    {
+		        blc_pm_setSleepMask(PM_SLEEP_DISABLE);
+		    }
+	}
+
+	else
+	{
+
+		 if(clock_time_exceed(pm_tick, 2000000))//超时时间内
+		 {
+			 printf("pm0");
+			 blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
+
+		 }
+	}
+
+
 #endif
 #endif
 app_process_power_management_usr();
