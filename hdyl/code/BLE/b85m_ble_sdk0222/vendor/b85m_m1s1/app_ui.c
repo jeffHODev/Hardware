@@ -1075,7 +1075,7 @@ void mesure_proc()
             	}
 
 
-             //   printf("dis = %d\n",measure_usr.dis);
+
                 if(measure_usr.dis>=MAX_DIS)
                     measure_usr.dis = MAX_DIS + 2;
                 if(measure_usr.dis<=MIN_DIS)
@@ -1086,9 +1086,7 @@ void mesure_proc()
                 }
                 else
                 {
-                    //  printf("normal\n");
-                   // if(measure_usr.sum)
-                   //     measure_usr.sum  = measure_usr.sum-1;
+
                     measure_usr.dis = MAX_DIS + 4;
 
                 }
@@ -1101,12 +1099,9 @@ void mesure_proc()
     }
     else
     {
-        //printf("m6\n");
         sensor_power(0);
         measure_usr.stop = 0;
         measure_usr.tick = clock_time();
-        //if(measure_usr.sum>0)//超过10次报警，震动
-        //measure_usr.sum = measure_usr.sum -1;
     }
     if(measure_usr.sum>0)
     {
@@ -1261,15 +1256,14 @@ void led_proc_usr()
 }
 void ui_proc()
 {
-  //  static u32 tmp;
-	u32 tx_tick_init;
-    // if(clock_time_exceed(tx_tick_init, 5000*1000))//超时时间内
      	{
-     	tx_tick_init = clock_time();
-	   ack_proc();
 
+
+	    ack_proc();
 	 }
-    
+
+
+
     led_proc_usr();
 	
     if( measure_usr.mode != SETTING)
