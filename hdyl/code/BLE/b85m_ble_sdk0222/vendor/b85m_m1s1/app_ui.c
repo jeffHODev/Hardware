@@ -596,7 +596,7 @@ void user_gpio_init()
     gpio_set_input_en(ECHO,1);				//disable input
     gpio_setup_up_down_resistor(ECHO, PM_PIN_PULLDOWN_100K);
     // gpio_set_interrupt(ECHO, POL_FALLING);
-    gpio_set_interrupt_risc0(ECHO, POL_RISING);
+    gpio_set_interrupt_risc0(ECHO, POL_FALLING);
 
 
     gpio_set_func(M_EN,AS_GPIO);                       //设置GPIO功能
@@ -868,7 +868,7 @@ void parase(u8 tmp)
     case 0x4b://通知主机开始测量
     {
         deviceTimeout(0);
-        //measure_start();
+        measure_start();
         measure_usr.stop = 0;
        // pkt_pack(0x5d);
        // blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
@@ -978,7 +978,7 @@ void cal_rx_time()
     measure_usr.rx_time = clock_time()/16000-rx_tick;
     measure_usr.rx_time = measure_usr.rx_time ;
     rx_tick =  clock_time()/16000;
-    // printf("rx:%d\n",measure_usr.rx_time);
+     //printf("rx:%d\n",measure_usr.rx_time);
 
     /*  t1 = clock_time()/16000-t2;
      // t1 = measure_usr.rx_time ;
@@ -1026,9 +1026,9 @@ void mesure_proc()
             //if(tick_tmp>=TIMEOUT_PERIOD)//测量超时
         {
             printf("timeout\n");
-            if(measure_usr.timeout_cnt<=100)
+            if(measure_usr.timeout_cnt<=200)
                 measure_usr.timeout_cnt = measure_usr.timeout_cnt ++;
-            if(measure_usr.timeout_cnt>100)
+            if(measure_usr.timeout_cnt>200)
             {
                 if(measure_usr.sum)
                     measure_usr.sum  = measure_usr.sum-1;
@@ -1046,13 +1046,36 @@ void mesure_proc()
             if(measure_usr.timeout_cnt>0)
                 measure_usr.timeout_cnt = 0;
             //printf("notimeout\n");
-            if(gpio_read(ECHO)==0)
+            if(measure_usr.stop == 1)
             {
-                cal_rx_time();
+                //cal_rx_time();
                 //  printf("m3\n");
                 // measure_usr.time = tick_tmp/1000; 34000*x/1000
-                measure_usr.dis = measure_usr.rx_time*17;
-                printf("dis = %d\n",measure_usr.dis);
+            	static u16 cnt = 0;
+            	//printf("sum%d\n",measure_usr.sum);
+            	if(measure_usr.rx_time<=1)
+            	{
+            		cnt = 0;
+            		measure_usr.dis = MIN_DIS;
+
+            	}
+            	else
+            	{
+            		if(cnt <=35)
+            		cnt ++;
+            		printf("t:%d\n",cnt);
+            	}
+            	if(cnt >=35)
+            	{
+
+            		// printf("tout\n");
+            		 measure_usr.dis = MAX_DIS + 2;
+                      if(measure_usr.sum)
+                          measure_usr.sum  = measure_usr.sum-1;
+            	}
+
+
+             //   printf("dis = %d\n",measure_usr.dis);
                 if(measure_usr.dis>=MAX_DIS)
                     measure_usr.dis = MAX_DIS + 2;
                 if(measure_usr.dis<=MIN_DIS)
@@ -1064,8 +1087,8 @@ void mesure_proc()
                 else
                 {
                     //  printf("normal\n");
-                    if(measure_usr.sum)
-                        measure_usr.sum  = measure_usr.sum-1;
+                   // if(measure_usr.sum)
+                   //     measure_usr.sum  = measure_usr.sum-1;
                     measure_usr.dis = MAX_DIS + 4;
 
                 }
@@ -1152,10 +1175,11 @@ void mesure_proc()
                     blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
                     //
                    // measure_start();
+                    sleep_us(1000);
                     sensor_power(1);
                     printf("m8\n");
-				    sleep_us(10000);
-               		 sensor_power(0);
+				    //sleep_us(10000);
+               		// sensor_power(0);
 					 measure_usr.tick = clock_time();		
 
                 }
@@ -1239,7 +1263,7 @@ void ui_proc()
 {
   //  static u32 tmp;
 	u32 tx_tick_init;
-     if(clock_time_exceed(tx_tick_init, 5000*1000))//超时时间内
+    // if(clock_time_exceed(tx_tick_init, 5000*1000))//超时时间内
      	{
      	tx_tick_init = clock_time();
 	   ack_proc();
