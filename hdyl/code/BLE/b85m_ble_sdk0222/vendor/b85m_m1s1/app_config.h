@@ -94,7 +94,7 @@
 //----------------------------------------------
 
 
-#define BATT_CHECK_ENABLE       			        0
+#define BATT_CHECK_ENABLE       			        1
 #if (BATT_CHECK_ENABLE)
 //telink device: you must choose one gpio with adc function to output high level(voltage will equal to vbat), then use adc to measure high level voltage
 //use PB7 output high level, then adc measure this high level voltage
