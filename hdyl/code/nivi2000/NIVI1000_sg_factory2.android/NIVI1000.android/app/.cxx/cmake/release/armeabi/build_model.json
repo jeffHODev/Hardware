@@ -1,0 +1,218 @@
+{
+  "abi": "ARMEABI",
+  "abiPlatformVersion": 21,
+  "buildSettings": {
+    "environmentVariables": []
+  },
+  "cmake": {
+    "cmakeArtifactsBaseFolder": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\armeabi",
+    "cmakeServerLogFile": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\armeabi\\cmake_server_log.txt",
+    "cmakeWrappingBaseFolder": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx\\cxx\\release\\armeabi",
+    "effectiveConfiguration": {
+      "name": "traditional-android-studio-cmake-environment",
+      "description": "Composite reified CMakeSettings configuration",
+      "generator": "Ninja",
+      "inheritEnvironments": [
+        "ndk"
+      ],
+      "buildRoot": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\armeabi",
+      "cmakeToolchain": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\build\\cmake\\android.toolchain.cmake",
+      "cmakeExecutable": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
+      "variables": [
+        {
+          "name": "CMAKE_BUILD_TYPE",
+          "value": "Release"
+        },
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\build\\cmake\\android.toolchain.cmake"
+        },
+        {
+          "name": "ANDROID_ABI",
+          "value": "armeabi"
+        },
+        {
+          "name": "ANDROID_NDK",
+          "value": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499"
+        },
+        {
+          "name": "ANDROID_PLATFORM",
+          "value": "android-21"
+        },
+        {
+          "name": "CMAKE_ANDROID_ARCH_ABI",
+          "value": "armeabi"
+        },
+        {
+          "name": "CMAKE_ANDROID_NDK",
+          "value": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499"
+        },
+        {
+          "name": "CMAKE_EXPORT_COMPILE_COMMANDS",
+          "value": "ON"
+        },
+        {
+          "name": "CMAKE_LIBRARY_OUTPUT_DIRECTORY",
+          "value": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app\\build\\intermediates\\cmake\\release\\obj\\armeabi"
+        },
+        {
+          "name": "CMAKE_MAKE_PROGRAM",
+          "value": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe"
+        },
+        {
+          "name": "CMAKE_SYSTEM_NAME",
+          "value": "Android"
+        },
+        {
+          "name": "CMAKE_SYSTEM_VERSION",
+          "value": "21"
+        }
+      ]
+    }
+  },
+  "cxxBuildFolder": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\armeabi",
+  "info": {
+    "abi": "ARMEABI",
+    "bitness": 32,
+    "deprecated": true,
+    "default": false
+  },
+  "originalCxxBuildFolder": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\armeabi",
+  "variant": {
+    "buildSystemArgumentList": [],
+    "buildTargetSet": [],
+    "cFlagsList": [],
+    "cmakeSettingsConfiguration": "android-gradle-plugin-predetermined-name",
+    "cppFlagsList": [
+      ""
+    ],
+    "isDebuggableEnabled": false,
+    "module": {
+      "buildSystem": "CMAKE",
+      "cmake": {
+        "cmakeExe": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
+        "minimumCmakeVersion": "3.10.2",
+        "ninjaExe": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe"
+      },
+      "cmakeToolchainFile": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\build\\cmake\\android.toolchain.cmake",
+      "cxxFolder": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx",
+      "gradleModulePathName": ":app",
+      "intermediatesFolder": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app\\build\\intermediates",
+      "makeFile": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app\\CMakeLists.txt",
+      "moduleBuildFile": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app\\build.gradle",
+      "moduleRootFolder": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app",
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkFolder": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499",
+      "ndkMetaAbiList": [
+        {
+          "abi": "ARMEABI",
+          "bitness": 32,
+          "deprecated": true,
+          "default": false
+        },
+        {
+          "abi": "ARMEABI_V7A",
+          "bitness": 32,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "ARM64_V8A",
+          "bitness": 64,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "MIPS",
+          "bitness": 32,
+          "deprecated": true,
+          "default": false
+        },
+        {
+          "abi": "MIPS64",
+          "bitness": 64,
+          "deprecated": true,
+          "default": false
+        },
+        {
+          "abi": "X86",
+          "bitness": 32,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "X86_64",
+          "bitness": 64,
+          "deprecated": false,
+          "default": true
+        }
+      ],
+      "ndkSupportedAbiList": [
+        "ARMEABI",
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "MIPS",
+        "MIPS64",
+        "X86",
+        "X86_64"
+      ],
+      "ndkVersion": "16.1.4479499",
+      "project": {
+        "compilerSettingsCacheFolder": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\.cxx",
+        "cxxFolder": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\.cxx",
+        "isBuildOnlyTargetAbiEnabled": true,
+        "isCmakeBuildCohabitationEnabled": false,
+        "isNativeCompilerSettingsCacheEnabled": false,
+        "rootBuildGradleFolder": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android",
+        "sdkFolder": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk"
+      },
+      "splitsAbiFilterSet": [],
+      "stlSharedObjectMap": {
+        "GNUSTL_SHARED": {
+          "ARMEABI": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\armeabi\\libgnustl_shared.so",
+          "ARMEABI_V7A": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\armeabi-v7a\\libgnustl_shared.so",
+          "ARM64_V8A": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\arm64-v8a\\libgnustl_shared.so",
+          "MIPS": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\mips\\libgnustl_shared.so",
+          "MIPS64": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\mips64\\libgnustl_shared.so",
+          "X86": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\x86\\libgnustl_shared.so",
+          "X86_64": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\x86_64\\libgnustl_shared.so"
+        },
+        "GNUSTL_STATIC": {},
+        "LIBCXX_SHARED": {
+          "ARMEABI": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\llvm-libc++\\libs\\armeabi\\libc++_shared.so",
+          "ARMEABI_V7A": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\llvm-libc++\\libs\\armeabi-v7a\\libc++_shared.so",
+          "ARM64_V8A": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\llvm-libc++\\libs\\arm64-v8a\\libc++_shared.so",
+          "MIPS": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\llvm-libc++\\libs\\mips\\libc++_shared.so",
+          "MIPS64": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\llvm-libc++\\libs\\mips64\\libc++_shared.so",
+          "X86": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\llvm-libc++\\libs\\x86\\libc++_shared.so",
+          "X86_64": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\llvm-libc++\\libs\\x86_64\\libc++_shared.so"
+        },
+        "LIBCXX_STATIC": {},
+        "NONE": {},
+        "STLPORT_SHARED": {
+          "ARMEABI": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\stlport\\libs\\armeabi\\libstlport_shared.so",
+          "ARMEABI_V7A": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\stlport\\libs\\armeabi-v7a\\libstlport_shared.so",
+          "ARM64_V8A": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\stlport\\libs\\arm64-v8a\\libstlport_shared.so",
+          "MIPS": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\stlport\\libs\\mips\\libstlport_shared.so",
+          "MIPS64": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\stlport\\libs\\mips64\\libstlport_shared.so",
+          "X86": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\stlport\\libs\\x86\\libstlport_shared.so",
+          "X86_64": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\sources\\cxx-stl\\stlport\\libs\\x86_64\\libstlport_shared.so"
+        },
+        "STLPORT_STATIC": {},
+        "SYSTEM": {}
+      }
+    },
+    "objFolder": "D:\\work\\soft\\nivi2000\\code\\NIVI1000_sg.android\\NIVI1000.android\\app\\build\\intermediates\\cmake\\release\\obj",
+    "variantName": "release",
+    "validAbiList": [
+      "ARMEABI",
+      "ARMEABI_V7A",
+      "X86"
+    ]
+  }
+}

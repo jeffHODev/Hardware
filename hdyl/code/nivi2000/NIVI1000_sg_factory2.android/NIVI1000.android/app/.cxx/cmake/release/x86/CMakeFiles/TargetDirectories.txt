@@ -1,0 +1,3 @@
+D:/work/soft/nivi2000/code/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/x86/CMakeFiles/native-lib.dir
+D:/work/soft/nivi2000/code/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/x86/CMakeFiles/edit_cache.dir
+D:/work/soft/nivi2000/code/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/x86/CMakeFiles/rebuild_cache.dir

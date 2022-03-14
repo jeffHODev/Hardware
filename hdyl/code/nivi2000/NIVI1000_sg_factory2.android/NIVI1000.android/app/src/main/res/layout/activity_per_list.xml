@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+   >
+    <include layout="@layout/app_title_new" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+
+       >
+        <EditText
+            android:id="@+id/et_search_idcode"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="580dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_edittext"
+
+        />
+    <ImageView
+        android:layout_marginTop="17dp"
+        android:id="@+id/im_search"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:src="@mipmap/ico_search_blue"
+        />
+    </RelativeLayout>
+    <com.hekangyuan.nivi1000.xview.XListView
+        android:id="@+id/xListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#00000000"
+      >
+    </com.hekangyuan.nivi1000.xview.XListView>
+    <Button
+        android:visibility="gone"
+        android:id="@+id/upload_ecg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上传心电信息"/>
+</LinearLayout>

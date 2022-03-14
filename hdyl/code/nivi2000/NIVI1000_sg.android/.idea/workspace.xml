@@ -42,16 +42,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49935970-80a9-4521-8f4c-f42d8515fd1b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/b85m_ble_sdk.elf" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/825x_m1s1/b85m_ble_sdk.elf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/vendor/b85m_m1s1/app.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/vendor/b85m_m1s1/app.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/vendor/b85m_m1s1/app_ui.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../BLE/b85m_ble_sdk0222/vendor/b85m_m1s1/app_ui.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/app/src/main/java/com/hekangyuan/nivi1000/activity/DrawsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../NIVI1000_sg.android_factory/app/src/main/java/com/hekangyuan/nivi1000/activity/DrawsActivity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[LNGNWVTOCU]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[LNGNW8LKGM]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -130,7 +129,7 @@
     <property name="android-custom-viewD:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/java/com/hekangyuan/nivi1000/xview/XListView.java_SELECTED" value="XListView" />
     <property name="android-custom-viewD:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/java/com/hekangyuan/nivi1000/xview/XListView.java_XListView_DIMENSIONS" value="1080&#10;1920" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../NIVI1000_sg.android_factory" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../soft/nivi2000/code/NIVI1000_sg.android/NIVI1000.android" />
     <property name="multi-representation-previewC:/Users/10735/.gradle/caches/modules-2/files-2.1/com.android.support/appcompat-v7/26.1.0/2b34456c30d6b6e5db5fa3e8fa02f6cebd5531fd/appcompat-v7-26.1.0-sources.jar!/android/support/v7/widget/SearchView.java_selected" value="Custom views" />
     <property name="multi-representation-previewD:/work/AndroidStudioWork/NIVI1000.android/app/src/main/java/com/hekangyuan/nivi1000/view/bargraph/BarGraphView.java_selected" value="Custom views" />
     <property name="multi-representation-previewD:/work/AndroidStudioWork/NIVI1000.android/app/src/main/java/com/hekangyuan/nivi1000/view/graphViewForLive/AnalysisView.java_selected" value="Custom views" />
@@ -334,26 +333,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="651" y="202" key="#PSD/0.0.1920.1040@0.0.1920.1040" timestamp="1645149807880" />
-    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1646961823181">
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1647239436560">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1646961823181" />
-    <state width="1860" height="79" key="GridCell.Tab.0.bottom" timestamp="1646960751681">
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1647239436560" />
+    <state width="1194" height="0" key="GridCell.Tab.0.bottom" timestamp="1647238807078">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="79" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1646960751681" />
-    <state width="1860" height="79" key="GridCell.Tab.0.center" timestamp="1646960751680">
+    <state width="1194" height="0" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1647238807078" />
+    <state width="1194" height="0" key="GridCell.Tab.0.center" timestamp="1647238807078">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="79" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1646960751680" />
-    <state width="1860" height="79" key="GridCell.Tab.0.left" timestamp="1646960751680">
+    <state width="1194" height="0" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1647238807078" />
+    <state width="1194" height="0" key="GridCell.Tab.0.left" timestamp="1647238807078">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="79" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1646960751680" />
-    <state width="1860" height="79" key="GridCell.Tab.0.right" timestamp="1646960751680">
+    <state width="1194" height="0" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1647238807078" />
+    <state width="1194" height="0" key="GridCell.Tab.0.right" timestamp="1647238807078">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="79" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1646960751680" />
+    <state width="1194" height="0" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1647238807078" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

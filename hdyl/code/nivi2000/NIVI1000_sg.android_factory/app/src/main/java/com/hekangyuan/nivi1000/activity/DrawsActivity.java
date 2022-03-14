@@ -2030,6 +2030,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
                // Log.e("huang","LLfilterL"+  tempdiff2[799]);
                 }
+            bufferFilterf[0][y] = bufferf[0][y];//xingjian
+            yadj_set = 4700;
         }
 
         for (int y = 0; y < bufferf[1].length; y++){

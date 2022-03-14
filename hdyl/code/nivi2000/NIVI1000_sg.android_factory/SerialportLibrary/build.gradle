@@ -10,9 +10,6 @@ android {
     signingConfigs {
         debug {
             storeFile file('D:\\shenggu.jks')
-            storePassword 'shenggu'
-            keyAlias 'shenggu'
-            keyPassword 'shenggu'
         }
         release {
         }
