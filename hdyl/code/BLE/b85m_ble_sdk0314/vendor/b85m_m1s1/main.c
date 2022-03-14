@@ -48,7 +48,7 @@
 #include "stack/ble/ble.h"
 #include "app.h"
 #include "config_usr.h"
-
+#include "app_ui.h"
 
 /**
  * @brief   IRQ handler
@@ -83,7 +83,16 @@ _attribute_ram_code_ void irq_handler(void)
     	 reg_irq_src |= FLD_IRQ_GPIO_EN; // clear the relevant irq
         if(gpio_read(KB))// press key with low level to flash light
         {
+#if ROLE == SLAVE
+        	 static u8 shake_cnt=0;
+      if(GetBle_status()->connection ==0)
+    	  shake_cnt++;
+      if(shake_cnt>=10)
+      {
+    	  blc_pm_setSleepMask(PM_SLEEP_LEG_ADV | PM_SLEEP_LEG_SCAN | PM_SLEEP_ACL_SLAVE | PM_SLEEP_ACL_MASTER);
+      }
 
+#endif
             //gpio_toggle(GPIO_LED_RED);
 			deviceTimeout(0);
             //measure_start();

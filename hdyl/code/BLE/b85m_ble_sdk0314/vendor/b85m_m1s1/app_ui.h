@@ -101,7 +101,7 @@ typedef struct
 	u32 timeout;
 	u8 timeoutFlag;
 	u8  power_status;
-	u32 rx_time;
+	float rx_time;
 	u8 mac[6];
 	u8 ack_sig;
 	u16 timeout_cnt;
@@ -171,6 +171,6 @@ void init_measure(void);
 void cal_rx_time(void);
 void led_mode_set(u8 status);
 void pkt_pack(u8 ucmd);
-
+ble_stru *GetBle_status(void);
 
 #endif /* APP_UI_H_ */

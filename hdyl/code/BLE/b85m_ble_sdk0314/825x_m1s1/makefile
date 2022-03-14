@@ -45,7 +45,7 @@ all: b85m_ble_sdk.elf secondary-outputs
 b85m_ble_sdk.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: TC32 C Linker'
-	tc32-elf-ld --gc-sections -L"C:\Users\86152\Desktop\b85m_ble_sdk0222\proj_lib" -T ../boot.link -o"b85m_ble_sdk.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	tc32-elf-ld --gc-sections -L"F:\projects\git\Hardware\hdyl\code\BLE\b85m_ble_sdk0314\proj_lib" -T ../boot.link -o"b85m_ble_sdk.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build
@@ -74,7 +74,7 @@ clean:
 	-@echo ' '
 
 post-build:
-	-"C:\Users\86152\Desktop\b85m_ble_sdk0222/tl_check_fw.sh"   825x_m1s1   b85m_ble_sdk
+	-"F:\projects\git\Hardware\hdyl\code\BLE\b85m_ble_sdk0314/tl_check_fw.sh"   825x_m1s1   b85m_ble_sdk
 	-@echo ' '
 
 secondary-outputs: $(LST) $(FLASH_IMAGE) $(SIZEDUMMY)

@@ -872,7 +872,7 @@ void parase(u8 tmp)
         measure_usr.stop = 0;
        // pkt_pack(0x5d);
        // blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
-        sleep_us(50);
+        sleep_us(10);
         sensor_power(1);
         
         //    sensor_power(1);
@@ -1029,9 +1029,9 @@ void mesure_proc()
             //if(tick_tmp>=TIMEOUT_PERIOD)//测量超时
         {
             printf("timeout\n");
-            if(measure_usr.timeout_cnt<=200)
+            if(measure_usr.timeout_cnt<=100)
                 measure_usr.timeout_cnt = measure_usr.timeout_cnt ++;
-            if(measure_usr.timeout_cnt>200)
+            if(measure_usr.timeout_cnt>100)
             {
                 if(measure_usr.sum)
                     measure_usr.sum  = measure_usr.sum-1;
@@ -1055,8 +1055,8 @@ void mesure_proc()
                 //  printf("m3\n");
                 // measure_usr.time = tick_tmp/1000; 34000*x/1000
             	static u16 cnt = 0;
-            	//printf("sum%d\n",measure_usr.sum);
-            	if(measure_usr.rx_time<=1)
+            	//printf("sum%d\n",measure_usr.rx_time);
+            	if(measure_usr.rx_time<=2)
             	{
             		cnt = 0;
             		measure_usr.dis = MIN_DIS;
@@ -1064,13 +1064,13 @@ void mesure_proc()
             	}
             	else
             	{
-            		if(cnt <=35)
-            		cnt ++;
-            		printf("t:%d\n",cnt);
+            		if(cnt <=30)
+            		{cnt ++;
+            		printf("t:%d\n",cnt);}
             	}
-            	if(cnt >=35)
+            	if(cnt >=30)
             	{
-
+            		//cnt=0;
             		// printf("tout\n");
             		 measure_usr.dis = MAX_DIS + 2;
                       if(measure_usr.sum)
@@ -1137,8 +1137,8 @@ void mesure_proc()
         {
             if(clock_time_exceed( measure_usr.motor_tick, M_ON_PERIOD)==0)
             {
-                printf("m99\n");
-                gpio_write(M_EN,1); 	   //输入失能
+                //printf("m99\n");
+                gpio_write(M_EN,0); 	   //输入失能
 
             }
             else
