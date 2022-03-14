@@ -41,6 +41,7 @@ import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Map;
@@ -75,8 +76,11 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
     public static float widthPerPointonePcg;
     public int titleIndex = 0;
     float sumtemp = 0;
+    float sumtempdiff = 0;
     int pointerx = 0;
     float[] temp = new float[800];
+    float[] tempdiff = new float[800];
+    float[] tempdiff2 = new float[800];
     private String[][] ecgTitle = {{"心电波", "心音波", "超收缩压脉搏波"},
             {"心电波", "心音波", "低舒张压脉搏波"},
             {"心电波", "心音波", "左颈动脉脉搏波"},
@@ -550,10 +554,10 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                                     btSuspend.setText("暂停");
                                     startMeasure();
                                 }else{
-                                    if(ecgPointList.size() < 5000 || pcgPointList.size() < 5000 || heatPointList.size() < 5000 || tstPointList.size() < 5000){
-                                        ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
-                                        return;
-                                    }
+//                                    if(ecgPointList.size() < 5000 || pcgPointList.size() < 5000 || heatPointList.size() < 5000 || tstPointList.size() < 5000){
+//                                        ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
+//                                        return;
+//                                    } //xingjian
 
                                     isStart = false;
                                     btSuspend.setText("开始");
@@ -1926,12 +1930,9 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
     private void preProcessdata(SerialBean serialBean) {
 
         bufferf = new float[4][serialBean.getEcgdata().length];
-//        bufferFilterf = new float[4][serialBean.getEcgdata().length / 4];
         bufferFilterf = new float[4][];
         bufferFilterf[0] = new float[serialBean.getEcgdata().length];
         bufferFilterf[1] = new float[serialBean.getEcgdata().length];
-//        bufferFilterf[2] = new float[serialBean.getEcgdata().length / 4];
-//        bufferFilterf[3] = new float[serialBean.getEcgdata().length / 4];
         bufferFilterf[2] = new float[serialBean.getEcgdata().length];
         bufferFilterf[3] = new float[serialBean.getEcgdata().length];
 
@@ -1943,57 +1944,78 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 
         bufferf[3] = serialBean.getTstdata();
 
-//        int z = 0;
-//        for (int i = 0; i < bufferf[0].length; i++){
-//            if(i % 4 == 0){
-////                bufferFilterf[0][z] = SerialBeanFilter.serialBeanFilter(bufferf[0][i]);
-////                bufferFilterf[1][z] = bufferf[1][i];
-//                bufferFilterf[2][z] = bufferf[2][i];
-//                bufferFilterf[3][z] = bufferf[3][i];
-//                z++;
+
+
+        //幅值判断*******
+//        for (int y = 0; y < (bufferf[0].length ); y++){
+//            if (pointerx>=800)
+//                    pointerx = 0;
+//
+//            if ((bufferf[0][y] > 1027000 && bufferf[0][y] < 1028600) || (bufferf[0][y] > 1029000 && bufferf[0][y] < 1030230)){
+//                temp[pointerx]= 0;
+//
 //            }
+//            else {temp[pointerx] = 1;}
+//
+//            pointerx = pointerx + 1;
 //        }
-       //斜率判断，求root mean square ,跟阈值比大小
-
-
-        for (int y = 0; y < (bufferf[0].length ); y++){
+//        if (pointerx==800) {sumtemp=0;
+//            for (int yy = 0; yy < 800; yy++) {
+//                sumtemp = sumtemp + temp[yy];
+//            }
+//            Log.e("huang","yuzhi"+ sumtemp);
+//        }
+        //幅值判断*******
+        //微分判断*******
+        for (int y = 0; y < (bufferf[0].length - 1); y++){
             if (pointerx>=800)
-                    pointerx = 0;
-
-            if ((bufferf[0][y] > 1027000 && bufferf[0][y] < 1028600) || (bufferf[0][y] > 1029000 && bufferf[0][y] < 1030230)){//1030218.3 1030216.0 1030213.9 1030220.44 1030211.6 1030209.5 1028586.9
-                temp[pointerx]= 0;
+                pointerx = 0;
+             float error;
+             error = bufferf[0][y+1] - bufferf[0][y];
+            Log.e("huang","error"+ error);
+            if ((bufferf[0][y+1] - bufferf[0][y])  > (- 3) &&( bufferf[0][y+1] -bufferf[0][y] )< 3) {
+                tempdiff[pointerx]= 0;
 
             }
-            else {temp[pointerx] = 1;}
-
+            else {tempdiff[pointerx] = 1;
+            }
+            tempdiff2[pointerx] = bufferf[0][y+1]-bufferf[0][y];
             pointerx = pointerx + 1;
-        }
-        if (pointerx==800) {sumtemp=0;
-            for (int yy = 0; yy < 800; yy++) {
-                sumtemp = sumtemp + temp[yy];
-            }
-            Log.e("huang","yuzhi"+ sumtemp);
+            if (pointerx>=800) {sumtempdiff=0;
+                for (int yy = 0; yy < 800; yy++) {
+                    sumtempdiff = sumtempdiff + tempdiff[yy];
+                }
+                Log.e("huang","yuzhi"+ sumtempdiff);
+            }//Log.e("huang","tempdiff2"+  tempdiff2[pointerx-1]);
         }
 
-        //
+        Arrays.sort(tempdiff2);
+       // Log.e("huang","error2a"+  tempdiff2[0]);
+        //Log.e("huang","error2b"+  tempdiff2[799]);
+        //微分判断*******
+        float error2;
+        error2 = tempdiff2[0]+ tempdiff2[799];
+        Log.e("huang","error2c"+  error2);
         for (int y = 0; y < bufferf[0].length; y++){
             Log.e("huang","心电"+ bufferf[0][y]);
 
-
-            if (sumtemp < 350){
+            if (sumtempdiff <= 180){
               //  bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
                 bufferFilterf[0][y] = bufferf[0][y];//xingjian
                 yadj_set = 4700;
+               // Log.e("huang","LLfilterN"+  tempdiff2[799]);
                 }
-            else   if (sumtemp > 350&&sumtemp <=500){
+            else   if (error2>0&&error2<10){
                 //  bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
                // bufferFilterf[0][y] = bufferf[0][y];//xingjian
                 bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
                 yadj_set = 4700;
+               // Log.e("huang","LLfilterB"+  tempdiff2[799]);
             }
             else{
                 yadj_set = 3000;
                 bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
+               // Log.e("huang","LLfilterL"+  tempdiff2[799]);
                 }
         }
 
@@ -2072,60 +2094,47 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
             return;
         }
 
-        for (int i = 0; i < DRAW_COUNT; i++) {
-            if (ecgPointList.size() < 5000) { //没有超过5000个
-//                ecgPointList.add(buffer[0][i + curPos * DRAW_COUNT]);
-//                pcgPointList.add(buffer[1][i + curPos * DRAW_COUNT]);
-//                heatPointList.add(buffer[2][i + curPos * DRAW_COUNT]);
-//                tstPointList.add(buffer[3][i + curPos * DRAW_COUNT]);
-                ecgPointList.add(bufferFilter[0][i + curPos * DRAW_COUNT]);
-                pcgPointList.add(bufferFilter[1][i + curPos * DRAW_COUNT]);
-                heatPointList.add(bufferFilter[2][i + curPos * DRAW_COUNT]);
-                tstPointList.add(bufferFilter[3][i + curPos * DRAW_COUNT]);
-
-                ecgPointListView.add(bufferFilter[0][i + curPos * DRAW_COUNT]); //5000
-                pcgPointListView.add(bufferFilter[1][i + curPos * DRAW_COUNT]); //5000
-                heatPointListView.add(bufferFilter[2][i + curPos * DRAW_COUNT]); //5000
-                tstPointListView.add(bufferFilter[3][i + curPos * DRAW_COUNT]); //5000
-            } else { //超过5000个,开始执行替换操作
-//                updateViewData(ecgPointList, buffer[0][i + curPos * DRAW_COUNT]);
-//                updateViewData(pcgPointList, buffer[1][i + curPos * DRAW_COUNT]);
-//                updateViewData(heatPointList, buffer[2][i + curPos * DRAW_COUNT]);
-//                updateViewData(tstPointList, buffer[3][i + curPos * DRAW_COUNT]);
-
-                updateViewData(ecgPointList, bufferFilter[0][i + curPos * DRAW_COUNT]);
-                updateViewData(pcgPointList, bufferFilter[1][i + curPos * DRAW_COUNT]);
-                updateViewData(heatPointList, bufferFilter[2][i + curPos * DRAW_COUNT]);
-                updateViewData(tstPointList, bufferFilter[3][i + curPos * DRAW_COUNT]);
-
-                updateViewData(ecgPointListView, bufferFilter[0][i + curPos * DRAW_COUNT]); //5000
-                updateViewData(pcgPointListView, bufferFilter[1][i + curPos * DRAW_COUNT]); //5000
-                updateViewData(heatPointListView, bufferFilter[2][i + curPos * DRAW_COUNT]); //5000
-                updateViewData(tstPointListView, bufferFilter[3][i + curPos * DRAW_COUNT]); //5000
-
-            }
-        }
+//        for (int i = 0; i < DRAW_COUNT; i++) {
+//            if (ecgPointList.size() < 5000) { //没有超过5000个
+//                ecgPointList.add(bufferFilter[0][i + curPos * DRAW_COUNT]);
+//                pcgPointList.add(bufferFilter[1][i + curPos * DRAW_COUNT]);
+//                heatPointList.add(bufferFilter[2][i + curPos * DRAW_COUNT]);
+//                tstPointList.add(bufferFilter[3][i + curPos * DRAW_COUNT]);
+//
+//                ecgPointListView.add(bufferFilter[0][i + curPos * DRAW_COUNT]); //5000
+//                pcgPointListView.add(bufferFilter[1][i + curPos * DRAW_COUNT]); //5000
+//                heatPointListView.add(bufferFilter[2][i + curPos * DRAW_COUNT]); //5000
+//                tstPointListView.add(bufferFilter[3][i + curPos * DRAW_COUNT]); //5000
+//            } else { //超过5000个,开始执行替换操作
+//
+//                updateViewData(ecgPointList, bufferFilter[0][i + curPos * DRAW_COUNT]);
+//                updateViewData(pcgPointList, bufferFilter[1][i + curPos * DRAW_COUNT]);
+//                updateViewData(heatPointList, bufferFilter[2][i + curPos * DRAW_COUNT]);
+//                updateViewData(tstPointList, bufferFilter[3][i + curPos * DRAW_COUNT]);
+//
+//                updateViewData(ecgPointListView, bufferFilter[0][i + curPos * DRAW_COUNT]); //5000
+//                updateViewData(pcgPointListView, bufferFilter[1][i + curPos * DRAW_COUNT]); //5000
+//                updateViewData(heatPointListView, bufferFilter[2][i + curPos * DRAW_COUNT]); //5000
+//                updateViewData(tstPointListView, bufferFilter[3][i + curPos * DRAW_COUNT]); //5000
+//
+//            }
+//        }
 
         //添加画图用的list集合
-//        if (cursorFilter >= 7200) {    //7200
-//            isOverBoundsView = true;   //7200
-//            cursorFilter = 0;
-//        }
-//
-//        for (int i = 0; i < DRAW_COUNT_View; i++) { //7200
-//            if (!isOverBoundsView) { //没有超过1250个 //7200
-//                ecgPointListView.add(bufferFilter[0][i + curPos * DRAW_COUNT_View]); //7200
-//                pcgPointListView.add(bufferFilter[1][i + curPos * DRAW_COUNT_View]); //7200
-//                heatPointListView.add(bufferFilter[2][i + curPos * DRAW_COUNT_View]); //7200
-//                tstPointListView.add(bufferFilter[3][i + curPos * DRAW_COUNT_View]); //7200
-//            } else { //超过1250个,开始执行替换操作
-//                updateViewData(ecgPointListView, bufferFilter[0][i + curPos * DRAW_COUNT_View]); //7200
-//                updateViewData(pcgPointListView, bufferFilter[1][i + curPos * DRAW_COUNT_View]); //7200
-//                updateViewData(heatPointListView, bufferFilter[2][i + curPos * DRAW_COUNT_View]); //7200
-//                updateViewData(tstPointListView, bufferFilter[3][i + curPos * DRAW_COUNT_View]); //7200
-//            }
-//            cursorFilter++; //指向当前数据的指针 //7200
-//        } //7200
+
+        for (int i = 0; i < DRAW_COUNT_View; i++) { //7200
+            if (ecgPointListView.size() < 7200) { //没有超过1250个 //7200
+                ecgPointListView.add(bufferFilter[0][i + curPos * DRAW_COUNT_View]); //7200
+                pcgPointListView.add(bufferFilter[1][i + curPos * DRAW_COUNT_View]); //7200
+                heatPointListView.add(bufferFilter[2][i + curPos * DRAW_COUNT_View]); //7200
+                tstPointListView.add(bufferFilter[3][i + curPos * DRAW_COUNT_View]); //7200
+            } else { //超过1250个,开始执行替换操作
+                updateViewData(ecgPointListView, bufferFilter[0][i + curPos * DRAW_COUNT_View]); //7200
+                updateViewData(pcgPointListView, bufferFilter[1][i + curPos * DRAW_COUNT_View]); //7200
+                updateViewData(heatPointListView, bufferFilter[2][i + curPos * DRAW_COUNT_View]); //7200
+                updateViewData(tstPointListView, bufferFilter[3][i + curPos * DRAW_COUNT_View]); //7200
+            }
+        } //7200
     }
 
     private void updateViewData(LinkedList<Float> viewData, float newData) {
@@ -2133,63 +2142,28 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
         viewData.addLast(newData);
     }
 
-    /**
-     * 为每个pathGraphView填充数据，
-     * 异步模式：
-     * 第一个页面：013
-     * 第二个页面：013
-     * 第三个页面：012
-     * 第四个页面：012
-     * 第五个页面：02
-     *
-     *      * 同步模式：
-     *      * 第一个页面：013
-     *      * 第二个页面：013
-     *      * 第三个页面：012
-     *      * 第四个页面：023
-     */
+
     private synchronized void setEachViewData() { //xingjian
         switch (titleIndex){
             case 0:
             case 1:
-//                firstPathView.setData1(ecgPointListView,  widthPerPointone, viewHeight,curPos);
-//                secondPathView.setData(pcgPointListView, widthPerPointone, viewHeight, curPos);
-//                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj);
-//                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
                 secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 1500);
-//                thirdPathView.setData2(tstPointListView,  widthPerPointone, viewHeight,curPos); //3 tst
                 thirdPathView.setData3(tstPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
                 break;
             case 2:
-//                firstPathView.setData1(ecgPointListView,  widthPerPointone, viewHeight,curPos);
-//                secondPathView.setData(pcgPointListView, widthPerPointone, viewHeight, curPos);
-//                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj);
-//                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set);
                 secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 1500);
-//                thirdPathView.setData2(heatPointListView,  widthPerPointone, viewHeight,curPos); //2 heat
                 thirdPathView.setData2(heatPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
                 break;
             case 3:
                 if(mode == Constants.MEASURE_MODE_SYNC){ //同步模式
-//                    Log.e("huang", "mode----同步模式" + mode);
-//                    firstPathView.setData1(ecgPointListView,  widthPerPointone, viewHeight,curPos); //0
-//                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj); //0
                     firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
-//                    secondPathView.setData3(heatPointListView, widthPerPointone, viewHeight, curPos); //2
-//                    thirdPathView.setData2(tstPointListView,  widthPerPointone, viewHeight,curPos); //3 tst,能画出波形
                     secondPathView.setData4(heatPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj); //2
                     thirdPathView.setData3(tstPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj); //3 tst,能画出波形
                 }else{
-//                    Log.e("huang", "mode----异步模式" + mode);
-//                    firstPathView.setData1(ecgPointListView,  widthPerPointone, viewHeight,curPos); //0
-//                    secondPathView.setData(pcgPointListView, widthPerPointone, viewHeight, curPos); //1
-//                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj); //0
-//                    secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj); //1
                     firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000); //0
                     secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 1500); //1
-//                    thirdPathView.setData2(heatPointListView,  widthPerPointone, viewHeight,curPos); //2
                     thirdPathView.setData2(heatPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj); //2
                 }
                 break;
@@ -2198,13 +2172,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 if(mode == Constants.MEASURE_MODE_SYNC){
                     return;
                 }
-//                firstPathView.setData(ecgPointList,  widthPerPointone, viewHeight,curPos); //0
-//                secondPathView.setData(heatPointList, widthPerPointone, viewHeight, curPos); //2
-//                firstPathView.setData1(ecgPointListView,  widthPerPointone, viewHeight,curPos); //0
-//                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj); //0
                 firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
-//                secondPathView.setData3(tstPointListView, widthPerPointone, viewHeight, curPos); //3
-//                secondPathView.setData3(tstPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj); //3 袖带的
+
                 secondPathView.setData2(heatPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
 
                 //临时 TODO
@@ -2224,10 +2193,10 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
         viewWidth = firstPathView.getMeasuredWidth();
 
 //        widthPerPointone = (float) viewWidth / 5000;
-        widthPerPointone = (float) viewWidth / 1250;
+//        widthPerPointone = (float) viewWidth / 1250;
 
-        widthPerPointonePcg = (float) viewWidth / 5000;
-//        widthPerPointonePcg = (float) viewWidth / 7200;
+//        widthPerPointonePcg = (float) viewWidth / 5000; //renti
+        widthPerPointonePcg = (float) viewWidth / 7200;// xingjian 25mm/s
     }
 
     /**
@@ -2376,10 +2345,10 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                     startMeasure();
 
                 }else{ Log.e(TAG, "测试cccccc");
-                    if(ecgPointList.size() < 5000 || pcgPointList.size() < 5000 || heatPointList.size() < 5000 || tstPointList.size() < 5000){
-                        ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
-                        return;
-                    }
+//                    if(ecgPointList.size() < 5000 || pcgPointList.size() < 5000 || heatPointList.size() < 5000 || tstPointList.size() < 5000){
+//                        ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
+//                        return;
+//                    } //xingjian
                     Log.e(TAG, "测试ddddddd");
                     isStart = false;
                     btSuspend.setText("开始");
