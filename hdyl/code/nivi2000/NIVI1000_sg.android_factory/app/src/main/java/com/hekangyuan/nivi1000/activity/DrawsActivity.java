@@ -77,10 +77,12 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
     public int titleIndex = 0;
     float sumtemp = 0;
     float sumtempdiff = 0;
+    float sumtempdiff2a = 0;
+    float sumtempdiff2b = 0;
     int pointerx = 0;
-    float[] temp = new float[800];
-    float[] tempdiff = new float[800];
-    float[] tempdiff2 = new float[800];
+    float[] temp = new float[833];
+    float[] tempdiff = new float[833];
+    float[] tempdiff2 = new float[833];
     private String[][] ecgTitle = {{"心电波", "心音波", "超收缩压脉搏波"},
             {"心电波", "心音波", "低舒张压脉搏波"},
             {"心电波", "心音波", "左颈动脉脉搏波"},
@@ -1968,7 +1970,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
         //幅值判断*******
         //微分判断*******
         for (int y = 0; y < (bufferf[0].length - 1); y++){
-            if (pointerx>=800)
+            if (pointerx>=832)
                 pointerx = 0;
              float error;
              error = bufferf[0][y+1] - bufferf[0][y];
@@ -1980,16 +1982,27 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
             else {tempdiff[pointerx] = 1;
             }
             tempdiff2[pointerx] = bufferf[0][y+1]-bufferf[0][y];
+
             pointerx = pointerx + 1;
-            if (pointerx>=800) {sumtempdiff=0;
-                for (int yy = 0; yy < 800; yy++) {
+            if (pointerx>=832) {sumtempdiff=0;
+                for (int yy = 0; yy < 832; yy++) {
                     sumtempdiff = sumtempdiff + tempdiff[yy];
+
                 }
                 Log.e("huang","yuzhi"+ sumtempdiff);
+
             }//Log.e("huang","tempdiff2"+  tempdiff2[pointerx-1]);
         }
 
-        Arrays.sort(tempdiff2);
+       // Arrays.sort(tempdiff2);
+        for ( int yy=0;yy<833;yy++){sumtempdiff2b=0;
+//            if (yy>416)
+//                sumtempdiff2a = sumtempdiff2a + tempdiff2[yy];
+//            else
+                sumtempdiff2b = sumtempdiff2b + tempdiff2[yy];
+        }
+//        Log.e("huang","halfa    "+ sumtempdiff2a + "    halfb    " + sumtempdiff2b);
+        Log.e("huang", "    halfb    " + sumtempdiff2b);
        // Log.e("huang","error2a"+  tempdiff2[0]);
         //Log.e("huang","error2b"+  tempdiff2[799]);
         //微分判断*******
