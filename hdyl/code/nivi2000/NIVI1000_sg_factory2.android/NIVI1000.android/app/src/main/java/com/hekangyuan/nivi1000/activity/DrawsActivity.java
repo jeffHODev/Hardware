@@ -544,8 +544,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                                     startMeasure();
                                 }else{
                                     if(ecgPointList.size() < 5000 || pcgPointList.size() < 5000 || heatPointList.size() < 5000 || tstPointList.size() < 5000){
-                                        ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
-                                        return;
+                                      //  ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
+                                       // return;//xingjian
                                     }
 
                                     isStart = false;
@@ -2109,7 +2109,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj);
 //                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
                 firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
-                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 1500);
+                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700);
 //                thirdPathView.setData2(tstPointListView,  widthPerPointone, viewHeight,curPos); //3 tst
                 thirdPathView.setData3(tstPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
                 break;
@@ -2119,7 +2119,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj);
 //                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
                 firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
-                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700);
+                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 1500);
 //                thirdPathView.setData2(heatPointListView,  widthPerPointone, viewHeight,curPos); //2 heat
                 thirdPathView.setData2(heatPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
                 break;
@@ -2325,10 +2325,10 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                     btSuspend.setText("暂停");
                     startMeasure();
                 }else{
-                    if(ecgPointList.size() < 5000 || pcgPointList.size() < 5000 || heatPointList.size() < 5000 || tstPointList.size() < 5000){
-                        ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
-                        return;
-                    }
+                   // if(ecgPointList.size() < 5000 || pcgPointList.size() < 5000 || heatPointList.size() < 5000 || tstPointList.size() < 5000){
+                   //     ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");//xingjian
+                        //return;
+                   // }
 
                     isStart = false;
                     btSuspend.setText("开始");
