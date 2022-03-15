@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="90dp"
+    android:layout_height="80dp"
+    android:background="#E7F3FF"
+   >
+
+    <ImageView
+        android:layout_width="90dp"
+        android:layout_height="80dp"
+        android:background="@mipmap/guanmailead"
+        />
+    <TextView
+        android:id="@+id/tx_man"
+        android:layout_marginTop="11dp"
+        android:layout_width="90dp"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:text="男"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/tx_woman"
+        android:layout_marginTop="43dp"
+        android:layout_width="90dp"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:text="女"/>
+</RelativeLayout>
