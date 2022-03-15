@@ -983,7 +983,7 @@ void cal_rx_time()
     measure_usr.rx_time = clock_time()/16000-rx_tick;
     measure_usr.rx_time = measure_usr.rx_time ;
     rx_tick =  clock_time()/16000;
-     printf("rx:%d\n",measure_usr.rx_time);
+    // printf("rx:%d\n",measure_usr.rx_time);
 
     /*  t1 = clock_time()/16000-t2;
      // t1 = measure_usr.rx_time ;
@@ -1162,7 +1162,7 @@ void mesure_proc()
 
     }
 #else//for salve
-
+    static u32 tmp;
     deviceTimeout(1);//ÐÝÃßµ¹¼ÆÊ±
     if(measure_usr.ack_sig == 1)
     {
@@ -1181,21 +1181,14 @@ void mesure_proc()
                     pkt_pack(0x4b);
                    // printf("tx1:%d",(clock_time()-tick_tx)/16);
                     blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
-                   // printf("tx3:%d",(clock_time()-tick_tx)/16);
-                   // measure_start();
-                    //sleep_us(1000);
-                   // tick_tx = clock_time();
-                    u8 i;
-                    for(i=0;i<100;i++)
-                    sensor_power(1);
-                    //sleep_us(10000);
-                    //sensor_power(1);
-                   // sensor_power(1);
-                   // sensor_power(1);
-                  //  printf("tx2:%d",(clock_time()-tick_tx)/16);
+
+                    u16 i;
+                    {
+
+
+                    }
+
                     printf("m8\n");
-				    //sleep_us(10000);
-               		// sensor_power(0);
 					 measure_usr.tick = clock_time();		
 
                 }
@@ -1208,7 +1201,12 @@ void mesure_proc()
                 sensor_power(0);
             }
         }
-
+        sensor_power(1);
+      //  printf("c1:%d",tmp);
+       // tmp = clock_time();
+       // sensor_power(1);
+      //  printf("c2:%d",tmp);
+       // tmp = clock_time();
     }
 	else
 	{
