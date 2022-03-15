@@ -30,7 +30,7 @@
 #define TDS_LEVEL3   700-20-10//650-30   //850
 #define TDS_LEVEL4   1000+20-10//-100  //1000
 #define SET_FLOW     4
-#define SW_NOCHANGE 1
+#define SW_NOCHANGE 0
 
 
 #else if FLOW_SIZE == 2
