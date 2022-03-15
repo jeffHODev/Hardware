@@ -614,7 +614,9 @@ int app_gatt_data_handler (u16 connHandle, u8 *pkt)
                     //收到从机数据进行解析
                     u8 data[20];
                     u16 calCRC,resCRC;
+					#if LED_DEBUG
                     gpio_toggle(GPIO_LED_RED);
+					#endif
                     u8 len=(pAtt->l2capLen)-3; //data len
                     memcpy(data,pAtt->dat,len);
                     //for(u8 i=0;i<len;i++){

@@ -395,7 +395,9 @@ void key_proc()
                 printf("on\n");
                 measure_usr.power_status =ON;
                 led_mode_set(LED_NORMAL);
+				 #if LED_DEBUG
                 gpio_write(GPIO_LED_RED,0);
+				 #endif
                 //power on
             }
 
@@ -872,7 +874,7 @@ void parase(u8 tmp)
         measure_usr.stop = 0;
        // pkt_pack(0x5d);
        // blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
-        sleep_us(10);
+       //sleep_us(10000);
         sensor_power(1);
         
         //    sensor_power(1);
@@ -981,7 +983,7 @@ void cal_rx_time()
     measure_usr.rx_time = clock_time()/16000-rx_tick;
     measure_usr.rx_time = measure_usr.rx_time ;
     rx_tick =  clock_time()/16000;
-     //printf("rx:%d\n",measure_usr.rx_time);
+     printf("rx:%d\n",measure_usr.rx_time);
 
     /*  t1 = clock_time()/16000-t2;
      // t1 = measure_usr.rx_time ;
@@ -1009,7 +1011,7 @@ void sensor_power(u8 flag)
         gpio_write(CS102_T, 0);
         sleep_us(5);
         gpio_write(CS102_T, 1);
-        sleep_us(15);
+        sleep_us(30);
         gpio_write(CS102_T, 0);
 
     }
@@ -1025,7 +1027,7 @@ void mesure_proc()
     if(measure_usr.start == 1)
     {
         // printf("su:%d",measure_usr.sum);
-        if(clock_time_exceed(measure_usr.tick,  MEASURE_PERIOD))
+        if(clock_time_exceed(measure_usr.tick,  1000*1000))
             //if(tick_tmp>=TIMEOUT_PERIOD)//测量超时
         {
             printf("timeout\n");
@@ -1056,9 +1058,12 @@ void mesure_proc()
                 // measure_usr.time = tick_tmp/1000; 34000*x/1000
             	static u16 cnt = 0;
             	//printf("sum%d\n",measure_usr.rx_time);
+            		measure_usr.dis = measure_usr.rx_time*17;
+					printf("dis:%d\n",measure_usr.dis);
             	if(measure_usr.rx_time<=2)
             	{
             		cnt = 0;
+
             		measure_usr.dis = MIN_DIS;
 
             	}
@@ -1066,7 +1071,8 @@ void mesure_proc()
             	{
             		if(cnt <=30)
             		{cnt ++;
-            		printf("t:%d\n",cnt);}
+            		//printf("t:%d\n",cnt);
+            		}
             	}
             	if(cnt >=30)
             	{
@@ -1138,8 +1144,9 @@ void mesure_proc()
             if(clock_time_exceed( measure_usr.motor_tick, M_ON_PERIOD)==0)
             {
                 //printf("m99\n");
+                 #if LED_DEBUG
                 gpio_write(M_EN,0); 	   //输入失能
-
+                #endif
             }
             else
             {
@@ -1178,7 +1185,13 @@ void mesure_proc()
                    // measure_start();
                     //sleep_us(1000);
                    // tick_tx = clock_time();
+                    u8 i;
+                    for(i=0;i<100;i++)
                     sensor_power(1);
+                    //sleep_us(10000);
+                    //sensor_power(1);
+                   // sensor_power(1);
+                   // sensor_power(1);
                   //  printf("tx2:%d",(clock_time()-tick_tx)/16);
                     printf("m8\n");
 				    //sleep_us(10000);
@@ -1231,7 +1244,7 @@ measure_stru *getmeasrue()
 void init_measure()
 {
 #if ROLE == MASTER
-    measure_usr.power_status = OFF;
+    measure_usr.power_status = ON;
     led_usr.tick = 1000000;
     led_usr.status = ON;
 
@@ -1280,9 +1293,9 @@ void ui_proc()
 
 
 
-
+   #if LED_DEBUG
     led_proc_usr();
-	
+	#endif
     if( measure_usr.mode != SETTING)
         mesure_proc();
 

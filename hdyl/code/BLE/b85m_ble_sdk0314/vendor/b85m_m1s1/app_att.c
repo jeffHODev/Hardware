@@ -428,19 +428,21 @@ int spp_onReceiveData(u16 connHandle, ble_rf_packet_att_write_t *p)
         //printf("sx");
 
         // printf("rx\n");
+         #if LED_DEBUG
         gpio_toggle(GPIO_LED_RED);
+		 #endif
         //blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, "456",3);
         if(data[0]!=PKT_HEAD)
         {
             printf("re\n");
-            return ;
+            return 0;
 
         }
 
         if(len<(data[2]+2))
         {
             printf("rl\n");
-            return ;
+            return 0;
 
         }
 

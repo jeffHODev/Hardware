@@ -73,6 +73,8 @@ extern	int user_manual_pairing;
 #define NORMAL 0
 #define SETTING 1
 
+
+#define LED_DEBUG 0
 #define ON  0
 #define OFF 1
 #define DEBUG_BLE 0
@@ -82,7 +84,7 @@ extern	int user_manual_pairing;
 #define M_ON_PERIOD 100*1000
 #define M_OFF_PERIOD 500*1000
 #define PKT_HEAD  0xfe
-#define MEASURE_PERIOD 50*1000
+#define MEASURE_PERIOD 1000*1000
 #define CON_TIME_OUT  120*1000*1000
 typedef struct
 {
