@@ -817,7 +817,7 @@ void led_ctrl()
         }
         else
         {
-            if(clock_time_exceed(led_tick, led_usr.tick/2)==0)
+            if(clock_time_exceed(led_tick, led_usr.tick/10)==0)
             {
 
                 gpio_write(GPIO_LED_RED,0);
@@ -911,6 +911,7 @@ void parase(u8 tmp)
     case 0x5b://配对指示灯
     {
     	ack_res(0);
+    	measure_usr.mode=LED_PAIR;
         measure_usr.ack_sig = 0;
         led_mode_set(LED_PAIR);
         printf("P1\n");
@@ -918,6 +919,7 @@ void parase(u8 tmp)
     case 0x5c://解绑对指示灯
     {
     	ack_res(0);
+    	measure_usr.mode=LED_UNPAIR;
     	blc_ll_disconnect(handle_s, HCI_ERR_REMOTE_USER_TERM_CONN);
         measure_usr.ack_sig = 0;
         led_mode_set(LED_UNPAIR);
@@ -1060,27 +1062,27 @@ void mesure_proc()
             	//printf("sum%d\n",measure_usr.rx_time);
             		measure_usr.dis = measure_usr.rx_time*17;
 					printf("dis:%d\n",measure_usr.dis);
-            	if(measure_usr.rx_time<=2)
+            	if(measure_usr.dis<=MIN_DIS)
             	{
             		cnt = 0;
 
-            		measure_usr.dis = MIN_DIS;
+            		//measure_usr.dis = MIN_DIS;
 
             	}
             	else
             	{
-            		if(cnt <=30)
+            		if(cnt <=3)
             		{cnt ++;
             		//printf("t:%d\n",cnt);
             		}
             	}
-            	if(cnt >=30)
+            	if(cnt >=3)
             	{
             		//cnt=0;
             		// printf("tout\n");
             		 measure_usr.dis = MAX_DIS + 2;
                       if(measure_usr.sum)
-                          measure_usr.sum  = measure_usr.sum-1;
+                          measure_usr.sum  = 0;
             	}
 
 
@@ -1095,7 +1097,8 @@ void mesure_proc()
                 }
                 else
                 {
-
+                           if(measure_usr.sum)
+                	              measure_usr.sum  = measure_usr.sum-1;
                     measure_usr.dis = MAX_DIS + 4;
 
                 }
@@ -1163,6 +1166,8 @@ void mesure_proc()
     }
 #else//for salve
     static u32 tmp;
+    static u8 tx_flag = 0;
+    static u32 tx_tick;
     deviceTimeout(1);//休眠倒计时
     if(measure_usr.ack_sig == 1)
     {
@@ -1181,18 +1186,26 @@ void mesure_proc()
                     pkt_pack(0x4b);
                    // printf("tx1:%d",(clock_time()-tick_tx)/16);
                     blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, tx_buf,tx_buf[2]+5);
-
-                    u16 i;
-                    {
-
-
-                    }
-
+                    tx_flag = 1;
+                    tx_tick = clock_time();
                     printf("m8\n");
 					 measure_usr.tick = clock_time();		
 
                 }
 
+                if(tx_flag ==1 )
+                {
+
+                	if(clock_time_exceed( tx_tick, 100*1000))
+                	{
+                		tx_flag = 0;
+                		tx_tick = clock_time();
+                		  printf("m10\n");
+                	}
+                	else
+                	sensor_power(1);
+
+                }
             }
             else
             {
@@ -1201,7 +1214,7 @@ void mesure_proc()
                 sensor_power(0);
             }
         }
-        sensor_power(1);
+
       //  printf("c1:%d",tmp);
        // tmp = clock_time();
        // sensor_power(1);
@@ -1210,8 +1223,10 @@ void mesure_proc()
     }
 	else
 	{
+		tx_flag = 0;
 		measure_usr.tick = clock_time();
 		sensor_power(0);
+		tx_tick = clock_time();
 	}
 
 
@@ -1242,9 +1257,11 @@ measure_stru *getmeasrue()
 void init_measure()
 {
 #if ROLE == MASTER
-    measure_usr.power_status = ON;
+    measure_usr.power_status = OFF;
     led_usr.tick = 1000000;
     led_usr.status = ON;
+    measure_usr.mode = LED_NORMAL;
+
 
 #else
     measure_usr.power_status = ON;
@@ -1261,16 +1278,33 @@ void led_proc_usr()
     else
     {
 
-    	//if(measure_usr.mode==SETTING)
+    	if(measure_usr.mode!=LED_PAIR&&measure_usr.mode!=LED_UNPAIR)
+        {
 
+        	led_mode_set(LED_CON);
+        }
+        led_ctrl();
     }
 	#else
     if(master_conect_status()==0)
     {
 		;//led_mode_set(LED_DISCON);
 	}
+    else
+    {
+    	//if(measure_usr.mode!=NORMAL)
+    	//	measure_usr.mode=LED_CON;
+    }
+    if(measure_usr.mode!=LED_PAIR&&measure_usr.mode!=LED_UNPAIR)
+    {
+    	led_mode_set(LED_CON);
+    	led_ctrl();
+    }
+    else
+    	led_ctrl();
+
 	#endif
-	led_ctrl();
+
 
 }
 void ui_proc()

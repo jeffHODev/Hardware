@@ -74,7 +74,7 @@ extern	int user_manual_pairing;
 #define SETTING 1
 
 
-#define LED_DEBUG 0
+#define LED_DEBUG 1
 #define ON  0
 #define OFF 1
 #define DEBUG_BLE 0

@@ -956,6 +956,7 @@ void send_test()
         if(master_pairing_enable==1)
         {
             printf("p2");
+            getmeasrue()->mode = LED_PAIR;
             //gpio_toggle(GPIO_LED_RED);
             pkt_pack(0x5b);
             blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);
@@ -963,6 +964,7 @@ void send_test()
         else if(master_unpair_enable==1)
         {
             printf("up");
+            getmeasrue()->mode = LED_UNPAIR;
             // gpio_toggle(GPIO_LED_RED);
             pkt_pack(0x5c);
             blc_gatt_pushWriteCommand (handle_m, SPP_CLIENT_TO_SERVER_DP_H,tx_buf,tx_buf[2]+5);

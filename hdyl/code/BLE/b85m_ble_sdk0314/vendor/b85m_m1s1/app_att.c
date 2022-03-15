@@ -429,7 +429,7 @@ int spp_onReceiveData(u16 connHandle, ble_rf_packet_att_write_t *p)
 
         // printf("rx\n");
          #if LED_DEBUG
-        gpio_toggle(GPIO_LED_RED);
+        ;//gpio_toggle(GPIO_LED_RED);
 		 #endif
         //blc_gatt_pushHandleValueNotify (handle_s,SPP_SERVER_TO_CLIENT_DP_H, "456",3);
         if(data[0]!=PKT_HEAD)
