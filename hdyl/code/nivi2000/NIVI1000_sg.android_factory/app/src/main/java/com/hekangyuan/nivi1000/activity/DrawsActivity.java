@@ -2012,28 +2012,28 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
         for (int y = 0; y < bufferf[0].length; y++){
             Log.e("huang","心电"+ bufferf[0][y]);
 
-            if (sumtempdiff <= 180){
-              //  bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
-                bufferFilterf[0][y] = bufferf[0][y];//xingjian
-                yadj_set = 4700;
-               // Log.e("huang","LLfilterN"+  tempdiff2[799]);
-                }
-            else   if (error2>0&&error2<10){
-                //  bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
-               // bufferFilterf[0][y] = bufferf[0][y];//xingjian
-                bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
-                yadj_set = 4700;
-               // Log.e("huang","LLfilterB"+  tempdiff2[799]);
-            }
-            else{
-                yadj_set = 3000;
-                bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
-               // Log.e("huang","LLfilterL"+  tempdiff2[799]);
-                }
+//            if (sumtempdiff <= 180){
+//              //  bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
+//                bufferFilterf[0][y] = bufferf[0][y];//xingjian
+//                yadj_set = 4700;
+//               // Log.e("huang","LLfilterN"+  tempdiff2[799]);
+//                }
+//            else   if (error2>0&&error2<10){
+//                //  bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
+//               // bufferFilterf[0][y] = bufferf[0][y];//xingjian
+//                bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
+//                yadj_set = 4700;
+//               // Log.e("huang","LLfilterB"+  tempdiff2[799]);
+//            }
+//            else{
+//                yadj_set = 3000;
+//                bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
+//               // Log.e("huang","LLfilterL"+  tempdiff2[799]);
+//                }
 //            yadj_set = 3000;
 //            bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
-           // bufferFilterf[0][y] = bufferf[0][y];//xingjian
-           // yadj_set = 4700;
+            bufferFilterf[0][y] = bufferf[0][y];//xingjian
+            yadj_set = 4700;
         }
 
         for (int y = 0; y < bufferf[1].length; y++){
