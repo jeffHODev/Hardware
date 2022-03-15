@@ -2164,23 +2164,23 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
         switch (titleIndex){
             case 0:
             case 1:
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
-                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 1500);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
+                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700);
                 thirdPathView.setData3(tstPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
                 break;
             case 2:
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set);
-                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 1500);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
+                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700);
                 thirdPathView.setData2(heatPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
                 break;
             case 3:
                 if(mode == Constants.MEASURE_MODE_SYNC){ //同步模式
-                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
+                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
                     secondPathView.setData4(heatPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj); //2
                     thirdPathView.setData3(tstPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj); //3 tst,能画出波形
                 }else{
-                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000); //0
-                    secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 1500); //1
+                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700); //0
+                    secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700); //1
                     thirdPathView.setData2(heatPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj); //2
                 }
                 break;
@@ -2189,7 +2189,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 if(mode == Constants.MEASURE_MODE_SYNC){
                     return;
                 }
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
 
                 secondPathView.setData2(heatPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
 

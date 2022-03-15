@@ -2176,10 +2176,10 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
         viewWidth = firstPathView.getMeasuredWidth();
 
 //        widthPerPointone = (float) viewWidth / 5000;
-        widthPerPointone = (float) viewWidth / 1250;
+   //     widthPerPointone = (float) viewWidth / 1250;
 
-        widthPerPointonePcg = (float) viewWidth / 5000;
-//        widthPerPointonePcg = (float) viewWidth / 7200;
+//        widthPerPointonePcg = (float) viewWidth / 5000;
+        widthPerPointonePcg = (float) viewWidth / 7200;
     }
 
     /**
