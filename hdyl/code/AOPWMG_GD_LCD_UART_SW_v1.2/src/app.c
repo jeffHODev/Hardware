@@ -1109,7 +1109,7 @@ unsigned char flow_proc()
 
 
         }
-        if(*getpumpstatus()==1&&GetSensor()->flow==0)
+        if(*getpumpstatus()==1&&GetSensor()->flow==0&&GetSensor()->status[TDS2_INDEX] ==0)
         {
             if(GetSensor()->flow<=0)
                 GetSensor()->status[NOWATER_INDEX]=NOWATER_INDEX;
@@ -1613,34 +1613,9 @@ void ele_dev_proc()
         }
         else
         {
-            if(GetSensor()->wash_time>=3)
-            {
-                //  GetSensor()->wash_time =0;
-                /*  GetSensor()->status[SHUNT_INDEX] = 0;//停机
-
-                  if(GetSensor()->tds2>=MAX_TDS_VALUE)
-                  {
-                      GetSensor()->status[SHUNT_INDEX] = 0;//停机
-                      GetSensor()->status[TDS2_INDEX] = 0;//tds2异常
-
-                  }
-
-                  else if(GetSensor()->tds2 <=dstTds-150||GetSensor()->tds2 <=MIN_TDS_VALUE)*/
-                {
-
-
-
-                }
-
-
-                // else
-                //   GetSensor()->status[SHUNT_INDEX] = 0;//停机
-
-            }
 
         }
         flow_proc();
-        //tds_proc();
         if(GetSensor()->status[TDS1_INDEX]==TDS1_INDEX||GetSensor()->status[SYSTEM_INDEX] == SYSTEM_INDEX||GetSensor()->status[TDS2_INDEX] == TDS2_INDEX||GetSensor()->status[SHUNT_INDEX] == SHUNT_INDEX||
                 GetSensor()->status[NOWATER_INDEX] == NOWATER_INDEX)
         {
@@ -1659,9 +1634,6 @@ void ele_dev_proc()
 				//#endif
 
             }
-
-            /* else //水位开关异常*/
-            {
                 if(GetSensor()->status[NOWATER_INDEX] != NOWATER_INDEX)
                 {
                     GetSensor()->status[NORMAL_INDEX] = 0;//
@@ -1690,11 +1662,11 @@ void ele_dev_proc()
                 {
                     EleSwCtrl(WATER_SW,ON);//原水进水阀开
                     DcMotorCtrl(7,OFF);//关所有电机
-                    //EleSwCtrl(SALT_SW,OFF);//关阀2
+                    EleSwCtrl(WASTE_SW,OFF);//关所有阀
+                    EleSwCtrl(WASH_SW,OFF);//关所有阀
+                    EleSwCtrl(HCILO_SW,OFF);//关所有阀
+
                 }
-
-            }
-
 
         }
         else
