@@ -445,40 +445,40 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 
                                 if(titleIndex == 0){
                                     if(hypecgs == null || hyppcgs == null || hypapgs == null){
-                                        //ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                                      //  return;
+                                        ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                                        return;
                                     }
                                 }
                                 if(titleIndex == 1){
                                     if(hypecgd == null || hyppcgd == null || hypapgd == null){
-                                       // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                                      //  return;
+                                        ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                                        return;
                                     }
                                 }
                                 if(titleIndex == 2){
                                     if(ecgPl == null || pcgPl == null || apgL == null){
-                                       // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                                      //  return;
+                                        ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                                        return;
                                     }
                                 }
                                 if(titleIndex == 3){
                                     if(mode == Constants.MEASURE_MODE_SYNC){
                                         if(ecgPr == null || apgR == null || apgTh == null || pcgPr == null || ecgTh == null){
-                                            //ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                                          //  return;
+                                            ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                                            return;
                                         }
                                     }else{
                                         if(ecgPr == null || pcgPr == null || apgR == null){
-                                           // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                                          //  return;
+                                            ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                                            return;
                                         }
                                     }
                                 }
                                 if(titleIndex == 4){
                                     if(mode == Constants.MEASURE_MODE_ASYNC){
                                         if(ecgTh == null || apgTh == null){
-                                           // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                                           // return;
+                                            ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                                            return;
                                         }
                                     }
                                 }
@@ -544,8 +544,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                                     startMeasure();
                                 }else{
                                     if(ecgPointList.size() < 5000 || pcgPointList.size() < 5000 || heatPointList.size() < 5000 || tstPointList.size() < 5000){
-                                      //  ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
-                                       // return;//xingjian
+                                        ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
+                                        return;
                                     }
 
                                     isStart = false;
@@ -787,13 +787,13 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 }
 
                 CLibrary.AnalHPA.ByReference analHPAStructs = new CLibrary.AnalHPA.ByReference();
-                float max_num = CLibrary.INSTANCE2.DetectMaxValue(ecgsf, (short) 0, sampleNum);
-                if (max_num < 0.5f)
-                {
-                   // ToastUtils.showToastLong(DrawsActivity.this,"超收缩压心电数据不规范，请重新检测");
-                    hypecgs = null;
-                    break;
-                }
+//                float max_num = CLibrary.INSTANCE2.DetectMaxValue(ecgsf, (short) 0, sampleNum);
+//                if (max_num < 0.5f)
+//                {
+//                    ToastUtils.showToastLong(DrawsActivity.this,"超收缩压心电数据不规范，请重新检测");
+//                    hypecgs = null;
+//                    break;
+//                }
 
                 Pointer pecg = new Memory(sampleNum * 4);
                 CLibrary.INSTANCE2.Filter(ecgsf, pecg, sampleNum, (short) 25);
@@ -1028,13 +1028,13 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 for (int i = 0; i < ecgdSize; i++){
                     ecgdf[i] = hypecgd[i];
                 }
-                float max_numecgd = CLibrary.INSTANCE2.DetectMaxValue(ecgdf, (short) 0, ecgdSize);
-                if (max_numecgd < 0.5f)
-                {
-                    //ToastUtils.showToastLong(DrawsActivity.this,"低舒张压心电数据不规范，请重新检测");
-                    hypecgd = null;
-                    break;
-                }
+//                float max_numecgd = CLibrary.INSTANCE2.DetectMaxValue(ecgdf, (short) 0, ecgdSize);
+//                if (max_numecgd < 0.5f)
+//                {
+//                    ToastUtils.showToastLong(DrawsActivity.this,"低舒张压心电数据不规范，请重新检测");
+//                    hypecgd = null;
+//                    break;
+//                }
 
                 Pointer pecgd = new Memory(ecgdSize * 4);
                 CLibrary.INSTANCE2.Filter(ecgdf, pecgd, ecgdSize, (short) 25);
@@ -1322,7 +1322,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                     apgLtr[apgLi] = 0;
                     apgLtpoint[apgLi] = 0;
                 }
-                apgLSampNum = 1;
+
                 Pointer jSnlAUL = new Memory(apgLSampNum * 4);
                 Pointer kSnlPAUL = new Memory(apgLSampNum * 4);
                 CLibrary.AnalHPA.ByReference analHPAStructsRQTAU = new CLibrary.AnalHPA.ByReference();
@@ -1456,7 +1456,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //                        ecgTh = null;
 //                        break;
 //                    }
-                    SYNCsampleNum = 1;
+
                     Pointer SYNCjSnl = new Memory(SYNCsampleNum * 4);
                     CLibrary.INSTANCE2.FilterMibun(kSnl, SYNCjSnl, SYNCsampleNum, (short) 25);
                     Pointer SYNCkSnlP = new Memory(SYNCsampleNum * 4);
@@ -1946,8 +1946,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //        }
 
         for (int y = 0; y < bufferf[0].length; y++){
-            bufferFilterf[0][y] = bufferf[0][y];
-            //bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);
+            bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);
         }
 
         for (int y = 0; y < bufferf[1].length; y++){
@@ -2025,59 +2024,60 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
             return;
         }
 
-//        for (int i = 0; i < DRAW_COUNT; i++) {
-//            if (ecgPointList.size() < 5000) { //没有超过5000个
-////                ecgPointList.add(buffer[0][i + curPos * DRAW_COUNT]);
-////                pcgPointList.add(buffer[1][i + curPos * DRAW_COUNT]);
-////                heatPointList.add(buffer[2][i + curPos * DRAW_COUNT]);
-////                tstPointList.add(buffer[3][i + curPos * DRAW_COUNT]);
-//                ecgPointList.add(bufferFilter[0][i + curPos * DRAW_COUNT]);
-//                pcgPointList.add(bufferFilter[1][i + curPos * DRAW_COUNT]);
-//                heatPointList.add(bufferFilter[2][i + curPos * DRAW_COUNT]);
-//                tstPointList.add(bufferFilter[3][i + curPos * DRAW_COUNT]);
-//
-//                ecgPointListView.add(bufferFilter[0][i + curPos * DRAW_COUNT]); //5000
-//                pcgPointListView.add(bufferFilter[1][i + curPos * DRAW_COUNT]); //5000
-//                heatPointListView.add(bufferFilter[2][i + curPos * DRAW_COUNT]); //5000
-//                tstPointListView.add(bufferFilter[3][i + curPos * DRAW_COUNT]); //5000
-//            } else { //超过5000个,开始执行替换操作
-////                updateViewData(ecgPointList, buffer[0][i + curPos * DRAW_COUNT]);
-////                updateViewData(pcgPointList, buffer[1][i + curPos * DRAW_COUNT]);
-////                updateViewData(heatPointList, buffer[2][i + curPos * DRAW_COUNT]);
-////                updateViewData(tstPointList, buffer[3][i + curPos * DRAW_COUNT]);
-//
-//                updateViewData(ecgPointList, bufferFilter[0][i + curPos * DRAW_COUNT]);
-//                updateViewData(pcgPointList, bufferFilter[1][i + curPos * DRAW_COUNT]);
-//                updateViewData(heatPointList, bufferFilter[2][i + curPos * DRAW_COUNT]);
-//                updateViewData(tstPointList, bufferFilter[3][i + curPos * DRAW_COUNT]);
-//
-//                updateViewData(ecgPointListView, bufferFilter[0][i + curPos * DRAW_COUNT]); //5000
-//                updateViewData(pcgPointListView, bufferFilter[1][i + curPos * DRAW_COUNT]); //5000
-//                updateViewData(heatPointListView, bufferFilter[2][i + curPos * DRAW_COUNT]); //5000
-//                updateViewData(tstPointListView, bufferFilter[3][i + curPos * DRAW_COUNT]); //5000
-//
-//            }
-//        }
+        for (int i = 0; i < DRAW_COUNT; i++) {
+            if (ecgPointList.size() < 5000) { //没有超过5000个
+//                ecgPointList.add(buffer[0][i + curPos * DRAW_COUNT]);
+//                pcgPointList.add(buffer[1][i + curPos * DRAW_COUNT]);
+//                heatPointList.add(buffer[2][i + curPos * DRAW_COUNT]);
+//                tstPointList.add(buffer[3][i + curPos * DRAW_COUNT]);
+                ecgPointList.add(bufferFilter[0][i + curPos * DRAW_COUNT]);
+                pcgPointList.add(bufferFilter[1][i + curPos * DRAW_COUNT]);
+                heatPointList.add(bufferFilter[2][i + curPos * DRAW_COUNT]);
+                tstPointList.add(bufferFilter[3][i + curPos * DRAW_COUNT]);
 
-//        添加画图用的list集合
+                ecgPointListView.add(bufferFilter[0][i + curPos * DRAW_COUNT]); //5000
+                pcgPointListView.add(bufferFilter[1][i + curPos * DRAW_COUNT]); //5000
+                heatPointListView.add(bufferFilter[2][i + curPos * DRAW_COUNT]); //5000
+                tstPointListView.add(bufferFilter[3][i + curPos * DRAW_COUNT]); //5000
+            } else { //超过5000个,开始执行替换操作
+//                updateViewData(ecgPointList, buffer[0][i + curPos * DRAW_COUNT]);
+//                updateViewData(pcgPointList, buffer[1][i + curPos * DRAW_COUNT]);
+//                updateViewData(heatPointList, buffer[2][i + curPos * DRAW_COUNT]);
+//                updateViewData(tstPointList, buffer[3][i + curPos * DRAW_COUNT]);
+
+                updateViewData(ecgPointList, bufferFilter[0][i + curPos * DRAW_COUNT]);
+                updateViewData(pcgPointList, bufferFilter[1][i + curPos * DRAW_COUNT]);
+                updateViewData(heatPointList, bufferFilter[2][i + curPos * DRAW_COUNT]);
+                updateViewData(tstPointList, bufferFilter[3][i + curPos * DRAW_COUNT]);
+
+                updateViewData(ecgPointListView, bufferFilter[0][i + curPos * DRAW_COUNT]); //5000
+                updateViewData(pcgPointListView, bufferFilter[1][i + curPos * DRAW_COUNT]); //5000
+                updateViewData(heatPointListView, bufferFilter[2][i + curPos * DRAW_COUNT]); //5000
+                updateViewData(tstPointListView, bufferFilter[3][i + curPos * DRAW_COUNT]); //5000
+
+            }
+        }
+
+        //添加画图用的list集合
 //        if (cursorFilter >= 7200) {    //7200
 //            isOverBoundsView = true;   //7200
 //            cursorFilter = 0;
 //        }
-
-        for (int i = 0; i < DRAW_COUNT_View; i++) { //7200
-            if (ecgPointListView.size() < 7200) { //没有超过1250个 //7200
-                ecgPointListView.add(bufferFilter[0][i + curPos * DRAW_COUNT_View]); //7200
-                pcgPointListView.add(bufferFilter[1][i + curPos * DRAW_COUNT_View]); //7200
-                heatPointListView.add(bufferFilter[2][i + curPos * DRAW_COUNT_View]); //7200
-                tstPointListView.add(bufferFilter[3][i + curPos * DRAW_COUNT_View]); //7200
-            } else { //超过1250个,开始执行替换操作
-                updateViewData(ecgPointListView, bufferFilter[0][i + curPos * DRAW_COUNT_View]); //7200
-                updateViewData(pcgPointListView, bufferFilter[1][i + curPos * DRAW_COUNT_View]); //7200
-                updateViewData(heatPointListView, bufferFilter[2][i + curPos * DRAW_COUNT_View]); //7200
-                updateViewData(tstPointListView, bufferFilter[3][i + curPos * DRAW_COUNT_View]); //7200
-            }
-        } //7200
+//
+//        for (int i = 0; i < DRAW_COUNT_View; i++) { //7200
+//            if (!isOverBoundsView) { //没有超过1250个 //7200
+//                ecgPointListView.add(bufferFilter[0][i + curPos * DRAW_COUNT_View]); //7200
+//                pcgPointListView.add(bufferFilter[1][i + curPos * DRAW_COUNT_View]); //7200
+//                heatPointListView.add(bufferFilter[2][i + curPos * DRAW_COUNT_View]); //7200
+//                tstPointListView.add(bufferFilter[3][i + curPos * DRAW_COUNT_View]); //7200
+//            } else { //超过1250个,开始执行替换操作
+//                updateViewData(ecgPointListView, bufferFilter[0][i + curPos * DRAW_COUNT_View]); //7200
+//                updateViewData(pcgPointListView, bufferFilter[1][i + curPos * DRAW_COUNT_View]); //7200
+//                updateViewData(heatPointListView, bufferFilter[2][i + curPos * DRAW_COUNT_View]); //7200
+//                updateViewData(tstPointListView, bufferFilter[3][i + curPos * DRAW_COUNT_View]); //7200
+//            }
+//            cursorFilter++; //指向当前数据的指针 //7200
+//        } //7200
     }
 
     private void updateViewData(LinkedList<Float> viewData, float newData) {
@@ -2108,8 +2108,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //                secondPathView.setData(pcgPointListView, widthPerPointone, viewHeight, curPos);
 //                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj);
 //                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
-                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
+                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 1500);
 //                thirdPathView.setData2(tstPointListView,  widthPerPointone, viewHeight,curPos); //3 tst
                 thirdPathView.setData3(tstPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
                 break;
@@ -2118,8 +2118,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //                secondPathView.setData(pcgPointListView, widthPerPointone, viewHeight, curPos);
 //                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj);
 //                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
-                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
+                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 1500);
 //                thirdPathView.setData2(heatPointListView,  widthPerPointone, viewHeight,curPos); //2 heat
                 thirdPathView.setData2(heatPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
                 break;
@@ -2128,7 +2128,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //                    Log.e("huang", "mode----同步模式" + mode);
 //                    firstPathView.setData1(ecgPointListView,  widthPerPointone, viewHeight,curPos); //0
 //                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj); //0
-                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
+                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
 //                    secondPathView.setData3(heatPointListView, widthPerPointone, viewHeight, curPos); //2
 //                    thirdPathView.setData2(tstPointListView,  widthPerPointone, viewHeight,curPos); //3 tst,能画出波形
                     secondPathView.setData4(heatPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj); //2
@@ -2154,7 +2154,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //                secondPathView.setData(heatPointList, widthPerPointone, viewHeight, curPos); //2
 //                firstPathView.setData1(ecgPointListView,  widthPerPointone, viewHeight,curPos); //0
 //                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj); //0
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000);
 //                secondPathView.setData3(tstPointListView, widthPerPointone, viewHeight, curPos); //3
 //                secondPathView.setData3(tstPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj); //3 袖带的
                 secondPathView.setData2(heatPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
@@ -2176,10 +2176,10 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
         viewWidth = firstPathView.getMeasuredWidth();
 
 //        widthPerPointone = (float) viewWidth / 5000;
-   //     widthPerPointone = (float) viewWidth / 1250;
+        widthPerPointone = (float) viewWidth / 1250;
 
-//        widthPerPointonePcg = (float) viewWidth / 5000;
-        widthPerPointonePcg = (float) viewWidth / 7200;
+        widthPerPointonePcg = (float) viewWidth / 5000;
+//        widthPerPointonePcg = (float) viewWidth / 7200;
     }
 
     /**
@@ -2326,8 +2326,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                     startMeasure();
                 }else{
                     if(ecgPointList.size() < 5000 || pcgPointList.size() < 5000 || heatPointList.size() < 5000 || tstPointList.size() < 5000){
-                        //ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");//xingjian
-                        //return;
+                        ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
+                        return;
                     }
 
                     isStart = false;
@@ -2357,40 +2357,40 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 
                 if(titleIndex == 0){
                     if(hypecgs == null || hyppcgs == null || hypapgs == null){
-                       // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                        //break;
+                        ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                        break;
                     }
                 }
                 if(titleIndex == 1){
                     if(hypecgd == null || hyppcgd == null || hypapgd == null){
-                      //  ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                        //break;
+                        ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                        break;
                     }
                 }
                 if(titleIndex == 2){
                     if(ecgPl == null || pcgPl == null || apgL == null){
-                       // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                       // break;
+                        ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                        break;
                     }
                 }
                 if(titleIndex == 3){
                     if(mode == Constants.MEASURE_MODE_SYNC){
                         if(ecgPr == null || apgR == null || apgTh == null || pcgPr == null || ecgTh == null){
-                           // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                           // break;
+                            ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                            break;
                         }
                     }else{
                         if(ecgPr == null || pcgPr == null || apgR == null){
-                         //   ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                          //  break;
+                            ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                            break;
                         }
                     }
                 }
                 if(titleIndex == 4){
                     if(mode == Constants.MEASURE_MODE_ASYNC){
                         if(ecgTh == null || apgTh == null){
-                            //ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                          //  break;
+                            ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                            break;
                         }
                     }
                 }

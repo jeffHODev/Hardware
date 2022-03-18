@@ -90,7 +90,12 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
     double[] real = new double[1024];
     int filtercountsanjiao=0;
     int filtercountfang=0;
-    int filtercountsin1=0;
+    int filtercountsin1=0,filtercountsin2=0,filtercountsin3=0,filtercountsin4=0,filtercountsin5=0,filtercountsin6=0,filtercountfang2=0;
+    boolean filterswitch = false;
+    boolean filter_sin_switch1 = false;
+    boolean filter_sin_switch10 = false;
+    boolean filter_sin_switch20 = false;
+    boolean filter_sin_switch25 = false;
     FFT fft = new FFT(1024);
     private String[][] ecgTitle = {{"心电波", "心音波", "超收缩压脉搏波"},
             {"心电波", "心音波", "低舒张压脉搏波"},
@@ -2018,7 +2023,9 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                     real[yy] = temp[yy]/(tempmax-tempmin);
                     imaginary[yy] = 0;
                 }
+
                 fft.fft(real,imaginary);
+
                 for (int yy=0;yy<1024;yy++) {
                     fftmod[yy]=Math.sqrt(real[yy]*real[yy]+imaginary[yy]*imaginary[yy]);
                 }
@@ -2027,37 +2034,145 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 filtercountsin1 =0;
                 filtercountfang =0;
                 filtercountsanjiao =0;
+                filtercountsin1= 0;
+                filtercountsin2= 0;
+                filtercountsin3= 0;
+                filtercountsin4= 0;
+                filtercountsin5 = 0;
+                filtercountsin6 = 0;
+                filtercountfang2 = 0;
+                //sin 1Hz
+                if (fftmod[1]>0.4 && fftmod[1]<0.41)
+                    filtercountsin1=filtercountsin1+1;
+                if (fftmod[2]>0.0833 && fftmod[2]<0.11)
+                    filtercountsin1=filtercountsin1+1;
+                if (fftmod[3]>0.027 && fftmod[3]<0.04)
+                    filtercountsin1=filtercountsin1+1;
+                if (fftmod[4]>0.014 && fftmod[4]<0.03)
+                    filtercountsin1=filtercountsin1+1;
+                //sin1Hz 2mv
+                if (fftmod[1]>0.6918 && fftmod[1]<0.7763)
+                    filtercountsin5=filtercountsin5+1;
+                if (fftmod[2]>0.2021 && fftmod[2]<0.2672)
+                    filtercountsin5=filtercountsin5+1;
+                if (fftmod[3]>0.1225 && fftmod[3]<0.1357)
+                    filtercountsin5=filtercountsin5+1;
+                if (fftmod[4]>0.0855 && fftmod[4]<0.0935)
+                    filtercountsin5=filtercountsin5+1;
+                //sin1Hz 3mv
+                if (fftmod[1]>1.049 && fftmod[1]<1.198)
+                    filtercountsin6=filtercountsin6+1;
+                if (fftmod[2]>0.2651 && fftmod[2]<0.384)
+                    filtercountsin6=filtercountsin6+1;
+                if (fftmod[3]>0.098 && fftmod[3]<0.2027)
+                    filtercountsin6=filtercountsin6+1;
+                if (fftmod[4]>0.056 && fftmod[4]<0.1367)
+                    filtercountsin6=filtercountsin6+1;
+                //sin10Hz
+                if (fftmod[1]>0.003579 && fftmod[1]<0.01539)
+                    filtercountsin3=filtercountsin3+1;
+                if (fftmod[2]>0.004124 && fftmod[2]<0.01399)
+                    filtercountsin3=filtercountsin3+1;
+                if (fftmod[3]>0.004667 && fftmod[3]<0.01553)
+                    filtercountsin3=filtercountsin3+1;
+                if (fftmod[4]>0.00060 && fftmod[4]<0.01663)
+                    filtercountsin3=filtercountsin3+1;
+                //sin20Hz
+                if (fftmod[1]>0.007317 && fftmod[1]<0.008744)
+                    filtercountsin2=filtercountsin2+1;
+                if (fftmod[2]>0.007445 && fftmod[2]<0.008843)
+                    filtercountsin2=filtercountsin2+1;
+                if (fftmod[3]>0.00765 && fftmod[3]<0.008282)
+                    filtercountsin2=filtercountsin2+1;
+                if (fftmod[4]>0.00752 && fftmod[4]<0.008585)
+                    filtercountsin2=filtercountsin2+1;
+                //sin25Hz
+                if (fftmod[1]>0.001334 && fftmod[1]<0.004594)
+                    filtercountsin4=filtercountsin4+1;
+                if (fftmod[2]>0.00156 && fftmod[2]<0.004764)
+                    filtercountsin4=filtercountsin4+1;
+                if (fftmod[3]>0.001067 && fftmod[3]<0.0053)
+                    filtercountsin4=filtercountsin4+1;
+                if (fftmod[4]>0.001102 && fftmod[4]<0.005081)
+                    filtercountsin4=filtercountsin4+1;
+                //fangbo
+                if (fftmod[1]>0.492 && fftmod[1]<0.4935)
+                    filtercountfang=filtercountfang+1;
+                if (fftmod[2]>0.141 && fftmod[2]<0.1435)
+                    filtercountfang=filtercountfang+1;
+                if (fftmod[3]>0.108 && fftmod[3]<0.111)
+                    filtercountfang=filtercountfang+1;
+                if (fftmod[4]>0.117 && fftmod[4]<0.119)
+                    filtercountfang=filtercountfang+1;
+                //fangbo 0.1hz
+                if (fftmod[1]>0.00007 && fftmod[1]<0.19)
+                    filtercountfang2=filtercountfang2+1;
+                if (fftmod[2]>2.3564458714565508E-5 && fftmod[2]<3.466873131762644E-4)
+                    filtercountfang2=filtercountfang2+1;
+                if (fftmod[3]>9.887597815514964E-5 && fftmod[3]<3.168587955243547E-4)
+                    filtercountfang2=filtercountfang2+1;
+                if (fftmod[4]>6.266479601045343E-5 && fftmod[4]<2.7023405745279063E-4)
+                    filtercountfang2=filtercountfang2+1;
+                //sanjiao
+                if (fftmod[1]>0.1285 && fftmod[1]<0.1295)
+                    filtercountsanjiao=filtercountsanjiao+1;
+                if (fftmod[2]>0.1195 && fftmod[2]<0.1205)
+                    filtercountsanjiao=filtercountsanjiao+1;
+                if (fftmod[3]>0.1065 && fftmod[3]<0.1075)
+                    filtercountsanjiao=filtercountsanjiao+1;
+                if (fftmod[4]>0.085 && fftmod[4]<0.095)
+                    filtercountsanjiao=filtercountsanjiao+1;
+//
+                if ( filtercountsanjiao >=4 ||filtercountfang>=4) {
+                    filterswitch = true;
+                    filter_sin_switch1 = false;
+                    filter_sin_switch10 = false;
+                    filter_sin_switch20 = false;
+                    filter_sin_switch25 = false;
+
                 }
+                }
+                if ( filtercountsin1 >=4 ||filtercountsin5>=4 ||filtercountsin6>=4||filtercountfang2>=4) {
+                    filterswitch = false;
+                    filter_sin_switch1 =true ;
+                    filter_sin_switch10 = false;
+                    filter_sin_switch20 = false;
+                    filter_sin_switch25 = false;
+
+                }
+                if ( filtercountsin2>=4)
+                {
+                    filterswitch = false;
+                    filter_sin_switch1 =false ;
+                    filter_sin_switch10 = false;
+                    filter_sin_switch20 = true;
+                    filter_sin_switch25 = false;
+
+                }
+                if ( filtercountsin3>=4)
+                {
+                    filterswitch = false;
+                    filter_sin_switch1 =false ;
+                    filter_sin_switch10 = true;
+                    filter_sin_switch20 = false;
+                    filter_sin_switch25 = false;
+
+                }
+                if ( filtercountsin4>=4)
+                {
+                    filterswitch = false;
+                    filter_sin_switch1 =false ;
+                    filter_sin_switch10 = false;
+                    filter_sin_switch20 = false;
+                    filter_sin_switch25 = true;
+
+                }
+            Log.e("huang","filtercount san  "+ filtercountsanjiao + "   sin1   " +filtercountsin1+ "   sin10   " +filtercountsin3+"   sin25   " +filtercountsin4+"   sin20   " +filtercountsin2+"   fang   "+filtercountfang);
+            Log.e("huang","filtersw "+ filterswitch + "   sin1   " +filter_sin_switch1+  "   sin10   " +filter_sin_switch10+"   sin20   " +filter_sin_switch20+ "   sin25   "+filter_sin_switch25);
+
 
         }
-        //fangbo
-        if (fftmod[1]>0.03 && fftmod[1]<0.115)
-            filtercountfang=filtercountfang+1;
-        if (fftmod[2]>0.425 && fftmod[2]<0.495)
-            filtercountfang=filtercountfang+1;
-        if (fftmod[3]>0.115 && fftmod[3]<0.22)
-            filtercountfang=filtercountfang+1;
-        if (fftmod[4]>0.14 && fftmod[4]<0.158)
-            filtercountfang=filtercountfang+1;
-        //sin 1Hz
-        if (fftmod[1]>0.025 && fftmod[1]<0.07)
-            filtercountsin1=filtercountsin1+1;
-        if (fftmod[2]>0.33 && fftmod[2]<0.41)
-            filtercountsin1=filtercountsin1+1;
-        if (fftmod[3]>0.013 && fftmod[3]<0.048)
-            filtercountsin1=filtercountsin1+1;
-        if (fftmod[4]>0.08 && fftmod[4]<0.14)
-            filtercountsin1=filtercountsin1+1;
-        //sanjiao
-        if (fftmod[1]>0.035 && fftmod[1]<0.11)
-            filtercountsanjiao=filtercountsanjiao+1;
-        if (fftmod[2]>0.12 && fftmod[2]<0.22)
-            filtercountsanjiao=filtercountsanjiao+1;
-        if (fftmod[3]>0.09 && fftmod[3]<0.014)
-            filtercountsanjiao=filtercountsanjiao+1;
-        if (fftmod[4]>0.063 && fftmod[4]<0.122)
-            filtercountsanjiao=filtercountsanjiao+1;
-            Log.e("huang","filtercount san  "+ filtercountsanjiao + "   sin   " +filtercountsin1+"   fang   "+filtercountfang);
+
         //FFT 判断
 //        for ( int yy=0;yy<833;yy++){sumtempdiff2b=0;
 ////            if (yy>416)
@@ -2074,9 +2189,16 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
         for (int y = 0; y < bufferf[0].length; y++){
 //            Log.e("huang","心电"+ bufferf[0][y]);
 
-            if (filtercountfang >=4 || filtercountsanjiao >=4 || filtercountsin1 >=4){
-                bufferFilterf[0][y] = bufferf[0][y];//xingjian
-                yadj_set = 4700;
+            if (filterswitch||filter_sin_switch1 == true||filter_sin_switch10 == true||filter_sin_switch25 == true){
+
+                    bufferFilterf[0][y] = bufferf[0][y];//xingjian
+                        yadj_set = 4700;
+                    if(filter_sin_switch10 == true)
+                     yadj_set = 4600;
+                    if(filter_sin_switch20 == true)
+                        yadj_set = 4600;
+                    if(filter_sin_switch25 == true)
+                        yadj_set =4600;
                 }
 
             else{
@@ -2215,22 +2337,22 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
         switch (titleIndex){
             case 0:
             case 1:
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set);
                 secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700);
                 thirdPathView.setData3(tstPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
                 break;
             case 2:
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set);
                 secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700);
                 thirdPathView.setData2(heatPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
                 break;
             case 3:
                 if(mode == Constants.MEASURE_MODE_SYNC){ //同步模式
-                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
+                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set);
                     secondPathView.setData4(heatPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj); //2
                     thirdPathView.setData3(tstPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj); //3 tst,能画出波形
                 }else{
-                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700); //0
+                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set); //0
                     secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700); //1
                     thirdPathView.setData2(heatPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj); //2
                 }
@@ -2240,7 +2362,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 if(mode == Constants.MEASURE_MODE_SYNC){
                     return;
                 }
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set);
 
                 secondPathView.setData2(heatPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
 

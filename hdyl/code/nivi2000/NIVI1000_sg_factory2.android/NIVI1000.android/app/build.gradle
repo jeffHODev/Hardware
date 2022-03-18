@@ -9,12 +9,14 @@ android {
         abortOnError false
     }
     signingConfigs {
-//        debug {
-//            storeFile file('D:\\workspace\\NIVI1000.android\\NIVI1000.android\\config\\oil.jks')
-//        }
-//        release {
-//            storeFile file('D:\\workspace\\NIVI1000.android\\NIVI1000.android\\config\\oil.jks')
-//        }
+        /*debug {
+            storeFile file('D:\\workspace\\NIVI1000.android\\NIVI1000.android\\config\\oil.jks')
+            storePassword 'inpiao123'
+            keyAlias 'oil'
+            keyPassword 'inpiao123'
+        }*/
+        release {
+        }
     }
     compileSdkVersion 28
     buildToolsVersion = '28.0.3'
@@ -38,11 +40,11 @@ android {
 
     }
     buildTypes {
-//        release {
-//            signingConfig signingConfigs.release
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//        }
+      /*  release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }*/
     }
 
     // 配置CMakeLists.txt路径，相对于当前文件
