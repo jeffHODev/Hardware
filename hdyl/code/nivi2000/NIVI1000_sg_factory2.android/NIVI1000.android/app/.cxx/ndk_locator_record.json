@@ -7,7 +7,7 @@
     },
     {
       "level": "INFO",
-      "message": "ndk.dir in local.properties is C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499"
+      "message": "ndk.dir in local.properties is not set"
     },
     {
       "level": "INFO",
@@ -16,10 +16,6 @@
     {
       "level": "INFO",
       "message": "sdkFolder is C:\\Users\\86152\\AppData\\Local\\Android\\Sdk"
-    },
-    {
-      "level": "INFO",
-      "message": "Considering C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499 by ndk.dir"
     },
     {
       "level": "INFO",
@@ -39,7 +35,7 @@
     },
     {
       "level": "INFO",
-      "message": "Choosing C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499 from ndk.dir which had the requested version 16.1.4479499"
+      "message": "Found requested NDK version 16.1.4479499 at C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499"
     }
   ]
 }

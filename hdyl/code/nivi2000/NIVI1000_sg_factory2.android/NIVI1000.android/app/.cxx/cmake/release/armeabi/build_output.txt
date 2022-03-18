@@ -17,8 +17,8 @@ Check for working C compiler: C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.
 CMake Warning at C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/build/cmake/android.toolchain.cmake:243 (message):
   armeabi is deprecated and will be removed in a future NDK release.
 Call Stack (most recent call first):
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
 
 
 Check for working C compiler: C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe -- works
@@ -26,8 +26,8 @@ Detecting C compiler ABI info
 CMake Warning at C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/build/cmake/android.toolchain.cmake:243 (message):
   armeabi is deprecated and will be removed in a future NDK release.
 Call Stack (most recent call first):
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
 
 
 Detecting C compiler ABI info - done
@@ -35,22 +35,22 @@ Detecting C compile features
 CMake Warning at C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/build/cmake/android.toolchain.cmake:243 (message):
   armeabi is deprecated and will be removed in a future NDK release.
 Call Stack (most recent call first):
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
 
 
 CMake Warning at C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/build/cmake/android.toolchain.cmake:243 (message):
   armeabi is deprecated and will be removed in a future NDK release.
 Call Stack (most recent call first):
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
 
 
 CMake Warning at C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/build/cmake/android.toolchain.cmake:243 (message):
   armeabi is deprecated and will be removed in a future NDK release.
 Call Stack (most recent call first):
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
 
 
 Detecting C compile features - done
@@ -58,8 +58,8 @@ Check for working CXX compiler: C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.
 CMake Warning at C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/build/cmake/android.toolchain.cmake:243 (message):
   armeabi is deprecated and will be removed in a future NDK release.
 Call Stack (most recent call first):
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
 
 
 Check for working CXX compiler: C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -- works
@@ -67,8 +67,8 @@ Detecting CXX compiler ABI info
 CMake Warning at C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/build/cmake/android.toolchain.cmake:243 (message):
   armeabi is deprecated and will be removed in a future NDK release.
 Call Stack (most recent call first):
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
 
 
 Detecting CXX compiler ABI info - done
@@ -76,29 +76,29 @@ Detecting CXX compile features
 CMake Warning at C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/build/cmake/android.toolchain.cmake:243 (message):
   armeabi is deprecated and will be removed in a future NDK release.
 Call Stack (most recent call first):
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
 
 
 CMake Warning at C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/build/cmake/android.toolchain.cmake:243 (message):
   armeabi is deprecated and will be removed in a future NDK release.
 Call Stack (most recent call first):
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
 
 
 CMake Warning at C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/build/cmake/android.toolchain.cmake:243 (message):
   armeabi is deprecated and will be removed in a future NDK release.
 Call Stack (most recent call first):
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
 
 
 CMake Warning at C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/build/cmake/android.toolchain.cmake:243 (message):
   armeabi is deprecated and will be removed in a future NDK release.
 Call Stack (most recent call first):
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
-  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg_factory2.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  D:/work/git/Hardware/hdyl/code/nivi2000/NIVI1000_sg.android/NIVI1000.android/app/.cxx/cmake/release/armeabi/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
 
 
 Detecting CXX compile features - done

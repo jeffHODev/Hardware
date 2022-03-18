@@ -30,7 +30,7 @@ public class SerialParseUtil {
 //    }
 
     //head是byte，串口协议head都小于128
-    public static String packetSend(int head, int sn, byte[] data){
+    public static String packetSend(int head, int sn,byte[] data){
         StringBuilder buf = new StringBuilder();
         buf.append(HexUtil.Dec2HexString(head));
         buf.append(HexUtil.Dec2HexString(sn));
@@ -77,7 +77,7 @@ public class SerialParseUtil {
 //        Log.e("packetSend","buf---------@@@@@@@@@"+buf.toString());
 //        return buf.toString();
 //    }
-//   private int count;
+
     //全局buffer，开始只有10000个
     //1、是否是因为处理速度不快，导致inputStream读取数据的时候不连续
     //2、在解析数据的时候数据本身处理位置有问题，导致数据错误
@@ -90,7 +90,6 @@ public class SerialParseUtil {
     private static void doParse(ParseSerialCallBack parseSerialCallBack,ParseBPCallBack parseBPCallBack,
                                 ParseRealBPCallBack parseRealBPCallBack) {
         //buffer,append处理buffer剩余的数据+serialPortData
-        //byte[] pData = HexUtil.HexString2Bytes(SerialBuffer.stringBuffer.toString());
         byte[] pData = HexUtil.HexString2Bytes(SerialBuffer.stringBuffer.toString());
         SerialBean serialBean = new SerialBean();
         SBPBean sbpBean = new SBPBean();

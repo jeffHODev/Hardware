@@ -788,13 +788,13 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 }
 
                 CLibrary.AnalHPA.ByReference analHPAStructs = new CLibrary.AnalHPA.ByReference();
-//                float max_num = CLibrary.INSTANCE2.DetectMaxValue(ecgsf, (short) 0, sampleNum);
-//                if (max_num < 0.5f)
-//                {
-//                    ToastUtils.showToastLong(DrawsActivity.this,"超收缩压心电数据不规范，请重新检测");
-//                    hypecgs = null;
-//                    break;
-//                }
+                float max_num = CLibrary.INSTANCE2.DetectMaxValue(ecgsf, (short) 0, sampleNum);
+                if (max_num < 0.5f)
+                {
+                    ToastUtils.showToastLong(DrawsActivity.this,"超收缩压心电数据不规范，请重新检测");
+                    hypecgs = null;
+                    break;
+                }
 
                 Pointer pecg = new Memory(sampleNum * 4);
                 CLibrary.INSTANCE2.Filter(ecgsf, pecg, sampleNum, (short) 25);
