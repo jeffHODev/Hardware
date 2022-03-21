@@ -815,6 +815,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 if (max_num < 0.5f)
                 {
                     ToastUtils.showToastLong(DrawsActivity.this,"超收缩压心电数据不规范，请重新检测");
+                   // uploadInfo();
                     hypecgs = null;
                     break;
                 }
@@ -2676,6 +2677,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 
         ecgMonitorBean.setIdl(-1);
         ecgMonitorBean.setIdr(-1);
+        System.out.println("测量模式：" + mode);
         ecgMonitorBean.setModel(mode);
 
         setFourteenData();

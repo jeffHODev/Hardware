@@ -295,10 +295,11 @@
       p_hr = #{pHr,jdbcType=INTEGER},
       patient_id = #{patientId,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=TINYINT}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+  <!-- model = #{model,jdbcType=TINYINT}-->
+ where id = #{id,jdbcType=VARCHAR}
+</update>
 
-  <!-- 更新测量模式 -->
+<!-- 更新测量模式 -->
   <update id="updateModel" parameterType="java.util.Map" >
     update basis_measurement
     set model = #{model}

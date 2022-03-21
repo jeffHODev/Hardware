@@ -57,6 +57,8 @@ public class DetectionController {
             originalWaveformReq.setModel(model);
         }
 
+        logger.info("basisMeasurementId++++++++++++++++++++", originalWaveformReq.getModel());
+
         Map resultMap = detectionService.saveOriginalWaveform(originalWaveformReq, originalWaveformReq.getIDL(), originalWaveformReq.getIDR());
         if(resultMap.containsKey("staCode")){
             if((int)resultMap.get("staCode") == 519){

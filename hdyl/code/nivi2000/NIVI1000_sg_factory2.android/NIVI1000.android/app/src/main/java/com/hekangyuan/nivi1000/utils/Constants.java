@@ -9,8 +9,8 @@ public class Constants {
     public static String token = "";
 //    public static final String url="http://192.168.0.105:8080/";
     //    public static final String url="http://192.168.0.154:8080/";
+    // public static final String url = "http://123.56.66.181:8080/";
     public static final String url = "http://123.57.185.1:8080/";
-
 
     public static final String[][] ANALYSIS_ECGTITLE = {{"心电波", "心音波", "超收缩压脉搏"},
             {"心电波", "心音波", "低舒张压脉搏"},
