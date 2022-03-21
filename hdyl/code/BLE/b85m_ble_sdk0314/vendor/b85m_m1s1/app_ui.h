@@ -91,7 +91,7 @@ typedef struct
 	u8 start;
 	u8 Mstart;
 	u8 stop;
-	u16 dis;
+	float dis;
 	u32 time;
 	u16 sum;
 	u32 tick;

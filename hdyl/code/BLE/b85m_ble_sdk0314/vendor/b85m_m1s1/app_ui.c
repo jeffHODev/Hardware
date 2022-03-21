@@ -982,7 +982,7 @@ u32 t1,t2;
 //float t2;
 void cal_rx_time()
 {
-    measure_usr.rx_time = clock_time()/16000-rx_tick;
+    measure_usr.rx_time = clock_time()/(float)16000-rx_tick;
     measure_usr.rx_time = measure_usr.rx_time ;
     rx_tick =  clock_time()/16000;
     // printf("rx:%d\n",measure_usr.rx_time);
@@ -1061,7 +1061,9 @@ void mesure_proc()
             	static u16 cnt = 0;
             	//printf("sum%d\n",measure_usr.rx_time);
             		measure_usr.dis = measure_usr.rx_time*17;
-					printf("dis:%d\n",measure_usr.dis);
+            		u32 tmp;
+            		tmp = measure_usr.dis*1000;
+					printf("dis:%d\n",tmp);
             	if(measure_usr.dis<=MIN_DIS)
             	{
             		cnt = 0;
