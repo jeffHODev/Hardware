@@ -5,9 +5,9 @@
     "environmentVariables": []
   },
   "cmake": {
-    "cmakeArtifactsBaseFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\x86",
-    "cmakeServerLogFile": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\x86\\cmake_server_log.txt",
-    "cmakeWrappingBaseFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx\\cxx\\release\\x86",
+    "cmakeArtifactsBaseFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\x86",
+    "cmakeServerLogFile": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\x86\\cmake_server_log.txt",
+    "cmakeWrappingBaseFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app\\.cxx\\cxx\\release\\x86",
     "effectiveConfiguration": {
       "name": "traditional-android-studio-cmake-environment",
       "description": "Composite reified CMakeSettings configuration",
@@ -15,7 +15,7 @@
       "inheritEnvironments": [
         "ndk"
       ],
-      "buildRoot": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\x86",
+      "buildRoot": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\x86",
       "cmakeToolchain": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\build\\cmake\\android.toolchain.cmake",
       "cmakeExecutable": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
       "variables": [
@@ -53,7 +53,7 @@
         },
         {
           "name": "CMAKE_LIBRARY_OUTPUT_DIRECTORY",
-          "value": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app\\build\\intermediates\\cmake\\release\\obj\\x86"
+          "value": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app\\build\\intermediates\\cmake\\release\\obj\\x86"
         },
         {
           "name": "CMAKE_MAKE_PROGRAM",
@@ -70,14 +70,14 @@
       ]
     }
   },
-  "cxxBuildFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\x86",
+  "cxxBuildFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\x86",
   "info": {
     "abi": "X86",
     "bitness": 32,
     "deprecated": false,
     "default": true
   },
-  "originalCxxBuildFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\x86",
+  "originalCxxBuildFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app\\.cxx\\cmake\\release\\x86",
   "variant": {
     "buildSystemArgumentList": [],
     "buildTargetSet": [],
@@ -95,12 +95,12 @@
         "ninjaExe": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe"
       },
       "cmakeToolchainFile": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\build\\cmake\\android.toolchain.cmake",
-      "cxxFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app\\.cxx",
+      "cxxFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app\\.cxx",
       "gradleModulePathName": ":app",
-      "intermediatesFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app\\build\\intermediates",
-      "makeFile": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app\\CMakeLists.txt",
-      "moduleBuildFile": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app\\build.gradle",
-      "moduleRootFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app",
+      "intermediatesFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app\\build\\intermediates",
+      "makeFile": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app\\CMakeLists.txt",
+      "moduleBuildFile": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app\\build.gradle",
+      "moduleRootFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app",
       "ndkDefaultAbiList": [
         "ARMEABI_V7A",
         "ARM64_V8A",
@@ -163,12 +163,12 @@
       ],
       "ndkVersion": "16.1.4479499",
       "project": {
-        "compilerSettingsCacheFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\.cxx",
-        "cxxFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\.cxx",
+        "compilerSettingsCacheFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\.cxx",
+        "cxxFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\.cxx",
         "isBuildOnlyTargetAbiEnabled": true,
         "isCmakeBuildCohabitationEnabled": false,
         "isNativeCompilerSettingsCacheEnabled": false,
-        "rootBuildGradleFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android",
+        "rootBuildGradleFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android",
         "sdkFolder": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk"
       },
       "splitsAbiFilterSet": [],
@@ -207,7 +207,7 @@
         "SYSTEM": {}
       }
     },
-    "objFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg.android\\NIVI1000.android\\app\\build\\intermediates\\cmake\\release\\obj",
+    "objFolder": "D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\NIVI1000_sg_factory2.android\\NIVI1000.android\\app\\build\\intermediates\\cmake\\release\\obj",
     "variantName": "release",
     "validAbiList": [
       "ARMEABI",

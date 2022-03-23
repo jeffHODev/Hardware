@@ -68,7 +68,7 @@ build ../../../../build/intermediates/cmake/release/obj/armeabi/libnative-lib.so
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D D:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg.android\NIVI1000.android\app\.cxx\cmake\release\armeabi && C:\Users\86152\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\cmake.exe -E echo "No interactive CMake dialog available.""
+  COMMAND = cmd.exe /C "cd /D D:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg_factory2.android\NIVI1000.android\app\.cxx\cmake\release\armeabi && C:\Users\86152\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\cmake.exe -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 build edit_cache: phony CMakeFiles/edit_cache.util
@@ -77,7 +77,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D D:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg.android\NIVI1000.android\app\.cxx\cmake\release\armeabi && C:\Users\86152\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\cmake.exe -HD:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg.android\NIVI1000.android\app -BD:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg.android\NIVI1000.android\app\.cxx\cmake\release\armeabi"
+  COMMAND = cmd.exe /C "cd /D D:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg_factory2.android\NIVI1000.android\app\.cxx\cmake\release\armeabi && C:\Users\86152\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\cmake.exe -HD:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg_factory2.android\NIVI1000.android\app -BD:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg_factory2.android\NIVI1000.android\app\.cxx\cmake\release\armeabi"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1

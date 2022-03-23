@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = C:\Users\86152\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\cmake.exe -HD:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg.android\NIVI1000.android\app -BD:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg.android\NIVI1000.android\app\.cxx\cmake\release\x86
+  command = C:\Users\86152\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\cmake.exe -HD:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg_factory2.android\NIVI1000.android\app -BD:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg_factory2.android\NIVI1000.android\app\.cxx\cmake\release\x86
   description = Re-running CMake...
   generator = 1
 

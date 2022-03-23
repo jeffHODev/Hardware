@@ -9,6 +9,19 @@ android {
         abortOnError false
     }
     signingConfigs {
+        debug {
+            storeFile file('D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\signature\\signature.jks')
+            storePassword 'release'
+            keyAlias 'app'
+            keyPassword 'release'
+        }
+        reease {
+            storeFile file('D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\signature\\signature.jks')
+            storePassword '8236748zmZM'
+            keyAlias 'release'
+            keyPassword 'release'
+        }
+
 //        debug {
 //            storeFile file('D:\\workspace\\NIVI1000.android\\NIVI1000.android\\config\\oil.jks')
 //        }
@@ -56,6 +69,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     ndkVersion '16.1.4479499'
+    flavorDimensions 'release', 'debug'
 
 
 }
