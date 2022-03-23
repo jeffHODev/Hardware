@@ -136,6 +136,10 @@ DItemRevisionGUID=
 DocumentPath=PCB1.PcbDoc.htm
 DItemRevisionGUID=
 
+[GeneratedDocument6]
+DocumentPath=..\..\..\心电\采集板\V1.1\采集主板V1.1_ZM_20210713.PcbDoc.htm
+DItemRevisionGUID=
+
 [Configuration1]
 Name=Default Configuration
 ParameterCount=0
