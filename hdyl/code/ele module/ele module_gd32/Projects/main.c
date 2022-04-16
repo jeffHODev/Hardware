@@ -363,7 +363,7 @@ void timer_config(void)
     timer_deinit(TIMER2);
 
     /* TIMER1 configuration */
-    timer_initpara.prescaler         = 35;//35
+    timer_initpara.prescaler         = 30;//35
     timer_initpara.alignedmode       = TIMER_COUNTER_EDGE;
     timer_initpara.counterdirection  = TIMER_COUNTER_UP;
     timer_initpara.period            = 65535;

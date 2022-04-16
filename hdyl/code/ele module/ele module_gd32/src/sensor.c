@@ -71,7 +71,7 @@ void setCurrent(unsigned char curr)
     else
         sPID.SetPoint = curr*1000;
     if(curr >DES_CURR_VALUE)
-        sPID.SetPoint = DES_CURR_VALUE;	
+        sPID.SetPoint = DES_CURR_VALUE;
 //tmp_curr =curr*1000;
 }
 uint32_t *get_adc_buf()
@@ -212,7 +212,7 @@ void analysis_process()
             if( GetModbusPack()->startaddr  == 0x0040 )
             {
                 sensor.ele_status = GetModbusPayLoad()->RS485_RX_BUFF[5];
-                 setCurrent(sensor.ele_status>>4);
+                setCurrent(sensor.ele_status>>4);
                 sensor.ele_status = sensor.ele_status &0x0f;
                 sensor.inverEle = 0;
                 //sensor.online = 0;
@@ -394,7 +394,7 @@ void ele_ctrl(unsigned char mode)
         {
             if(flag != 1)
             {
-                timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+                //  timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
                 flag = 1;
                 //delay_ms(1000);
             }
@@ -406,9 +406,9 @@ void ele_ctrl(unsigned char mode)
         {
             if(flag != 2)
             {
-                timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+                //   timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
                 flag = 2;
-               // delay_ms(1000);
+                // delay_ms(1000);
             }
             RelayCtrl(BACKWARD);
         }
@@ -459,9 +459,19 @@ void work_process()
         {
             // ele_ctrl(OFF);
             GetEle_EleCurr();
-            timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
-            pid_init(DES_CURR_VALUE);
-            cnt++;
+            if(GetTickResult(ELE_TICK)==1)
+            {
+                registerTick(ELE_TICK,0,0,1);
+                registerTick(ELE_TICK,3000,1,0);
+                timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+                if( sPID.SetPoint)
+                    pid_init(sPID.SetPoint);
+                else
+                    pid_init(DES_CURR_VALUE);
+                cnt++;
+
+            }
+
         }
         else
         {
@@ -473,10 +483,16 @@ void work_process()
                 {
                     // ele_ctrl(OFF);
                     GetEle_EleCurr();
-                    timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
-                    //delay_ms(1000);
-                    pid_init(DES_CURR_VALUE);
-                    sensor.ele_status =0;
+                    if(GetTickResult(ELE_TICK)==1)
+                    {
+                        registerTick(ELE_TICK,0,0,1);
+                        registerTick(ELE_TICK,3000,1,0);
+
+                        timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+                        //delay_ms(1000);
+                        pid_init(DES_CURR_VALUE);
+                        sensor.ele_status =0;
+                    }
                 }
                 registerTick(LOWCURR_TICK,0,0,1);
             }
@@ -484,17 +500,22 @@ void work_process()
             {
                 if(sensor.wash_time >=MAX_WASH_TIME)
                 {
-                    ele_ctrl(OFF);
-                   // delay_ms(1000);
+                    if(GetTickResult(ELE_TICK)==1)
+                    {
+                        ele_ctrl(OFF);
+                        registerTick(ELE_TICK,0,0,1);
+                        registerTick(ELE_TICK,3000,1,0);
+                    }
+                    // delay_ms(1000);
                 }
                 else
                 {
 
-                   if(GetTickResult(ELE_TICK)==1||init_flag==0)
+                    if(GetTickResult(ELE_TICK)==1||init_flag==0)
                     {
-                     // if(sensor.ele_curr==0)
+                        // if(sensor.ele_curr==0)
                         ele_ctrl(ON);
-												init_flag = 1;
+                        init_flag = 1;
                         update_falg = 0;
                         registerTick(ELE_TICK,3000,1,0);
                     }
@@ -522,11 +543,15 @@ void work_process()
     }
     else if(sensor.ele_status == 0||sensor.reset== 1)//非电解模式
     {
-			
-        ele_ctrl(OFF);
+        if(GetTickResult(ELE_TICK)==1)
+        {
+            ele_ctrl(OFF);
+			registerTick(ELE_TICK,0,0,1);
+            registerTick(ELE_TICK,3000,1,0);
+        }
         if(update_falg == 0)
         {
-           update_falg = 1;
+            update_falg = 1;
             registerTick(ELE_TICK,0,0,1);
             registerTick(ELE_TICK,3000,1,0);
         }

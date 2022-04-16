@@ -145,7 +145,7 @@ unsigned char abnormalDec()
     if(dstTds<400)
         dstTds = 400;
 
-    if(GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=(dstTds-200)&&
+    if(GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=(dstTds-100)&&
                                             GetSensor()->status[TDS2_INDEX]==0))//tds异常
     {
 
@@ -371,7 +371,7 @@ void Flow_Init()
 
 
     dstTds = flow_switch;
-    //dstTds = 2000;
+  //  dstTds = 2000;
     pid_init_flow(dstTds);
 
 }
@@ -1645,9 +1645,10 @@ void ele_dev_proc()
 
                    // EleSwCtrl(WATER_SW,OFF);//关所有阀
 #if SW_NOCHANGE
-					if((GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M))
+					//if((GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M))
 
-					EleSwCtrl(WATER_SW,ON);//关所有阀
+					//EleSwCtrl(WATER_SW,ON);//关所有阀
+					EleSwCtrl(WATER_SW,OFF);//关所有阀
 #else
 					EleSwCtrl(WATER_SW,OFF);//关所有阀
 

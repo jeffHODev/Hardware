@@ -1,7 +1,7 @@
 #ifndef PID_H
 #define PID_H
 
-#define MAX_OUTPUT  35000  //最大pwm输出量
+#define MAX_OUTPUT  31000  //最大pwm输出量
 #define MIN_OUTPUT  0
 #define MAX_I 30000
 #include<main.h>
