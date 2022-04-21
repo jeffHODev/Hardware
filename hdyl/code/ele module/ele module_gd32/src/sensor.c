@@ -216,7 +216,7 @@ void analysis_process()
                 setCurrent(sensor.ele_status>>4);
                 sensor.ele_status = sensor.ele_status &0x01;
                 sensor.inverEle = 0;
-							 if(sensor.ele_status==0)
+                if(sensor.ele_status==0)
                 {
                     step = 11;
                     sensor.ele_status =0;
@@ -395,12 +395,12 @@ void RelayCtrl(unsigned char dir)
 void ele_ctrl(unsigned char mode)
 {
     static unsigned char flag = 0;
-	static unsigned char delay_flag=0;
+    static unsigned char delay_flag=0;
     GetEle_EleCurr();
     if(mode == ON)
     {
-       
-	   
+
+
         // pwmCtrl();
         //pid_proc(sensor.ele_curr);
 #if CPU == ST
@@ -430,14 +430,14 @@ void ele_ctrl(unsigned char mode)
             }
             RelayCtrl(BACKWARD);
         }
-		if(delay_flag == 0)
-		{
-			delay_flag = 1;
-			registerTick(ELE_DELAY_TICK,0,0,1);
-			registerTick(ELE_DELAY_TICK,200,1,0);
-		}
-		if(GetTickResult(ELE_DELAY_TICK)==1)
-        timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,pid_proc(sensor.ele_curr));
+        if(delay_flag == 0)
+        {
+            delay_flag = 1;
+            registerTick(ELE_DELAY_TICK,0,0,1);
+            registerTick(ELE_DELAY_TICK,200,1,0);
+        }
+        if(GetTickResult(ELE_DELAY_TICK)==1)
+            timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,pid_proc(sensor.ele_curr));
 
 #endif
     }
@@ -448,9 +448,9 @@ void ele_ctrl(unsigned char mode)
         HAL_Delay(10);
         RelayCtrl(3);
 #else
-       delay_flag = 0;
+        delay_flag = 0;
         registerTick(ELE_DELAY_TICK,0,0,1);
-		//registerTick(ELE_DELAY_TICK,200,1,0);
+        //registerTick(ELE_DELAY_TICK,200,1,0);
         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
         flag = 0;
         delay_ms(100);
@@ -489,7 +489,7 @@ void work_process()
         {
             // ele_ctrl(OFF);
             GetEle_EleCurr();
-           // if(GetTickResult(ELE_TICK)==1)
+            // if(GetTickResult(ELE_TICK)==1)
             {
                 //registerTick(ELE_TICK,0,0,1);
                 //  registerTick(ELE_TICK,3000,1,0);
@@ -514,7 +514,7 @@ void work_process()
                     // ele_ctrl(OFF);
                     step = 2;
                     GetEle_EleCurr();
-                //    if(GetTickResult(ELE_TICK)==1)
+                    //    if(GetTickResult(ELE_TICK)==1)
                     {
                         registerTick(ELE_TICK,0,0,1);
                         registerTick(ELE_TICK,ELE_TIME,1,0);
@@ -527,7 +527,7 @@ void work_process()
                 }
                 registerTick(LOWCURR_TICK,0,0,1);
             }
-          //  else
+            //  else
             {
                 if(sensor.wash_time >=MAX_WASH_TIME)
                 {
@@ -549,8 +549,8 @@ void work_process()
                         step = 4;
                         // if(sensor.ele_curr==0)
                         ele_ctrl(ON);
-						if(GetTickResult(ELE_TICK)==1)
-                        	init_flag = 1;
+                        if(GetTickResult(ELE_TICK)==1)
+                            init_flag = 1;
                         update_falg = 0;
                         registerTick(ELE_TICK,ELE_TIME,1,0);
                     }
@@ -579,7 +579,7 @@ void work_process()
     else if(sensor.ele_status == 0||sensor.reset== 1)//非电解模式
     {
         GetEle_EleCurr();
-		init_flag= 0;
+        init_flag= 0;
         if(GetTickResult(ELE_TICK)==1)
         {
             step = 5;

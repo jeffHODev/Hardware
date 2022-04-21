@@ -3,6 +3,7 @@
 #include "sys.h"
 #include "bsp_cpu_flash.h"
 #include "pid.h"
+unsigned char step=0;
 
 #if CPU == ST
 extern UART_HandleTypeDef huart1;
@@ -215,11 +216,12 @@ void analysis_process()
                 setCurrent(sensor.ele_status>>4);
                 sensor.ele_status = sensor.ele_status &0x01;
                 sensor.inverEle = 0;
-								{
-							step = 11;
-							sensor.ele_status =0;
+							 if(sensor.ele_status==0)
+                {
+                    step = 11;
+                    sensor.ele_status =0;
 
-							}
+                }
 
 
             }
@@ -227,14 +229,14 @@ void analysis_process()
             if( GetModbusPack()->startaddr  == 0x0045 )
             {
                 sensor.inverEle = GetModbusPayLoad()->RS485_RX_BUFF[5]&0x01; //需要倒电极
-                 setCurrent(sensor.ele_status>>4);
-							if(sensor.ele_status==0)
-								{
-							step = 10;
-							sensor.ele_status =0;
+                setCurrent(sensor.ele_status>>4);
+                if(sensor.ele_status==0)
+                {
+                    step = 10;
+                    sensor.ele_status =0;
 
-							}
-								
+                }
+
                 sensor.ele_status =1;
                 //sensor.online = 0;
 
@@ -377,7 +379,7 @@ void RelayCtrl(unsigned char dir)
         gpio_bit_write(Ele_ConA_GPIO_Port, Ele_ConA_Pin, RESET);
         delay_ms(20);
         gpio_bit_write(Ele_ConB_GPIO_Port, Ele_ConB_Pin, SET);
-        delay_ms(20);
+        delay_ms(200);
     }
     else
     {
@@ -393,9 +395,12 @@ void RelayCtrl(unsigned char dir)
 void ele_ctrl(unsigned char mode)
 {
     static unsigned char flag = 0;
+	static unsigned char delay_flag=0;
     GetEle_EleCurr();
     if(mode == ON)
     {
+       
+	   
         // pwmCtrl();
         //pid_proc(sensor.ele_curr);
 #if CPU == ST
@@ -425,6 +430,13 @@ void ele_ctrl(unsigned char mode)
             }
             RelayCtrl(BACKWARD);
         }
+		if(delay_flag == 0)
+		{
+			delay_flag = 1;
+			registerTick(ELE_DELAY_TICK,0,0,1);
+			registerTick(ELE_DELAY_TICK,200,1,0);
+		}
+		if(GetTickResult(ELE_DELAY_TICK)==1)
         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,pid_proc(sensor.ele_curr));
 
 #endif
@@ -436,6 +448,9 @@ void ele_ctrl(unsigned char mode)
         HAL_Delay(10);
         RelayCtrl(3);
 #else
+       delay_flag = 0;
+        registerTick(ELE_DELAY_TICK,0,0,1);
+		//registerTick(ELE_DELAY_TICK,200,1,0);
         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
         flag = 0;
         delay_ms(100);
@@ -460,12 +475,12 @@ void params_Init()
 
 }
 uint32_t cnt ;
-unsigned char step=0;
+
 void work_process()
 {
     static uint32_t timeout_tick;
     static unsigned char update_falg=0,init_flag = 0;
-	step = 0;
+    step = 0;
     if(sensor.ele_status == 1)//电解模式
     {
         registerTick(LOWCURR_TICK,12000,1,0);
@@ -474,36 +489,35 @@ void work_process()
         {
             // ele_ctrl(OFF);
             GetEle_EleCurr();
-            if(GetTickResult(ELE_TICK)==1)
+           // if(GetTickResult(ELE_TICK)==1)
             {
                 //registerTick(ELE_TICK,0,0,1);
-              //  registerTick(ELE_TICK,3000,1,0);
+                //  registerTick(ELE_TICK,3000,1,0);
                 timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,pid_proc(sensor.ele_curr)/2);
-               // if( sPID.SetPoint)
-               //     pid_init(sPID.SetPoint);
-              //  else
-              //      pid_init(DES_CURR_VALUE);
+                // if( sPID.SetPoint)
+                //     pid_init(sPID.SetPoint);
+                //  else
+                //      pid_init(DES_CURR_VALUE);
                 cnt++;
-
             }
-			step = 1;
+            step = 1;
 
         }
         else
         {
             if(GetTickResult(LOWCURR_TICK)==1)
             {
-                
+
                 if((sensor.ele_curr <= MIN_CURR_VALUE||sensor.ele_curr >= MAX_CURR_VALUE)&& sensor.inverEle == 0)//电流 异常保护
                     // if(sensor.ele_curr >= MAX_CURR_VALUE)//电流 异常保护
                 {
                     // ele_ctrl(OFF);
                     step = 2;
                     GetEle_EleCurr();
-                    if(GetTickResult(ELE_TICK)==1)
+                //    if(GetTickResult(ELE_TICK)==1)
                     {
                         registerTick(ELE_TICK,0,0,1);
-                        registerTick(ELE_TICK,3000,1,0);
+                        registerTick(ELE_TICK,ELE_TIME,1,0);
 
                         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
                         //delay_ms(1000);
@@ -513,17 +527,17 @@ void work_process()
                 }
                 registerTick(LOWCURR_TICK,0,0,1);
             }
-            else
+          //  else
             {
                 if(sensor.wash_time >=MAX_WASH_TIME)
                 {
                     if(GetTickResult(ELE_TICK)==1)
                     {
-                       step = 3;
+                        step = 3;
                         ele_ctrl(OFF);
-						sensor.wash_time = 0;
+                        sensor.wash_time = 0;
                         registerTick(ELE_TICK,0,0,1);
-                        registerTick(ELE_TICK,3000,1,0);
+                        registerTick(ELE_TICK,ELE_TIME,1,0);
                     }
                     // delay_ms(1000);
                 }
@@ -532,12 +546,13 @@ void work_process()
 
                     if(GetTickResult(ELE_TICK)==1||init_flag==0)
                     {
-                    step = 4;
+                        step = 4;
                         // if(sensor.ele_curr==0)
                         ele_ctrl(ON);
-                        init_flag = 1;
+						if(GetTickResult(ELE_TICK)==1)
+                        	init_flag = 1;
                         update_falg = 0;
-                        registerTick(ELE_TICK,3000,1,0);
+                        registerTick(ELE_TICK,ELE_TIME,1,0);
                     }
                 }
 
@@ -549,39 +564,40 @@ void work_process()
             registerTick(WASH_TICK_NO,WASH_TIME_SETTING,1,0);
             if(GetTickResult(WASH_TICK_NO)==1)
             {
-                if(MAX_WASH_TIME)
+                if(sensor.wash_time<MAX_WASH_TIME)
                     sensor.wash_time =  sensor.wash_time + 1;
                 registerTick(WASH_TICK_NO,0,0,1);
             }
         }
         else
         {
-           // if(sensor.wash_time >0)
-                sensor.wash_time =  0;
+            // if(sensor.wash_time >0)
+            sensor.wash_time =  0;
             registerTick(WASH_TICK_NO,0,0,1);
         }
     }
     else if(sensor.ele_status == 0||sensor.reset== 1)//非电解模式
     {
-       GetEle_EleCurr();
+        GetEle_EleCurr();
+		init_flag= 0;
         if(GetTickResult(ELE_TICK)==1)
         {
-        step = 5;
-            
+            step = 5;
+
             ele_ctrl(OFF);
-			registerTick(ELE_TICK,0,0,1);
-            registerTick(ELE_TICK,3000,1,0);
+            registerTick(ELE_TICK,0,0,1);
+            registerTick(ELE_TICK,ELE_TIME,1,0);
         }
         if(update_falg == 0)
         {
             update_falg = 1;
             registerTick(ELE_TICK,0,0,1);
-            registerTick(ELE_TICK,3000,1,0);
+            registerTick(ELE_TICK,ELE_TIME,1,0);
         }
         //delay_ms(1000);
         if(sensor.reset==1)
         {
-			step = 6;
+            step = 6;
 
             /* set FAULTMASK */
             __set_FAULTMASK(1);
