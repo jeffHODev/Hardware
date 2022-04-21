@@ -18,9 +18,12 @@
 #define PID_OUT_TICK      4 
 #define TEST_TICK      5 
 #define ELE_TICK     6 
+#define ELE_DELAY_TICK     7 
 
 #define TICK_SIZE       9
 
+
+#define ELE_TIME  3000
 //#define WASH_TIME_SETTING        5*60000   //wash time setting
 typedef struct
 {

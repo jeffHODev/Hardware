@@ -598,8 +598,8 @@ loop:
             //       GetInOut()->key_cali_mode==0)//高压开关和水位正常时启动电解且不在校准模式
             if(GetSensor()->wash_time<=MAX_WASH_TIME)
             {
-                if(((GetSensor()->status[NORMAL_INDEX]==20||GetSensor()->status[WATER_LEVEL_INDEX]==WATER_LEVEL_INDEX)&&GetSensor()->flow>0)&&
-                        GetInOut()->key_cali_mode==0&&GetSensor()->status[TDS2_INDEX]==0&&GetSensor()->status[NOWATER_INDEX]==0)//高压开关和水位正常且不在校准模式时启动电解
+                if(((GetSensor()->status[NORMAL_INDEX]==20||GetSensor()->status[WATER_LEVEL_INDEX]==WATER_LEVEL_INDEX)&&GetSensor()->flow>0.4)&&
+                        GetInOut()->key_cali_mode==0&&GetSensor()->status[TDS2_INDEX]==0&&GetSensor()->status[NOWATER_INDEX]==0&&GetSensor()->status[WASH_INDEX]==0)//高压开关和水位正常且不在校准模式时启动电解
 
                 {
                     // current_setting = 1.78*sensor.flow;
@@ -687,7 +687,7 @@ loop:
 
             break;////
         case 5:
-            if(GetSensor()->ele_offLine_T[addr_tmp-3]<=MAX_TX_TIMES)
+            if(GetSensor()->ele_offLine_T[addr_tmp-3]<=MAX_TX_TIMES&&GetInOut()->key_cali_mode == 0)
                 GetSensor()->ele_offLine_T[addr_tmp-3] ++;
 
 
@@ -997,6 +997,8 @@ unsigned char calibration_sensors(unsigned char state)
                 Modbus_Pack_cali(modbus_cali);
                 status = 0;
                 GetInOut()->key_cali_value = 0;
+                        getTouch()->last_ctrl_id = 0;
+                        getTouch()->key = 0;
             }
             break;
             }

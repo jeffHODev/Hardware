@@ -78,7 +78,7 @@ static void MX_IWDG_Init(void);
 uint32_t tick_usr1;
 uint32_t led_tick;
 /* USER CODE END PFP */
-
+extern unsigned char step;
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
@@ -169,16 +169,18 @@ int main(void)
 				{
 
 					registerTick(TEST_TICK,0,0,1);			
-					GetSensor()->ele_status=3;
+					//GetSensor()->ele_status=3;
 					if(test==0)
 					{
-						timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
-						RelayCtrl(FORWARD);					
+					//	timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
+						//RelayCtrl(FORWARD);	
+						step = 8;
 					}
 					else
 					{
-						RelayCtrl(BACKWARD);
-						timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,30000);					
+						//RelayCtrl(BACKWARD);
+						step = 9;
+						//timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,30000);					
 					}	
 					if(test== 0)
 						test = 1;
@@ -193,6 +195,7 @@ int main(void)
 				GetSensor()->ele_status=0;	
 				gpio_bit_write(LED1_GPIO_Port, LED1_Pin,RESET);
 				ele_ctrl(OFF);
+				step = 7;
 			}				
       sensor_process();		
 				

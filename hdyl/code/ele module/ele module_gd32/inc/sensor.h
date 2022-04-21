@@ -10,7 +10,7 @@
 #define BACKWARD 1
 #define WASH_TIME  5*60000
 #define WASH_TIME_SETTING        1*60000   //wash time setting
-#define MAX_WASH_TIME  3
+#define MAX_WASH_TIME  4
 #define WATER_H	0
 #define WATER_L	1
 #define WATER_M	2
