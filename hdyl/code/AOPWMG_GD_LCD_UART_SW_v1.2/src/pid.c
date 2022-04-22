@@ -105,7 +105,7 @@ double PIDCalc( PID *pp, double NextPoint )
 {
     double dError;//,res_tmp;
     float Error;
-    static double last_result;//,integ;
+//    static double last_result;//,integ;
     static unsigned char index;
     Error = pp->SetPoint - NextPoint; // Æ«²î
     if(pp->LastError==0)
@@ -256,7 +256,7 @@ double PIDCalc1( PID *pp, double NextPoint )
 {
     double dError;//,res_tmp;
     float Error;
-    static double last_result;//,integ;
+//    static double last_result;//,integ;
     static unsigned char index;
     Error = pp->SetPoint - NextPoint; // Æ«²î
     if(pp->LastError==0)
@@ -505,7 +505,7 @@ double PIDCalc_pump( PID *pp, double NextPoint )
 {
     double dError;//,res_tmp;
     float Error;
-    static double last_result;//,integ;
+//    static double last_result;//,integ;
     // static unsigned char index;
     Error = (pp->SetPoint - NextPoint)*1000; // Æ«²î
     if(pp->LastError==0)

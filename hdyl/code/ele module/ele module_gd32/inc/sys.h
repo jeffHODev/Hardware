@@ -10,26 +10,29 @@
 //#define SW_TICK_NO  	5
 //#define StART_TICK_NO  	6
 //#define SENSOR_TICK_NO  7
-//#define WIFI_TICK       
+//#define WIFI_TICK
 #define WASH_TICK_NO   0
 #define CURR_TICK       1
 #define LOWCURR_TICK       2
 #define ABNORMAL_TICK       3
-#define PID_OUT_TICK      4 
-#define TEST_TICK      5 
-#define ELE_TICK     6 
+#define PID_OUT_TICK      4
+#define TEST_TICK      5
+#define ELE_TICK     6
+#define ELE_DELAY_TICK     7
 
 #define TICK_SIZE       9
 
+
+#define ELE_TIME  3000
 //#define WASH_TIME_SETTING        5*60000   //wash time setting
 typedef struct
 {
-	unsigned char TickNum[TICK_SIZE];
-	uint32_t TickTime[TICK_SIZE];
-	unsigned char TickStatus[TICK_SIZE];
-	uint32_t TickTimeTmp[TICK_SIZE];	
-	unsigned char Tickmode[TICK_SIZE];
-}tick_stru;
+    unsigned char TickNum[TICK_SIZE];
+    uint32_t TickTime[TICK_SIZE];
+    unsigned char TickStatus[TICK_SIZE];
+    uint32_t TickTimeTmp[TICK_SIZE];
+    unsigned char Tickmode[TICK_SIZE];
+} tick_stru;
 
 unsigned char GetTickResult(unsigned char TickNo);
 void TickPro(void);

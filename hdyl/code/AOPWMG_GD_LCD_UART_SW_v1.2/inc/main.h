@@ -40,13 +40,13 @@ typedef uint32_t u32;
 #define USART5_DMA  DMA_CH2
 #define ADC0_DMA	DMA_CH0
 
+#define WATER_L_IGNORE  1
+#define FLOW_FAULT_ENABLE 0
 
 #define LCD_ORI 0      //1:原屏幕 0:修改屏
-
-
 #define FLOW_SIZE	4 //排水量1-4L
-#define DEV_TYPE    0
-//0:消杀类     1:医疗类
+#define DEV_TYPE    0//0:消杀类     1:医疗类
+#define SW_NOCHANGE 0 //0：管路修改过；1：管路未修改
 
 
 /* Exported types ------------------------------------------------------------*/

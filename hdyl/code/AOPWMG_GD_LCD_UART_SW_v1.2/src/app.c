@@ -99,7 +99,7 @@ unsigned char TickTimeoutNor(unsigned char TickNum,unsigned char BitOper,uint32_
     return 0xff;
 
 }
-static unsigned char tick_conv_tmp=0;
+//static unsigned char tick_conv_tmp=0;
 unsigned char abnormalDec()
 {
     static unsigned char status;
@@ -145,7 +145,7 @@ unsigned char abnormalDec()
     if(dstTds<400)
         dstTds = 400;
 
-    if(GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=(dstTds-100)&&
+    if(GetSensor()->tds2 <= MIN_TDS_VALUE||(GetSensor()->tds2 <=(dstTds-200)&&
                                             GetSensor()->status[TDS2_INDEX]==0))//tds异常
     {
 
@@ -1091,7 +1091,7 @@ unsigned char flow_proc()
                 else
                     GetSensor()->status[FLOW_INDEX] = 0;//流量异常
 #endif
-                if(GetSensor()->flow==0&&GetSensor()->status[TDS2_INDEX] ==0&&GetSensor()->status[WATER_LEVEL_INDEX]==0)
+                if(GetSensor()->flow<=0.4&&GetSensor()->status[TDS2_INDEX] ==0&&GetSensor()->status[WATER_LEVEL_INDEX]==0)
                     GetSensor()->status[NOWATER_INDEX] = NOWATER_INDEX;//缺水
                 result = 1;
             }
@@ -1146,7 +1146,7 @@ void tds_proc()
     {
         //GetSensor()->status[TDS2_INDEX] = 0;//tds2异常
         EleSwCtrl(WATER_SW,ON);//原水进水阀开
-        if(GetSensor()->flow >0.5)
+        if(GetSensor()->flow >0)
             EleSwCtrl(WASTE_SW,ON);//废水出水阀开
         EleSwCtrl(WASH_SW,OFF);//消毒水排出到废水阀关
         EleSwCtrl(HCILO_SW,ON);//消毒水出水阀关
