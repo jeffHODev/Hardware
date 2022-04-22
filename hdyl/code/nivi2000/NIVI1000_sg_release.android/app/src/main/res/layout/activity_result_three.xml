@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
+    <include layout="@layout/app_title_new" />
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="285dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/resultone_textxy_style"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="80dp"
+                    android:text="PR"
+                    android:textSize="16sp" />
+
+                <TextView
+                    style="@style/resultone_textxy_style"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginLeft="80dp"
+                    android:text="1.38" />
+
+
+                <TextView
+                    style="@style/resultone_textxy_style"
+                    android:layout_marginTop="120dp"
+                    android:layout_marginLeft="80dp"
+                    android:text="1.25" />
+
+
+                <com.hekangyuan.nivi1000.view.graphViewForLive.PRView
+                    android:id="@+id/im_pr_result"
+                    android:layout_width="285dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerInParent="true"
+                    />
+
+
+                <TextView
+                    style="@style/resultone_textxy_style"
+                    android:layout_marginLeft="180dp"
+                    android:layout_marginTop="263dp"
+                    android:text="0.6" />
+
+                <TextView
+                    style="@style/resultone_textxy_style"
+                    android:layout_marginLeft="320dp"
+                    android:layout_marginTop="263dp"
+                    android:text="1.7" />
+
+                <TextView
+                    style="@style/resultone_textxy_style"
+                    android:layout_marginLeft="400dp"
+                    android:layout_marginTop="265dp"
+                    android:text="C"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.hekangyuan.nivi1000.view.graphViewForLive.QView
+                    android:id="@+id/im_q_result"
+                    android:layout_width="285dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerInParent="true"
+                    />
+
+                <TextView
+                    style="@style/resultone_textxy_style"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="90dp"
+                    android:text="Q"
+                    android:textSize="16sp" />
+
+                <TextView
+                    style="@style/resultone_textxy_style"
+                    android:layout_marginTop="145dp"
+                    android:layout_marginLeft="80dp"
+
+                    android:text="0.78" />
+
+                <TextView
+                    style="@style/resultone_textxy_style"
+                    android:layout_marginTop="165dp"
+                    android:layout_marginLeft="80dp"
+
+                    android:text="0.73" />
+
+
+
+                <TextView
+                    style="@style/resultone_textxy_style"
+                    android:layout_marginLeft="204dp"
+                    android:layout_marginTop="265dp"
+                    android:text="1.15" />
+
+                <TextView
+                    style="@style/resultone_textxy_style"
+                    android:layout_marginLeft="400dp"
+                    android:layout_marginTop="260dp"
+                    android:text="ASC"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="20dp">
+
+
+                    <ImageView
+                        android:id="@+id/im_btn_result"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:background="@mipmap/fengxianyuan" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:text="冠脉风险评价"
+                        android:textColor="@color/titleback" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 指标，正常范围，结果    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/resthrtitle"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tx_goindex"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="指标"
+                android:textColor="@color/titleback"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tx_grange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="正常范围"
+                    android:textColor="@color/titleback"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="左冠脉"
+                    android:textColor="@color/titleback"
+                    android:textSize="12sp" />
+                <ImageButton
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginRight="60dp"
+                    android:background="@mipmap/bb" />
+
+                <TextView
+                    android:id="@+id/tx_ghorn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="5dp"
+                    android:layout_marginRight="55dp"
+                    android:text="结果"
+                    android:textColor="@color/titleback"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="5dp"
+                    android:layout_marginRight="0dp"
+                    android:text="右冠脉"
+                    android:textColor="@color/titleback"
+                    android:textSize="12sp" />
+                <ImageButton
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@mipmap/bbb" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--    表格-->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="135dp">
+
+        <TableRow>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:layout_weight="2"
+                    android:text="血阻" />
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:layout_weight="1"
+                    android:text="PR" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:text="0.8-1.3" />
+
+                <TextView
+                    android:id="@+id/tv_pr"
+                    style="@style/resultone_text_style"
+                    android:textColor="@color/blue"/>
+
+                <TextView
+                    android:id="@+id/tv_prr"
+                    style="@style/resultone_text_style"
+                    android:textColor="@color/blue"/>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:layout_weight="2"
+                    android:text="顺应性" />
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:layout_weight="1"
+                    android:text="C" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:text="0.8-1.3" />
+
+                <TextView
+                    android:id="@+id/tv_c"
+                    style="@style/resultone_text_style"
+                    android:textColor="@color/blue"/>
+
+                <TextView
+                    android:id="@+id/tv_cr"
+                    style="@style/resultone_text_style"
+                    android:textColor="@color/blue"/>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:layout_weight="2"
+                    android:text="血流量" />
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:layout_weight="1"
+                    android:text="Q"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:text="0.8-1.15" />
+
+                <TextView
+                    android:id="@+id/tv_q"
+                    style="@style/resultone_text_style"
+                    android:textColor="@color/blue"/>
+
+                <TextView
+                    android:id="@+id/tv_qr"
+                    style="@style/resultone_text_style"
+                    android:textColor="@color/blue"/>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:layout_weight="2"
+                    android:text="动脉硬化度" />
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:layout_weight="1"
+                    android:text="ASC" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:text="0.78-1.2" />
+
+                <TextView
+                    android:id="@+id/tv_asc"
+                    style="@style/resultone_text_style"
+                    android:textColor="@color/blue"/>
+
+                <TextView
+                    android:id="@+id/tv_ascr"
+                    style="@style/resultone_text_style"
+                    android:textColor="@color/blue"/>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:layout_weight="2"
+                    android:text="中心动脉压" />
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:layout_weight="1"
+                    android:text="CSBP" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/resultone_text_style"
+                    android:layout_weight="1"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/tv_CBPs"
+                    android:layout_weight="2"
+                    style="@style/resultone_text_style"
+                    android:textColor="@color/blue"/>
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+    <!-- 三个按钮-->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="40dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                style="@style/savepaint_linearlay_style"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp">
+
+
+                <Button
+                    android:id="@+id/bt_previous"
+                    style="@style/savepaint_button_style"
+                    android:layout_height="40dp"
+                    android:background="@mipmap/up"
+                    android:text="上一步"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/savepaint_linearlay_style">>
+
+                <Button
+                    android:id="@+id/bt_newtext"
+                    style="@style/savepaint_button_style"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="@mipmap/center"
+                    android:text="新建"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/savepaint_linearlay_style"
+                android:layout_marginTop="7dp">
+
+                <Button
+                    android:id="@+id/bt_next"
+                    style="@style/savepaint_button_style"
+                    android:layout_height="40dp"
+                    android:background="@mipmap/down"
+                    android:text="打印"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

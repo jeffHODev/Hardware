@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/drawable/btn_normal.xml" value="0.165625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/drawable/textview.xml" value="0.165625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/activity_login.xml" value="0.3015625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/activity_main.xml" value="0.2612704918032787" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/activity_measureblood.xml" value="0.19739583333333333" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/activity_result_one.xml" value="0.2612704918032787" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/activity_result_three.xml" value="0.28515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/activity_savepatinf.xml" value="0.28515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/activity_settings.xml" value="0.3015625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/activity_showperinfo.xml" value="0.2612704918032787" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/activity_usb.xml" value="0.153515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/custom_toast.xml" value="0.153515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/dialog_loading.xml" value="0.153515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/float_view_inner_layout.xml" value="0.153515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/floatview.xml" value="0.153515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/grid_item.xml" value="0.153515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/item_device.xml" value="0.153515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/list_item.xml" value="0.2612704918032787" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/newblood_pop.xml" value="0.153515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/patient_sex.xml" value="0.153515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/view_floating_window.xml" value="0.153515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/xlistview_footer.xml" value="0.153515625" />
+        <entry key="..\:/workspace/NIVI1000.android/NIVI1000.android/app/src/main/res/layout/xlistview_header.xml" value="0.153515625" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

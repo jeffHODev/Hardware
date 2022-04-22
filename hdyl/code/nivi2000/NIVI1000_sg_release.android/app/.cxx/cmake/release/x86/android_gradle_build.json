@@ -1,0 +1,41 @@
+{
+  "stringTable": {
+    "0": "C:/Users/86152/Desktop/NIVI1000_sg_release.android/app/.cxx/cmake/release/x86",
+    "1": "--target=i686-none-linux-android --gcc-toolchain=C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/toolchains/x86-4.9/prebuilt/windows-x86_64 --sysroot=C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/sysroot -Dnative_lib_EXPORTS -isystem C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/sources/cxx-stl/gnu-libstdc++/4.9/libs/x86/include -isystem C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/sources/cxx-stl/gnu-libstdc++/4.9/include/backward -isystem C:/Users/86152/AppData/Local/Android/Sdk/ndk/16.1.4479499/sysroot/usr/include/i686-linux-android -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -Wa,--noexecstack -Wformat -Werror=format-security -O2 -DNDEBUG -fPIC"
+  },
+  "buildFiles": [
+    "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\build\\cmake\\android.toolchain.cmake",
+    "C:\\Users\\86152\\Desktop\\NIVI1000_sg_release.android\\app\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\86152\\Desktop\\NIVI1000_sg_release.android\\app\\.cxx\\cmake\\release\\x86\" clean"
+  ],
+  "buildTargetsCommand": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"C:\\Users\\86152\\Desktop\\NIVI1000_sg_release.android\\app\\.cxx\\cmake\\release\\x86\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "native-lib-Release-x86": {
+      "buildCommand": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\86152\\Desktop\\NIVI1000_sg_release.android\\app\\.cxx\\cmake\\release\\x86\" native-lib",
+      "buildType": "release",
+      "toolchain": "3363533168",
+      "abi": "x86",
+      "artifactName": "native-lib",
+      "files": [
+        {
+          "src": "C:\\Users\\86152\\Desktop\\NIVI1000_sg_release.android\\app\\src\\main\\cpp\\native-lib.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "C:\\Users\\86152\\Desktop\\NIVI1000_sg_release.android\\app\\build\\intermediates\\cmake\\release\\obj\\x86\\libnative-lib.so"
+    }
+  },
+  "toolchains": {
+    "3363533168": {
+      "cppCompilerExecutable": "C:\\Users\\86152\\AppData\\Local\\Android\\Sdk\\ndk\\16.1.4479499\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

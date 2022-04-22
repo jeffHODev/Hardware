@@ -1,0 +1,132 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'org.greenrobot.greendao'
+android {
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    signingConfigs {
+       /* debug {
+            storeFile file('D:\\workspace\\NIVI1000.android\\NIVI1000.android\\config\\oil.jks')
+            storePassword 'inpiao123'
+            keyAlias 'oil'
+            keyPassword 'inpiao123'
+        }
+        release {
+            storeFile file('D:\\workspace\\NIVI1000.android\\NIVI1000.android\\config\\oil.jks')
+            storePassword 'inpiao123'
+            keyAlias 'oil'
+            keyPassword 'inpiao123'
+        }*/
+    }
+    compileSdkVersion 28
+    buildToolsVersion = '28.0.3'
+    defaultConfig {
+        applicationId "com.hekangyuan.nivi1000"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 2
+        versionName "1.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+        }
+        ndk {
+            moduleName "serial_port"                      //so文件，lib+moduleName+。so
+            abiFilters "armeabi", "armeabi-v7a", "x86"          //u的类型
+        }
+
+    }
+    buildTypes {
+       /* release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }*/
+    }
+
+    // 配置CMakeLists.txt路径，相对于当前文件
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    ndkVersion '16.1.4479499'
+
+
+}
+
+greendao {
+    schemaVersion 1 //数据库版本号
+    daoPackage 'com.hekangyuan.nivi1000.db' //dao,master类所在包
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
+    jcenter()
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation project(path: ':SerialportLibrary')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //greendao数据库
+    implementation 'org.greenrobot:greendao:3.2.0'
+    implementation 'org.greenrobot:greendao-generator:3.2.0'
+
+    //数据库查看工具
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+
+
+    //网络请求
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    //ConverterFactory的Gson依赖包
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    //CallAdapterFactory的Rx依赖包
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    //cookie管理
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+
+    //日志
+    implementation 'com.orhanobut:logger:2.2.0'
+    //toast
+    implementation 'com.hjq:toast:5.8'
+
+
+    //时间控件
+    implementation 'com.ycuwq.widgets:datepicker:1.0.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //屏幕适配
+    implementation 'me.jessyan:autosize:0.9.5'
+
+    implementation 'com.blankj:utilcode:1.30.0'
+
+    //JNA
+    implementation 'net.java.dev.jna:jna:4.5.0'
+
+    implementation files('libs/usbDeviceLib.jar')
+    implementation 'com.github.mjdev:libaums:0.5.5'
+    // u盘
+//    implementation 'me.jahnen:libaums:0.8.0'
+
+}

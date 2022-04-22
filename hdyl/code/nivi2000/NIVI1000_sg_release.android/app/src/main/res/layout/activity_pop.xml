@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray"
+   >
+
+    <ImageView
+        android:id="@+id/healthyImg"
+        android:layout_width="500dp"
+        android:layout_height="300dp"
+        android:background="@mipmap/healthyres1"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="冠脉风险评价"
+            android:gravity="center"
+            android:textSize="18sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="C O R O N A R Y    R I S K    L E V E L"
+            android:gravity="center"
+            android:textSize="18sp"/>
+        <TextView
+            android:layout_marginTop="110dp"
+            android:layout_marginRight="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="临界线"
+            android:gravity="center"
+            android:textSize="14sp"/>
+        <Button
+            android:id="@+id/btn_sure"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/buttonce_style"
+            style="@style/result_button_style"
+            android:textColor="@color/titleback"
+            android:layout_gravity="center_horizontal"
+            android:text="确定"/>
+    </LinearLayout>
+</RelativeLayout>
