@@ -9,7 +9,7 @@ android {
         abortOnError false
     }
     signingConfigs {
-        debug {
+      /*  debug {
             storeFile file('D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\signature\\signature.jks')
             storePassword 'release'
             keyAlias 'app'
@@ -20,7 +20,7 @@ android {
             storePassword '8236748zmZM'
             keyAlias 'release'
             keyPassword 'release'
-        }
+        }*/
 
 //        debug {
 //            storeFile file('D:\\workspace\\NIVI1000.android\\NIVI1000.android\\config\\oil.jks')

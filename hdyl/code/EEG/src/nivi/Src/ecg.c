@@ -224,7 +224,7 @@ void HAL_TIM_PeriodElapsedCallback()
 
     miscdata.data[i++] = (uint8_t)(getAdcBuf()->adc_value[5]>>8);//hea
     miscdata.data[i++] =(uint8_t)( getAdcBuf()->adc_value[5]);
-    miscdata.data[i++] = (uint8_t)(getSensor()->tst>>8);//spo;
+    miscdata.data[i++] = (uint8_t)(getSensor()->tst>>8);//p;
     miscdata.data[i++] = (uint8_t)(getSensor()->tst);//p;
 
 
