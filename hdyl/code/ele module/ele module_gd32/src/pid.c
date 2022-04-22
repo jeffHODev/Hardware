@@ -68,7 +68,7 @@ double PIDCalc( PID *pp, double NextPoint )
     else
     {
 
-            result = result/3;
+            result = result/5;
 
     }
 

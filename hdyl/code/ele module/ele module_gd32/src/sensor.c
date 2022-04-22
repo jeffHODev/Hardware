@@ -391,11 +391,12 @@ void RelayCtrl(unsigned char dir)
 
 #endif
 }
+static unsigned char delay_flag=0;
 
 void ele_ctrl(unsigned char mode)
 {
     static unsigned char flag = 0;
-    static unsigned char delay_flag=0;
+   
     GetEle_EleCurr();
     if(mode == ON)
     {
@@ -491,8 +492,15 @@ void work_process()
             GetEle_EleCurr();
             // if(GetTickResult(ELE_TICK)==1)
             {
-                //registerTick(ELE_TICK,0,0,1);
-                //  registerTick(ELE_TICK,3000,1,0);
+				registerTick(ELE_TICK,0,0,1);
+				registerTick(ELE_TICK,ELE_TIME,1,0);
+				init_flag = 0;
+				//delay_flag = 0;
+				//registerTick(PID_OUT_TICK,0,0,1);
+				//delay_flag = 0;
+				//registerTick(ELE_DELAY_TICK,0,0,1);
+				//registerTick(ELE_DELAY_TICK,200,1,0);
+
                 timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,pid_proc(sensor.ele_curr)/2);
                 // if( sPID.SetPoint)
                 //     pid_init(sPID.SetPoint);
@@ -518,6 +526,8 @@ void work_process()
                     {
                         registerTick(ELE_TICK,0,0,1);
                         registerTick(ELE_TICK,ELE_TIME,1,0);
+						delay_flag = 0;
+						registerTick(ELE_DELAY_TICK,0,0,1);
 
                         timer_channel_output_pulse_value_config(TIMER2,TIMER_CH_2,0);
                         //delay_ms(1000);
