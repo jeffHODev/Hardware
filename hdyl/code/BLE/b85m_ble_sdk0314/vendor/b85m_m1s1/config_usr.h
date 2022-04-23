@@ -14,7 +14,7 @@
 
 
 	#define MAX_DIS 100
-	#define MIN_DIS 25
+	#define MIN_DIS 28
 
 	#if ROLE ==MASTER
 		#define	GPIO_LED_RED			GPIO_PD7

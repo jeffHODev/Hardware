@@ -84,14 +84,14 @@ extern	int user_manual_pairing;
 #define M_ON_PERIOD 100*1000
 #define M_OFF_PERIOD 500*1000
 #define PKT_HEAD  0xfe
-#define MEASURE_PERIOD 1000*1000
+#define MEASURE_PERIOD 500*1000
 #define CON_TIME_OUT  120*1000*1000
 typedef struct
 {
 	u8 start;
 	u8 Mstart;
 	u8 stop;
-	u16 dis;
+	float dis;
 	u32 time;
 	u16 sum;
 	u32 tick;
@@ -108,6 +108,7 @@ typedef struct
 	u8 ack_sig;
 	u16 timeout_cnt;
 	u8 mode;
+	u8 flag;
 }measure_stru;
 typedef struct
 {

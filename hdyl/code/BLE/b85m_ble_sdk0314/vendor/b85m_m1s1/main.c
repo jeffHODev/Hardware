@@ -65,12 +65,12 @@ _attribute_ram_code_ void irq_handler(void)
     {
         reg_irq_src |= FLD_IRQ_GPIO_RISC0_EN; // clear the relevant irq
         #if ROLE == MASTER
-
-        if(gpio_read(ECHO)==0)  // press key with low level to flash light
+        if(gpio_read(ECHO))  // press key with low level to flash light
+        //if(gpio_read(ECHO)==0)  // press key with low level to flash light
         {
 			cal_rx_time();
 		  // sensor_power(0);
-
+            // printf("int\n");
            // gpio_toggle(GPIO_LED_RED);
             measure_stop();
 

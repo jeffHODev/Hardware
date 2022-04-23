@@ -154,7 +154,7 @@ int app_le_adv_report_event_handle(u8 *p)
 
     //for(i=0;i<6;i++)
     //printf("%x\n",pa->mac[i]);
-    user_manual_pairing = master_pairing_enable && (rssi > -35);  //button trigger pairing(RSSI threshold, short distance)
+    user_manual_pairing = master_pairing_enable && (rssi > -30);  //button trigger pairing(RSSI threshold, short distance)
     //printf("aupair:%d\n",user_manual_pairing);
 
     if(pa->mac[3]!=0x38)
