@@ -51,11 +51,15 @@ public class DetectionController {
         Integer model = basisMeasurementMapper.selectModel(originalWaveformReq.getBasisMeasurementId());
         if(model == null || model == 0){
             if(originalWaveformReq.getModel() == null || originalWaveformReq.getModel() == 0){
+                logger.info("basisMeasurementId1111111++++++++++++++++++++", originalWaveformReq.getModel());
                 return result.setStatus(2, "请设置测量模式").setData(new HashMap<>());
             }
         }else{
             originalWaveformReq.setModel(model);
+            logger.info("basisMeasurementId22222++++++++++++++++++++", originalWaveformReq.getModel());
         }
+
+
 
         Map resultMap = detectionService.saveOriginalWaveform(originalWaveformReq, originalWaveformReq.getIDL(), originalWaveformReq.getIDR());
         if(resultMap.containsKey("staCode")){

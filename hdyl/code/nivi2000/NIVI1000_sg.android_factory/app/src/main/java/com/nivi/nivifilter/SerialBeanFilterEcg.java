@@ -247,7 +247,7 @@ public class SerialBeanFilterEcg {
         System.out.println("ECG_Filter20：" +m91[0]);
         System.out.println("ECG_Filter：" +m100[0]);
         System.out.println("ECG_Filter20：" +m101[0]);
-        return (float)y10;
+        return (float)y9;
 
     }
 

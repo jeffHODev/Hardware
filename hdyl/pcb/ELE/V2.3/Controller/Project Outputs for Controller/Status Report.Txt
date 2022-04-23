@@ -1,9 +1,10 @@
-Output: Bill of Materials
-Type  : BOM
-From  : Variant [[No Variations]] of Project [Controller.PrjPcb]
+Output: Mixed Sim
+Type  : AdvSimNetlist
+From  : Project [Controller.PrjPcb]
+   Generated File[Controller.nsx]
 
 
-Files Generated   : 0
+Files Generated   : 1
 Documents Printed : 0
 
-Finished Output Generation At 11:29:00 On 2021/10/15
+Finished Output Generation At 11:51:51 On 2021/11/26

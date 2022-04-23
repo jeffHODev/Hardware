@@ -309,8 +309,9 @@ uint8_t touch_pro()
                     {
                         inout_usr.key_cali_mode = 2;
                         inout_usr.key_cali_value = 2;
-                        getTouch()->last_ctrl_id = 0;
-                        getTouch()->key = 0;
+											  //delay_ms(10); 
+                        //getTouch()->last_ctrl_id = 0;
+                       // getTouch()->key = 0;
                     }
                     else
                     {
@@ -355,6 +356,8 @@ uint8_t touch_pro()
         }
 
     }
+		                     //  getTouch()->last_ctrl_id = 0;
+                       // getTouch()->key = 0;
     touch_usr.touch_flag = 0;
     return 0;
 }

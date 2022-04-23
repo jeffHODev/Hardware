@@ -670,12 +670,13 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //        }
 
         if(titleIndex == 0){
-            desPressure = (int) (bloodPressureBean.getPs() * 1.02);
-        }else if(titleIndex == 1){
-            desPressure = (int) (bloodPressureBean.getPd() * 0.98);
-        }else{
-            desPressure = (int) ((bloodPressureBean.getPs() - bloodPressureBean.getPd()) / 3 + bloodPressureBean.getPd());
-        }
+            desPressure = (int) (bloodPressureBean.getPs() * 1.12);
+        }else// if(titleIndex == 1)
+        {
+            desPressure = (int) (bloodPressureBean.getPd() * 0.82);
+        }//else{
+         //   desPressure = (int) ((bloodPressureBean.getPs() - bloodPressureBean.getPd()) / 3 + bloodPressureBean.getPd());
+        //}
 
         if(titleIndex == 0 || titleIndex == 1){
             //TODO 指定升压，气阀打开

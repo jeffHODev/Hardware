@@ -9,7 +9,8 @@ android {
 //    }
     signingConfigs {
         debug {
-            storeFile file('D:\\shenggu.jks')
+            storeFile file('D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\signature\\signature.jks')
+            storePassword '123456'
         }
         release {
             storeFile file('D:\\workspace\\NIVI1000.android\\NIVI1000.android\\config\\oil.jks')

@@ -26,6 +26,7 @@ import com.hekangyuan.nivi1000.model.dbbean.PatientCheckDataBean;
 import com.hekangyuan.nivi1000.serialport_api.ParseSerialCallBack;
 import com.hekangyuan.nivi1000.serialport_api.SerialParseUtil;
 import com.hekangyuan.nivi1000.utils.Constants;
+import com.hekangyuan.nivi1000.utils.FFT;
 import com.hekangyuan.nivi1000.utils.SharePreferenceTools;
 import com.hekangyuan.nivi1000.utils.ThreadPoolWrapper;
 import com.hekangyuan.nivi1000.utils.ToastUtils;
@@ -41,6 +42,8 @@ import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Timer;
@@ -69,10 +72,31 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
     private Float[] ecgTh;
     private Float[] apgTh;
     private boolean isStart = false;
-
+    int yadj_set = 3000;
     public static float widthPerPointone;
     public static float widthPerPointonePcg;
     public int titleIndex = 0;
+    float sumtemp = 0;
+    float sumtempdiff = 0;
+    float sumtempdiff2a = 0;
+    float sumtempdiff2b = 0;
+    float tempmax = 0;
+    float tempmin = 0;
+    int pointerx = 0;
+    float[] temp = new float[1024];
+    double[] fftmod = new double[1024];
+    float[] tempdiff2 = new float[833];
+    double[] imaginary = new double[1024];
+    double[] real = new double[1024];
+    int filtercountsanjiao=0;
+    int filtercountfang=0;
+    int filtercountsin1=0,filtercountsin2=0,filtercountsin3=0,filtercountsin4=0,filtercountsin5=0,filtercountsin6=0,filtercountfang2=0;
+    boolean filterswitch = false;
+    boolean filter_sin_switch1 = false;
+    boolean filter_sin_switch10 = false;
+    boolean filter_sin_switch20 = false;
+    boolean filter_sin_switch25 = false;
+    FFT fft = new FFT(1024);
     private String[][] ecgTitle = {{"心电波", "心音波", "超收缩压脉搏波"},
             {"心电波", "心音波", "低舒张压脉搏波"},
             {"心电波", "心音波", "左颈动脉脉搏波"},
@@ -445,40 +469,40 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 
                                 if(titleIndex == 0){
                                     if(hypecgs == null || hyppcgs == null || hypapgs == null){
-                                        //ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                                      //  return;
+                                        ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                                        return;
                                     }
                                 }
                                 if(titleIndex == 1){
                                     if(hypecgd == null || hyppcgd == null || hypapgd == null){
-                                       // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                                      //  return;
+                                        ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                                        return;
                                     }
                                 }
                                 if(titleIndex == 2){
                                     if(ecgPl == null || pcgPl == null || apgL == null){
-                                       // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                                      //  return;
+                                        ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                                        return;
                                     }
                                 }
                                 if(titleIndex == 3){
                                     if(mode == Constants.MEASURE_MODE_SYNC){
                                         if(ecgPr == null || apgR == null || apgTh == null || pcgPr == null || ecgTh == null){
-                                            //ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                                          //  return;
+                                            ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                                            return;
                                         }
                                     }else{
                                         if(ecgPr == null || pcgPr == null || apgR == null){
-                                           // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                                          //  return;
+                                            ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                                            return;
                                         }
                                     }
                                 }
                                 if(titleIndex == 4){
                                     if(mode == Constants.MEASURE_MODE_ASYNC){
                                         if(ecgTh == null || apgTh == null){
-                                           // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                                           // return;
+                                            ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                                            return;
                                         }
                                     }
                                 }
@@ -544,8 +568,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                                     startMeasure();
                                 }else{
                                     if(ecgPointList.size() < 5000 || pcgPointList.size() < 5000 || heatPointList.size() < 5000 || tstPointList.size() < 5000){
-                                      //  ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
-                                       // return;//xingjian
+                                        //ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
+                                       // return;
                                     }
 
                                     isStart = false;
@@ -790,7 +814,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 float max_num = CLibrary.INSTANCE2.DetectMaxValue(ecgsf, (short) 0, sampleNum);
                 if (max_num < 0.5f)
                 {
-                   // ToastUtils.showToastLong(DrawsActivity.this,"超收缩压心电数据不规范，请重新检测");
+                    ToastUtils.showToastLong(DrawsActivity.this,"超收缩压心电数据不规范，请重新检测");
+                   // uploadInfo();
                     hypecgs = null;
                     break;
                 }
@@ -1028,13 +1053,13 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 for (int i = 0; i < ecgdSize; i++){
                     ecgdf[i] = hypecgd[i];
                 }
-                float max_numecgd = CLibrary.INSTANCE2.DetectMaxValue(ecgdf, (short) 0, ecgdSize);
-                if (max_numecgd < 0.5f)
-                {
-                    //ToastUtils.showToastLong(DrawsActivity.this,"低舒张压心电数据不规范，请重新检测");
-                    hypecgd = null;
-                    break;
-                }
+//                float max_numecgd = CLibrary.INSTANCE2.DetectMaxValue(ecgdf, (short) 0, ecgdSize);
+//                if (max_numecgd < 0.5f)
+//                {
+//                    ToastUtils.showToastLong(DrawsActivity.this,"低舒张压心电数据不规范，请重新检测");
+//                    hypecgd = null;
+//                    break;
+//                }
 
                 Pointer pecgd = new Memory(ecgdSize * 4);
                 CLibrary.INSTANCE2.Filter(ecgdf, pecgd, ecgdSize, (short) 25);
@@ -1322,7 +1347,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                     apgLtr[apgLi] = 0;
                     apgLtpoint[apgLi] = 0;
                 }
-                apgLSampNum = 1;
+
                 Pointer jSnlAUL = new Memory(apgLSampNum * 4);
                 Pointer kSnlPAUL = new Memory(apgLSampNum * 4);
                 CLibrary.AnalHPA.ByReference analHPAStructsRQTAU = new CLibrary.AnalHPA.ByReference();
@@ -1456,7 +1481,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //                        ecgTh = null;
 //                        break;
 //                    }
-                    SYNCsampleNum = 1;
+
                     Pointer SYNCjSnl = new Memory(SYNCsampleNum * 4);
                     CLibrary.INSTANCE2.FilterMibun(kSnl, SYNCjSnl, SYNCsampleNum, (short) 25);
                     Pointer SYNCkSnlP = new Memory(SYNCsampleNum * 4);
@@ -1945,9 +1970,205 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //            }
 //        }
 
+       // Arrays.sort(tempdiff2);
+        //FFT 判断
+
+        for (int y = 0; y < (bufferf[0].length ); y++){
+            temp[pointerx]=bufferf[0][y];
+            pointerx = pointerx + 1;
+            if (pointerx>=1024){
+                for (int yy=0;yy<1024;yy++) {
+                     tempmax=Math.max(temp[y], tempmax);
+                     tempmin=Math.min(temp[y], tempmin);
+                }
+                for (int yy=0;yy<1024;yy++) {
+                    real[yy] = temp[yy]/(tempmax-tempmin);
+                    imaginary[yy] = 0;
+                }
+
+                fft.fft(real,imaginary);
+
+                for (int yy=0;yy<1024;yy++) {
+                    fftmod[yy]=Math.sqrt(real[yy]*real[yy]+imaginary[yy]*imaginary[yy]);
+                }
+                Log.e("huang","fft  "+ fftmod[1] +"  "+ fftmod[2]+"  "+ fftmod[3] + "  "+ fftmod[4] + "  "+ fftmod[5] + "  "+ fftmod[6] + "  "+ fftmod[7] + "  "+ fftmod[8] + "  "+ fftmod[9] + "  "+ fftmod[10] + "  "+ fftmod[11] + "  "+ fftmod[12] + "  "+ fftmod[13] + "  "+ fftmod[14] + "  "+ fftmod[15] + "  "+ fftmod[16] + "  "+ fftmod[17] + "  "+ fftmod[18] + "  "+ fftmod[19] + "  "+ fftmod[20] + "  "+ fftmod[21] + "  "+ fftmod[22] + "  "+ fftmod[23] + "  "+ fftmod[24] + "  "+ fftmod[25] + "  "+ fftmod[26] + "  "+ fftmod[27] + "  "+ fftmod[28] + "  "+ fftmod[29] + "  "+ fftmod[30] + "  "+ fftmod[31] + "  "+ fftmod[32] + "  "+ fftmod[33] + "  "+ fftmod[34] + "  "+ fftmod[35] + "  "+ fftmod[36] + "  "+ fftmod[37] + "  "+ fftmod[38] + "  "+ fftmod[39] + "  "+ fftmod[40] + "  "+ fftmod[41] + "  "+ fftmod[42] + "  "+ fftmod[43] + "  "+ fftmod[44] + "  "+ fftmod[45] + "  "+ fftmod[46] + "  "+ fftmod[47] + "  "+ fftmod[48] + "  "+ fftmod[49] + "  "+ fftmod[50] + "  "+ fftmod[51]);
+                pointerx = 0;
+                filtercountsin1 =0;
+                filtercountfang =0;
+                filtercountsanjiao =0;
+                filtercountsin1= 0;
+                filtercountsin2= 0;
+                filtercountsin3= 0;
+                filtercountsin4= 0;
+                filtercountsin5 = 0;
+                filtercountsin6 = 0;
+                filtercountfang2 = 0;
+                //sin 1Hz
+                if (fftmod[1]>0.4 && fftmod[1]<0.41)
+                    filtercountsin1=filtercountsin1+1;
+                if (fftmod[2]>0.0833 && fftmod[2]<0.11)
+                    filtercountsin1=filtercountsin1+1;
+                if (fftmod[3]>0.027 && fftmod[3]<0.04)
+                    filtercountsin1=filtercountsin1+1;
+                if (fftmod[4]>0.014 && fftmod[4]<0.03)
+                    filtercountsin1=filtercountsin1+1;
+                //sin1Hz 2mv
+                if (fftmod[1]>0.6918 && fftmod[1]<0.7763)
+                    filtercountsin5=filtercountsin5+1;
+                if (fftmod[2]>0.2021 && fftmod[2]<0.2672)
+                    filtercountsin5=filtercountsin5+1;
+                if (fftmod[3]>0.1225 && fftmod[3]<0.1357)
+                    filtercountsin5=filtercountsin5+1;
+                if (fftmod[4]>0.0855 && fftmod[4]<0.0935)
+                    filtercountsin5=filtercountsin5+1;
+                //sin1Hz 3mv
+                if (fftmod[1]>1.049 && fftmod[1]<1.198)
+                    filtercountsin6=filtercountsin6+1;
+                if (fftmod[2]>0.2651 && fftmod[2]<0.384)
+                    filtercountsin6=filtercountsin6+1;
+                if (fftmod[3]>0.098 && fftmod[3]<0.2027)
+                    filtercountsin6=filtercountsin6+1;
+                if (fftmod[4]>0.056 && fftmod[4]<0.1367)
+                    filtercountsin6=filtercountsin6+1;
+                //sin10Hz
+                if (fftmod[1]>0.003579 && fftmod[1]<0.01539)
+                    filtercountsin3=filtercountsin3+1;
+                if (fftmod[2]>0.004124 && fftmod[2]<0.01399)
+                    filtercountsin3=filtercountsin3+1;
+                if (fftmod[3]>0.004667 && fftmod[3]<0.01553)
+                    filtercountsin3=filtercountsin3+1;
+                if (fftmod[4]>0.00060 && fftmod[4]<0.01663)
+                    filtercountsin3=filtercountsin3+1;
+                //sin20Hz
+                if (fftmod[1]>0.007317 && fftmod[1]<0.008744)
+                    filtercountsin2=filtercountsin2+1;
+                if (fftmod[2]>0.007445 && fftmod[2]<0.008843)
+                    filtercountsin2=filtercountsin2+1;
+                if (fftmod[3]>0.00765 && fftmod[3]<0.008282)
+                    filtercountsin2=filtercountsin2+1;
+                if (fftmod[4]>0.00752 && fftmod[4]<0.008585)
+                    filtercountsin2=filtercountsin2+1;
+                //sin25Hz
+                if (fftmod[1]>0.001334 && fftmod[1]<0.004594)
+                    filtercountsin4=filtercountsin4+1;
+                if (fftmod[2]>0.00156 && fftmod[2]<0.004764)
+                    filtercountsin4=filtercountsin4+1;
+                if (fftmod[3]>0.001067 && fftmod[3]<0.0053)
+                    filtercountsin4=filtercountsin4+1;
+                if (fftmod[4]>0.001102 && fftmod[4]<0.005081)
+                    filtercountsin4=filtercountsin4+1;
+                //fangbo
+                if (fftmod[1]>0.492 && fftmod[1]<0.4935)
+                    filtercountfang=filtercountfang+1;
+                if (fftmod[2]>0.141 && fftmod[2]<0.1435)
+                    filtercountfang=filtercountfang+1;
+                if (fftmod[3]>0.108 && fftmod[3]<0.111)
+                    filtercountfang=filtercountfang+1;
+                if (fftmod[4]>0.117 && fftmod[4]<0.119)
+                    filtercountfang=filtercountfang+1;
+                //fangbo 0.1hz
+                if (fftmod[1]>0.00007 && fftmod[1]<0.19)
+                    filtercountfang2=filtercountfang2+1;
+                if (fftmod[2]>2.3564458714565508E-5 && fftmod[2]<3.466873131762644E-4)
+                    filtercountfang2=filtercountfang2+1;
+                if (fftmod[3]>9.887597815514964E-5 && fftmod[3]<3.168587955243547E-4)
+                    filtercountfang2=filtercountfang2+1;
+                if (fftmod[4]>6.266479601045343E-5 && fftmod[4]<2.7023405745279063E-4)
+                    filtercountfang2=filtercountfang2+1;
+                //sanjiao
+                if (fftmod[1]>0.1285 && fftmod[1]<0.1295)
+                    filtercountsanjiao=filtercountsanjiao+1;
+                if (fftmod[2]>0.1195 && fftmod[2]<0.1205)
+                    filtercountsanjiao=filtercountsanjiao+1;
+                if (fftmod[3]>0.1065 && fftmod[3]<0.1075)
+                    filtercountsanjiao=filtercountsanjiao+1;
+                if (fftmod[4]>0.085 && fftmod[4]<0.095)
+                    filtercountsanjiao=filtercountsanjiao+1;
+//
+                if ( filtercountsanjiao >=4 ||filtercountfang>=4) {
+                    filterswitch = true;
+                    filter_sin_switch1 = false;
+                    filter_sin_switch10 = false;
+                    filter_sin_switch20 = false;
+                    filter_sin_switch25 = false;
+
+                }
+                }
+                if ( filtercountsin1 >=4 ||filtercountsin5>=4 ||filtercountsin6>=4||filtercountfang2>=4) {
+                    filterswitch = false;
+                    filter_sin_switch1 =true ;
+                    filter_sin_switch10 = false;
+                    filter_sin_switch20 = false;
+                    filter_sin_switch25 = false;
+
+                }
+                if ( filtercountsin2>=4)
+                {
+                    filterswitch = false;
+                    filter_sin_switch1 =false ;
+                    filter_sin_switch10 = false;
+                    filter_sin_switch20 = true;
+                    filter_sin_switch25 = false;
+
+                }
+                if ( filtercountsin3>=4)
+                {
+                    filterswitch = false;
+                    filter_sin_switch1 =false ;
+                    filter_sin_switch10 = true;
+                    filter_sin_switch20 = false;
+                    filter_sin_switch25 = false;
+
+                }
+                if ( filtercountsin4>=4)
+                {
+                    filterswitch = false;
+                    filter_sin_switch1 =false ;
+                    filter_sin_switch10 = false;
+                    filter_sin_switch20 = false;
+                    filter_sin_switch25 = true;
+
+                }
+            Log.e("huang","filtercount san  "+ filtercountsanjiao + "   sin1   " +filtercountsin1+ "   sin10   " +filtercountsin3+"   sin25   " +filtercountsin4+"   sin20   " +filtercountsin2+"   fang   "+filtercountfang);
+            Log.e("huang","filtersw "+ filterswitch + "   sin1   " +filter_sin_switch1+  "   sin10   " +filter_sin_switch10+"   sin20   " +filter_sin_switch20+ "   sin25   "+filter_sin_switch25);
+
+
+        }
+
+        //FFT 判断
+//        for ( int yy=0;yy<833;yy++){sumtempdiff2b=0;
+////            if (yy>416)
+////                sumtempdiff2a = sumtempdiff2a + tempdiff2[yy];
+////            else
+//                sumtempdiff2b = sumtempdiff2b + tempdiff2[yy];
+//        }
+////        Log.e("huang","halfa    "+ sumtempdiff2a + "    halfb    " + sumtempdiff2b);
+//        Log.e("huang", "    halfb    " + sumtempdiff2b);
+//       // Log.e("huang","error2a"+  tempdiff2[0]);
+//        //Log.e("huang","error2b"+  tempdiff2[799]);
+//        //微分判断*******
+
         for (int y = 0; y < bufferf[0].length; y++){
-            bufferFilterf[0][y] = bufferf[0][y];
-            //bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);
+//            Log.e("huang","心电"+ bufferf[0][y]);
+
+            if (filterswitch||filter_sin_switch1 == true||filter_sin_switch10 == true||filter_sin_switch25 == true){
+
+                    bufferFilterf[0][y] = bufferf[0][y];//xingjian
+                        yadj_set = 4700;
+                    if(filter_sin_switch10 == true)
+                     yadj_set = 4600;
+                    if(filter_sin_switch20 == true)
+                        yadj_set = 4600;
+                    if(filter_sin_switch25 == true)
+                        yadj_set =4600;
+                }
+
+            else{
+                yadj_set = 3000;
+                bufferFilterf[0][y] = SerialBeanFilterEcg.serialBeanFilter(bufferf[0][y]);//xingjian
+               // Log.e("huang","LLfilterL"+  tempdiff2[799]);
+                }
+
         }
 
         for (int y = 0; y < bufferf[1].length; y++){
@@ -2027,10 +2248,6 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 
 //        for (int i = 0; i < DRAW_COUNT; i++) {
 //            if (ecgPointList.size() < 5000) { //没有超过5000个
-////                ecgPointList.add(buffer[0][i + curPos * DRAW_COUNT]);
-////                pcgPointList.add(buffer[1][i + curPos * DRAW_COUNT]);
-////                heatPointList.add(buffer[2][i + curPos * DRAW_COUNT]);
-////                tstPointList.add(buffer[3][i + curPos * DRAW_COUNT]);
 //                ecgPointList.add(bufferFilter[0][i + curPos * DRAW_COUNT]);
 //                pcgPointList.add(bufferFilter[1][i + curPos * DRAW_COUNT]);
 //                heatPointList.add(bufferFilter[2][i + curPos * DRAW_COUNT]);
@@ -2041,10 +2258,6 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //                heatPointListView.add(bufferFilter[2][i + curPos * DRAW_COUNT]); //5000
 //                tstPointListView.add(bufferFilter[3][i + curPos * DRAW_COUNT]); //5000
 //            } else { //超过5000个,开始执行替换操作
-////                updateViewData(ecgPointList, buffer[0][i + curPos * DRAW_COUNT]);
-////                updateViewData(pcgPointList, buffer[1][i + curPos * DRAW_COUNT]);
-////                updateViewData(heatPointList, buffer[2][i + curPos * DRAW_COUNT]);
-////                updateViewData(tstPointList, buffer[3][i + curPos * DRAW_COUNT]);
 //
 //                updateViewData(ecgPointList, bufferFilter[0][i + curPos * DRAW_COUNT]);
 //                updateViewData(pcgPointList, bufferFilter[1][i + curPos * DRAW_COUNT]);
@@ -2059,11 +2272,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 //            }
 //        }
 
-//        添加画图用的list集合
-//        if (cursorFilter >= 7200) {    //7200
-//            isOverBoundsView = true;   //7200
-//            cursorFilter = 0;
-//        }
+        //添加画图用的list集合
 
         for (int i = 0; i < DRAW_COUNT_View; i++) { //7200
             if (ecgPointListView.size() < 7200) { //没有超过1250个 //7200
@@ -2077,7 +2286,28 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 updateViewData(heatPointListView, bufferFilter[2][i + curPos * DRAW_COUNT_View]); //7200
                 updateViewData(tstPointListView, bufferFilter[3][i + curPos * DRAW_COUNT_View]); //7200
             }
-        } //7200
+        }
+
+        //添加画图用的list集合
+//        if (cursorFilter >= 7200) {    //7200
+//            isOverBoundsView = true;   //7200
+//            cursorFilter = 0;
+//        }
+//
+//        for (int i = 0; i < DRAW_COUNT_View; i++) { //7200
+//            if (!isOverBoundsView) { //没有超过1250个 //7200
+//                ecgPointListView.add(bufferFilter[0][i + curPos * DRAW_COUNT_View]); //7200
+//                pcgPointListView.add(bufferFilter[1][i + curPos * DRAW_COUNT_View]); //7200
+//                heatPointListView.add(bufferFilter[2][i + curPos * DRAW_COUNT_View]); //7200
+//                tstPointListView.add(bufferFilter[3][i + curPos * DRAW_COUNT_View]); //7200
+//            } else { //超过1250个,开始执行替换操作
+//                updateViewData(ecgPointListView, bufferFilter[0][i + curPos * DRAW_COUNT_View]); //7200
+//                updateViewData(pcgPointListView, bufferFilter[1][i + curPos * DRAW_COUNT_View]); //7200
+//                updateViewData(heatPointListView, bufferFilter[2][i + curPos * DRAW_COUNT_View]); //7200
+//                updateViewData(tstPointListView, bufferFilter[3][i + curPos * DRAW_COUNT_View]); //7200
+//            }
+//            cursorFilter++; //指向当前数据的指针 //7200
+//        } //7200
     }
 
     private void updateViewData(LinkedList<Float> viewData, float newData) {
@@ -2104,44 +2334,23 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
         switch (titleIndex){
             case 0:
             case 1:
-//                firstPathView.setData1(ecgPointListView,  widthPerPointone, viewHeight,curPos);
-//                secondPathView.setData(pcgPointListView, widthPerPointone, viewHeight, curPos);
-//                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj);
-//                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set);
                 secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700);
-//                thirdPathView.setData2(tstPointListView,  widthPerPointone, viewHeight,curPos); //3 tst
                 thirdPathView.setData3(tstPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
                 break;
             case 2:
-//                firstPathView.setData1(ecgPointListView,  widthPerPointone, viewHeight,curPos);
-//                secondPathView.setData(pcgPointListView, widthPerPointone, viewHeight, curPos);
-//                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj);
-//                secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set);
                 secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700);
-//                thirdPathView.setData2(heatPointListView,  widthPerPointone, viewHeight,curPos); //2 heat
                 thirdPathView.setData2(heatPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj);
                 break;
             case 3:
                 if(mode == Constants.MEASURE_MODE_SYNC){ //同步模式
-//                    Log.e("huang", "mode----同步模式" + mode);
-//                    firstPathView.setData1(ecgPointListView,  widthPerPointone, viewHeight,curPos); //0
-//                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj); //0
-                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
-//                    secondPathView.setData3(heatPointListView, widthPerPointone, viewHeight, curPos); //2
-//                    thirdPathView.setData2(tstPointListView,  widthPerPointone, viewHeight,curPos); //3 tst,能画出波形
+                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set);
                     secondPathView.setData4(heatPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj); //2
                     thirdPathView.setData3(tstPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj); //3 tst,能画出波形
                 }else{
-//                    Log.e("huang", "mode----异步模式" + mode);
-//                    firstPathView.setData1(ecgPointListView,  widthPerPointone, viewHeight,curPos); //0
-//                    secondPathView.setData(pcgPointListView, widthPerPointone, viewHeight, curPos); //1
-//                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj); //0
-//                    secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj); //1
-                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 3000); //0
-                    secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 1500); //1
-//                    thirdPathView.setData2(heatPointListView,  widthPerPointone, viewHeight,curPos); //2
+                    firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set); //0
+                    secondPathView.setData(pcgPointListView, widthPerPointonePcg, viewHeight, curPos, 4700); //1
                     thirdPathView.setData2(heatPointListView,  widthPerPointonePcg, viewHeight,curPos, thirdYadj); //2
                 }
                 break;
@@ -2150,13 +2359,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                 if(mode == Constants.MEASURE_MODE_SYNC){
                     return;
                 }
-//                firstPathView.setData(ecgPointList,  widthPerPointone, viewHeight,curPos); //0
-//                secondPathView.setData(heatPointList, widthPerPointone, viewHeight, curPos); //2
-//                firstPathView.setData1(ecgPointListView,  widthPerPointone, viewHeight,curPos); //0
-//                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, firstYadj); //0
-                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, 4700);
-//                secondPathView.setData3(tstPointListView, widthPerPointone, viewHeight, curPos); //3
-//                secondPathView.setData3(tstPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj); //3 袖带的
+                firstPathView.setData1(ecgPointListView,  widthPerPointonePcg, viewHeight,curPos, yadj_set);
+
                 secondPathView.setData2(heatPointListView, widthPerPointonePcg, viewHeight, curPos, secondYadj);
 
                 //临时 TODO
@@ -2176,10 +2380,10 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
         viewWidth = firstPathView.getMeasuredWidth();
 
 //        widthPerPointone = (float) viewWidth / 5000;
-   //     widthPerPointone = (float) viewWidth / 1250;
+//        widthPerPointone = (float) viewWidth / 1250;
 
-//        widthPerPointonePcg = (float) viewWidth / 5000;
-        widthPerPointonePcg = (float) viewWidth / 7200;
+//        widthPerPointonePcg = (float) viewWidth / 5000; //renti
+        widthPerPointonePcg = (float) viewWidth / 7200;// xingjian 25mm/s
     }
 
     /**
@@ -2326,8 +2530,8 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
                     startMeasure();
                 }else{
                     if(ecgPointList.size() < 5000 || pcgPointList.size() < 5000 || heatPointList.size() < 5000 || tstPointList.size() < 5000){
-                        //ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");//xingjian
-                        //return;
+                       // ToastUtils.showToast(DrawsActivity.this,"请等待数据采集完整");
+                      //  return;
                     }
 
                     isStart = false;
@@ -2357,40 +2561,40 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 
                 if(titleIndex == 0){
                     if(hypecgs == null || hyppcgs == null || hypapgs == null){
-                       // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                        //break;
+                        ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                        break;
                     }
                 }
                 if(titleIndex == 1){
                     if(hypecgd == null || hyppcgd == null || hypapgd == null){
-                      //  ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                        //break;
+                        ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                        break;
                     }
                 }
                 if(titleIndex == 2){
                     if(ecgPl == null || pcgPl == null || apgL == null){
-                       // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                       // break;
+                        ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                        break;
                     }
                 }
                 if(titleIndex == 3){
                     if(mode == Constants.MEASURE_MODE_SYNC){
                         if(ecgPr == null || apgR == null || apgTh == null || pcgPr == null || ecgTh == null){
-                           // ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                           // break;
+                            ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                            break;
                         }
                     }else{
                         if(ecgPr == null || pcgPr == null || apgR == null){
-                         //   ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                          //  break;
+                            ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                            break;
                         }
                     }
                 }
                 if(titleIndex == 4){
                     if(mode == Constants.MEASURE_MODE_ASYNC){
                         if(ecgTh == null || apgTh == null){
-                            //ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
-                          //  break;
+                            ToastUtils.showToast(DrawsActivity.this,"当前页面数据采集有误或还没有进行采集，请先采集");
+                            break;
                         }
                     }
                 }
@@ -2473,6 +2677,7 @@ public class DrawsActivity extends BaseActivity<UploadEcgPresenter> implements U
 
         ecgMonitorBean.setIdl(-1);
         ecgMonitorBean.setIdr(-1);
+        System.out.println("测量模式：" + mode);
         ecgMonitorBean.setModel(mode);
 
         setFourteenData();

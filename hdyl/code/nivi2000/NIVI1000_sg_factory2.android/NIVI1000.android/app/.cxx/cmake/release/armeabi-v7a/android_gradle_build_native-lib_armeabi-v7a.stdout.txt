@@ -1,0 +1,2 @@
+ninja: Entering directory `D:\work\git\Hardware\hdyl\code\nivi2000\NIVI1000_sg_factory2.android\NIVI1000.android\app\.cxx\cmake\release\armeabi-v7a'
+ninja: no work to do.

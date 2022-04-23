@@ -9,7 +9,10 @@ android {
 //    }
     signingConfigs {
         debug {
-            storeFile file('D:\\shenggu.jks')
+            storeFile file('D:\\work\\git\\Hardware\\hdyl\\code\\nivi2000\\signature\\signature.jks')
+            storePassword 'release'
+            keyAlias 'app'
+            keyPassword 'release'
         }
         release {
             storeFile file('D:\\workspace\\NIVI1000.android\\NIVI1000.android\\config\\oil.jks')
@@ -47,6 +50,7 @@ android {
     }
 //    buildToolsVersion '26.0.2'
     ndkVersion '16.1.4479499'
+    flavorDimensions 'release', 'debug'
 }
 
 dependencies {

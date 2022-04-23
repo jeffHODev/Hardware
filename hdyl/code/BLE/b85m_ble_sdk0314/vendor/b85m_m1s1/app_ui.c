@@ -982,6 +982,7 @@ u32 t1,t2;
 //float t2;
 void cal_rx_time()
 {
+
     measure_usr.rx_time = clock_time()/16000.0-rx_tick;
     measure_usr.rx_time = measure_usr.rx_time ;
     rx_tick =  clock_time()/16000;
