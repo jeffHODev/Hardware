@@ -29,7 +29,7 @@
 #define TDS_TEMP_FACTOR 0.99f								// TDS温度补偿系数 20摄氏度标准值
 #define TDS_NUM      225									// TDS 数量
 
-#define MAX_CURR_VALUE  12000
+#define MAX_CURR_VALUE  13000
 #define MIN_CURR_VALUE  600
 #if FLOW_SIZE == 4
 #define DES_CURR_VALUE  9000   //目标电流

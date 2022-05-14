@@ -89,7 +89,11 @@ void GetWaterLevel()
 #if CPU == ST
     if(HAL_GPIO_ReadPin(TEST_VA_GPIO_Port, TEST_VA_Pin)==1)//水压低
 #else
-    if(gpio_input_bit_get(TEST_VA_GPIO_Port, TEST_VA_Pin)==1)//水压低
+	#if LW_ENABLE == 1
+	 if(gpio_input_bit_get(TEST_VAL_GPIO_Port, TEST_VAL_Pin)=!HW_LEVEL)
+	#else
+   	 if(gpio_input_bit_get(TEST_VA_GPIO_Port, TEST_VA_Pin)==HW_LEVEL)//水压低
+	#endif
 #endif
 
     {
@@ -128,19 +132,19 @@ void GetWaterLevel()
         result = result & 0xfd;
     }
 
-   /* if(GetSensor()->water_status == 1)
-    {
-        if((result & 0x02)!=0x02)//水位低于最高水位
-        {
-            result = 1;
-        }
-        else
-        {
-            GetSensor()->water_status == 0;
-            result = 2;
-        }
+    /* if(GetSensor()->water_status == 1)
+     {
+         if((result & 0x02)!=0x02)//水位低于最高水位
+         {
+             result = 1;
+         }
+         else
+         {
+             GetSensor()->water_status == 0;
+             result = 2;
+         }
 
-    }*/
+     }*/
 
     switch(result&0x03)
     {
@@ -157,7 +161,7 @@ void GetWaterLevel()
         sensor.water_level = WATER_F;//传感器故障
         break;
     default:
-        sensor.water_level = WATER_M;//水位适中
+        sensor.water_level = WATER_H;//水位适中
         break;
 
     }
@@ -352,7 +356,7 @@ void GetFlow()
     static float flow_tmp=0;
     static unsigned init_flag;
     static uint32_t flow_tick;
-    
+
     static unsigned char start_sample_flag=0;
     //流量 = (f+5)/24   19hz/s----1L/min  575 499  537
     if(*GetCapture() != -1 )
@@ -380,9 +384,9 @@ void GetFlow()
             flow_cal = *GetCapture_cnt();//flow/650*60000/(50*flow_cnt)
             init_flag = 1;
             flow_tmp   = (FLOW_FACTOR/FLOW_RATIO);
-			
+
             sensor.water_quantity = sensor.last_water_quantity+flow_cal_sum;
-			flow_cal_sum = flow_cal_sum +flow_tmp*FLOW_PERIOD/60000;
+            flow_cal_sum = flow_cal_sum +flow_tmp*FLOW_PERIOD/60000;
             flow_tmp   = (flow_cal*flow_tmp)/(flow_cnt);
             sensor.flow =sensor.flow -sensor.flow /FIR_NUM_FLOW+flow_tmp/FIR_NUM_FLOW;
 
@@ -393,8 +397,8 @@ void GetFlow()
         {
             flow_cal = *GetCapture_cnt();
             flow_tmp   = (FLOW_FACTOR/FLOW_RATIO);
-				sensor.water_quantity = sensor.last_water_quantity+flow_cal_sum;
-						   flow_cal_sum = flow_cal_sum +flow_tmp*FLOW_PERIOD/60000;
+            sensor.water_quantity = sensor.last_water_quantity+flow_cal_sum;
+            flow_cal_sum = flow_cal_sum +flow_tmp*FLOW_PERIOD/60000;
 
             flow_tmp   = (flow_cal*flow_tmp)/(flow_cnt);
             //if((flow_cnt*FLOW_PERIOD/1000)%10==0)
@@ -599,7 +603,7 @@ loop:
             if(GetSensor()->wash_time<=MAX_WASH_TIME)
             {
                 if(((GetSensor()->status[NORMAL_INDEX]==20||GetSensor()->status[WATER_LEVEL_INDEX]==WATER_LEVEL_INDEX)&&GetSensor()->flow>0.4)&&
-                        GetInOut()->key_cali_mode==0&&GetSensor()->status[TDS2_INDEX]==0&&GetSensor()->status[NOWATER_INDEX]==0&&GetSensor()->status[WASH_INDEX]==0)//高压开关和水位正常且不在校准模式时启动电解
+                        GetInOut()->key_cali_mode==0&&GetSensor()->status[TDS2_INDEX]==0&&GetSensor()->status[NOWATER_INDEX]==0&&GetSensor()->status[WASH_INDEX]==0&&GetSensor()->flow>=MIN_FLOW_SIZE)//高压开关和水位正常且不在校准模式时启动电解
 
                 {
                     // current_setting = 1.78*sensor.flow;
@@ -633,7 +637,7 @@ loop:
                     }
 
                 }
-                else if(GetSensor()->status[WASH_INDEX]&&GetSensor()->flow>0.5)//wash invert ele
+                else if(GetSensor()->status[WASH_INDEX]&&GetSensor()->flow>MIN_FLOW_SIZE)//wash invert ele
                     //  else if((GetSensor()->status[TDS2_INDEX]||GetSensor()->status[TDS1_INDEX]||
                     //     GetSensor()->status[ORP_INDEX]||GetSensor()->status[PH_INDEX]||GetSensor()->status[WASH_INDEX])&&GetSensor()->flow>0)//wash invert ele
                 {
@@ -997,8 +1001,8 @@ unsigned char calibration_sensors(unsigned char state)
                 Modbus_Pack_cali(modbus_cali);
                 status = 0;
                 GetInOut()->key_cali_value = 0;
-                        getTouch()->last_ctrl_id = 0;
-                        getTouch()->key = 0;
+                getTouch()->last_ctrl_id = 0;
+                getTouch()->key = 0;
             }
             break;
             }

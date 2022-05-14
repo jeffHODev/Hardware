@@ -46,8 +46,8 @@ typedef uint32_t u32;
 #define LCD_ORI 0      //1:原屏幕 0:修改屏
 #define FLOW_SIZE	4 //排水量1-4L
 #define DEV_TYPE    1//0:消杀类     1:医疗类
-#define SW_NOCHANGE 0 //0：管路修改过；1：管路未修改
-
+#define SW_NOCHANGE 0//0：管路修改过；1：管路未修改
+#define LW_ENABLE 0  //低压开关使能 1：使能 0：关闭
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
@@ -144,6 +144,9 @@ void adc_config(void);
 #define CVALUE3_GPIO_Port GPIOA
 #define CVALUE4_Pin GPIO_PIN_9
 #define CVALUE4_GPIO_Port GPIOE
+#define TEST_VAL_Pin GPIO_PIN_2
+#define TEST_VAL_GPIO_Port GPIOB
+
 #define TEST_VA_Pin GPIO_PIN_5
 #define TEST_VA_GPIO_Port GPIOA
 #define TDS_P_Pin GPIO_PIN_7

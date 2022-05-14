@@ -62,6 +62,8 @@
 #define FLOW_PERIOD		1
 #define FLOW_FACTOR	60000/FLOW_PERIOD
 #define PUMP_VALUE    65535
+#define HW_LEVEL 1
+
 
 #if FLOW_SIZE >=3
 #define FLOW_VALUE 0.5
@@ -92,7 +94,7 @@
 
 #define MAX_ORP   1550   
 #define MIN_ORP   -100
-
+#define MIN_FLOW_SIZE	0.5
 #define MAX_TDS_VALUE  1700 //½øË®tdsãÐÖµ300----  1300
 #define MIN_TDS_VALUE  350
 

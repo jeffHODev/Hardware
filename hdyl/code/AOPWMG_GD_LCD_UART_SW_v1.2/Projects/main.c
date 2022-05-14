@@ -134,9 +134,9 @@ int main(void)
 #endif
     /* USER CODE END SysInit */
     rcu_config();
-	 //
+    //
     gpio_config();
-	  SystemParamsRead();
+    SystemParamsRead();
     systick_config();
     MX_USART6_UART_Init();
     MX_GPIO_Init();
@@ -165,23 +165,23 @@ int main(void)
     MX_TIM4_Init();
     MX_TIM1_Init();
     /* USER CODE BEGIN 2 */
-   // beep_pro(3,1);
-   
+    // beep_pro(3,1);
+
     lcd_init();
     Flow_Init();
-	
+
     power_off();
     while(module_stop_ele())
         ;
     Speak_Flage=0;
-		//DcMotorCtrl(1,30000);//泵2调整流量
-   //fwdgt_config(0x1fff,FWDGT_PSC_DIV64);
+    //DcMotorCtrl(1,30000);//泵2调整流量
+    //fwdgt_config(0x1fff,FWDGT_PSC_DIV64);
     //fwdgt_enable();
     while (1)
     {
         /* USER CODE END WHILE */
         /* USER CODE BEGIN 3 */
-       // fwdgt_counter_reload();
+        // fwdgt_counter_reload();
         app();
 //app_test();
 
@@ -1390,16 +1390,16 @@ static void MX_USART2_UART_Init(void)
     rcu_periph_clock_enable(RCU_USART2);
 
     /* configure the USART4 Tx pin and USART0 Rx pin */
-  //  gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_2);
-  //  gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_3);
+    //  gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_2);
+    //  gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_3);
 
     /* configure USART4 Tx as alternate function push-pull */
-  //  gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_2);
-  //  gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_2);
+    //  gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_2);
+    //  gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_2);
 
     /* configure USART0 Rx as alternate function push-pull */
-   // gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_3);
-   // gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_3);
+    // gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_3);
+    // gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_3);
 
     /* USART configure */
     usart_deinit(USART1);
@@ -1684,97 +1684,97 @@ static void MX_GPIO_Init(void)
 #if VER == 0
 
 
-	
-	
-		/*Configure GPIO pin Output Level */
-		gpio_bit_reset(GPIOE, Ele_ConB_Pin|Ele_ConA_Pin);
-	
-		/*Configure GPIO pin Output Level */
-		gpio_bit_reset(GPIOC, CVALUE1_Pin|CVALUE2_Pin|CVALUE3_Pin|CVALUE4_Pin);
-	
-		/*Configure GPIO pin Output Level */
-		gpio_bit_reset(TDS_P_GPIO_Port, TDS_P_Pin);
-	
-		/*Configure GPIO pin Output Level */
-		gpio_bit_reset(GPIOB, TDS_N_Pin|CVALUE5_Pin|scl_Pin|sda_Pin);
-	
-		/*Configure GPIO pin Output Level */
-		gpio_bit_reset(GPIOD, EN1_485_Pin|EN2_485_Pin|WIFI_EN_Pin);
-	
-		/*Configure GPIO pin Output Level */
-		gpio_bit_write(SPI3_CS_GPIO_Port, SPI3_CS_Pin, SET);
-	
-	
-	
-	
-		/*Configure GPIO pins : Ele_ConB_Pin Ele_ConA_Pin LCD_BL_Pin LCD_RST_Pin */
-		gpio_mode_set(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,Ele_ConB_Pin|Ele_ConA_Pin);
-		gpio_output_options_set(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,Ele_ConB_Pin|
-								Ele_ConA_Pin);
-	
-		/*Configure GPIO pins : CVALUE1_Pin CVALUE2_Pin CVALUE3_Pin CVALUE4_Pin */
-		gpio_mode_set(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, CVALUE1_Pin|CVALUE2_Pin|
-					  CVALUE3_Pin|CVALUE4_Pin);
-		gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, CVALUE1_Pin|
-								CVALUE2_Pin|CVALUE3_Pin|CVALUE4_Pin);
-	
-		/*Configure GPIO pin : TEST_VA_Pin */
-	
-		gpio_mode_set(TEST_VA_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TEST_VA_Pin);
-		gpio_output_options_set(TEST_VA_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TEST_VA_Pin);
-	
-	
-		/*Configure GPIO pins : TDS_P_Pin SPI3_CS_Pin */
-		gpio_mode_set(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TDS_P_Pin|SPI3_CS_Pin);
-		gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TDS_P_Pin|SPI3_CS_Pin);
-	
-	
-		/*Configure GPIO pin : SensorA_Pin */
-		gpio_mode_set(SensorA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, TDS_P_Pin|SPI3_CS_Pin);
-		// gpio_output_options_set(SensorA_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TDS_P_Pin|SPI3_CS_Pin);
-	
-	
-		/*Configure GPIO pins : TDS_N_Pin CVALUE5_Pin scl_Pin sda_Pin */
-		gpio_mode_set(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TDS_N_Pin|CVALUE5_Pin|scl_Pin|sda_Pin);
-		gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TDS_N_Pin|CVALUE5_Pin|scl_Pin|sda_Pin);
-	
-	
-	
-	
-		/*Configure GPIO pins : LCD_IRQ_Pin SensorB_Pin LCD_READY_Pin */
-		gpio_mode_set(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_NONE, LCD_IRQ_Pin|SensorB_Pin|LCD_READY_Pin);
-		gpio_mode_set(TEST_VA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, TEST_VA_Pin);
-		gpio_mode_set(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_NONE, SensorB_Pin);
-		gpio_mode_set(SensorA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, SensorA_Pin);
-	
-	  
-	
-	
-		/*Configure GPIO pins : EN1_485_Pin EN2_485_Pin WIFI_EN_Pin */
-	
-		gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, EN1_485_Pin|EN2_485_Pin|WIFI_EN_Pin);
-		gpio_output_options_set(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, EN1_485_Pin|EN2_485_Pin|WIFI_EN_Pin);
-		/*Configure GPIO pin : LCD_BUSY_Pin */
-		gpio_mode_set(LCD_BUSY_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, LCD_BUSY_Pin);
-	
-		/* EXTI interrupt init*/
-	
-		/* enable the key clock */
-	
-		rcu_periph_clock_enable(RCU_SYSCFG);
-	
-		/* configure button pin as input */
-		gpio_mode_set(int_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP,int_Pin);
-		/* enable and set key EXTI interrupt to the lowest priority */
-		nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
-	
-		/* connect key EXTI line to key GPIO pin */
-		syscfg_exti_line_config(EXTI_SOURCE_GPIOB, EXTI_SOURCE_PIN13);
-	
-		/* configure key EXTI line */
-		exti_init(EXTI_13, EXTI_INTERRUPT, EXTI_TRIG_FALLING);
-		exti_interrupt_flag_clear(EXTI_13);
-	
+
+
+    /*Configure GPIO pin Output Level */
+    gpio_bit_reset(GPIOE, Ele_ConB_Pin|Ele_ConA_Pin);
+
+    /*Configure GPIO pin Output Level */
+    gpio_bit_reset(GPIOC, CVALUE1_Pin|CVALUE2_Pin|CVALUE3_Pin|CVALUE4_Pin);
+
+    /*Configure GPIO pin Output Level */
+    gpio_bit_reset(TDS_P_GPIO_Port, TDS_P_Pin);
+
+    /*Configure GPIO pin Output Level */
+    gpio_bit_reset(GPIOB, TDS_N_Pin|CVALUE5_Pin|scl_Pin|sda_Pin);
+
+    /*Configure GPIO pin Output Level */
+    gpio_bit_reset(GPIOD, EN1_485_Pin|EN2_485_Pin|WIFI_EN_Pin);
+
+    /*Configure GPIO pin Output Level */
+    gpio_bit_write(SPI3_CS_GPIO_Port, SPI3_CS_Pin, SET);
+
+
+
+
+    /*Configure GPIO pins : Ele_ConB_Pin Ele_ConA_Pin LCD_BL_Pin LCD_RST_Pin */
+    gpio_mode_set(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,Ele_ConB_Pin|Ele_ConA_Pin);
+    gpio_output_options_set(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,Ele_ConB_Pin|
+                            Ele_ConA_Pin);
+
+    /*Configure GPIO pins : CVALUE1_Pin CVALUE2_Pin CVALUE3_Pin CVALUE4_Pin */
+    gpio_mode_set(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, CVALUE1_Pin|CVALUE2_Pin|
+                  CVALUE3_Pin|CVALUE4_Pin);
+    gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, CVALUE1_Pin|
+                            CVALUE2_Pin|CVALUE3_Pin|CVALUE4_Pin);
+
+    /*Configure GPIO pin : TEST_VA_Pin */
+
+    gpio_mode_set(TEST_VA_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TEST_VA_Pin);
+    gpio_output_options_set(TEST_VA_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TEST_VA_Pin);
+
+
+    /*Configure GPIO pins : TDS_P_Pin SPI3_CS_Pin */
+    gpio_mode_set(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TDS_P_Pin|SPI3_CS_Pin);
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TDS_P_Pin|SPI3_CS_Pin);
+
+
+    /*Configure GPIO pin : SensorA_Pin */
+    gpio_mode_set(SensorA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, TDS_P_Pin|SPI3_CS_Pin);
+    // gpio_output_options_set(SensorA_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TDS_P_Pin|SPI3_CS_Pin);
+
+
+    /*Configure GPIO pins : TDS_N_Pin CVALUE5_Pin scl_Pin sda_Pin */
+    gpio_mode_set(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TDS_N_Pin|CVALUE5_Pin|scl_Pin|sda_Pin);
+    gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TDS_N_Pin|CVALUE5_Pin|scl_Pin|sda_Pin);
+
+
+
+
+    /*Configure GPIO pins : LCD_IRQ_Pin SensorB_Pin LCD_READY_Pin */
+    gpio_mode_set(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_NONE, LCD_IRQ_Pin|SensorB_Pin|LCD_READY_Pin);
+    gpio_mode_set(TEST_VA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, TEST_VA_Pin);
+    gpio_mode_set(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_NONE, SensorB_Pin);
+    gpio_mode_set(SensorA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, SensorA_Pin);
+
+
+
+
+    /*Configure GPIO pins : EN1_485_Pin EN2_485_Pin WIFI_EN_Pin */
+
+    gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, EN1_485_Pin|EN2_485_Pin|WIFI_EN_Pin);
+    gpio_output_options_set(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, EN1_485_Pin|EN2_485_Pin|WIFI_EN_Pin);
+    /*Configure GPIO pin : LCD_BUSY_Pin */
+    gpio_mode_set(LCD_BUSY_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, LCD_BUSY_Pin);
+
+    /* EXTI interrupt init*/
+
+    /* enable the key clock */
+
+    rcu_periph_clock_enable(RCU_SYSCFG);
+
+    /* configure button pin as input */
+    gpio_mode_set(int_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP,int_Pin);
+    /* enable and set key EXTI interrupt to the lowest priority */
+    nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
+
+    /* connect key EXTI line to key GPIO pin */
+    syscfg_exti_line_config(EXTI_SOURCE_GPIOB, EXTI_SOURCE_PIN13);
+
+    /* configure key EXTI line */
+    exti_init(EXTI_13, EXTI_INTERRUPT, EXTI_TRIG_FALLING);
+    exti_interrupt_flag_clear(EXTI_13);
+
 
 #else
 
@@ -1783,103 +1783,106 @@ static void MX_GPIO_Init(void)
 
 
 
-	/*Configure GPIO pin Output Level */
-	   gpio_bit_reset(GPIOE, Ele_ConB_Pin|Ele_ConA_Pin);
+    /*Configure GPIO pin Output Level */
+    gpio_bit_reset(GPIOE, Ele_ConB_Pin|Ele_ConA_Pin);
 
-	   gpio_bit_reset(GPIOE, CVALUE1_Pin|CVALUE4_Pin|CVALUE5_Pin);
-	   gpio_bit_reset(GPIOA, CVALUE3_Pin|CVALUE2_Pin);
-
-
-	   /*Configure GPIO pin Output Level */
-	   gpio_bit_reset(TDS_P_GPIO_Port, TDS_P_Pin);
-	
-	   /*Configure GPIO pin Output Level */
-	   gpio_bit_reset(GPIOB, TDS_N_Pin|scl_Pin|sda_Pin);
-	
-	   /*Configure GPIO pin Output Level */
-	   gpio_bit_reset(GPIOD, EN1_485_Pin|EN2_485_Pin|WIFI_EN_Pin);
-	
-	   /*Configure GPIO pin Output Level */
-	   gpio_bit_write(SPI3_CS_GPIO_Port, SPI3_CS_Pin, SET);
-
-	   /*Configure GPIO pins : Ele_ConB_Pin Ele_ConA_Pin LCD_BL_Pin LCD_RST_Pin */
-	   gpio_mode_set(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,Ele_ConB_Pin|Ele_ConA_Pin
-					 );
-	   gpio_output_options_set(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,Ele_ConB_Pin|
-							   Ele_ConA_Pin);
+    gpio_bit_reset(GPIOE, CVALUE1_Pin|CVALUE4_Pin|CVALUE5_Pin);
+    gpio_bit_reset(GPIOA, CVALUE3_Pin|CVALUE2_Pin);
 
 
-	   /*Configure GPIO pins : CVALUE1_Pin CVALUE2_Pin CVALUE3_Pin CVALUE4_Pin */
-	   gpio_mode_set(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, CVALUE1_Pin
-					 |CVALUE4_Pin|CVALUE5_Pin);
-	   
-	   gpio_output_options_set(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,CVALUE1_Pin
-					 |CVALUE4_Pin|CVALUE5_Pin);
-	   /*Configure GPIO pins : CVALUE1_Pin CVALUE2_Pin CVALUE3_Pin CVALUE4_Pin */
-	   gpio_mode_set(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, CVALUE2_Pin| CVALUE3_Pin);
+    /*Configure GPIO pin Output Level */
+    gpio_bit_reset(TDS_P_GPIO_Port, TDS_P_Pin);
 
-	   gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,CVALUE2_Pin|
-							   CVALUE3_Pin);
+    /*Configure GPIO pin Output Level */
+    gpio_bit_reset(GPIOB, TDS_N_Pin|scl_Pin|sda_Pin);
+
+    /*Configure GPIO pin Output Level */
+    gpio_bit_reset(GPIOD, EN1_485_Pin|EN2_485_Pin|WIFI_EN_Pin);
+
+    /*Configure GPIO pin Output Level */
+    gpio_bit_write(SPI3_CS_GPIO_Port, SPI3_CS_Pin, SET);
+
+    /*Configure GPIO pins : Ele_ConB_Pin Ele_ConA_Pin LCD_BL_Pin LCD_RST_Pin */
+    gpio_mode_set(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,Ele_ConB_Pin|Ele_ConA_Pin
+                 );
+    gpio_output_options_set(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,Ele_ConB_Pin|
+                            Ele_ConA_Pin);
+
+
+    /*Configure GPIO pins : CVALUE1_Pin CVALUE2_Pin CVALUE3_Pin CVALUE4_Pin */
+    gpio_mode_set(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, CVALUE1_Pin
+                  |CVALUE4_Pin|CVALUE5_Pin);
+
+    gpio_output_options_set(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,CVALUE1_Pin
+                            |CVALUE4_Pin|CVALUE5_Pin);
+    /*Configure GPIO pins : CVALUE1_Pin CVALUE2_Pin CVALUE3_Pin CVALUE4_Pin */
+    gpio_mode_set(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, CVALUE2_Pin| CVALUE3_Pin);
+
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,CVALUE2_Pin|
+                            CVALUE3_Pin);
+
+							/*Configure GPIO pin : TEST_VAL_Pin */
+
+    gpio_mode_set(TEST_VAL_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TEST_VAL_Pin);
+    gpio_output_options_set(TEST_VAL_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TEST_VAL_Pin);
+
+    /*Configure GPIO pin : TEST_VA_Pin */
+
+    gpio_mode_set(TEST_VA_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TEST_VA_Pin);
+    gpio_output_options_set(TEST_VA_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TEST_VA_Pin);
+
+
+    /*Configure GPIO pins : TDS_P_Pin SPI3_CS_Pin */
+    gpio_mode_set(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TDS_P_Pin|SPI3_CS_Pin);
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TDS_P_Pin|SPI3_CS_Pin);
+
+
+    /*Configure GPIO pin : SensorA_Pin */
+    gpio_mode_set(SensorA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, TDS_P_Pin|SPI3_CS_Pin);
+    // gpio_output_options_set(SensorA_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TDS_P_Pin|SPI3_CS_Pin);
+
+
+    /*Configure GPIO pins : TDS_N_Pin CVALUE5_Pin scl_Pin sda_Pin */
+    gpio_mode_set(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TDS_N_Pin|scl_Pin|sda_Pin);
+    gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TDS_N_Pin|scl_Pin|sda_Pin);
 
 
 
-	   /*Configure GPIO pin : TEST_VA_Pin */
-	
-	   gpio_mode_set(TEST_VA_GPIO_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TEST_VA_Pin);
-	   gpio_output_options_set(TEST_VA_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TEST_VA_Pin);
-	
-	
-	   /*Configure GPIO pins : TDS_P_Pin SPI3_CS_Pin */
-	   gpio_mode_set(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TDS_P_Pin|SPI3_CS_Pin);
-	   gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TDS_P_Pin|SPI3_CS_Pin);
-	
-	
-	   /*Configure GPIO pin : SensorA_Pin */
-	   gpio_mode_set(SensorA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, TDS_P_Pin|SPI3_CS_Pin);
-	   // gpio_output_options_set(SensorA_GPIO_Port, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TDS_P_Pin|SPI3_CS_Pin);
-	
-	
-	   /*Configure GPIO pins : TDS_N_Pin CVALUE5_Pin scl_Pin sda_Pin */
-	   gpio_mode_set(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, TDS_N_Pin|scl_Pin|sda_Pin);
-	   gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, TDS_N_Pin|scl_Pin|sda_Pin);
-	
-	
-	
-	
-	   /*Configure GPIO pins : LCD_IRQ_Pin SensorB_Pin LCD_READY_Pin */
-	   gpio_mode_set(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_NONE, SensorB_Pin);
-	   gpio_mode_set(TEST_VA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, TEST_VA_Pin);
-	   gpio_mode_set(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_NONE, SensorB_Pin);
-	   gpio_mode_set(SensorA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, SensorA_Pin);
-	
-	
-	
-	
-	   /*Configure GPIO pins : EN1_485_Pin EN2_485_Pin WIFI_EN_Pin */
-	
-	   gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, EN1_485_Pin|EN2_485_Pin|WIFI_EN_Pin);
-	   gpio_output_options_set(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, EN1_485_Pin|EN2_485_Pin|WIFI_EN_Pin);
-	   /*Configure GPIO pin : LCD_BUSY_Pin */
-	   gpio_mode_set(LCD_BUSY_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, LCD_BUSY_Pin);
-	
-	   /* EXTI interrupt init*/
-	
-	   /* enable the key clock */
-	   gpio_mode_set(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_4|GPIO_PIN_5);
-	   gpio_output_options_set(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, GPIO_PIN_4|GPIO_PIN_5);
-	   rcu_periph_clock_enable(RCU_SYSCFG);
-	
-	   /* configure button pin as input */
-	   gpio_mode_set(int_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP,int_Pin);
-	   /* enable and set key EXTI interrupt to the lowest priority */
-	   nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
-	
-	   /* connect key EXTI line to key GPIO pin */
-	   syscfg_exti_line_config(EXTI_SOURCE_GPIOB, EXTI_SOURCE_PIN13);
-	
-	   /* configure key EXTI line */
-	   exti_init(EXTI_13, EXTI_INTERRUPT, EXTI_TRIG_FALLING);
-	   exti_interrupt_flag_clear(EXTI_13);
+
+    /*Configure GPIO pins : LCD_IRQ_Pin SensorB_Pin LCD_READY_Pin */
+    gpio_mode_set(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_NONE, SensorB_Pin);
+    gpio_mode_set(TEST_VA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, TEST_VA_Pin);
+    gpio_mode_set(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_NONE, SensorB_Pin);
+    gpio_mode_set(SensorA_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, SensorA_Pin);
+
+
+
+
+    /*Configure GPIO pins : EN1_485_Pin EN2_485_Pin WIFI_EN_Pin */
+
+    gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, EN1_485_Pin|EN2_485_Pin|WIFI_EN_Pin);
+    gpio_output_options_set(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, EN1_485_Pin|EN2_485_Pin|WIFI_EN_Pin);
+    /*Configure GPIO pin : LCD_BUSY_Pin */
+    gpio_mode_set(LCD_BUSY_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_NONE, LCD_BUSY_Pin);
+
+    /* EXTI interrupt init*/
+
+    /* enable the key clock */
+    gpio_mode_set(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_4|GPIO_PIN_5);
+    gpio_output_options_set(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, GPIO_PIN_4|GPIO_PIN_5);
+    rcu_periph_clock_enable(RCU_SYSCFG);
+
+    /* configure button pin as input */
+    gpio_mode_set(int_GPIO_Port, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP,int_Pin);
+    /* enable and set key EXTI interrupt to the lowest priority */
+    nvic_irq_enable(EXTI10_15_IRQn, 2U, 0U);
+
+    /* connect key EXTI line to key GPIO pin */
+    syscfg_exti_line_config(EXTI_SOURCE_GPIOB, EXTI_SOURCE_PIN13);
+
+    /* configure key EXTI line */
+    exti_init(EXTI_13, EXTI_INTERRUPT, EXTI_TRIG_FALLING);
+    exti_interrupt_flag_clear(EXTI_13);
 
 #endif
 

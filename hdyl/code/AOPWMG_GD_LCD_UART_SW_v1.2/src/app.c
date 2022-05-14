@@ -863,6 +863,7 @@ module_reset(unsigned char mode)
 }
 void water_levelAbnormal_proc()
 {
+
 #if SW_NOCHANGE
     EleSwCtrl(WATER_SW,ON);//原水进水阀开
 #endif
@@ -1091,7 +1092,7 @@ unsigned char flow_proc()
                 else
                     GetSensor()->status[FLOW_INDEX] = 0;//流量异常
 #endif
-                if(GetSensor()->flow<=0.4&&GetSensor()->status[TDS2_INDEX] ==0&&GetSensor()->status[WATER_LEVEL_INDEX]==0)
+                if(GetSensor()->flow<=MIN_FLOW_SIZE&&GetSensor()->status[TDS2_INDEX] ==0&&GetSensor()->status[WATER_LEVEL_INDEX]==0)
                     GetSensor()->status[NOWATER_INDEX] = NOWATER_INDEX;//缺水
                 result = 1;
             }
@@ -1109,13 +1110,13 @@ unsigned char flow_proc()
 
 
         }
-        if(*getpumpstatus()==1&&GetSensor()->flow==0&&GetSensor()->status[TDS2_INDEX] ==0)
+        if(*getpumpstatus()==1&&GetSensor()->flow<=MIN_FLOW_SIZE&&GetSensor()->status[TDS2_INDEX] ==0)
         {
-            if(GetSensor()->flow<=0)
+            if(GetSensor()->flow<=MIN_FLOW_SIZE)
                 GetSensor()->status[NOWATER_INDEX]=NOWATER_INDEX;
 
         }
-        else if(GetSensor()->flow>0)
+        else if(GetSensor()->flow>MIN_FLOW_SIZE)
         {
             if(*getpumpstatus()==1)
                 *getpumpstatus() = 0;
@@ -1726,6 +1727,16 @@ void ele_process()
 {
     unsigned char i=0;
 
+	if(GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)
+	{
+		
+		water_levelAbnormal_proc();
+	
+	}
+	else //水位开关异常
+	{
+		EleSwCtrl(SALT_SW,OFF);//关阀2
+	}
 
 
     if(GetInOut()->key_reset_mode )//复位重启
@@ -1767,7 +1778,7 @@ void ele_process()
 
                 if(GetSensor()->water_level == WATER_L||GetSensor()->water_level == WATER_M)
                 {
-
+                    
                     water_levelAbnormal_proc();
 
                 }
@@ -1841,7 +1852,7 @@ void ele_process()
     else
         ele_dev_proc();
 
-    if((GetSensor()->status[NORMAL_INDEX]==20&&GetSensor()->flow>0&&  //加速启动电解速度
+    if((GetSensor()->status[NORMAL_INDEX]==20&&GetSensor()->flow>=MIN_FLOW_SIZE&&  //加速启动电解速度
             GetInOut()->key_cali_mode==0)||GetInOut()->key_wash_mode
       )//高压开关和水位正常且不在校准模式时启动电解
     {
@@ -1899,7 +1910,7 @@ void ele_process()
 
     }
     /*****************************************风扇控制***********************************************/
-    if(GetSensor()->flow>0)
+    if(GetSensor()->flow>=MIN_FLOW_SIZE)
     {
 		if(GetSensor()->status[WASH_INDEX]||GetSensor()->status[NORMAL_INDEX] == 20)
         	DcMotorCtrl(1, 50000);
